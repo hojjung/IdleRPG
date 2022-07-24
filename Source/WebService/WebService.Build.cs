@@ -16,6 +16,16 @@ public class WebService : ModuleRules
             "WebService/Private",
 		});
 		
-		PublicDependencyModuleNames.AddRange(new string[] { "Core" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject" ,"OnlineSubsystem", "OnlineSubsystemUtils",});
+		
+		if (Target.Platform == UnrealTargetPlatform.IOS)
+		{
+			PublicDependencyModuleNames.AddRange(new string[] { "OnlineSubsystemIOS", "IOSAdvertising" });
+		}
+		else if (Target.Platform == UnrealTargetPlatform.Android)
+		{
+			PublicDependencyModuleNames.Add("OnlineSubsystemGooglePlay");
+			PublicDependencyModuleNames.Add("AndroidAdvertising");
+		}
 	}
 }

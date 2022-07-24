@@ -1,0 +1,40 @@
+{
+	"FileVersion": 3,
+	"Version": 3,
+	"VersionName": "1.2.10",
+	"FriendlyName": "VICODynamics Plugin",
+	"Description": "A plugin for UE4 to use the VICODynamics particle based physics library.",
+	"Category": "VICO",
+	"CreatedBy": "VICO Game Studio LLC",
+	"CreatedByURL": "https://www.vicogamestudio.com",
+	"DocsURL": "",
+	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/6d874b00b82d4eae9ae472ff843d5af3",
+	"SupportURL": "",
+	"EngineVersion": "4.22.0",
+	"CanContainContent": false,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "VICODynamicsPlugin",
+			"Type": "Runtime",
+			"LoadingPhase": "PreDefault",
+			"WhitelistPlatforms": [
+				"Win64",
+				"Win32",
+				"Mac",
+				"XboxOne",
+				"PS4",
+				"Switch"
+			]
+		},
+		{
+			"Name": "VICODynamicsPlugin_Editor",
+			"Type": "Editor",
+			"LoadingPhase": "PostEngineInit",
+			"WhitelistPlatforms": [
+				"Win64",
+				"Mac"
+			]
+		}
+	]
+}

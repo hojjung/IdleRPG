@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Actors/Pawns/MyBasePawn.h"
+#include "Actors/Pawns/MyBasePawn.h"
 #include "GameFramework/FloatingPawnMovement.h"
 #include "MyNavMovement.generated.h"
 
@@ -14,4 +16,36 @@ class ENTITY_API UMyNavMovement : public UFloatingPawnMovement
 {
 	GENERATED_BODY()
 	
+
+public:
+	UMyNavMovement(const FObjectInitializer& obj);
+
+protected:
+	TWeakObjectPtr<AMyBasePawn> m_Owner;
+	
+public:
+	float m_fSpeedMultiple;
+	
+protected:
+	FVector m_ImpactVector;
+	
+	void MySnapToNav();
+
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+public:
+	void SetImpact(FVector v);
+
+	virtual void SetActive(bool bNewActive, bool bReset=false) override;
+	
+protected:
+	virtual void BeginPlay() override;
+	
+	void TickRotate(float deltaTime);
+
+	FRotator ComputeOrientToMovementRotation(const FRotator& CurrentRotation) const;
+
+	virtual void HandleImpact(const FHitResult& Hit, float TimeSlice=0.f, const FVector& MoveDelta = FVector::ZeroVector) override;
+
+	bool CanStepUp(const FHitResult& Hit) const;
 };
