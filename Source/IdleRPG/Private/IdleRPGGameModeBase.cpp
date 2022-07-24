@@ -1,5 +1,17 @@
 #include "IdleRPGGameModeBase.h"
 
+#include "MyGameInstance.h"
+#include "Player/MyPlayerController.h"
+#include "Player/MyPlayerPawn.h"
+
+AIdleRPGGameModeBase::AIdleRPGGameModeBase()
+{
+	PlayerControllerClass=AMyPlayerController::StaticClass();
+	//HUDClass = AMyHUD::StaticClass();
+	DefaultPawnClass=AMyPlayerPawn::StaticClass();
+	PrimaryActorTick.bCanEverTick = true;	
+}
+
 void AIdleRPGGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
@@ -19,4 +31,11 @@ void AIdleRPGGameModeBase::LoginEnd(bool bSuccess)
 	}
 
 	m_GoogleLogin.Reset();
+}
+
+void AIdleRPGGameModeBase::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	UMyGameInstance::Get->Tick(DeltaSeconds);
 }

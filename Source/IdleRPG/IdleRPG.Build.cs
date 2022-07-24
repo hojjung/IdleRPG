@@ -16,16 +16,20 @@ public class IdleRPG : ModuleRules
 			"IdleRPG/Private",
 		});
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "WebService" });
+		PrivateDependencyModuleNames.AddRange(new string[]
+		{
+			"Core", "CoreUObject", "Engine", "InputCore", "WebService",
+			"Slate", "SlateCore"
+		});
 
-		PrivateDependencyModuleNames.AddRange(new string[] {  });
-
-		// Uncomment if you are using Slate UI
-		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
-		
-		// Uncomment if you are using online features
-		// PrivateDependencyModuleNames.Add("OnlineSubsystem");
-
-		// To include OnlineSubsystemSteam, add it to the plugins section in your uproject file with the Enabled attribute set to true
+		if (Target.Platform == UnrealTargetPlatform.IOS)
+		{
+			PrivateDependencyModuleNames.AddRange(new string[] { "OnlineSubsystemIOS", "IOSAdvertising" });
+		}
+		else if (Target.Platform == UnrealTargetPlatform.Android)
+		{
+			PrivateDependencyModuleNames.Add("OnlineSubsystemGooglePlay");
+			PrivateDependencyModuleNames.Add("AndroidAdvertising");
+		}
 	}
 }

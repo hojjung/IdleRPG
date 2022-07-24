@@ -15,6 +15,9 @@ class IDLERPG_API AIdleRPGGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 
+public:
+	AIdleRPGGameModeBase();
+
 protected:
 	TSharedPtr<GoogleLogin> m_GoogleLogin;
 	
@@ -22,4 +25,6 @@ protected:
 	virtual void BeginPlay() override;
 
 	void LoginEnd(bool bSuccess);
+
+	virtual void Tick(float DeltaSeconds) override;
 };
