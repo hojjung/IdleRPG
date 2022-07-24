@@ -55,9 +55,12 @@ private:
 	bool IsSlotPlaying();
 	
 public:
+	void Init(const TSoftObjectPtr<UUnitEntityAsset>& asset);
+	
 	float PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate, FName StartSectionName);
 
 	void StopAnimMontage();
 
 	void UpdateFlag(float deltaTime);
+	
 };

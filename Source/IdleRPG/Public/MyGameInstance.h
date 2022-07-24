@@ -13,5 +13,6 @@ UCLASS()
 class IDLERPG_API UMyGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
+
 	
 };

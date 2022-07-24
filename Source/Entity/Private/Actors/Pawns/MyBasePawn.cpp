@@ -86,7 +86,9 @@ void AMyBasePawn::LoadSetSkMeshAnim(TSoftObjectPtr<UUnitEntityAsset> asset)
 
 	m_BodyMesh->SetAnimationMode(EAnimationMode::Type::AnimationBlueprint);
 
-	m_BodyMesh->SetAnimClass(m_EntityAsset->m_AnimBP.Get());
+	m_BodyMesh->SetAnimClass(UMyAnimInstance::StaticClass());
+
+	Cast<UMyAnimInstance>(m_BodyMesh->GetAnimInstance())->Init(m_EntityAsset);
 
 	m_BodyMesh->AddRelativeRotation(FRotator(0,asset->m_RotYawOffset,0));
 }

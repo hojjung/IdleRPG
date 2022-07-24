@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Components/CapsuleComponent.h"
+#include "DataTableRow/EntityData.h"
 #include "GameFramework/Pawn.h"
 #include "Navigation/PathFollowingComponent.h"
 #include "MyBasePawn.generated.h"
 
 class UMyNavMovement;
-struct FNpcUnitEntityRow;
 class UUnitEntityAsset;
 UCLASS()
 class ENTITY_API AMyBasePawn : public APawn
@@ -55,6 +55,7 @@ protected:
 
 	USkeletalMeshComponent* CreateSkMeshComp(FName keyID);
 public:
+	UFUNCTION(BlueprintCallable)
 	virtual void SetEntity(const FName& id, const FNpcUnitEntityRow& unitEntityRow);//Init
 	
 	virtual FPathFollowingRequestResult MoveToLocation(FVector loc, float acceptRadius = 0.f);

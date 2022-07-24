@@ -38,9 +38,9 @@ public://Visual
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float m_RotYawOffset;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TSubclassOf<UAnimInstance> m_AnimBP;
+	UAnimSequenceBase* m_Idle;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UAnimMontage* m_SpawnAnim;
+	UAnimSequenceBase* m_Run;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UAnimMontage* m_BaseAttackAnim;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)

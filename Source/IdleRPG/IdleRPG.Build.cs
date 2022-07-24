@@ -16,7 +16,7 @@ public class IdleRPG : ModuleRules
 			"IdleRPG/Private",
 		});
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "WebService" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 

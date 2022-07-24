@@ -1,5 +1,7 @@
 #include "Anims/MyAnimInstance.h"
 
+#include "DataAsset/EntityBaseAsset.h"
+
 void FMyAnimInstanceProxy::InitializeObjects(UAnimInstance* InAnimInstance)
 {
 	FAnimInstanceProxy::InitializeObjects(InAnimInstance);
@@ -10,6 +12,13 @@ void FMyAnimInstanceProxy::InitializeObjects(UAnimInstance* InAnimInstance)
 void FMyAnimInstanceProxy::Update(float DeltaSeconds)
 {
 	m_MyAnim->UpdateFlag(DeltaSeconds);
+}
+
+void UMyAnimInstance::Init(const TSoftObjectPtr<UUnitEntityAsset>& asset)
+{
+	m_Idle = asset.Get()->m_Idle;
+	
+	m_Run = asset.Get()->m_Run;
 }
 
 void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
