@@ -14,11 +14,15 @@ void FMyAnimInstanceProxy::Update(float DeltaSeconds)
 	m_MyAnim->UpdateFlag(DeltaSeconds);
 }
 
-void UMyAnimInstance::Init(const UUnitEntityAsset* asset)
+void UMyAnimInstance::Init(const UUnitEntityAsset* asset, AMyBasePawn* pawn)
 {
 	m_Idle = asset->m_Idle;
 	
 	m_Run = asset->m_Run;
+
+	bUseMultiThreadedAnimationUpdate = true;
+
+	m_Owner = pawn;
 }
 
 void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)

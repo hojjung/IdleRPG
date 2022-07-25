@@ -55,7 +55,7 @@ private:
 	bool IsSlotPlaying();
 	
 public:
-	void Init(const UUnitEntityAsset* asset);
+	void Init(const UUnitEntityAsset* asset, AMyBasePawn* pawn);
 	
 	float PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate, FName StartSectionName);
 
