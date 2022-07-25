@@ -34,21 +34,35 @@ class ENTITY_API UUnitEntityAsset : public UPrimaryDataAsset
 
 public://Visual
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	USkeletalMesh* m_BodyMesh;
+	FText m_ShowingName;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float m_RotYawOffset;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel, meta = (AssetBundles = "Icon"))
+	UTexture2D* m_Icon;
+	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel, meta = (AssetBundles = "Preview"))
+	USkeletalMesh* m_BodyMesh;
+	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel, meta = (AssetBundles = "Preview"))
 	UAnimSequenceBase* m_Idle;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel)
 	UAnimSequenceBase* m_Run;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel)
 	UAnimMontage* m_BaseAttackAnim;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel)
 	UAnimMontage* m_DeathMontage;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel)
 	UAnimMontage* m_TookHitMontage;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FAttach m_Attach; 
+	FAttach m_Attach;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (UIMin = "34" ,UIMax = "88"))
+	float m_fCapsuleRadius = 60.f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (UIMin = "0.1"))
+	float m_fScale = 1.f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (UIMin = "0.1"))
+	float m_fShadowScale = 6.f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UParticleSystem* m_TakeHitEffect;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	USoundBase* m_TakeHitSound;
 
 	virtual FPrimaryAssetId GetPrimaryAssetId() const override
 	{

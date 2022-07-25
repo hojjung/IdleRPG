@@ -14,31 +14,34 @@ void FMyAnimInstanceProxy::Update(float DeltaSeconds)
 	m_MyAnim->UpdateFlag(DeltaSeconds);
 }
 
-void UMyAnimInstance::Init(const TSoftObjectPtr<UUnitEntityAsset>& asset)
+void UMyAnimInstance::Init(const UUnitEntityAsset* asset)
 {
-	m_Idle = asset.Get()->m_Idle;
+	m_Idle = asset->m_Idle;
 	
-	m_Run = asset.Get()->m_Run;
+	m_Run = asset->m_Run;
 }
 
 void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeUpdateAnimation(DeltaSeconds);
 
+	if(!m_Owner)
+	{
+		return;
+	}
+
 	if(IsSlotPlaying())
 	{
 		return;
 	}
 
-	if(m_bIsMoving)
+	if(!m_bIsMoving)
 	{
-		PlaySlotAnimationAsDynamicMontage(m_Idle,TEXT("Default"), 0.1f,0.1f,1,1);
-		
-		//SingleNodeInstance->SetLooping(bLooping);
+		m_Owner->GetSkMesh()->PlayAnimation(m_Idle,true);
 	}
 	else
 	{
-		PlaySlotAnimationAsDynamicMontage(m_Run,TEXT("Default"), 0.1f,0.1f,1,1);
+		m_Owner->GetSkMesh()->PlayAnimation(m_Run,true);
 	}
 }
 

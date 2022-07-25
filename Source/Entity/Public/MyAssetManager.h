@@ -24,7 +24,15 @@ protected:
 	TSet<TSharedPtr<FStreamableHandle>> m_SetUnits;
 
 public:
-	const UUnitEntityAsset* LoadUnitAsset(TSoftObjectPtr<UUnitEntityAsset> asset);
+	TSharedPtr<FStreamableHandle> LoadUnitAsset(FName id, FStreamableDelegate dele, TArray<FName> ary);
+	
+	TSharedPtr<FStreamableHandle> LoadUnitAssetAll(FName id, FStreamableDelegate dele);
+
+	TSharedPtr<FStreamableHandle> LoadUnitAssetIconOnly(FName id, FStreamableDelegate dele);
+
+	TSharedPtr<FStreamableHandle> LoadUnitAssetIconPreviewOnly(FName id, FStreamableDelegate dele);
 	
 	void ClearUnits();
 };
+
+

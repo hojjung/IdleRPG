@@ -15,24 +15,46 @@ UMyAssetManager* UMyAssetManager::Get()
 	}
 	else
 	{
-		return nullptr; 
+		return nullptr;
 	}
 }
 
-const UUnitEntityAsset* UMyAssetManager::LoadUnitAsset(TSoftObjectPtr<UUnitEntityAsset> asset)
+TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAsset(FName id, FStreamableDelegate dele, TArray<FName> ary)
 {
-	TSharedPtr<FStreamableHandle> Handle;
-	
-	UUnitEntityAsset* LoadedAsset = GetStreamableManager().LoadSynchronous<UUnitEntityAsset>(asset.ToSoftObjectPath(),true, &Handle);
-	
+	TSharedPtr<FStreamableHandle> Handle = LoadPrimaryAsset(FPrimaryAssetId(TEXT("Unit"), id), ary, dele);
+
 	m_SetUnits.Add(Handle);
 
-	return LoadedAsset; 
+	return Handle;
+}
+
+TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetAll(FName id, FStreamableDelegate dele)
+{
+	TArray<FName> AryBundle;
+	return LoadUnitAsset(id, dele, AryBundle);
+}
+
+TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetIconOnly(FName id, FStreamableDelegate dele)
+{
+	TArray<FName> AryBundle;
+
+	AryBundle.Add(TEXT("Icon"));
+
+	return LoadUnitAsset(id, dele, AryBundle);
+}
+
+TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetIconPreviewOnly(FName id, FStreamableDelegate dele)
+{
+	TArray<FName> AryBundle;
+	AryBundle.Add(TEXT("Preview"));
+	AryBundle.Add(TEXT("Icon"));
+
+	return LoadUnitAsset(id, dele, AryBundle);
 }
 
 void UMyAssetManager::ClearUnits()
 {
-	for(auto Handle : m_SetUnits)
+	for (auto Handle : m_SetUnits)
 	{
 		Handle->ReleaseHandle();
 	}
@@ -41,4 +63,3 @@ void UMyAssetManager::ClearUnits()
 
 	UKismetSystemLibrary::CollectGarbage();
 }
-

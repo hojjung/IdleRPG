@@ -10,6 +10,12 @@ GoogleLogin::GoogleLogin(FOnLoginEnd dele)
 	m_OnLoginEnd = dele;
 	
 	IOnlineSubsystem* Subsystem = IOnlineSubsystem::Get();
+
+	if(!Subsystem)
+	{
+		m_OnLoginEnd.Execute(false);
+		return;
+	}
 	
 	IOnlineExternalUIPtr ExternalUi = Subsystem->GetExternalUIInterface();
 

@@ -30,18 +30,15 @@ protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Category="Movement")
 	UMyNavMovement* m_Movement;
 	
-	TSoftObjectPtr<UUnitEntityAsset> m_EntityAsset;
+	TWeakObjectPtr<const UUnitEntityAsset> m_EntityAsset;
 
 	FTimerHandle m_MoveStopTimer;
 	
 	FText m_PawnName;
 
-	FName m_EntityID;
-
 protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
-	virtual void LoadSetSkMeshAnim(TSoftObjectPtr<UUnitEntityAsset> asset);
 
 	void ActiveMovement();
 	//PathFollow	
@@ -54,9 +51,12 @@ protected:
 	FAIRequestID RequestMove(const FAIMoveRequest& MoveRequest, FNavPathSharedPtr Path);
 
 	USkeletalMeshComponent* CreateSkMeshComp(FName keyID);
-public:
+	
+	virtual void LoadSetSkMeshAnim(const UUnitEntityAsset* asset);
+	
+public://플레이어는 어떻게? 스테이지가 있고 스테이지는데이터 테이블로 형성,
 	UFUNCTION(BlueprintCallable)
-	virtual void SetEntity(const FName& id, const FNpcUnitEntityRow& unitEntityRow);//Init
+	virtual void SetEntity(const UUnitEntityAsset* asset);
 	
 	virtual FPathFollowingRequestResult MoveToLocation(FVector loc, float acceptRadius = 0.f);
 
@@ -91,8 +91,6 @@ public:
 	void StopMove();
 	
 	virtual bool IsRange();
-
-	const FName& GetEntityID() const;
 
 	void SetActorFeetLocation(FVector loc);
 

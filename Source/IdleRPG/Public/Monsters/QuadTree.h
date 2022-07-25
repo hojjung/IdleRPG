@@ -266,6 +266,9 @@ public:
 				child->UpdateState(world);
 			}
 		}
-		DrawBound(world);
+		if (m_nDepth > 0)
+		{
+			DrawBound(world, 1 / UKismetSystemLibrary::GetFrameCount(),1);
+		}
 	}
 };

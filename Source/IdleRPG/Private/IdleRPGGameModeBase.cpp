@@ -1,5 +1,4 @@
 #include "IdleRPGGameModeBase.h"
-
 #include "MyGameInstance.h"
 #include "Player/MyPlayerController.h"
 #include "Player/MyPlayerPawn.h"
@@ -17,6 +16,11 @@ void AIdleRPGGameModeBase::BeginPlay()
 	Super::BeginPlay();
 
 	m_GoogleLogin = MakeShareable<GoogleLogin>(new GoogleLogin(GoogleLogin::FOnLoginEnd::CreateUObject(this, &AIdleRPGGameModeBase::LoginEnd))); 
+}
+
+void AIdleRPGGameModeBase::StartPlay()
+{
+	Super::StartPlay();
 }
 
 void AIdleRPGGameModeBase::LoginEnd(bool bSuccess)

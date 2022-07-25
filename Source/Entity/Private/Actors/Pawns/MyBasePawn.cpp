@@ -57,30 +57,28 @@ USkeletalMeshComponent* AMyBasePawn::CreateSkMeshComp(FName keyID)
 	return skMesh;
 }
 
-void AMyBasePawn::SetEntity(const FName& id, const FNpcUnitEntityRow& unitEntityRow)
+void AMyBasePawn::SetEntity(const UUnitEntityAsset* asset)
 {
-	m_EntityID = id;
-
 	m_PFComp->SetMovementComponent(m_Movement);
 	
 	m_PFComp->Initialize();
 	
 	m_Movement->SetPathFollowingAgent(m_PFComp);
 	
-	LoadSetSkMeshAnim(unitEntityRow.m_UnitDataAsset);
+	LoadSetSkMeshAnim(asset);
 
-	m_BodyMesh->SetRelativeScale3D(FVector(unitEntityRow.m_fScale));
+	m_BodyMesh->SetRelativeScale3D(FVector(asset->m_fScale));
 
-	m_PawnName = unitEntityRow.m_ShowingName;
+	m_PawnName = asset->m_ShowingName;
 
-	m_Capsule->SetCapsuleRadius(unitEntityRow.m_fCapsuleRadius);
+	m_Capsule->SetCapsuleRadius(asset->m_fCapsuleRadius);
 
-	m_Movement->NavAgentProps.AgentRadius = unitEntityRow.m_fCapsuleRadius;
+	m_Movement->NavAgentProps.AgentRadius = asset->m_fCapsuleRadius;
 }
 
-void AMyBasePawn::LoadSetSkMeshAnim(TSoftObjectPtr<UUnitEntityAsset> asset)
+void AMyBasePawn::LoadSetSkMeshAnim(const UUnitEntityAsset* asset)
 {
-	m_EntityAsset =  UMyAssetManager::Get()->LoadUnitAsset(asset);
+	m_EntityAsset = asset;
 
 	m_BodyMesh->SetSkeletalMesh(m_EntityAsset->GetSkMesh());
 
@@ -88,7 +86,7 @@ void AMyBasePawn::LoadSetSkMeshAnim(TSoftObjectPtr<UUnitEntityAsset> asset)
 
 	m_BodyMesh->SetAnimClass(UMyAnimInstance::StaticClass());
 
-	Cast<UMyAnimInstance>(m_BodyMesh->GetAnimInstance())->Init(m_EntityAsset);
+	Cast<UMyAnimInstance>(m_BodyMesh->GetAnimInstance())->Init(m_EntityAsset.Get());
 
 	m_BodyMesh->AddRelativeRotation(FRotator(0,asset->m_RotYawOffset,0));
 }
@@ -276,11 +274,6 @@ void AMyBasePawn::StopMove()
 bool AMyBasePawn::IsRange()
 {
 	return false;
-}
-
-const FName& AMyBasePawn::GetEntityID() const
-{
-	return m_EntityID;
 }
 
 void AMyBasePawn::SetActorFeetLocation(FVector loc)
