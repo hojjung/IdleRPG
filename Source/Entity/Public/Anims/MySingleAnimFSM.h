@@ -18,18 +18,30 @@ public:
 	MySingleAnimFSM(const UUnitEntityAsset* asset, AMyBasePawn* pawn);
 	
 	~MySingleAnimFSM();
+	
 
 protected:
 	TWeakObjectPtr<UBlendSpace1D> m_Loco;
+	
+	TWeakObjectPtr<UAnimMontage> m_Atk;
 	
 	TStrongObjectPtr<AMyBasePawn> m_Owner;
 
 	bool m_bMoving;
 
+	float m_fSlotTimer;
+
+	float m_fSlotDur;
+
 protected:
 	UAnimSingleNodeInstance* GetInst();
+
+	bool IsSlotPlaying(float delta);
 
 public:
 	void Update(float deltaTime);
 	
+	void PlaySlotAnim(UAnimSequenceBase* anim, float rate = 1.f);
+	
+	void Attack();
 };

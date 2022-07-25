@@ -27,6 +27,8 @@ void AMyPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AMyPlayerPawn::MoveForward);
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AMyPlayerPawn::MoveRight);
+	PlayerInputComponent->BindAction(TEXT("Attack"), EInputEvent::IE_Pressed,this, &AMyPlayerPawn::RequestAttack);
+	//PlayerInputComponent->BindTouch()
 }
 void AMyPlayerPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
@@ -141,6 +143,8 @@ void AMyPlayerPawn::RequestAttack()
 	{
 		return;
 	}
+
+	m_Anim->Attack();
 	// ACombatUnitPawn* FocusActor = GetFocusedTarget<ACombatUnitPawn>();
 	// if (!FocusActor)
 	// {
