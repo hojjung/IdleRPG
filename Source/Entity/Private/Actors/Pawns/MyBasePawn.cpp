@@ -1,5 +1,4 @@
 #include "Actors/Pawns/MyBasePawn.h"
-
 #include "MyAssetManager.h"
 #include "NavigationSystem.h"
 #include "Actors/Components/MyNavMovement.h"
@@ -69,7 +68,6 @@ void AMyBasePawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 	m_EntityAsset.Reset();
-	m_Anim.Reset();
 }
 
 void AMyBasePawn::SetEntity(const UUnitEntityAsset* asset)
@@ -99,16 +97,11 @@ void AMyBasePawn::LoadSetSkMeshAnim(const UUnitEntityAsset* asset)
 
 	m_BodyMesh->SetSkeletalMesh(m_EntityAsset->GetSkMesh());
 
-	m_Anim = MakeShareable(new MySingleAnimFSM(m_EntityAsset.Get(), this));
-	
+	m_BodyMesh->SetAnimationMode(EAnimationMode::Type::AnimationBlueprint);
+
+	m_BodyMesh->SetAnimClass(asset->m_ClassAnim);
+
 	m_BodyMesh->AddRelativeRotation(FRotator(0,asset->m_RotYawOffset,0));
-}
-
-void AMyBasePawn::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-
-	m_Anim->Update(DeltaSeconds);
 }
 
 void AMyBasePawn::ActiveMovement()
@@ -406,11 +399,6 @@ UMyNavMovement* AMyBasePawn::GetMove() const
 bool AMyBasePawn::IsMoving() const
 {
 	return !GetMovementComponent()->Velocity.IsZero();
-}
-
-void AMyBasePawn::ClearStopMoveDelegate()
-{
-	GetWorldTimerManager().ClearTimer(m_MoveStopTimer);
 }
 
 FText AMyBasePawn::GetPawnName() const

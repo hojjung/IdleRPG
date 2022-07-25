@@ -19,6 +19,17 @@ UMyAssetManager* UMyAssetManager::Get()
 	}
 }
 
+UUnitEntityAsset* UMyAssetManager::LoadUnitAsset(TSoftObjectPtr<UUnitEntityAsset> path)
+{
+	TSharedPtr<FStreamableHandle> Handle;
+	
+	UUnitEntityAsset* LoadedAsset = GetStreamableManager().LoadSynchronous<UUnitEntityAsset>(path.ToSoftObjectPath(),true, &Handle);
+	
+	m_SetUnits.Add(Handle);
+
+	return LoadedAsset; 
+}
+
 TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAsset(FName id, FStreamableDelegate dele, TArray<FName> ary)
 {
 	TSharedPtr<FStreamableHandle> Handle = LoadPrimaryAsset(FPrimaryAssetId(TEXT("Unit"), id), ary, dele);

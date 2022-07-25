@@ -24,6 +24,8 @@ protected:
 	TSet<TSharedPtr<FStreamableHandle>> m_SetUnits;
 
 public:
+	UUnitEntityAsset* LoadUnitAsset(TSoftObjectPtr<UUnitEntityAsset> path);
+	
 	TSharedPtr<FStreamableHandle> LoadUnitAsset(FName id, FStreamableDelegate dele, TArray<FName> ary);
 	
 	TSharedPtr<FStreamableHandle> LoadUnitAssetAll(FName id, FStreamableDelegate dele);

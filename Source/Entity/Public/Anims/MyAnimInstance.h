@@ -18,11 +18,8 @@ public:
 	virtual void InitializeObjects(UAnimInstance* InAnimInstance) override;
 
 	virtual void Update(float DeltaSeconds) override ;
-
-	virtual void UpdateAnimationNode(const FAnimationUpdateContext& InContext) override;
-
-	UPROPERTY(Transient)
-	UMyAnimInstance* m_MyAnim = nullptr;
+	
+	TWeakObjectPtr<UMyAnimInstance> m_MyAnim = nullptr;
 };
 UCLASS()
 class ENTITY_API UMyAnimInstance : public UAnimInstance
@@ -33,19 +30,17 @@ class ENTITY_API UMyAnimInstance : public UAnimInstance
 public:
 	UPROPERTY(Transient, BlueprintReadOnly,meta = (AllowPrivateAccess = "true"))
 	FMyAnimInstanceProxy m_Proxy;
-	UPROPERTY()
-	AMyBasePawn* m_Owner;
+	
+	TWeakObjectPtr<AMyBasePawn> m_Owner;
 	
 protected:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UAnimSequenceBase* m_Idle;
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UAnimSequenceBase* m_Run;
-	UPROPERTY(Transient,VisibleAnywhere,BlueprintReadWrite)
+	UPROPERTY(Transient,VisibleAnywhere,BlueprintReadOnly)
 	bool m_bIsMoving;
 protected:
-	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
-	
 	virtual FAnimInstanceProxy* CreateAnimInstanceProxy() override
 	{
 		return &m_Proxy;
@@ -53,26 +48,14 @@ protected:
 	
 	virtual void DestroyAnimInstanceProxy(FAnimInstanceProxy* InProxy) override {}
 
-private:
-	bool IsSlotPlaying();
-	
-public:
 	virtual void NativeInitializeAnimation() override;
-	
-	void Init(const UUnitEntityAsset* asset, AMyBasePawn* pawn);
+
+public:
+	bool IsSlotPlaying();
 	
 	float PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate, FName StartSectionName);
 
 	void StopAnimMontage();
 
 	void UpdateFlag(float deltaTime);
-
-protected:
-	void OnIdle(const FAnimNode_StateMachine& mc, int32 prev, int32 next);
-
-	void OnRun(const FAnimNode_StateMachine& mc, int32 prev, int32 next);
-
-	bool IdleToRun();
-
-	bool RunToIdle();
 };

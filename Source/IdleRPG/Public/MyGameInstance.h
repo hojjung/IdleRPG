@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "Monsters/SpawnManager.h"
 #include "MyGameInstance.generated.h"
 
 /**
@@ -18,6 +19,7 @@ public:
 	static UMyGameInstance* Get;
 
 public:
+	TSharedPtr<SpawnManager> m_SpawnManager;
 	//TWeakObjectPtr<AMyPlayerPawn> m_Player;
 	
 	//TWeakObjectPtr<AMyPlayerController> m_PlayerCon;

@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Monster.h"
+#include "QuadTree.h"
+#include "StageTable.h"
 
 /**
  * 
@@ -15,8 +17,14 @@ public:
 	~SpawnManager();
 
 protected:
+	TArray<FStageRow*> m_AryStage;
+	
 	TArray<TSharedPtr<Monster>> m_AryMonsters;
+
+	TSharedPtr<QuadTree> m_QuadTree;
 
 public:
 	void Update(float delta);
+
+	void SpawnUnits(UObject* world, int stageLevel, int cnt);
 };

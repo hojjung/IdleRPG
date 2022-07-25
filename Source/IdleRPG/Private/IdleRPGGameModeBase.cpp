@@ -15,7 +15,9 @@ void AIdleRPGGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	m_GoogleLogin = MakeShareable<GoogleLogin>(new GoogleLogin(GoogleLogin::FOnLoginEnd::CreateUObject(this, &AIdleRPGGameModeBase::LoginEnd))); 
+	m_GoogleLogin = MakeShareable<GoogleLogin>(new GoogleLogin(GoogleLogin::FOnLoginEnd::CreateUObject(this, &AIdleRPGGameModeBase::LoginEnd)));
+
+	UMyGameInstance::Get->m_SpawnManager->SpawnUnits(GetWorld(), 0, 5);
 }
 
 void AIdleRPGGameModeBase::StartPlay()

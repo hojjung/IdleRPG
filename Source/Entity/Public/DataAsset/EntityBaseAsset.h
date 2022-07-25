@@ -36,22 +36,24 @@ class ENTITY_API UUnitEntityAsset : public UPrimaryDataAsset
 public://Visual//일단 기본적으로 동적 로드는 다돌아가준다, 근데 아이콘 같은것을 따로 로드해야하는 상황이있다.
 	//아이콘을 평소에는 안쓴다. 그럼 로드할 필요가 없어서 Soft포인터로 준다음
 	//번들 네임으로 명시했을때 추가 적인 로드를 해주는 개념이다.
-	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel, meta = (AssetBundles = "Icon"))
+	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Icon"))
 	UTexture2D* m_Icon;
-	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel, meta = (AssetBundles = "Preview"))
+	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Preview"))
 	USkeletalMesh* m_BodyMesh;
-	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel, meta = (AssetBundles = "Preview"))
+	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Preview"))
 	UBlendSpace1D* m_Loco;
-	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel)
+	UPROPERTY(EditAnywhere, Category = Bundle)
 	UAnimMontage* m_BaseAttackAnim;
-	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel)
+	UPROPERTY(EditAnywhere, Category = Bundle)
 	UAnimMontage* m_DeathMontage;
-	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel)
+	UPROPERTY(EditAnywhere, Category = Bundle)
 	UAnimMontage* m_TookHitMontage;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UParticleSystem* m_TakeHitEffect;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	USoundBase* m_TakeHitSound;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UAnimInstance> m_ClassAnim;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FAttach m_Attach;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)

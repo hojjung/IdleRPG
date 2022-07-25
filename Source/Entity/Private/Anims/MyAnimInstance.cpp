@@ -13,56 +13,14 @@ void FMyAnimInstanceProxy::InitializeObjects(UAnimInstance* InAnimInstance)
 
 void FMyAnimInstanceProxy::Update(float DeltaSeconds)
 {
-	Super::Update(DeltaSeconds);
-	//m_MyAnim->UpdateFlag(DeltaSeconds);
+	m_MyAnim->UpdateFlag(DeltaSeconds);
 }
 
-void FMyAnimInstanceProxy::UpdateAnimationNode(const FAnimationUpdateContext& InContext)
-{
-	FAnimInstanceProxy::UpdateAnimationNode(InContext);
-}
 void UMyAnimInstance::NativeInitializeAnimation()
 {
-	AddNativeStateEntryBinding(TEXT("MyFSM"), TEXT("Idle"), FOnGraphStateChanged::CreateUObject(this, &UMyAnimInstance::OnIdle));
-	AddNativeStateEntryBinding(TEXT("MyFSM"), TEXT("Run"), FOnGraphStateChanged::CreateUObject(this, &UMyAnimInstance::OnRun));
-	AddNativeTransitionBinding(TEXT("MyFSM"),TEXT("Idle"),TEXT("Run"),FCanTakeTransition::CreateUObject(this, &UMyAnimInstance::IdleToRun));
-	AddNativeTransitionBinding(TEXT("MyFSM"),TEXT("Run"),TEXT("Idle"),FCanTakeTransition::CreateUObject(this, &UMyAnimInstance::RunToIdle));
 	Super::NativeInitializeAnimation();
-}
-void UMyAnimInstance::Init(const UUnitEntityAsset* asset, AMyBasePawn* pawn)
-{
-	
-}
 
-bool UMyAnimInstance::RunToIdle()
-{
-	return !m_Owner->IsMoving();
-}
-
-bool UMyAnimInstance::IdleToRun()
-{
-	return m_Owner->IsMoving();
-}
-
-void UMyAnimInstance::OnIdle(const FAnimNode_StateMachine& mc, int32 prev, int32 next)
-{
-	PRINTF("OnIdle");
-}
-
-void UMyAnimInstance::OnRun(const FAnimNode_StateMachine& mc, int32 prev, int32 next)
-{
-	PRINTF("OnRun");
-}
-
-void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
-{
-	Super::NativeUpdateAnimation(DeltaSeconds);
-
-	if(!m_Owner)
-	{
-		return;
-	}
-	
+	m_Owner = Cast<AMyBasePawn> (TryGetPawnOwner());
 }
 
 bool UMyAnimInstance::IsSlotPlaying()
@@ -73,8 +31,6 @@ bool UMyAnimInstance::IsSlotPlaying()
 	}
 	return GetActiveMontageInstance()->IsActive();
 }
-
-
 
 float UMyAnimInstance::PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate, FName StartSectionName)
 {
@@ -125,7 +81,7 @@ void UMyAnimInstance::StopAnimMontage()
 void UMyAnimInstance::UpdateFlag(float deltaTime)
 {
 	//#if WITH_EDITOR
-	if(!m_Owner)
+	if(!m_Owner.Get())
 	{
 		return;
 	}

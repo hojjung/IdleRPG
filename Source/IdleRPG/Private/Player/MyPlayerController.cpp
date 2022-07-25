@@ -1,9 +1,10 @@
 #include "Player/MyPlayerController.h"
 #include "Entity.h"
+#include "Manager/MyCheatManager.h"
 
 AMyPlayerController::AMyPlayerController()
 {
-	//CheatClass = UMyCheatManager::StaticClass();
+	CheatClass = UMyCheatManager::StaticClass();
 	
 	m_CompUseIndex = 0;
 
@@ -19,8 +20,6 @@ AMyPlayerController::AMyPlayerController()
 void AMyPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	//CreateIGWC(10);
 
 	SetVirtualJoystickVisibility(true);
 

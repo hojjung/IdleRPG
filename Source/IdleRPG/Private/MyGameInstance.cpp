@@ -9,6 +9,8 @@ void UMyGameInstance::BeginDestroy()
 	
 	Get = nullptr;
 	
+	m_SpawnManager.Reset();
+	
 	//m_Player = nullptr;
 
 	//m_PlayerCon = nullptr;
@@ -18,9 +20,11 @@ void UMyGameInstance::Init()
 {
 	Super::Init();
 	
+	UKismetSystemLibrary::ControlScreensaver(false);
+	
 	Get = this;
 
-	UKismetSystemLibrary::ControlScreensaver(false);
+	m_SpawnManager = MakeShareable(new SpawnManager());
 }
 
 void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)

@@ -68,8 +68,6 @@ void AMyPlayerPawn::Tick(float DeltaSeconds)
 
 	if (IsInputMoving())
 	{
-		ClearStopMoveDelegate();
-
 		m_Movement->SetActive(true);
 
 
@@ -144,7 +142,6 @@ void AMyPlayerPawn::RequestAttack()
 		return;
 	}
 
-	m_Anim->Attack();
 	// ACombatUnitPawn* FocusActor = GetFocusedTarget<ACombatUnitPawn>();
 	// if (!FocusActor)
 	// {
