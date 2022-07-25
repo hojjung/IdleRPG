@@ -31,6 +31,8 @@ TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAsset(FName id, FStreamab
 TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetAll(FName id, FStreamableDelegate dele)
 {
 	TArray<FName> AryBundle;
+	AryBundle.Add(TEXT("Preview"));
+	AryBundle.Add(TEXT("Icon"));
 	return LoadUnitAsset(id, dele, AryBundle);
 }
 

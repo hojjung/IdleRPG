@@ -7,7 +7,7 @@ MySingleAnimFSM::MySingleAnimFSM(const UUnitEntityAsset* asset, AMyBasePawn* paw
 {
 	m_Owner = TStrongObjectPtr<AMyBasePawn>(pawn);
 
-	m_Loco = asset->m_Loco;
+	m_Loco = asset->m_Loco.Get();
 
 	m_Owner->GetSkMesh()->PlayAnimation(m_Loco.Get(), true);
 }
