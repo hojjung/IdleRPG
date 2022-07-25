@@ -16,7 +16,7 @@ class IDLERPG_API UMyFlockSteering  : public UMyNavMovement
 	GENERATED_BODY()
 
 protected:
-	TArray<TWeakObjectPtr<AMonsterPawn>> m_NearMobs;
+	TArray<AMonsterPawn*> m_NearMobs;
 	
 protected:
 	virtual void BeginPlay() override;

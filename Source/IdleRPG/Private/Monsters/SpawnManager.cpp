@@ -1,10 +1,13 @@
 #include "Monsters/SpawnManager.h"
 
 #include "MyAssetManager.h"
+#include "MyGameInstance.h"
 #include "NavigationSystem.h"
 #include "Actors/Pawns/MyBasePawn.h"
+#include "Kismet/GameplayStatics.h"
 #include "Monsters/MonsterPawn.h"
 #include "Monsters/StageTable.h"
+#include "Player/MyPlayerPawn.h"
 
 SpawnManager::SpawnManager()
 {
@@ -29,6 +32,7 @@ void SpawnManager::Update(float delta)
 	{
 		Mob.Get()->Update(delta);
 	}
+	m_QuadTree->UpdateState(UMyGameInstance::Get);
 }
 
 void SpawnManager::SpawnUnits(UObject* world, int stageLevel, int cnt)
@@ -58,6 +62,10 @@ void SpawnManager::SpawnUnits(UObject* world, int stageLevel, int cnt)
 		
 		AMonsterPawn* Pawn = world->GetWorld()->SpawnActor<AMonsterPawn>(AMonsterPawn::StaticClass(),ResultPos, Rot, Param);
 
+		auto ASD = Cast<AMyPlayerPawn>( UGameplayStatics::GetPlayerPawn(world, 0));
+		
+		Pawn->SetFocusedTarget(ASD);
+
 		m_QuadTree->InsertObject(Pawn);
 		
 		int MaxIndex = m_AryStage[stageLevel]->m_AryUnits.Num() - 1;
@@ -76,4 +84,9 @@ void SpawnManager::SpawnUnits(UObject* world, int stageLevel, int cnt)
 
 		m_AryMonsters.Add(Mob);
 	}
+}
+
+void SpawnManager::GetNearNpcs(const TWeakObjectPtr<AMyBasePawn>& base, TArray<AMonsterPawn*>& outAry, float range)
+{
+	m_QuadTree->TraceObjectInRange<AMonsterPawn>(base.Get(), range, outAry);
 }

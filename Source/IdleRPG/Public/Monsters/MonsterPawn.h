@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Actors/Pawns/MyBasePawn.h"
+#include "Player/CombatPawn.h"
 #include "MonsterPawn.generated.h"
 
 class UWidgetPawnInfoComp;
@@ -12,7 +13,7 @@ class Monster;
  * 
  */
 UCLASS()
-class IDLERPG_API AMonsterPawn : public AMyBasePawn
+class IDLERPG_API AMonsterPawn : public ACombatPawn
 {
 	GENERATED_BODY()
 

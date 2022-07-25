@@ -37,5 +37,5 @@ void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)
 
 void UMyGameInstance::Tick(float deltaTime)
 {
-	
+	m_SpawnManager->Update(deltaTime);
 }

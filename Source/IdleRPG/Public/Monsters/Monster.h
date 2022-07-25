@@ -23,8 +23,65 @@ protected:
 	
 	float m_fHp;
 
+protected:
+	enum EFSM
+	{
+		Idle,
+		Chase,
+		Combat,
+		Length
+	};
+
+protected:
+	EFSM m_CurrentState;
+
+	FVector m_StartPoint;
+
+	float m_fIdleTimer;
+
+	float m_fChaseFindTimer;
+
+	float m_fAttackRange; //from startPos
+
+	float m_fAttackRangeSqr; //from startPos
+
+	typedef void (Monster::*FPtrState)(void);
+
+	FPtrState m_AryStateFunction[static_cast<int>(EFSM::Length)];
+
+	float m_fDeltaTime;
+
+	float m_fAlertTimer;
+
+protected:
+	void CheckSetState();
+	
+	void OnIdle();
+
+	void OnChase();
+	
+	void OnCombat();
+
+	bool CheckTargetRange(float rangeSqr);
+
+	bool CheckAngle(float angleEuler);
+public:
+	void SetIdle();
+
+	void ResetStartPosition(FVector loc);
+	
 public:
 	void Update(float delta);
 	
 	float GetHpPercent();
+
+	FORCEINLINE float GetAttackRange()
+	{
+		return m_fAttackRange;
+	}
+
+	FORCEINLINE float GetAttackRangeSqr()
+	{
+		return m_fAttackRangeSqr;
+	}
 };

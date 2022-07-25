@@ -16,7 +16,7 @@ FVector UMyFlockSteering::GetFlockDir()
 	FVector TargetLoc = GetOwner()->GetActorLocation();
 	TargetLoc.Z = 0.f;
 
-	//UMyGameInstance::Get->m_SpawnManager->GetNearNpcs(m_Owner, m_NearMobs, 500);
+	UMyGameInstance::Get->m_SpawnManager->GetNearNpcs(m_Owner, m_NearMobs, 500);
 	
 	FVector Sum = FVector::ZeroVector;
 
@@ -26,12 +26,12 @@ FVector UMyFlockSteering::GetFlockDir()
 	{
 		if (!OtherActor->IsAlive())
 		{
-			continue;
+			//continue;
 		}
 		FVector OtherLoc = OtherActor->GetActorLocation();
 		OtherLoc.Z = 0.f;
 
-		FVector Diff = TargetLoc - OtherLoc;
+		FVector Diff = (TargetLoc - OtherLoc).GetSafeNormal();
 
 		Sum += Diff;
 
@@ -42,7 +42,7 @@ FVector UMyFlockSteering::GetFlockDir()
 	{
 		Sum /= Count;
 		
-		return Sum.GetSafeNormal();
+		return Sum;
 	}
 
 	return FVector::ZeroVector;

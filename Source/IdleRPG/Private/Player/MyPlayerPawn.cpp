@@ -20,6 +20,8 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 
 	m_AryTargetingObjectType.Reset();
 	m_AryTargetingObjectType.Add(EObjectTypeQuery::ObjectTypeQuery3);
+
+	m_Movement->MaxSpeed = 400.f; 
 }
 
 void AMyPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

@@ -15,6 +15,7 @@ class IDLERPG_API SpawnManager
 public:
 	SpawnManager();
 	~SpawnManager();
+	
 
 protected:
 	TArray<FStageRow*> m_AryStage;
@@ -27,4 +28,6 @@ public:
 	void Update(float delta);
 
 	void SpawnUnits(UObject* world, int stageLevel, int cnt);
+	
+	void GetNearNpcs(const TWeakObjectPtr<AMyBasePawn>& base, TArray<AMonsterPawn*>& outAry, float range);
 };

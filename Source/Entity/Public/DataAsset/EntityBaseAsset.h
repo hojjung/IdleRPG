@@ -40,8 +40,6 @@ public://Visual//일단 기본적으로 동적 로드는 다돌아가준다, 근
 	UTexture2D* m_Icon;
 	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Preview"))
 	USkeletalMesh* m_BodyMesh;
-	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Preview"))
-	UBlendSpace1D* m_Loco;
 	UPROPERTY(EditAnywhere, Category = Bundle)
 	UAnimMontage* m_BaseAttackAnim;
 	UPROPERTY(EditAnywhere, Category = Bundle)

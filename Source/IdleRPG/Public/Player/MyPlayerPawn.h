@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CombatPawn.h"
 #include "Actors/Components/CameraDissolve.h"
 #include "Actors/Pawns/MyBasePawn.h"
 #include "Camera/CameraComponent.h"
@@ -14,7 +15,7 @@
  * 
  */
 UCLASS()
-class IDLERPG_API AMyPlayerPawn : public AMyBasePawn
+class IDLERPG_API AMyPlayerPawn : public ACombatPawn
 {
 	GENERATED_BODY()
 
