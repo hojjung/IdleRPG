@@ -7,7 +7,7 @@ public class IdleRPG : ModuleRules
 {
 	public IdleRPG(ReadOnlyTargetRules Target) : base(Target)
 	{
-		PublicDependencyModuleNames.AddRange(new string[] { "Engine" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Engine", "Entity", "NavigationSystem","AIModule" });
 		
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 		
@@ -22,7 +22,7 @@ public class IdleRPG : ModuleRules
 		PrivateDependencyModuleNames.AddRange(new string[]
 		{
 			"Core", "CoreUObject", "Engine", "InputCore", "WebService",
-			"Slate", "SlateCore", "Entity","Engine"
+			"Slate", "SlateCore"
 		});
 
 		if (Target.Platform == UnrealTargetPlatform.IOS)

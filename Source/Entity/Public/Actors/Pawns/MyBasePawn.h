@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 #include "DataTableRow/EntityData.h"
 #include "GameFramework/Pawn.h"
+#include "Anims/MySingleAnimFSM.h"
 #include "Navigation/PathFollowingComponent.h"
 #include "MyBasePawn.generated.h"
 
@@ -36,10 +37,15 @@ protected:
 	
 	FText m_PawnName;
 
+	TSharedPtr<MySingleAnimFSM> m_Anim;
+
 protected:
+	virtual void BeginPlay() override;
+	
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
-
+	virtual void Tick(float DeltaSeconds) override;
+	
 	void ActiveMovement();
 	//PathFollow	
 	FPathFollowingRequestResult MoveTo(const FAIMoveRequest& MoveRequest, FNavPathSharedPtr* OutPath = nullptr);

@@ -1,5 +1,7 @@
 #include "Anims/MyAnimInstance.h"
 
+#include "Entity.h"
+#include "Animation/AnimNode_StateMachine.h"
 #include "DataAsset/EntityBaseAsset.h"
 
 void FMyAnimInstanceProxy::InitializeObjects(UAnimInstance* InAnimInstance)
@@ -11,18 +13,45 @@ void FMyAnimInstanceProxy::InitializeObjects(UAnimInstance* InAnimInstance)
 
 void FMyAnimInstanceProxy::Update(float DeltaSeconds)
 {
-	m_MyAnim->UpdateFlag(DeltaSeconds);
+	Super::Update(DeltaSeconds);
+	//m_MyAnim->UpdateFlag(DeltaSeconds);
 }
 
+void FMyAnimInstanceProxy::UpdateAnimationNode(const FAnimationUpdateContext& InContext)
+{
+	FAnimInstanceProxy::UpdateAnimationNode(InContext);
+}
+void UMyAnimInstance::NativeInitializeAnimation()
+{
+	AddNativeStateEntryBinding(TEXT("MyFSM"), TEXT("Idle"), FOnGraphStateChanged::CreateUObject(this, &UMyAnimInstance::OnIdle));
+	AddNativeStateEntryBinding(TEXT("MyFSM"), TEXT("Run"), FOnGraphStateChanged::CreateUObject(this, &UMyAnimInstance::OnRun));
+	AddNativeTransitionBinding(TEXT("MyFSM"),TEXT("Idle"),TEXT("Run"),FCanTakeTransition::CreateUObject(this, &UMyAnimInstance::IdleToRun));
+	AddNativeTransitionBinding(TEXT("MyFSM"),TEXT("Run"),TEXT("Idle"),FCanTakeTransition::CreateUObject(this, &UMyAnimInstance::RunToIdle));
+	Super::NativeInitializeAnimation();
+}
 void UMyAnimInstance::Init(const UUnitEntityAsset* asset, AMyBasePawn* pawn)
 {
-	m_Idle = asset->m_Idle;
 	
-	m_Run = asset->m_Run;
+}
 
-	bUseMultiThreadedAnimationUpdate = true;
+bool UMyAnimInstance::RunToIdle()
+{
+	return !m_Owner->IsMoving();
+}
 
-	m_Owner = pawn;
+bool UMyAnimInstance::IdleToRun()
+{
+	return m_Owner->IsMoving();
+}
+
+void UMyAnimInstance::OnIdle(const FAnimNode_StateMachine& mc, int32 prev, int32 next)
+{
+	PRINTF("OnIdle");
+}
+
+void UMyAnimInstance::OnRun(const FAnimNode_StateMachine& mc, int32 prev, int32 next)
+{
+	PRINTF("OnRun");
 }
 
 void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
@@ -33,20 +62,7 @@ void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	{
 		return;
 	}
-
-	if(IsSlotPlaying())
-	{
-		return;
-	}
-
-	if(!m_bIsMoving)
-	{
-		m_Owner->GetSkMesh()->PlayAnimation(m_Idle,true);
-	}
-	else
-	{
-		m_Owner->GetSkMesh()->PlayAnimation(m_Run,true);
-	}
+	
 }
 
 bool UMyAnimInstance::IsSlotPlaying()
@@ -57,6 +73,8 @@ bool UMyAnimInstance::IsSlotPlaying()
 	}
 	return GetActiveMontageInstance()->IsActive();
 }
+
+
 
 float UMyAnimInstance::PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate, FName StartSectionName)
 {

@@ -19,6 +19,8 @@ public:
 
 	virtual void Update(float DeltaSeconds) override ;
 
+	virtual void UpdateAnimationNode(const FAnimationUpdateContext& InContext) override;
+
 	UPROPERTY(Transient)
 	UMyAnimInstance* m_MyAnim = nullptr;
 };
@@ -55,6 +57,8 @@ private:
 	bool IsSlotPlaying();
 	
 public:
+	virtual void NativeInitializeAnimation() override;
+	
 	void Init(const UUnitEntityAsset* asset, AMyBasePawn* pawn);
 	
 	float PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate, FName StartSectionName);
@@ -62,5 +66,13 @@ public:
 	void StopAnimMontage();
 
 	void UpdateFlag(float deltaTime);
-	
+
+protected:
+	void OnIdle(const FAnimNode_StateMachine& mc, int32 prev, int32 next);
+
+	void OnRun(const FAnimNode_StateMachine& mc, int32 prev, int32 next);
+
+	bool IdleToRun();
+
+	bool RunToIdle();
 };

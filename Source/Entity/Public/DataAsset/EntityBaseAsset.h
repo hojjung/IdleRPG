@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Animation/BlendSpace1D.h"
 #include "Engine/DataAsset.h"
 #include "EntityBaseAsset.generated.h"
 
@@ -42,9 +43,7 @@ public://Visual
 	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel, meta = (AssetBundles = "Preview"))
 	USkeletalMesh* m_BodyMesh;
 	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel, meta = (AssetBundles = "Preview"))
-	UAnimSequenceBase* m_Idle;
-	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel)
-	UAnimSequenceBase* m_Run;
+	UBlendSpace1D* m_Loco;
 	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel)
 	UAnimMontage* m_BaseAttackAnim;
 	UPROPERTY(EditAnywhere, Category = PrimaryAssetLabel)

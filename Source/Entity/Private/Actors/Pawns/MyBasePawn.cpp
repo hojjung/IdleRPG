@@ -12,7 +12,8 @@
 AMyBasePawn::AMyBasePawn(const FObjectInitializer& objInit): Super(objInit)
 {
 	PrimaryActorTick.bCanEverTick = true;
-
+	bAllowTickBeforeBeginPlay = false;
+	
 	m_Capsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule00"));
 	m_Capsule->InitCapsuleSize(34.0f, 88.0f);
 	m_Capsule->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
@@ -57,8 +58,24 @@ USkeletalMeshComponent* AMyBasePawn::CreateSkMeshComp(FName keyID)
 	return skMesh;
 }
 
+void AMyBasePawn::BeginPlay()
+{
+	Super::BeginPlay();
+
+	SetActorTickEnabled(false);
+}
+
+void AMyBasePawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	m_EntityAsset.Reset();
+	m_Anim.Reset();
+}
+
 void AMyBasePawn::SetEntity(const UUnitEntityAsset* asset)
 {
+	SetActorTickEnabled(true);
+	
 	m_PFComp->SetMovementComponent(m_Movement);
 	
 	m_PFComp->Initialize();
@@ -82,19 +99,16 @@ void AMyBasePawn::LoadSetSkMeshAnim(const UUnitEntityAsset* asset)
 
 	m_BodyMesh->SetSkeletalMesh(m_EntityAsset->GetSkMesh());
 
-	m_BodyMesh->SetAnimationMode(EAnimationMode::Type::AnimationBlueprint);
-
-	m_BodyMesh->SetAnimClass(UMyAnimInstance::StaticClass());
-
-	Cast<UMyAnimInstance>(m_BodyMesh->GetAnimInstance())->Init(m_EntityAsset.Get(), this);
-
+	m_Anim = MakeShareable(new MySingleAnimFSM(m_EntityAsset.Get(), this));
+	
 	m_BodyMesh->AddRelativeRotation(FRotator(0,asset->m_RotYawOffset,0));
 }
 
-void AMyBasePawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
+void AMyBasePawn::Tick(float DeltaSeconds)
 {
-	Super::EndPlay(EndPlayReason);
-	m_EntityAsset.Reset();
+	Super::Tick(DeltaSeconds);
+
+	m_Anim->Update(DeltaSeconds);
 }
 
 void AMyBasePawn::ActiveMovement()

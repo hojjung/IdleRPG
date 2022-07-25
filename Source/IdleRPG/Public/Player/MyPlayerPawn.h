@@ -3,7 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Actors/Components/CameraDissolve.h"
 #include "Actors/Pawns/MyBasePawn.h"
+#include "Camera/CameraComponent.h"
 #include "Engine/StreamableManager.h"
 #include "Monsters/QuadTree.h"
 #include "MyPlayerPawn.generated.h"
@@ -16,10 +18,36 @@ class IDLERPG_API AMyPlayerPawn : public AMyBasePawn
 {
 	GENERATED_BODY()
 
+public:
+	DECLARE_DELEGATE(FVoidVoid);
+
+	
+public:
+	AMyPlayerPawn(const FObjectInitializer& objInit);
+	
 protected:
+	UPROPERTY(VisibleAnywhere)
+	UCameraDissolve* m_DissolveCam;
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* m_TopCamera;
+	UPROPERTY(EditAnywhere)
+	TArray<TEnumAsByte< EObjectTypeQuery>> m_AryTargetingObjectType;
+	UPROPERTY()
+	TArray<AActor*> m_AryIgnores;
+	
 	TSharedPtr<FStreamableHandle> m_Asset;
 	
-	TSharedPtr<QuadTree> m_QuadTree;
+	FVector m_Input;
+	
+	FVector m_DeltaX;
+	
+	FVector m_DeltaY;
+	
+	FAIRequestID m_ReqID;
+
+	FVoidVoid m_OnRequestDone;
+
+	FVoidVoid m_OnCancelInteract;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -29,4 +57,20 @@ protected:
 	void OnLoaded();
 
 	virtual void Tick(float DeltaSeconds) override;
+
+	void MoveForward(float AxisValue);
+
+	void MoveRight(float AxisValue);
+
+	void OnRequestMoveDone(FAIRequestID id, const FPathFollowingResult& rslt);
+
+	void TryAttack_External();
+
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	bool IsInputMoving();
+
+	void RequestAttack();
+
+	void RequestInteract(AActor* target, const FVoidVoid& delegate, float r);
 };
