@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MyGameInstance.h"
+#include "NavigationSystem.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "MyLib.generated.h"
 
@@ -30,5 +32,29 @@ public:
 		FVector const MyFacingDir = center->GetActorRotation().Vector();
 
 		return ((SelfToOtherDir | MyFacingDir) >= PeripheralVisionCosine);
+	}
+
+	static UNavigationSystemV1* GetNavSys()
+	{
+		return FNavigationSystem::GetCurrent<UNavigationSystemV1>(UMyGameInstance::Get);	
+	}
+	
+	static void SnapActorToNav(AActor* want)
+	{
+		FVector ActorLoc = want->GetActorLocation();
+		FNavLocation Loc;
+		if(!GetNavSys()->ProjectPointToNavigation(ActorLoc,Loc))
+		{
+			GetNavSys()->GetRandomPointInNavigableRadius(ActorLoc,1000,Loc);
+		}
+		FVector Extent;
+	
+		want->GetActorBounds(true, ActorLoc, Extent);
+	
+		FVector NewLoc = Loc;
+	
+		NewLoc.Z += Extent.Z;
+	
+		want->SetActorLocation(NewLoc);
 	}
 };

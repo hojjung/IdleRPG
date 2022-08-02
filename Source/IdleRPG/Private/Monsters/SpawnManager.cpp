@@ -85,8 +85,3 @@ void SpawnManager::SpawnUnits(UObject* world, int stageLevel, int cnt)
 		m_AryMonsters.Add(Mob);
 	}
 }
-
-void SpawnManager::GetNearNpcs(const TWeakObjectPtr<AMyBasePawn>& base, TArray<AMonsterPawn*>& outAry, float range)
-{
-	m_QuadTree->TraceObjectInRange<AMonsterPawn>(base.Get(), range, outAry);
-}

@@ -35,6 +35,6 @@ public:
 	void SetMonsterInst(const TSharedPtr<Monster>& mob);
 	
 	float GetHpPercent() const;
-	
-	bool IsAlive();
+
+	virtual bool IsAlive() override;
 };

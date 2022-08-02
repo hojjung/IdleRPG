@@ -2,10 +2,9 @@
 
 #pragma once
 
+#include <Actors/Components/MyNavMovement.h>
 #include "CoreMinimal.h"
-#include "Actors/Components/MyNavMovement.h"
 #include "Actors/Pawns/MyBasePawn.h"
-#include "Components/ActorComponent.h"
 #include "Monsters/MonsterPawn.h"
 #include "MyFlockSteering.generated.h"
 
@@ -21,9 +20,7 @@ protected:
 protected:
 	virtual void BeginPlay() override;
 	
-	FVector GetFlockDir();
-
 	virtual void ApplyControlInputToVelocity(float DeltaTime) override;
 
-	virtual void NotifyBumpedPawn(APawn* BumpedPawn) override;	
+	FVector GetBoidDelta(FVector inputDelta);
 };

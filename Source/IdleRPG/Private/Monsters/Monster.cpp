@@ -16,7 +16,7 @@ Monster::Monster(AMonsterPawn* pawn, UUnitEntityAsset* asset)
 
 	m_CurrentState = EFSM::Idle;
 
-	m_fAttackRange = 100.f;
+	m_fAttackRange = 150.f;
 
 	m_fAttackRangeSqr = m_fAttackRange * m_fAttackRange;
 	//

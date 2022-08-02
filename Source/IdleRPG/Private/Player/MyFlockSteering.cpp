@@ -2,50 +2,10 @@
 
 #include "MyGameInstance.h"
 #include "Monsters/MonsterPawn.h"
-
 void UMyFlockSteering::BeginPlay()
 {
 	Super::BeginPlay();
 	m_NearMobs.Reserve(20);
-}
-
-FVector UMyFlockSteering::GetFlockDir()
-{
-	m_NearMobs.Reset();
-	
-	FVector TargetLoc = GetOwner()->GetActorLocation();
-	TargetLoc.Z = 0.f;
-
-	UMyGameInstance::Get->m_SpawnManager->GetNearNpcs(m_Owner, m_NearMobs, 500);
-	
-	FVector Sum = FVector::ZeroVector;
-
-	int Count = 0;
-
-	for (auto& OtherActor : m_NearMobs)
-	{
-		if (!OtherActor->IsAlive())
-		{
-			//continue;
-		}
-		FVector OtherLoc = OtherActor->GetActorLocation();
-		OtherLoc.Z = 0.f;
-
-		FVector Diff = (TargetLoc - OtherLoc).GetSafeNormal();
-
-		Sum += Diff;
-
-		Count++;
-	}
-
-	if(Count > 0)
-	{
-		Sum /= Count;
-		
-		return Sum;
-	}
-
-	return FVector::ZeroVector;
 }
 
 void UMyFlockSteering::ApplyControlInputToVelocity(float DeltaTime)
@@ -84,14 +44,12 @@ void UMyFlockSteering::ApplyControlInputToVelocity(float DeltaTime)
 	}
 	
 	const float NewMaxSpeed = (IsExceedingMaxSpeed(MaxPawnSpeed)) ? Velocity.Size() : MaxPawnSpeed;
-	
-	FVector FlockDir = GetFlockDir();
 
 	FVector NewDelta;
-
-	if(!FlockDir.IsNearlyZero())
+	
+	if(Cast<ACombatPawn>(m_Owner)->GetFocusedTarget())
 	{
-		NewDelta = (FlockDir + ControlAcceleration) / 2.f;
+		NewDelta = GetBoidDelta(ControlAcceleration);
 	}
 	else
 	{
@@ -100,13 +58,45 @@ void UMyFlockSteering::ApplyControlInputToVelocity(float DeltaTime)
 	
 	Velocity += NewDelta * FMath::Abs(Acceleration) * DeltaTime;
 	//둘의 차이가 너무크니까 지터링되는것
-	
 	Velocity = Velocity.GetClampedToMaxSize(NewMaxSpeed);
 
 	ConsumeInputVector();
 }
 
-void UMyFlockSteering::NotifyBumpedPawn(APawn* BumpedPawn)
+FVector UMyFlockSteering::GetBoidDelta(FVector inputDelta)
 {
+	m_NearMobs.Reset();
+	UMyGameInstance::Get->m_SpawnManager->GetNearNpcs<AMonsterPawn>(m_Owner.Get(),m_NearMobs,400);
 	
+	FVector FinalDelta = FVector::ZeroVector;
+	
+	FVector DestDelta = inputDelta;
+	
+	FVector SepSum = FVector::ZeroVector;
+
+	FVector OwnerLoc = m_Owner->GetActorLocation();
+	
+	OwnerLoc.Z = 0.f;
+
+	if (m_NearMobs.Num() > 0)
+	{
+		int Count = 1;
+		
+		for (ACombatPawn* OtherActor : m_NearMobs)
+		{
+			if(!OtherActor->IsAlive())
+			{
+				//continue;
+			}
+			FVector OtherLoc = OtherActor->GetActorLocation();
+			
+			OtherLoc.Z = 0.f;
+			
+			SepSum += (OwnerLoc - OtherLoc);
+		}
+		SepSum /= Count; 
+	}
+	FinalDelta = (DestDelta * 1.2f) + SepSum.GetSafeNormal(); 
+	
+	return FinalDelta.GetSafeNormal();
 }
