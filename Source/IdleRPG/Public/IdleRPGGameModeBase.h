@@ -22,8 +22,6 @@ protected:
 	TSharedPtr<GoogleLogin> m_GoogleLogin;
 
 protected:
-	virtual void BeginPlay() override;
-
 	virtual void StartPlay() override;
 
 	void LoginEnd(bool bSuccess);

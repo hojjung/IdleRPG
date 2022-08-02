@@ -1,8 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Monsters/MonsterPawn.h"
-
 #include "Components/AudioComponent.h"
 #include "Monsters/Monster.h"
 #include "Monsters/Widgets/PawnInfoComp/WidgetPawnInfoComp.h"

@@ -62,10 +62,6 @@ void SpawnManager::SpawnUnits(UObject* world, int stageLevel, int cnt)
 		
 		AMonsterPawn* Pawn = world->GetWorld()->SpawnActor<AMonsterPawn>(AMonsterPawn::StaticClass(),ResultPos, Rot, Param);
 
-		auto ASD = Cast<AMyPlayerPawn>( UGameplayStatics::GetPlayerPawn(world, 0));
-		
-		Pawn->SetFocusedTarget(ASD);
-
 		m_QuadTree->InsertObject(Pawn);
 		
 		int MaxIndex = m_AryStage[stageLevel]->m_AryUnits.Num() - 1;
@@ -78,7 +74,7 @@ void SpawnManager::SpawnUnits(UObject* world, int stageLevel, int cnt)
 
 		Pawn->SetEntity(LoadedUnit);
 
-		TSharedPtr<Monster> Mob = MakeShareable(new Monster(Pawn, LoadedUnit));
+		TSharedPtr<Monster> Mob = MakeShareable(new Monster(Pawn));
 		
 		Pawn->SetMonsterInst(Mob);
 

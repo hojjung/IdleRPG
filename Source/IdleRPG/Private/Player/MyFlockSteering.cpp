@@ -86,7 +86,7 @@ FVector UMyFlockSteering::GetBoidDelta(FVector inputDelta)
 		{
 			if(!OtherActor->IsAlive())
 			{
-				//continue;
+				continue;
 			}
 			FVector OtherLoc = OtherActor->GetActorLocation();
 			

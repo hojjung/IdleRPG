@@ -34,6 +34,8 @@ protected:
 
 	FText m_PawnName;
 
+	FTimerHandle m_MoveStopTimer;
+
 protected:
 	virtual void BeginPlay() override;
 	
@@ -52,6 +54,8 @@ protected:
 	USkeletalMeshComponent* CreateSkMeshComp(FName keyID);
 	
 	virtual void LoadSetSkMeshAnim(const UUnitEntityAsset* asset);
+
+	void ClearStopMoveDelegate();
 	
 public://플레이어는 어떻게? 스테이지가 있고 스테이지는데이터 테이블로 형성,
 	UFUNCTION(BlueprintCallable)
@@ -64,6 +68,8 @@ public://플레이어는 어떻게? 스테이지가 있고 스테이지는데이
 	bool LineOfSightTo(const AActor* Other) const;
 
 public://Anim
+	
+	
 	float PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate = 1.f, FName StartSectionName = NAME_None);
 
 	void StopAnimMontage();

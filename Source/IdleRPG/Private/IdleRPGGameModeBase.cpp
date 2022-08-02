@@ -1,5 +1,6 @@
 #include "IdleRPGGameModeBase.h"
 #include "MyGameInstance.h"
+#include "MyLib.h"
 #include "Player/MyPlayerController.h"
 #include "Player/MyPlayerPawn.h"
 
@@ -11,18 +12,13 @@ AIdleRPGGameModeBase::AIdleRPGGameModeBase()
 	PrimaryActorTick.bCanEverTick = true;	
 }
 
-void AIdleRPGGameModeBase::BeginPlay()
+void AIdleRPGGameModeBase::StartPlay()
 {
-	Super::BeginPlay();
+	Super::StartPlay();
 
 	m_GoogleLogin = MakeShareable<GoogleLogin>(new GoogleLogin(GoogleLogin::FOnLoginEnd::CreateUObject(this, &AIdleRPGGameModeBase::LoginEnd)));
 
 	UMyGameInstance::Get->m_SpawnManager->SpawnUnits(GetWorld(), 0, 30);
-}
-
-void AIdleRPGGameModeBase::StartPlay()
-{
-	Super::StartPlay();
 }
 
 void AIdleRPGGameModeBase::LoginEnd(bool bSuccess)

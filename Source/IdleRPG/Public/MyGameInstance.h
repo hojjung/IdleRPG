@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "Monsters/SpawnManager.h"
+#include "Player/MyPlayerController.h"
+#include "Player/MyPlayerPawn.h"
 #include "MyGameInstance.generated.h"
 
 /**
@@ -20,9 +22,10 @@ public:
 
 public:
 	TSharedPtr<SpawnManager> m_SpawnManager;
-	//TWeakObjectPtr<AMyPlayerPawn> m_Player;
 	
-	//TWeakObjectPtr<AMyPlayerController> m_PlayerCon;
+	TWeakObjectPtr<AMyPlayerPawn> m_Player;
+	
+	TWeakObjectPtr<AMyPlayerController> m_PlayerCon;
 	
 protected:
 	virtual void BeginDestroy() override;

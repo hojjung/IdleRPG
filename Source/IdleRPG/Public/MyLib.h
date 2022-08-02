@@ -6,6 +6,8 @@
 #include "MyGameInstance.h"
 #include "NavigationSystem.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
+#include "Kismet/GameplayStatics.h"
+#include "Player/MyPlayerPawn.h"
 #include "MyLib.generated.h"
 
 /**
@@ -56,5 +58,25 @@ public:
 		NewLoc.Z += Extent.Z;
 	
 		want->SetActorLocation(NewLoc);
+	}
+
+	static AMyPlayerPawn* GetPlayer()
+	{
+		if(!UMyGameInstance::Get->m_Player.Get())
+		{
+			UMyGameInstance::Get->m_Player = Cast<AMyPlayerPawn>(UGameplayStatics::GetPlayerPawn(UMyGameInstance::Get, 0));
+		}
+	
+		return UMyGameInstance::Get->m_Player.Get();
+	}
+
+	AMyPlayerController* UMyLib::GetPlayerCon()
+	{
+		if(!UMyGameInstance::Get->m_PlayerCon.Get())
+		{
+			UMyGameInstance::Get->m_PlayerCon = Cast<AMyPlayerController>( UGameplayStatics::GetPlayerController(UMyGameInstance::Get,0));
+		}
+	
+		return UMyGameInstance::Get->m_PlayerCon.Get();
 	}
 };

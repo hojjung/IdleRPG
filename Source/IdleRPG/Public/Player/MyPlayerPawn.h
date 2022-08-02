@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "CombatPawn.h"
+#include "PlayerFSM.h"
 #include "Actors/Components/CameraDissolve.h"
 #include "Actors/Pawns/MyBasePawn.h"
 #include "Camera/CameraComponent.h"
@@ -11,6 +12,7 @@
 #include "Monsters/QuadTree.h"
 #include "MyPlayerPawn.generated.h"
 
+class PlayerSensor;
 /**
  * 
  */
@@ -37,6 +39,10 @@ protected:
 	TArray<AActor*> m_AryIgnores;
 	
 	TSharedPtr<FStreamableHandle> m_Asset;
+
+	TSharedPtr<PlayerSensor> m_Sensor;
+
+	TSharedPtr<PlayerFSM> m_Fsm;
 	
 	FVector m_Input;
 	
@@ -49,6 +55,10 @@ protected:
 	FVoidVoid m_OnRequestDone;
 
 	FVoidVoid m_OnCancelInteract;
+
+	bool m_bCanMoveInSkill;
+
+	bool m_bIsSkillUsing;
 	
 protected:
 	virtual void BeginPlay() override;
@@ -57,7 +67,7 @@ protected:
 	
 	void OnLoaded();
 
-	virtual void Tick(float DeltaSeconds) override;
+	virtual void OnTickAlive(float DeltaSeconds) override;
 
 	void MoveForward(float AxisValue);
 
@@ -69,9 +79,20 @@ protected:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	bool IsInputMoving();
-
 	void RequestAttack();
 
 	void RequestInteract(AActor* target, const FVoidVoid& delegate, float r);
+
+	virtual bool IsAlive() override;
+
+public:
+	bool IsInputMoving();
+
+	void SetSkillUsing(bool b);
+
+	bool GetSkillUsing();
+
+	void SetCanMoveInSkill(bool b);
+
+	bool CanMoveInSkill();
 };

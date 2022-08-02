@@ -1,6 +1,7 @@
 #include "Player/MyPlayerPawn.h"
 #include "MyAssetManager.h"
 #include "Actors/Components/MyNavMovement.h"
+#include "Player/PlayerSensor.h"
 
 AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 {
@@ -21,7 +22,10 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_AryTargetingObjectType.Reset();
 	m_AryTargetingObjectType.Add(EObjectTypeQuery::ObjectTypeQuery3);
 
-	m_Movement->MaxSpeed = 400.f; 
+	m_Movement->MaxSpeed = 400.f;
+
+	m_bCanMoveInSkill = false;
+	m_bIsSkillUsing = false;
 }
 
 void AMyPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -35,6 +39,12 @@ void AMyPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 void AMyPlayerPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
+
+	m_Asset.Reset();
+	
+	m_Sensor.Reset();
+
+	m_Fsm.Reset();
 }
 void AMyPlayerPawn::BeginPlay()
 {
@@ -49,7 +59,13 @@ void AMyPlayerPawn::BeginPlay()
 	m_DissolveCam->SetActive(true);
 
 	m_Asset = UMyAssetManager::Get()->LoadUnitAssetAll(TEXT("Player"),
-		FStreamableDelegate::CreateUObject(this, &AMyPlayerPawn::OnLoaded));	
+		FStreamableDelegate::CreateUObject(this, &AMyPlayerPawn::OnLoaded));
+
+	m_Sensor = MakeShareable(new PlayerSensor(this));
+
+	m_Fsm = MakeShareable(new PlayerFSM(this));
+
+	SetAtkRange(200);
 }
 
 void AMyPlayerPawn::OnLoaded()
@@ -64,14 +80,25 @@ bool AMyPlayerPawn::IsInputMoving()
 	return !m_Input.IsZero();
 }
 
-void AMyPlayerPawn::Tick(float DeltaSeconds)
+void AMyPlayerPawn::OnTickAlive(float DeltaSeconds)
 {
-	Super::Tick(DeltaSeconds);
+	Super::OnTickAlive(DeltaSeconds);
 
+	m_Sensor->Update(DeltaSeconds);
+	m_Fsm->Update(DeltaSeconds);
+
+	if(m_bIsSkillUsing && !m_bCanMoveInSkill)
+	{
+		return;
+	}
 	if (IsInputMoving())
 	{
+		if(!m_bCanMoveInSkill)
+		{
+			StopAnimMontage();
+		}
+		ClearStopMoveDelegate();
 		m_Movement->SetActive(true);
-
 
 		FVector Loc = GetCapsule()->GetComponentLocation();
 
@@ -137,57 +164,71 @@ void AMyPlayerPawn::OnRequestMoveDone(FAIRequestID id, const FPathFollowingResul
 	m_OnRequestDone.Unbind();
 }
 
+void AMyPlayerPawn::TryAttack_External()
+{
+	TryAttack();
+}
+
 void AMyPlayerPawn::RequestAttack()
 {
-	if (IsMoving())
+	if (m_bIsSkillUsing || IsMoving())
 	{
 		return;
 	}
-
-	// ACombatUnitPawn* FocusActor = GetFocusedTarget<ACombatUnitPawn>();
-	// if (!FocusActor)
-	// {
-	// 	TryAttack_External();
-	// 	return;
-	// }
-	// RequestInteract(FocusActor, FVoidVoid::CreateUObject(this, &AMyPlayerPawn::TryAttack_External), GetAttackRange());
+	
+	ACombatPawn* FocusActor = GetFocusedTarget();
+	
+	if (!FocusActor)
+	{
+		TryAttack_External();
+		
+		return;
+	}
+	RequestInteract(FocusActor, FVoidVoid::CreateUObject(this, &AMyPlayerPawn::TryAttack_External), GetAttackRange());
 }
 
 void AMyPlayerPawn::RequestInteract(AActor* target, const FVoidVoid& delegate, float r)
 {
-	// FPathFollowingRequestResult Result = MoveToActor(target, r);
-	//
-	// if (Result.Code == EPathFollowingRequestResult::Type::Failed)
-	// {
-	// 	PRINTF("EPathFollowingRequestResult::Type::Failed");
-	// 	return;
-	// }
-	// if (Result.Code == EPathFollowingRequestResult::Type::AlreadyAtGoal)
-	// {
-	// 	m_ReqID = FAIRequestID();
-	// 	HomingRotateToTarget(0);
-	// 	delegate.ExecuteIfBound();
-	// 	return;
-	// }
-	//
-	// m_ReqID = Result.MoveId;
-	//
-	// m_OnRequestDone = delegate;
+	FPathFollowingRequestResult Result = MoveToActor(target, r);
+	
+	if (Result.Code == EPathFollowingRequestResult::Type::Failed)
+	{
+		return;
+	}
+	if (Result.Code == EPathFollowingRequestResult::Type::AlreadyAtGoal)
+	{
+		m_ReqID = FAIRequestID();
+		HomingRotateToTarget(0);
+		delegate.ExecuteIfBound();
+		return;
+	}
+	
+	m_ReqID = Result.MoveId;
+	
+	m_OnRequestDone = delegate;
 }
 
-void AMyPlayerPawn::TryAttack_External()
+bool AMyPlayerPawn::IsAlive()
 {
-	// float Len = TryAttack();
-	//
-	// if (Len > 0.f && IsSneak())
-	// {
-	// 	AMonsterPawn* Target = GetFocusedTarget<AMonsterPawn>();
-	//
-	// 	if (Target && Target->GetFocusedTarget<>() != this)
-	// 	{
-	// 		m_bIsSneakAttack = true;
-	// 	}
-	// 	SetSneak();
-	// }
-	// SetInteracting(false);
+	return true;
+}
+
+void AMyPlayerPawn::SetSkillUsing(bool b)
+{
+	m_bIsSkillUsing = b;
+}
+
+bool AMyPlayerPawn::GetSkillUsing()
+{
+	return m_bIsSkillUsing;
+}
+
+void AMyPlayerPawn::SetCanMoveInSkill(bool b)
+{
+	m_bCanMoveInSkill = b;
+}
+
+bool AMyPlayerPawn::CanMoveInSkill()
+{
+	return m_bCanMoveInSkill;
 }

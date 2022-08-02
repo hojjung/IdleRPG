@@ -3,7 +3,7 @@
 
 ACombatPawn::ACombatPawn(const FObjectInitializer& objInit) :Super(objInit)
 {
-	
+	SetAtkRange(150);
 }
 
 void ACombatPawn::SetFocusedTarget(ACombatPawn* pawn)
@@ -42,16 +42,54 @@ float ACombatPawn::PlayBaseAttackAnim()
 	return PlayAnimMontage(m_EntityAsset->m_BaseAttackAnim, 1, AnimAry[RandIndex].SectionName);
 }
 
+void ACombatPawn::SetAtkRange(float v)
+{
+	m_fAtkRange = v;
+
+	m_fAtkRangeSqr = m_fAtkRange * m_fAtkRange; 
+}
+
+void ACombatPawn::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	if(!IsAlive())
+	{
+		return;
+	}
+	OnTickAlive(DeltaSeconds);
+}
+
+void ACombatPawn::OnTickAlive(float DeltaSeconds)
+{
+	m_fAttackCD -= DeltaSeconds;
+}
+
 float ACombatPawn::TryAttack(float playRate)
 {
-	if (m_EntityAsset->m_BaseAttackAnim && m_fAttackCD < 0.f)
+	if (IsAlive() && m_EntityAsset->m_BaseAttackAnim && m_fAttackCD < 0.f)
 	{
 		float AnimMongLen = PlayBaseAttackAnim();
 
-		m_fAttackCD = FMath::Max(AnimMongLen - 0.1f,  playRate);
+		m_fAttackCD = FMath::Max(AnimMongLen - 0.1f,  0.15f);
 
 		return m_fAttackCD;
 	}
 
 	return 0.f;
+}
+
+float ACombatPawn::GetAttackRange()
+{
+	return m_fAtkRange;
+}
+
+float ACombatPawn::GetAttackRangeSqr()
+{
+	return m_fAtkRangeSqr;
+}
+
+EPathFollowingRequestResult::Type ACombatPawn::ChaseTarget()
+{
+	return MoveToActor(GetFocusedTarget(), GetAttackRange());
 }

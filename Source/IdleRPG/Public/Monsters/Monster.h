@@ -12,7 +12,7 @@ class AMonsterPawn;
 class IDLERPG_API Monster
 {
 public:
-	Monster(AMonsterPawn* pawn, UUnitEntityAsset* asset);
+	Monster(AMonsterPawn* pawn);
 	
 	~Monster();
 
@@ -40,10 +40,6 @@ protected:
 	float m_fIdleTimer;
 
 	float m_fChaseFindTimer;
-
-	float m_fAttackRange; //from startPos
-
-	float m_fAttackRangeSqr; //from startPos
 
 	typedef void (Monster::*FPtrState)(void);
 
@@ -74,14 +70,4 @@ public:
 	void Update(float delta);
 	
 	float GetHpPercent();
-
-	FORCEINLINE float GetAttackRange()
-	{
-		return m_fAttackRange;
-	}
-
-	FORCEINLINE float GetAttackRangeSqr()
-	{
-		return m_fAttackRangeSqr;
-	}
 };

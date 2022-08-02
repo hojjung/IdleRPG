@@ -4,7 +4,7 @@
 #include "NavigationSystem.h"
 #include "Monsters/MonsterPawn.h"
 
-Monster::Monster(AMonsterPawn* pawn, UUnitEntityAsset* asset)
+Monster::Monster(AMonsterPawn* pawn)
 {
 	m_Pawn = pawn;
 	//
@@ -15,10 +15,6 @@ Monster::Monster(AMonsterPawn* pawn, UUnitEntityAsset* asset)
 	m_fChaseFindTimer = -1.f;
 
 	m_CurrentState = EFSM::Idle;
-
-	m_fAttackRange = 150.f;
-
-	m_fAttackRangeSqr = m_fAttackRange * m_fAttackRange;
 	//
 	m_AryStateFunction[static_cast<int>(EFSM::Idle)] = &Monster::OnIdle;
 
@@ -27,6 +23,9 @@ Monster::Monster(AMonsterPawn* pawn, UUnitEntityAsset* asset)
 	m_AryStateFunction[static_cast<int>(EFSM::Combat)] = &Monster::OnCombat;
 	//
 	ResetStartPosition(m_Pawn->GetActorLocation());
+
+	m_fMaxHp = 100.f;
+	m_fHp = m_fMaxHp;
 }
 
 Monster::~Monster()
@@ -79,7 +78,7 @@ void Monster::CheckSetState()
 	}
 	else
 	{
-		if (!CheckTargetRange(GetAttackRangeSqr()))
+		if (!CheckTargetRange(m_Pawn->GetAttackRangeSqr()))
 		{
 			m_CurrentState = EFSM::Chase;
 		
@@ -119,7 +118,7 @@ void Monster::OnIdle()
 
 void Monster::OnChase()
 {
-	m_Pawn->MoveToActor(m_Pawn->GetFocusedTarget(), m_fAttackRange);
+	m_Pawn->MoveToActor(m_Pawn->GetFocusedTarget(), m_Pawn->GetAttackRange());
 }
 
 void Monster::OnCombat()

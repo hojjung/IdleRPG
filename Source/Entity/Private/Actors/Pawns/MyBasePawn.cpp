@@ -104,6 +104,11 @@ void AMyBasePawn::LoadSetSkMeshAnim(const UUnitEntityAsset* asset)
 	m_BodyMesh->AddRelativeRotation(FRotator(0,asset->m_RotYawOffset,0));
 }
 
+void AMyBasePawn::ClearStopMoveDelegate()
+{
+	GetWorldTimerManager().ClearTimer(m_MoveStopTimer);
+}
+
 void AMyBasePawn::ActiveMovement()
 {
 	m_Movement->SetActive(true);
@@ -352,9 +357,41 @@ bool AMyBasePawn::LineOfSightTo(const AActor* Other) const
 //////
 float AMyBasePawn::PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate, FName StartSectionName)
 {
-	UMyAnimInstance* AnimInstance =Cast<UMyAnimInstance>(m_BodyMesh->GetAnimInstance());
-	
-	return AnimInstance->PlayAnimMontage(anim_montage, InPlayRate, StartSectionName);
+	UAnimInstance* AnimInstance = m_BodyMesh->GetAnimInstance();
+
+	if (anim_montage && AnimInstance)
+	{
+		float Duration = AnimInstance->Montage_Play(anim_montage, InPlayRate);
+
+		if (Duration > 0.f)
+		{
+			FName SectioNName;
+
+			if (StartSectionName != NAME_None) //섹션지정시
+				{
+				SectioNName = StartSectionName;
+				}
+			else
+			{
+				SectioNName = anim_montage->GetSectionName(0);
+			}
+			
+			AnimInstance->Montage_JumpToSection(SectioNName, anim_montage);			
+
+			int Index = anim_montage->GetSectionIndex(SectioNName);
+
+			Duration = anim_montage->GetSectionLength(Index);
+
+			Duration = (Duration / (InPlayRate * anim_montage->RateScale)); //가속된만큼 빠르게
+
+			ClearStopMoveDelegate();
+			m_Movement->SetActive(false);
+			GetWorldTimerManager().SetTimer(m_MoveStopTimer, this, &AMyBasePawn::ActiveMovement, Duration, false);
+			
+			return Duration;
+		}
+	}
+	return 0.f;
 }
 
 void AMyBasePawn::StopAnimMontage()

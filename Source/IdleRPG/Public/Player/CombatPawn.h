@@ -24,8 +24,18 @@ protected:
 
 	float m_fAttackCD;
 
+	float m_fAtkRange;
+
+	float m_fAtkRangeSqr;
+
 protected:
 	float PlayBaseAttackAnim();
+
+	void SetAtkRange(float v);
+
+	virtual void Tick(float DeltaSeconds) override;
+
+	virtual void OnTickAlive(float DeltaSeconds);
 	
 public:
 	void SetFocusedTarget(ACombatPawn* pawn);
@@ -37,4 +47,12 @@ public:
 	float TryAttack(float playRate = 1.f);
 
 	virtual bool IsAlive() {return true;};
+	
+	virtual bool IsRangeMode() {return true;};
+
+	float GetAttackRange();
+
+	float GetAttackRangeSqr();
+
+	EPathFollowingRequestResult::Type ChaseTarget();
 };

@@ -32,7 +32,7 @@ UUnitEntityAsset* UMyAssetManager::LoadUnitAsset(TSoftObjectPtr<UUnitEntityAsset
 
 TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAsset(FName id, FStreamableDelegate dele, TArray<FName> ary)
 {
-	TSharedPtr<FStreamableHandle> Handle = LoadPrimaryAsset(FPrimaryAssetId(TEXT("Unit"), id), ary, dele);
+	TSharedPtr<FStreamableHandle> Handle = LoadPrimaryAsset(FPrimaryAssetId(TEXT("Unit"), id), ary, dele, FStreamableManager::AsyncLoadHighPriority);
 
 	m_SetUnits.Add(Handle);
 
