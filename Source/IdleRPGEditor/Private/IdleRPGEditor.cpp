@@ -35,8 +35,7 @@ void FIdleRPGEditorModule::StartupModule()
 {
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 	
-	//PropertyModule.RegisterCustomPropertyTypeLayout("ItemDataHandle", FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FDataTableRowHandleCustom::MakeInstance));
-
+	PropertyModule.RegisterCustomPropertyTypeLayout("ColorDataHandle", FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FDataTableRowHandleCustom::MakeInstance));
 
 	m_OnDataTableChanged = MakeShared<OnDataTableChanged>();
 
@@ -53,7 +52,7 @@ void FIdleRPGEditorModule::ShutdownModule()
 {
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 	
-	//PropertyModule.UnregisterCustomPropertyTypeLayout("ItemDataHandle");
+	PropertyModule.UnregisterCustomPropertyTypeLayout("ColorDataHandle");
 
 	PropertyModule.NotifyCustomizationModuleChanged();
 }

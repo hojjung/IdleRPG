@@ -14,28 +14,14 @@ class ENTITY_API UEntityBaseAsset : public UPrimaryDataAsset
 	
 };
 
-USTRUCT(BlueprintType)
-struct FAttach
-{
-	GENERATED_BODY()
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UStaticMesh* m_BackMesh;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UStaticMesh* m_LeftMesh;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	UStaticMesh* m_RightMesh;
-};
-
 UCLASS(Blueprintable, hidecategories = (Object, Actor, Advanced, Navigation))
 class ENTITY_API UUnitEntityAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 
-public://Visual//일단 기본적으로 동적 로드는 다돌아가준다, 근데 아이콘 같은것을 따로 로드해야하는 상황이있다.
-	//아이콘을 평소에는 안쓴다. 그럼 로드할 필요가 없어서 Soft포인터로 준다음
-	//번들 네임으로 명시했을때 추가 적인 로드를 해주는 개념이다.
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FText m_ShowingName;
 	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Icon"))
 	UTexture2D* m_Icon;
 	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Preview"))
@@ -50,12 +36,8 @@ public://Visual//일단 기본적으로 동적 로드는 다돌아가준다, 근
 	UParticleSystem* m_TakeHitEffect;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	USoundBase* m_TakeHitSound;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AssetBundles = "Preview"))
 	TSubclassOf<UAnimInstance> m_ClassAnim;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FAttach m_Attach;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FText m_ShowingName;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float m_RotYawOffset;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (UIMin = "34" ,UIMax = "88"))

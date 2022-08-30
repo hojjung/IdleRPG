@@ -21,7 +21,8 @@
 			"LoadingPhase": "PreDefault",
 			"AdditionalDependencies": [
 				"Engine",
-				"CoreUObject"
+				"CoreUObject",
+				"UMG"
 			]
 		},
 		{
@@ -32,7 +33,10 @@
 		{
 			"Name": "Crafting",
 			"Type": "Runtime",
-			"LoadingPhase": "PreDefault"
+			"LoadingPhase": "PreDefault",
+			"AdditionalDependencies": [
+				"UMG"
+			]
 		},
 		{
 			"Name": "Skill",
@@ -170,6 +174,10 @@
 		{
 			"Name": "CustomMeshComponent",
 			"Enabled": false
+		},
+		{
+			"Name": "CustomSlates",
+			"Enabled": true
 		},
 		{
 			"Name": "DatasmithContent",
@@ -409,6 +417,16 @@
 		{
 			"Name": "UdpMessaging",
 			"Enabled": false
+		},
+		{
+			"Name": "AsyncLoadingScreen",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/01f39767dc6b4290877f38365787cbf8"
+		},
+		{
+			"Name": "EasyAdsPro",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/75a64f8d7e4a46d99bb9721375bf23c4"
 		}
 	]
 }
