@@ -1,7 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
-#include "Widgets/Preview/WidgetPreviewPanel.h"
+#include "Preview/Widget/WidgetPreviewPanel.h"
 
 
 void UWidgetPreviewPanel::NativePreConstruct()

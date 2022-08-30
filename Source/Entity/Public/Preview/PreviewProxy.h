@@ -22,7 +22,6 @@ class ENTITY_API IPreviewProxy
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-public:
 	virtual void SetIsTouched(bool b) = 0;
 
 	virtual void RotatePawn(float deltaX) = 0;

@@ -1,11 +1,6 @@
-
-#include "Widgets/Avatar/WidgetAvatarPanel.h"
-
-#include "DataTableRow/AvatarData.h"
+#include "Avatar/Widget/WidgetAvatarPanel.h"
 
 void UWidgetAvatarPanel::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
-
-	UAvatarData::
 }

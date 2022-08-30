@@ -30,9 +30,9 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	FSlateColor m_Color;
 	UPROPERTY(EditDefaultsOnly)
+	FText m_Name;
+	UPROPERTY(EditDefaultsOnly)
 	UTexture2D* m_GlowTexture;
-	UPROPERTY(EditAnywhere)
-	float m_fRarity = 1;
 };
 
 USTRUCT(BlueprintType)

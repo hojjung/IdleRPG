@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Components/CapsuleComponent.h"
-#include "DataTableRow/EntityData.h"
 #include "GameFramework/Pawn.h"
 #include "Navigation/PathFollowingComponent.h"
 #include "MyBasePawn.generated.h"

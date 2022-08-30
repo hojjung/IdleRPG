@@ -4,7 +4,7 @@ UDataTable* UAvatarData::GetAvatarTable = nullptr;
 
 UAvatarData::UAvatarData()
 {
-	static ConstructorHelpers::FObjectFinder<UDataTable> Found(TEXT("DataTable'/Game/00_DataTables/Build/BuildDataTable.BuildDataTable'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> Found(TEXT("DataTable'/Game/DataTables/AvatarTable.AvatarTable'"));
 	//
 	GetAvatarTable = Found.Object;
 }

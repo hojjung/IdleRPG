@@ -13,5 +13,10 @@ UCLASS()
 class ENTITY_API UWidgetAvatarEle : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
+
+protected:
+	virtual void NativeOnInitialized() override;
 };
+
+

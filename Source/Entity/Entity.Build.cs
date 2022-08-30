@@ -16,6 +16,9 @@ public class Entity : ModuleRules
 		PrivateIncludePaths.AddRange(new string[] {
             "Entity/Private",
 		});
-		PublicDependencyModuleNames.AddRange(new string[] { "Core","CoreUObject", "Engine", "NavigationSystem","AIModule" });
+		
+		PublicDependencyModuleNames.AddRange(new string[] { "Core","CoreUObject", "Engine", "NavigationSystem","AIModule" , "UMG"});
+		PrivateDependencyModuleNames.AddRange(new string[] { "Slate","SlateCore" });
+		
 	}
 }
