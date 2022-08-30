@@ -70,7 +70,7 @@ void AMyPlayerPawn::BeginPlay()
 
 void AMyPlayerPawn::OnLoaded()
 {
-	UUnitEntityAsset* Asset = Cast<UUnitEntityAsset>(m_Asset.Get()->GetLoadedAsset());
+	UUnitAsset* Asset = Cast<UUnitAsset>(m_Asset.Get()->GetLoadedAsset());
 
 	SetEntity(Asset);
 }

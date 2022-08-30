@@ -3,22 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Animation/BlendSpace1D.h"
 #include "Engine/DataAsset.h"
-#include "EntityBaseAsset.generated.h"
+#include "UnitAsset.generated.h"
 
-UCLASS()
-class ENTITY_API UEntityBaseAsset : public UPrimaryDataAsset
+/**
+ * 
+ */
+UCLASS(Blueprintable, hidecategories = (Object, Actor, Advanced, Navigation))
+class ENTITY_API UUnitAsset : public UPrimaryDataAsset
 {
 	GENERATED_BODY()
 	
-};
-
-UCLASS(Blueprintable, hidecategories = (Object, Actor, Advanced, Navigation))
-class ENTITY_API UUnitEntityAsset : public UPrimaryDataAsset
-{
-	GENERATED_BODY()
-
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FText m_ShowingName;
@@ -47,12 +42,18 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (UIMin = "0.1"))
 	float m_fShadowScale = 6.f;
 
-	virtual FPrimaryAssetId GetPrimaryAssetId() const override
+	FORCEINLINE virtual FPrimaryAssetId GetPrimaryAssetId() const override
 	{
 		return FPrimaryAssetId(TEXT("Unit"), GetFName());
 	}
 
-	virtual USkeletalMesh* GetSkMesh() const;
+	FORCEINLINE virtual USkeletalMesh* GetSkMesh() const
+	{
+		return m_BodyMesh;
+	}
 
-	virtual UAnimMontage* GetBaseAtkAnim() const;
+	FORCEINLINE virtual UAnimMontage* GetBaseAtkAnim() const
+	{
+		return m_BaseAttackAnim;
+	}
 };

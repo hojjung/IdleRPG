@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ColorData.h"
-#include "DataAsset/EntityBaseAsset.h"
+#include "DataAsset/UnitAsset.h"
 #include "Engine/DataTable.h"
 #include "GameAbilitySystem/MyStat.h"
 #include "UObject/NoExportTypes.h"
@@ -32,7 +32,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FColorDataHandle m_ColorData;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UEntityBaseAsset* m_EntityAsset;
+	UUnitAsset* m_EntityAsset;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FStatGroup m_BonusStat;
 };

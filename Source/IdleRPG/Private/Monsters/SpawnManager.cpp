@@ -68,9 +68,9 @@ void SpawnManager::SpawnUnits(UObject* world, int stageLevel, int cnt)
 
 		int RandIndex = FMath::RandRange(0, MaxIndex);
 
-		TSoftObjectPtr<UUnitEntityAsset> UnitSoft = m_AryStage[stageLevel]->m_AryUnits[RandIndex];
+		TSoftObjectPtr<UUnitAsset> UnitSoft = m_AryStage[stageLevel]->m_AryUnits[RandIndex];
 
-		UUnitEntityAsset* LoadedUnit = UMyAssetManager::Get()->LoadUnitAsset(UnitSoft);
+		UUnitAsset* LoadedUnit = UMyAssetManager::Get()->LoadUnitAsset(UnitSoft);
 
 		Pawn->SetEntity(LoadedUnit);
 

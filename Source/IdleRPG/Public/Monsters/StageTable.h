@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "DataAsset/EntityBaseAsset.h"
+#include "DataAsset/UnitAsset.h"
 #include "Engine/DataTable.h"
 #include "UObject/NoExportTypes.h"
 #include "StageTable.generated.h"
@@ -31,5 +31,5 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FText m_ShowingName;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TArray<TSoftObjectPtr<UUnitEntityAsset>> m_AryUnits;
+	TArray<TSoftObjectPtr<UUnitAsset>> m_AryUnits;
 };

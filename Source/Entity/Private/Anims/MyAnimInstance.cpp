@@ -1,8 +1,6 @@
 #include "Anims/MyAnimInstance.h"
-
 #include "Entity.h"
 #include "Animation/AnimNode_StateMachine.h"
-#include "DataAsset/EntityBaseAsset.h"
 
 void FMyAnimInstanceProxy::InitializeObjects(UAnimInstance* InAnimInstance)
 {

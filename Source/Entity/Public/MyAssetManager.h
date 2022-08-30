@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "DataAsset/EntityBaseAsset.h"
+#include "DataAsset/UnitAsset.h"
 #include "Engine/AssetManager.h"
 #include "MyAssetManager.generated.h"
 
@@ -24,7 +24,7 @@ protected:
 	TSet<TSharedPtr<FStreamableHandle>> m_SetUnits;
 
 public:
-	UUnitEntityAsset* LoadUnitAsset(TSoftObjectPtr<UUnitEntityAsset> path);
+	UUnitAsset* LoadUnitAsset(TSoftObjectPtr<UUnitAsset> path);
 	
 	TSharedPtr<FStreamableHandle> LoadUnitAsset(FName id, FStreamableDelegate dele, TArray<FName> ary);
 	

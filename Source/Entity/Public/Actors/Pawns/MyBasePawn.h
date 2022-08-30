@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Components/CapsuleComponent.h"
+#include "DataAsset/UnitAsset.h"
 #include "GameFramework/Pawn.h"
 #include "Navigation/PathFollowingComponent.h"
 #include "MyBasePawn.generated.h"
 
 class UMyNavMovement;
-class UUnitEntityAsset;
 UCLASS()
 class ENTITY_API AMyBasePawn : public APawn
 {
@@ -29,7 +29,7 @@ protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Category="Movement")
 	UMyNavMovement* m_Movement;
 	
-	TWeakObjectPtr<const UUnitEntityAsset> m_EntityAsset;
+	TWeakObjectPtr<const UUnitAsset> m_EntityAsset;
 
 	FText m_PawnName;
 
@@ -52,13 +52,13 @@ protected:
 
 	USkeletalMeshComponent* CreateSkMeshComp(FName keyID);
 	
-	virtual void LoadSetSkMeshAnim(const UUnitEntityAsset* asset);
+	virtual void LoadSetSkMeshAnim(const UUnitAsset* asset);
 
 	void ClearStopMoveDelegate();
 	
 public://플레이어는 어떻게? 스테이지가 있고 스테이지는데이터 테이블로 형성,
 	UFUNCTION(BlueprintCallable)
-	virtual void SetEntity(const UUnitEntityAsset* asset);
+	virtual void SetEntity(const UUnitAsset* asset);
 	
 	virtual FPathFollowingRequestResult MoveToLocation(FVector loc, float acceptRadius = 0.f);
 

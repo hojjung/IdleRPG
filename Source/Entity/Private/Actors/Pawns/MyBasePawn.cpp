@@ -4,7 +4,6 @@
 #include "Actors/Components/MyNavMovement.h"
 #include "Anims/MyAnimInstance.h"
 #include "Components/CapsuleComponent.h"
-#include "DataTableRow/EntityData.h"
 #include "Navigation/PathFollowingComponent.h"
 
 
@@ -70,7 +69,7 @@ void AMyBasePawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	m_EntityAsset.Reset();
 }
 
-void AMyBasePawn::SetEntity(const UUnitEntityAsset* asset)
+void AMyBasePawn::SetEntity(const UUnitAsset* asset)
 {
 	SetActorTickEnabled(true);
 	
@@ -91,7 +90,7 @@ void AMyBasePawn::SetEntity(const UUnitEntityAsset* asset)
 	m_Movement->NavAgentProps.AgentRadius = asset->m_fCapsuleRadius;
 }
 
-void AMyBasePawn::LoadSetSkMeshAnim(const UUnitEntityAsset* asset)
+void AMyBasePawn::LoadSetSkMeshAnim(const UUnitAsset* asset)
 {
 	m_EntityAsset = asset;
 
