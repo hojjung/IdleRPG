@@ -1,5 +1,7 @@
 ﻿#include "Entity.h"
 
+#include "Avatar/AvatarManager.h"
+
 void FEntityModule::StartupModule()
 {
 	IModuleInterface::StartupModule();
@@ -13,4 +15,10 @@ void FEntityModule::ShutdownModule()
 
 	m_AvatarManager.Reset();
 }
-IMPLEMENT_GAME_MODULE(FEntityModule,Entity);
+
+AvatarManager* FEntityModule::GetAvatarManager()
+{
+	return m_AvatarManager.Get();
+}
+
+IMPLEMENT_GAME_MODULE(FEntityModule, Entity);

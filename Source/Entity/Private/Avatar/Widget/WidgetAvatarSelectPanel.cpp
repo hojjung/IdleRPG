@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "MyAssetManager.h"
+#include "Avatar/AvatarManager.h"
 
 void UWidgetAvatarSelectPanel::NativeOnInitialized()
 {
@@ -9,7 +10,7 @@ void UWidgetAvatarSelectPanel::NativeOnInitialized()
 
 	m_AryEle.Reserve(200);
 
-	AvatarManager* AvatarMan = FModuleManager::GetModulePtr<FEntityModule>(TEXT("Entity"))->GetAvatarManager();
+	AvatarManager* AvatarMan = FEntityModule::Get().GetAvatarManager();
 
 	for(const FAvatarRow* Row :AvatarMan->GetAvatarDatas())
 	{
