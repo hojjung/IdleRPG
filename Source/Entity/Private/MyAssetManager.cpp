@@ -1,5 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+// FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &ASGameModeBase::OnMonsterLoaded, MonsterId, SpawnLocation);
+    
 
 #include "MyAssetManager.h"
 
@@ -19,44 +20,33 @@ UMyAssetManager* UMyAssetManager::Get()
 	}
 }
 
-UUnitAsset* UMyAssetManager::LoadUnitAsset(TSoftObjectPtr<UUnitAsset> path)
+TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAsset(FPrimaryAssetId id, FStreamableDelegate dele, TArray<FName> ary)
 {
-	TSharedPtr<FStreamableHandle> Handle;
-	
-	UUnitAsset* LoadedAsset = GetStreamableManager().LoadSynchronous<UUnitAsset>(path.ToSoftObjectPath(),true, &Handle);
-	
-	m_SetUnits.Add(Handle);
-
-	return LoadedAsset; 
-}
-
-TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAsset(FName id, FStreamableDelegate dele, TArray<FName> ary)
-{
-	TSharedPtr<FStreamableHandle> Handle = LoadPrimaryAsset(FPrimaryAssetId(TEXT("Unit"), id), ary, dele, FStreamableManager::AsyncLoadHighPriority);
+	TSharedPtr<FStreamableHandle> Handle = LoadPrimaryAsset(id, ary, dele, FStreamableManager::AsyncLoadHighPriority);
 
 	m_SetUnits.Add(Handle);
 
 	return Handle;
 }
 
-TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetAll(FName id, FStreamableDelegate dele)
+TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetMeshOnly(FPrimaryAssetId id, FStreamableDelegate dele)
 {
 	TArray<FName> AryBundle;
-	AryBundle.Add(TEXT("Preview"));
-	AryBundle.Add(TEXT("Icon"));
-	return LoadUnitAsset(id, dele, AryBundle);
-}
-
-TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetIconOnly(FName id, FStreamableDelegate dele)
-{
-	TArray<FName> AryBundle;
-
-	AryBundle.Add(TEXT("Icon"));
+	AryBundle.Add(TEXT("Default"));
 
 	return LoadUnitAsset(id, dele, AryBundle);
 }
 
-TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetIconPreviewOnly(FName id, FStreamableDelegate dele)
+TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetIconOnly(FPrimaryAssetId id, FStreamableDelegate dele)
+{
+	TArray<FName> AryBundle;
+
+	AryBundle.Add(TEXT("Icon"));
+
+	return LoadUnitAsset(id, dele, AryBundle);
+}
+
+TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetIconPreviewOnly(FPrimaryAssetId id, FStreamableDelegate dele)
 {
 	TArray<FName> AryBundle;
 	AryBundle.Add(TEXT("Preview"));

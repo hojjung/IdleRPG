@@ -1,5 +1,4 @@
 #include "Monsters/SpawnManager.h"
-
 #include "MyAssetManager.h"
 #include "MyGameInstance.h"
 #include "NavigationSystem.h"
@@ -26,6 +25,15 @@ SpawnManager::~SpawnManager()
 	m_QuadTree.Reset();
 }
 
+const FPrimaryAssetId& SpawnManager::GetRandomMonsterID(int stageLevel)
+{
+	int MaxIndex = m_AryStage[stageLevel]->m_AryUnits.Num() - 1;
+
+	int RandIndex = FMath::RandRange(0, MaxIndex);
+
+	return m_AryStage[stageLevel]->m_AryUnits[RandIndex];
+}
+
 void SpawnManager::Update(float delta)
 {
 	for(auto Mob : m_AryMonsters)
@@ -35,20 +43,16 @@ void SpawnManager::Update(float delta)
 	m_QuadTree->UpdateState(UMyGameInstance::Get);
 }
 
-void SpawnManager::SpawnUnits(UObject* world, int stageLevel, int cnt)
+void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, int cnt)
 {
 	check(m_AryStage[stageLevel]->m_AryUnits.Num() > 0);
 	
-	UNavigationSystemV1* Nav =  FNavigationSystem::GetCurrent<UNavigationSystemV1>(world);
+	const UNavigationSystemV1* Nav =  FNavigationSystem::GetCurrent<UNavigationSystemV1>(world->GetWorld());
 
 	FBox NavBox = Nav->GetNavigationBounds().Array()[0].AreaBox;
 	
 	m_QuadTree = MakeShareable(new QuadTree(NavBox.GetCenter(), NavBox.GetExtent(),  4));
 	m_QuadTree->m_Root = m_QuadTree;
-	
-	FActorSpawnParameters Param;
-	Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-	Param.bNoFail = true;
 
 	int Iter = -1;
 	
@@ -60,24 +64,33 @@ void SpawnManager::SpawnUnits(UObject* world, int stageLevel, int cnt)
 
 		FRotator Rot = FRotator(0,FMath::RandRange(0, 360),0);
 		
-		AMonsterPawn* Pawn = world->GetWorld()->SpawnActor<AMonsterPawn>(AMonsterPawn::StaticClass(),ResultPos, Rot, Param);
+		const FPrimaryAssetId& AssetID = GetRandomMonsterID(stageLevel);
 
-		m_QuadTree->InsertObject(Pawn);
-		
-		int MaxIndex = m_AryStage[stageLevel]->m_AryUnits.Num() - 1;
+		FStreamableDelegate Delegate = FStreamableDelegate::CreateRaw(this, &SpawnManager::OnMonsterLoaded, AssetID, world, ResultPos.Location, Rot);
 
-		int RandIndex = FMath::RandRange(0, MaxIndex);
-
-		TSoftObjectPtr<UUnitAsset> UnitSoft = m_AryStage[stageLevel]->m_AryUnits[RandIndex];
-
-		UUnitAsset* LoadedUnit = UMyAssetManager::Get()->LoadUnitAsset(UnitSoft);
-
-		Pawn->SetEntity(LoadedUnit);
-
-		TSharedPtr<Monster> Mob = MakeShareable(new Monster(Pawn));
-		
-		Pawn->SetMonsterInst(Mob);
-
-		m_AryMonsters.Add(Mob);
+		UMyAssetManager::Get()->LoadUnitAssetMeshOnly(AssetID, Delegate);
 	}
+}
+
+void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot)
+{
+	FActorSpawnParameters Param;
+	Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+	Param.bNoFail = true;
+	
+	UAssetManager* Manager = UAssetManager::GetIfValid();
+	
+	UUnitAsset* MonsterData = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(id));
+
+	AMonsterPawn* Pawn = Manager->GetWorld()->SpawnActor<AMonsterPawn>(AMonsterPawn::StaticClass(),loc, rot, Param);
+	
+	m_QuadTree->InsertObject(Pawn);
+
+	Pawn->SetEntity(MonsterData);
+
+	TSharedPtr<Monster> Mob = MakeShareable(new Monster(Pawn));
+		
+	Pawn->SetMonsterInst(Mob);
+
+	m_AryMonsters.Add(Mob);
 }

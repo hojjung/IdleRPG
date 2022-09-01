@@ -18,19 +18,19 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FText m_ShowingName;
 	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Icon"))
-	UTexture2D* m_Icon;
+	TSoftObjectPtr<UTexture2D> m_Icon;
 	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Preview"))
-	USkeletalMesh* m_BodyMesh;
-	UPROPERTY(EditAnywhere, Category = Bundle)
-	UAnimMontage* m_BaseAttackAnim;
-	UPROPERTY(EditAnywhere, Category = Bundle)
-	UAnimMontage* m_DeathMontage;
-	UPROPERTY(EditAnywhere, Category = Bundle)
-	UAnimMontage* m_TookHitMontage;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UParticleSystem* m_TakeHitEffect;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	USoundBase* m_TakeHitSound;
+	TSoftObjectPtr<USkeletalMesh> m_BodyMesh;
+	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Default"))
+	TSoftObjectPtr<UAnimMontage> m_BaseAttackAnim;
+	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Default"))
+	TSoftObjectPtr<UAnimMontage> m_DeathMontage;
+	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Default"))
+	TSoftObjectPtr<UAnimMontage> m_TookHitMontage;
+	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Default"))
+	TSoftObjectPtr<UParticleSystem> m_TakeHitEffect;
+	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Default"))
+	TSoftObjectPtr<USoundBase> m_TakeHitSound;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AssetBundles = "Preview"))
 	TSubclassOf<UAnimInstance> m_ClassAnim;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
@@ -45,15 +45,5 @@ public:
 	FORCEINLINE virtual FPrimaryAssetId GetPrimaryAssetId() const override
 	{
 		return FPrimaryAssetId(TEXT("Unit"), GetFName());
-	}
-
-	FORCEINLINE virtual USkeletalMesh* GetSkMesh() const
-	{
-		return m_BodyMesh;
-	}
-
-	FORCEINLINE virtual UAnimMontage* GetBaseAtkAnim() const
-	{
-		return m_BaseAttackAnim;
 	}
 };

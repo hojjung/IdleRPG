@@ -38,8 +38,6 @@ protected:
 	UPROPERTY()
 	TArray<AActor*> m_AryIgnores;
 	
-	TSharedPtr<FStreamableHandle> m_Asset;
-
 	TSharedPtr<PlayerSensor> m_Sensor;
 
 	TSharedPtr<PlayerFSM> m_Fsm;
@@ -65,7 +63,7 @@ protected:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
-	void OnLoaded();
+	void OnLoaded(FPrimaryAssetId id);
 
 	virtual void OnTickAlive(float DeltaSeconds) override;
 

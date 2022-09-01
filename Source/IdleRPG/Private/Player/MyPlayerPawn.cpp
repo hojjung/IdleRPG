@@ -40,8 +40,6 @@ void AMyPlayerPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 
-	m_Asset.Reset();
-	
 	m_Sensor.Reset();
 
 	m_Fsm.Reset();
@@ -58,8 +56,9 @@ void AMyPlayerPawn::BeginPlay()
 
 	m_DissolveCam->SetActive(true);
 
-	m_Asset = UMyAssetManager::Get()->LoadUnitAssetAll(TEXT("Player"),
-		FStreamableDelegate::CreateUObject(this, &AMyPlayerPawn::OnLoaded));
+	FPrimaryAssetId ID = FPrimaryAssetId(TEXT("Unit"),TEXT("Player"));
+	UMyAssetManager::Get()->LoadUnitAssetMeshOnly( ID,
+		FStreamableDelegate::CreateUObject(this, &AMyPlayerPawn::OnLoaded, ID));
 
 	m_Sensor = MakeShareable(new PlayerSensor(this));
 
@@ -68,10 +67,12 @@ void AMyPlayerPawn::BeginPlay()
 	SetAtkRange(200);
 }
 
-void AMyPlayerPawn::OnLoaded()
+void AMyPlayerPawn::OnLoaded(FPrimaryAssetId id)
 {
-	UUnitAsset* Asset = Cast<UUnitAsset>(m_Asset.Get()->GetLoadedAsset());
-
+	UAssetManager* Manager = UAssetManager::GetIfValid();
+	
+	UUnitAsset* Asset = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(id));
+	
 	SetEntity(Asset);
 }
 

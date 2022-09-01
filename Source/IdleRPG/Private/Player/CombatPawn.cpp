@@ -39,7 +39,7 @@ float ACombatPawn::PlayBaseAttackAnim()
 	
 	int RandIndex = FMath::RandRange(0, AnimAry.Num()-1);
 	
-	return PlayAnimMontage(m_EntityAsset->m_BaseAttackAnim, 1, AnimAry[RandIndex].SectionName);
+	return PlayAnimMontage(m_EntityAsset->m_BaseAttackAnim.Get(), 1, AnimAry[RandIndex].SectionName);
 }
 
 void ACombatPawn::SetAtkRange(float v)

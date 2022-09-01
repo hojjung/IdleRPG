@@ -3,6 +3,7 @@
 #include "Modules/ModuleInterface.h"
 #include "CoreMinimal.h"
 #include "EngineMinimal.h"
+#include "Avatar/AvatarManager.h"
 
 #define PRINTFSCREEN(Format, ...) if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 3.5, FColor::Green, *FString::Printf(TEXT(Format), ##__VA_ARGS__),true)
 #define PRINTF(Format, ...) UE_LOG(LogTemp, Warning, TEXT("%s"), *FString::Printf(TEXT(Format), ##__VA_ARGS__)) PRINTFSCREEN(Format, ##__VA_ARGS__)
@@ -14,9 +15,18 @@
 class  FEntityModule: public IModuleInterface
 {
 	
+protected:
+	TSharedPtr<AvatarManager> m_AvatarManager;
+	
 public:
 	virtual void StartupModule() override;
 
 	virtual void ShutdownModule() override;
+
+public:
+	FORCEINLINE AvatarManager* GetAvatarManager()
+	{
+		return m_AvatarManager.Get();
+	}
 };
 

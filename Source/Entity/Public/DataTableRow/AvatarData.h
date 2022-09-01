@@ -32,7 +32,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FColorDataHandle m_ColorData;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UUnitAsset* m_EntityAsset;
+	FPrimaryAssetId m_EntityAsset;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FStatGroup m_BonusStat;
 };

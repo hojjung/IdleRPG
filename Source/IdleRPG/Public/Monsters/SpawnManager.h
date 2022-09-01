@@ -17,17 +17,22 @@ public:
 	~SpawnManager();
 	
 
-protected:
+private:
 	TArray<FStageRow*> m_AryStage;
 	
 	TArray<TSharedPtr<Monster>> m_AryMonsters;
 
 	TSharedPtr<QuadTree> m_QuadTree;
 
+private:
+	const FPrimaryAssetId& GetRandomMonsterID(int stageLevel);
+
+	void OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot);
+	
 public:
 	void Update(float delta);
 
-	void SpawnUnits(UObject* world, int stageLevel, int cnt);
+	void SpawnUnits(const UObject* world, int stageLevel, int cnt);
 	
 	template <class T>
 	void GetNearNpcs(const AMyBasePawn* caller, TArray<T*>& outAry, float range)

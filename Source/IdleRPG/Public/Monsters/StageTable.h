@@ -31,5 +31,5 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FText m_ShowingName;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TArray<TSoftObjectPtr<UUnitAsset>> m_AryUnits;
+	TArray<FPrimaryAssetId> m_AryUnits;
 };

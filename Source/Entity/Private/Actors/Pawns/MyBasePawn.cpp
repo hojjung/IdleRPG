@@ -94,7 +94,7 @@ void AMyBasePawn::LoadSetSkMeshAnim(const UUnitAsset* asset)
 {
 	m_EntityAsset = asset;
 
-	m_BodyMesh->SetSkeletalMesh(m_EntityAsset->GetSkMesh());
+	m_BodyMesh->SetSkeletalMesh(m_EntityAsset->m_BodyMesh.Get());
 
 	m_BodyMesh->SetAnimationMode(EAnimationMode::Type::AnimationBlueprint);
 

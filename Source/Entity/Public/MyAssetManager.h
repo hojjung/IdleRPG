@@ -20,19 +20,18 @@ public:
 	
 	static UMyAssetManager* Get();
 
-protected:
+private:
 	TSet<TSharedPtr<FStreamableHandle>> m_SetUnits;
 
+private:
+	TSharedPtr<FStreamableHandle> LoadUnitAsset(FPrimaryAssetId id, FStreamableDelegate dele, TArray<FName> ary);
+	
 public:
-	UUnitAsset* LoadUnitAsset(TSoftObjectPtr<UUnitAsset> path);
+	TSharedPtr<FStreamableHandle> LoadUnitAssetMeshOnly(FPrimaryAssetId id, FStreamableDelegate dele);
 	
-	TSharedPtr<FStreamableHandle> LoadUnitAsset(FName id, FStreamableDelegate dele, TArray<FName> ary);
-	
-	TSharedPtr<FStreamableHandle> LoadUnitAssetAll(FName id, FStreamableDelegate dele);
+	TSharedPtr<FStreamableHandle> LoadUnitAssetIconOnly(FPrimaryAssetId id, FStreamableDelegate dele);
 
-	TSharedPtr<FStreamableHandle> LoadUnitAssetIconOnly(FName id, FStreamableDelegate dele);
-
-	TSharedPtr<FStreamableHandle> LoadUnitAssetIconPreviewOnly(FName id, FStreamableDelegate dele);
+	TSharedPtr<FStreamableHandle> LoadUnitAssetIconPreviewOnly(FPrimaryAssetId id, FStreamableDelegate dele);
 	
 	void ClearUnits();
 };
