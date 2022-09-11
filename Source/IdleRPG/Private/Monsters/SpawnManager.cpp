@@ -81,8 +81,8 @@ void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* worl
 	UAssetManager* Manager = UAssetManager::GetIfValid();
 	
 	UUnitAsset* MonsterData = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(id));
-
-	AMonsterPawn* Pawn = Manager->GetWorld()->SpawnActor<AMonsterPawn>(AMonsterPawn::StaticClass(),loc, rot, Param);
+	
+	AMonsterPawn* Pawn = world->GetWorld()->SpawnActor<AMonsterPawn>(AMonsterPawn::StaticClass(),loc, rot, Param);
 	
 	m_QuadTree->InsertObject(Pawn);
 

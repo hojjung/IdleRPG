@@ -6,6 +6,7 @@
 #include "Monster.h"
 #include "QuadTree.h"
 #include "StageTable.h"
+#include "Engine/StreamableManager.h"
 
 /**
  * 
@@ -23,7 +24,6 @@ private:
 	TArray<TSharedPtr<Monster>> m_AryMonsters;
 
 	TSharedPtr<QuadTree> m_QuadTree;
-
 private:
 	const FPrimaryAssetId& GetRandomMonsterID(int stageLevel);
 

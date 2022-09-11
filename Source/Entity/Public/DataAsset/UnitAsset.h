@@ -17,19 +17,19 @@ class ENTITY_API UUnitAsset : public UPrimaryDataAsset
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FText m_ShowingName;
-	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Icon"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Icon"))
 	TSoftObjectPtr<UTexture2D> m_Icon;
-	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Preview"))
-	TSoftObjectPtr<USkeletalMesh> m_BodyMesh;
-	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Default"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle ,meta = (AssetBundles = "Default"))
+	TSoftObjectPtr< USkeletalMesh> m_BodyMesh;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
 	TSoftObjectPtr<UAnimMontage> m_BaseAttackAnim;
-	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Default"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
 	TSoftObjectPtr<UAnimMontage> m_DeathMontage;
-	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Default"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
 	TSoftObjectPtr<UAnimMontage> m_TookHitMontage;
-	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Default"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
 	TSoftObjectPtr<UParticleSystem> m_TakeHitEffect;
-	UPROPERTY(EditAnywhere, Category = Bundle, meta = (AssetBundles = "Default"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
 	TSoftObjectPtr<USoundBase> m_TakeHitSound;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AssetBundles = "Preview"))
 	TSubclassOf<UAnimInstance> m_ClassAnim;
