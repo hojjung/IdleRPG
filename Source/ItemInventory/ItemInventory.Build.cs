@@ -15,8 +15,6 @@ public class ItemInventory : ModuleRules
 		PrivateIncludePaths.AddRange(new string[] {
             "ItemInventory/Private",
 		});
-		PublicDependencyModuleNames.AddRange(new string[] { "Core" });
-		PrivateDependencyModuleNames.AddRange(new string[] { "Entity" });
-	
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "Engine", "Entity" });
 	}
 }

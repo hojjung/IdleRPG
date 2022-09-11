@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "{F1CFFDC6-4936-2B54-7C7C-1A867C4E580C}",
+	"EngineAssociation": "{E273B71C-446D-E210-6624-E49163A17C5A}",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -28,7 +28,10 @@
 		{
 			"Name": "ItemInventory",
 			"Type": "Runtime",
-			"LoadingPhase": "PreDefault"
+			"LoadingPhase": "PreDefault",
+			"AdditionalDependencies": [
+				"CoreUObject"
+			]
 		},
 		{
 			"Name": "Crafting",
@@ -37,11 +40,6 @@
 			"AdditionalDependencies": [
 				"UMG"
 			]
-		},
-		{
-			"Name": "Skill",
-			"Type": "Runtime",
-			"LoadingPhase": "PreDefault"
 		},
 		{
 			"Name": "LevelManage",
