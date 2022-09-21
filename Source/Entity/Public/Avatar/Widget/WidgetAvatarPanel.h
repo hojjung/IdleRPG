@@ -16,4 +16,7 @@ class ENTITY_API UWidgetAvatarPanel : public UUserWidget
 
 protected:
 	virtual void NativeOnInitialized() override;
+
+public:
+	void OnOpen();
 };

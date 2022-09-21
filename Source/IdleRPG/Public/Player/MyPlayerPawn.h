@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CapeComponent.h"
 #include "CombatPawn.h"
 #include "PlayerFSM.h"
 #include "Actors/Components/CameraDissolve.h"
@@ -33,6 +34,8 @@ protected:
 	UCameraDissolve* m_DissolveCam;
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* m_TopCamera;
+	UPROPERTY(VisibleAnywhere)
+	UCapeComponent* m_Cape;
 	UPROPERTY(EditAnywhere)
 	TArray<TEnumAsByte< EObjectTypeQuery>> m_AryTargetingObjectType;
 	UPROPERTY()

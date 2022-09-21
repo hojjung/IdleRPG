@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "MyPlayerController.generated.h"
 
+class UWidgetMainCanvas;
 /**
  * 
  */
@@ -27,6 +28,9 @@ public:
 	AMyPlayerController();
 
 protected:
+	TSubclassOf<UWidgetMainCanvas> m_ClassCanvas;
+	UPROPERTY()
+	UWidgetMainCanvas* m_Canvas;
 	//UPROPERTY(VisibleAnywhere)
 	//TArray<UInGameTextWidgetComp*> m_AryIGWC;
 	UPROPERTY()

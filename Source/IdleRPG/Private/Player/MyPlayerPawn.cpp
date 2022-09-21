@@ -1,4 +1,6 @@
 #include "Player/MyPlayerPawn.h"
+
+#include "Entity.h"
 #include "MyAssetManager.h"
 #include "Actors/Components/MyNavMovement.h"
 #include "Player/PlayerSensor.h"
@@ -17,7 +19,7 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_DissolveCam->SetRelativeRotation(FRotator(-50, -45.f, 0.f)); //-45.f
 	m_TopCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("m_TopCamera"));
 	m_TopCamera->SetupAttachment(m_DissolveCam);
-	m_TopCamera->FieldOfView = 60.f;
+	m_TopCamera->FieldOfView = 30.f;
 
 	m_AryTargetingObjectType.Reset();
 	m_AryTargetingObjectType.Add(EObjectTypeQuery::ObjectTypeQuery3);
@@ -26,6 +28,11 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 
 	m_bCanMoveInSkill = false;
 	m_bIsSkillUsing = false;
+
+	m_Cape = CreateDefaultSubobject<UCapeComponent>(TEXT("m_Cape"));
+	m_Cape->SetupAttachment(RootComponent, TEXT("Cape"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> CapeMeshTest(TEXT("StaticMesh'/Game/CharacterMesh/Cape/PolyCapes/ST_RedCloak.ST_RedCloak'"));
+	m_Cape->SetStaticMesh(CapeMeshTest.Object);
 }
 
 void AMyPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -56,7 +63,7 @@ void AMyPlayerPawn::BeginPlay()
 
 	m_DissolveCam->SetActive(true);
 
-	FPrimaryAssetId ID = FPrimaryAssetId(TEXT("Unit"),TEXT("Player"));
+	FPrimaryAssetId ID = FPrimaryAssetId(TEXT("Unit"),TEXT("DeathKnight01"));
 	UMyAssetManager::Get()->LoadUnitAssetMeshOnly( ID,
 		FStreamableDelegate::CreateUObject(this, &AMyPlayerPawn::OnLoaded, ID));
 
@@ -72,8 +79,17 @@ void AMyPlayerPawn::OnLoaded(FPrimaryAssetId id)
 	UAssetManager* Manager = UAssetManager::GetIfValid();
 	
 	UUnitAsset* Asset = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(id));
+
+	if(!Asset)
+	{
+		PRINTF("AMyPlayerPawn::OnLoaded Fail, Id Was %s", *id.ToString());
+		return;
+	}
 	
 	SetEntity(Asset);
+
+	FAttachmentTransformRules Rule (EAttachmentRule::SnapToTarget, true);
+	m_Cape->AttachToComponent(GetSkMesh(), Rule, TEXT("Cape"));
 }
 
 bool AMyPlayerPawn::IsInputMoving()
@@ -120,6 +136,15 @@ void AMyPlayerPawn::OnTickAlive(float DeltaSeconds)
 		m_DeltaX = FVector::ZeroVector;
 
 		m_DeltaY = FVector::ZeroVector;
+	}
+
+	if(IsMoving())
+	{
+		m_Cape->SetWindPower(30);
+	}
+	else
+	{
+		m_Cape->SetWindPower(10);
 	}
 }
 

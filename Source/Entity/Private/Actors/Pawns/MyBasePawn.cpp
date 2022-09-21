@@ -396,7 +396,11 @@ float AMyBasePawn::PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate,
 void AMyBasePawn::StopAnimMontage()
 {
 	UMyAnimInstance* AnimInstance =Cast<UMyAnimInstance>(m_BodyMesh->GetAnimInstance());
-	
+
+	if(!AnimInstance)
+	{
+		return;
+	}
 	AnimInstance->StopAnimMontage();
 }
 

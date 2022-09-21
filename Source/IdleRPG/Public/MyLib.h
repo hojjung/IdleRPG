@@ -70,7 +70,7 @@ public:
 		return UMyGameInstance::Get->m_Player.Get();
 	}
 
-	AMyPlayerController* UMyLib::GetPlayerCon()
+	static AMyPlayerController* GetPlayerCon()
 	{
 		if(!UMyGameInstance::Get->m_PlayerCon.Get())
 		{

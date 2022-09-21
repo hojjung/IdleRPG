@@ -1,6 +1,7 @@
 
 // Copyright Epic Games, Inc. All Rights Reserved.
 
+using System.IO;
 using UnrealBuildTool;
 
 public class IdleRPG : ModuleRules
@@ -31,8 +32,12 @@ public class IdleRPG : ModuleRules
 		}
 		else if (Target.Platform == UnrealTargetPlatform.Android)
 		{
+			PrivateDependencyModuleNames.Add("AndroidPermission");
 			PrivateDependencyModuleNames.Add("OnlineSubsystemGooglePlay");
 			PrivateDependencyModuleNames.Add("AndroidAdvertising");
+			
+			string PluginPath = Utils.MakePathRelativeTo(ModuleDirectory, Target.RelativeEnginePath);
+			AdditionalPropertiesForReceipt.Add("AndroidPlugin", Path.Combine(PluginPath, "Android_UPL.xml"));
 		}
 	}
 }

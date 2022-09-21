@@ -1,6 +1,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AvatarCollection.h"
+#include "AvatarGacha.h"
+#include "AvatarInven.h"
+#include "AvatarMerge.h"
 #include "DataTableRow/AvatarData.h"
 
 class ENTITY_API AvatarManager
@@ -10,9 +14,17 @@ public:
 	
 	~AvatarManager();
 
+public:
+	AvatarCollection* m_AvatarCollection;
+
+	AvatarGacha* m_AvatarGacha;
+
+	AvatarInven* m_AvatarInven;
+
+	AvatarMerge* m_AvatarMerge;
+	
 protected:
 	TArray<const FAvatarRow*> m_AryAvatars;
-
 
 public:
 	FORCEINLINE const TArray<const FAvatarRow*>& GetAvatarDatas() const

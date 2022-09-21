@@ -34,10 +34,6 @@ public:
 	TWeakObjectPtr<AMyBasePawn> m_Owner;
 	
 protected:
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	UAnimSequenceBase* m_Idle;
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	UAnimSequenceBase* m_Run;
 	UPROPERTY(Transient,VisibleAnywhere,BlueprintReadOnly)
 	bool m_bIsMoving;
 protected:
