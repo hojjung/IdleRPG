@@ -30,6 +30,8 @@ protected:
 	const FAvatarRow* m_Row;
 	
 protected:
+	virtual void NativeOnInitialized() override;
+	
 	const FColorDataRow& GetColorData() const;
 
 	void OnLoaded(FPrimaryAssetId id);

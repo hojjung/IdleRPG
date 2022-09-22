@@ -11,7 +11,7 @@ class ENTITY_API AvatarManager
 {
 public:
 	AvatarManager();
-	
+
 	~AvatarManager();
 
 public:

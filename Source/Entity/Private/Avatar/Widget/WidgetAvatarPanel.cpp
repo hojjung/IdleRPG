@@ -7,21 +7,20 @@ void UWidgetAvatarPanel::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
+	FEntityModule::Get().GetAvatarManager()->m_AvatarInven->SpawnPreviewActor(GetWorld());
+
 	SetVisibility(ESlateVisibility::Collapsed);
 
 	m_BtnClose->OnClicked.AddDynamic(this, &UWidgetAvatarPanel::OnClose);
 	
 	CreateAllElements();
-	
+
+	m_Preview->Init(FEntityModule::Get().GetAvatarManager()->m_AvatarInven->GetPreviewActor());
 }
 
 void UWidgetAvatarPanel::CreateAllElements()
 {
-	TArray<FAvatarRow*> AryAvatarRow;
-	
-	UAvatarData::GetAvatarTable->GetAllRows("", AryAvatarRow);
-
-	for(const FAvatarRow* AvatarRow : AryAvatarRow)
+	for(const FAvatarRow* AvatarRow : FEntityModule::Get().GetAvatarManager()->GetAvatarDatas())
 	{
 		UWidgetAvatarEle* Ele = CreateWidget<UWidgetAvatarEle>(this, m_ClassEle);
 		
@@ -41,11 +40,6 @@ void UWidgetAvatarPanel::OnSelect(const FAvatarRow* row)
 void UWidgetAvatarPanel::OnSelectLoaded(const FAvatarRow* row)
 {
 	UUnitAsset* Asset = Cast<UUnitAsset>(UMyAssetManager::Get()->GetPrimaryAssetObject(row->m_EntityAsset));
-	//셀렉트는 이미 끝났고
-	//프리뷰 메쉬 생성
-	//아이콘 생성
-	PRINTF("ID:%s", *Asset->m_BodyMesh.Get()->GetName());
-
 	const FColorDataRow* ColorData = row->m_ColorData.GetRow<FColorDataRow>("");
 	
 	m_ImgGlow->SetColorAndOpacity(ColorData->m_Color.GetSpecifiedColor());
@@ -57,6 +51,8 @@ void UWidgetAvatarPanel::OnSelectLoaded(const FAvatarRow* row)
 	m_TextName->SetText(Asset->m_ShowingName);
 	
 	m_TextTierName->SetText(ColorData->m_Name);
+
+	FEntityModule::Get().GetAvatarManager()->m_AvatarInven->SetPreview(Asset);
 }
 
 void UWidgetAvatarPanel::OnOpen()
@@ -67,4 +63,6 @@ void UWidgetAvatarPanel::OnOpen()
 void UWidgetAvatarPanel::OnClose()
 {
 	SetVisibility(ESlateVisibility::Collapsed);
+
+	FEntityModule::Get().GetAvatarManager()->m_AvatarInven->HidePreview();
 }

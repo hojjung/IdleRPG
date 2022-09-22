@@ -3,6 +3,13 @@
 #include "Entity.h"
 #include "MyAssetManager.h"
 
+void UWidgetAvatarEle::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+	m_Row = nullptr;
+}
+
 const FColorDataRow& UWidgetAvatarEle::GetColorData() const
 {
 	return *m_Row->m_ColorData.GetRow<FColorDataRow>("");
@@ -34,6 +41,10 @@ FReply UWidgetAvatarEle::NativeOnMouseButtonUp(const FGeometry& InGeometry, cons
 {
 	Super::NativeOnMouseButtonUp(InGeometry, InMouseEvent);
 
+	if(!m_Row)
+	{
+		return FReply::Handled(); 
+	}
 	m_OnClick.ExecuteIfBound(m_Row);
 
 	return FReply::Handled();

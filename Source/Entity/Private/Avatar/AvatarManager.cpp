@@ -27,3 +27,4 @@ AvatarManager::~AvatarManager()
 	
 	delete m_AvatarMerge;
 }
+

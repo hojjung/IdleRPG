@@ -10,6 +10,7 @@
 #include "Components/ScrollBox.h"
 #include "Components/TextBlock.h"
 #include "Components/WrapBox.h"
+#include "Preview/Widget/WidgetPreviewPanel.h"
 #include "WidgetAvatarPanel.generated.h"
 
 /**
@@ -33,6 +34,8 @@ protected:
 	UTextBlock* m_TextName;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UTextBlock* m_TextTierName;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetPreviewPanel* m_Preview;
 
 	TSharedPtr<AvatarManager> m_AvatarManager;
 	
