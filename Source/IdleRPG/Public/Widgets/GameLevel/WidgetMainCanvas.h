@@ -6,6 +6,7 @@
 #include "Avatar/Widget/WidgetAvatarPanel.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "MainMenu/WidgetMenuBtn.h"
 #include "WidgetMainCanvas.generated.h"
 
 /**
@@ -17,11 +18,24 @@ class IDLERPG_API UWidgetMainCanvas : public UUserWidget
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY()
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetAvatarPanel* m_AvatarPanel;
-	UPROPERTY()
-	UButton* m_BtnAvatar;
-	
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetMenuBtn* m_BtnUpgrade;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetMenuBtn* m_BtnSkill;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetMenuBtn* m_BtnInventory;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetMenuBtn* m_BtnAvatar;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetMenuBtn* m_BtnPet;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetMenuBtn* m_BtnMap;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetMenuBtn* m_BtnRelic;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetMenuBtn* m_BtnShop;
 protected:
 	virtual void NativeOnInitialized() override;
 

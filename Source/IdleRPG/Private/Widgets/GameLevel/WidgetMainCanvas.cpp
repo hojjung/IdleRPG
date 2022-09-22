@@ -7,7 +7,7 @@ void UWidgetMainCanvas::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	m_BtnAvatar->OnClicked.AddDynamic(this, &UWidgetMainCanvas::OnClickAvatarMenu);
+	m_BtnAvatar->m_OnClick.BindUObject(this, &UWidgetMainCanvas::OnClickAvatarMenu);
 }
 
 void UWidgetMainCanvas::OnClickAvatarMenu()

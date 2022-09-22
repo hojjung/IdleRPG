@@ -16,21 +16,26 @@ class ENTITY_API UWidgetAvatarEle : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	DECLARE_DELEGATE_OneParam(FOnClick, const FAvatarRow*)
+
+	FOnClick m_OnClick;
 protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UImage* m_ImgTier;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UImage* m_ImgPortrait;
-	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UImage* m_ImgWeaponType;
 
 protected:
 	const FAvatarRow* m_Row;
 	
 protected:
-	virtual void NativeOnInitialized() override;
-
 	const FColorDataRow& GetColorData() const;
+
+	void OnLoaded(FPrimaryAssetId id);
+
+	virtual FReply NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	
 public:
 	void Init(const FAvatarRow* row);
 };

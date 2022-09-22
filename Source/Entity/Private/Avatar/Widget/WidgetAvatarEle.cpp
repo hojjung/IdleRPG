@@ -1,11 +1,7 @@
 #include "Avatar/Widget/WidgetAvatarEle.h"
 
+#include "Entity.h"
 #include "MyAssetManager.h"
-
-void UWidgetAvatarEle::NativeOnInitialized()
-{
-	Super::NativeOnInitialized();
-}
 
 const FColorDataRow& UWidgetAvatarEle::GetColorData() const
 {
@@ -16,12 +12,29 @@ void UWidgetAvatarEle::Init(const FAvatarRow* row)
 {
 	m_Row = row;
 	
-	UAssetManager* Manager = UAssetManager::GetIfValid();
-	
-	UUnitAsset* MonsterData = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(m_Row->m_EntityAsset));
-	
 	m_ImgTier->SetBrushFromTexture(GetColorData().m_GlowTexture);
-
-	m_ImgPortrait->SetBrushFromSoftTexture(MonsterData->m_Icon);
+	//
+	UMyAssetManager::Get()->LoadUnitAssetIconOnly(m_Row->m_EntityAsset,FStreamableDelegate::CreateUObject(this, &UWidgetAvatarEle::OnLoaded, m_Row->m_EntityAsset));
 }
 
+void UWidgetAvatarEle::OnLoaded(FPrimaryAssetId id)
+{
+	UUnitAsset* Asset = Cast<UUnitAsset>(UMyAssetManager::Get()->GetPrimaryAssetObject(id));
+
+	if(!Asset)
+	{
+		PRINTF("UWidgetAvatarEle:: No Avatar Data in Table");
+		return;
+	}
+
+	m_ImgPortrait->SetBrushFromSoftTexture(Asset->m_Icon);
+}
+
+FReply UWidgetAvatarEle::NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseButtonUp(InGeometry, InMouseEvent);
+
+	m_OnClick.ExecuteIfBound(m_Row);
+
+	return FReply::Handled();
+}
