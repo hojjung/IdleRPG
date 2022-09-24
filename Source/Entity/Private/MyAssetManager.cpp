@@ -32,6 +32,7 @@ TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAsset(FPrimaryAssetId id,
 TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetMeshOnly(FPrimaryAssetId id, FStreamableDelegate dele)
 {
 	TArray<FName> AryBundle;
+	AryBundle.Add(TEXT("Preview"));
 	AryBundle.Add(TEXT("Default"));
 
 	return LoadUnitAsset(id, dele, AryBundle);

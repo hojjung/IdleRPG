@@ -1,6 +1,7 @@
 #include "Monsters/SpawnManager.h"
 #include "MyAssetManager.h"
 #include "MyGameInstance.h"
+#include "MyLib.h"
 #include "NavigationSystem.h"
 #include "Actors/Pawns/MyBasePawn.h"
 #include "Kismet/GameplayStatics.h"
@@ -91,6 +92,10 @@ void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* worl
 	TSharedPtr<Monster> Mob = MakeShareable(new Monster(Pawn));
 		
 	Pawn->SetMonsterInst(Mob);
+
+	auto* Play = UMyLib::GetPlayer();
+	
+	Pawn->SetFocusedTarget(Play);
 
 	m_AryMonsters.Add(Mob);
 }

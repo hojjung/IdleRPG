@@ -1,4 +1,6 @@
 #include "Actors/Pawns/MyBasePawn.h"
+
+#include "Entity.h"
 #include "MyAssetManager.h"
 #include "NavigationSystem.h"
 #include "Actors/Components/MyNavMovement.h"
@@ -11,22 +13,14 @@ AMyBasePawn::AMyBasePawn(const FObjectInitializer& objInit): Super(objInit)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	bAllowTickBeforeBeginPlay = false;
-	
-	m_Capsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule00"));
-	m_Capsule->InitCapsuleSize(34.0f, 88.0f);
-	m_Capsule->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
-	m_Capsule->CanCharacterStepUpOn = ECB_No;
-	m_Capsule->SetShouldUpdatePhysicsVolume(false);
-	m_Capsule->SetCanEverAffectNavigation(false);
-	m_Capsule->bDynamicObstacle = false;
-	m_Capsule->AreaClass = nullptr;
-	RootComponent = m_Capsule;
-	m_Capsule->bReceivesDecals = false;
 	//
+	RootComponent = CreateDefaultSubobject<USceneComponent>("Root");
 	m_BodyMesh = CreateSkMeshComp(TEXT("BodyMesh"));
+	m_BodyMesh->SetupAttachment(RootComponent);
+	m_BodyMesh->SetRelativeRotation(FRotator(0,-90,0));
 	//
 	m_Movement = CreateDefaultSubobject<UMyNavMovement>(TEXT("m_Movement"));
-	m_Movement->UpdatedComponent = m_Capsule;
+	m_Movement->UpdatedComponent = RootComponent;
 	m_Movement->MaxSpeed=250.f;
 	
 	AIControllerClass = nullptr;
@@ -85,8 +79,6 @@ void AMyBasePawn::SetEntity(const UUnitAsset* asset)
 
 	m_PawnName = asset->m_ShowingName;
 
-	m_Capsule->SetCapsuleRadius(asset->m_fCapsuleRadius);
-
 	m_Movement->NavAgentProps.AgentRadius = asset->m_fCapsuleRadius;
 }
 
@@ -95,6 +87,8 @@ void AMyBasePawn::LoadSetSkMeshAnim(const UUnitAsset* asset)
 	m_EntityAsset = asset;
 
 	m_BodyMesh->SetSkeletalMesh(m_EntityAsset->m_BodyMesh.Get());
+
+	m_BodyMesh->SetVisibility(true);
 
 	m_BodyMesh->SetAnimationMode(EAnimationMode::Type::AnimationBlueprint);
 
@@ -106,6 +100,12 @@ void AMyBasePawn::LoadSetSkMeshAnim(const UUnitAsset* asset)
 void AMyBasePawn::ClearStopMoveDelegate()
 {
 	GetWorldTimerManager().ClearTimer(m_MoveStopTimer);
+}
+
+void AMyBasePawn::GetSimpleCollisionCylinder(float& CollisionRadius, float& CollisionHalfHeight) const
+{
+	CollisionRadius = m_Movement->NavAgentProps.AgentRadius;
+	CollisionHalfHeight = 88;
 }
 
 void AMyBasePawn::ActiveMovement()
@@ -271,11 +271,6 @@ FAIRequestID AMyBasePawn::RequestMove(const FAIMoveRequest& MoveRequest, FNavPat
 	return RequestID;
 }
 
-float AMyBasePawn::GetRadius() const
-{
-	return m_Capsule->GetScaledCapsuleRadius();
-}
-
 void AMyBasePawn::StopMove()
 {
 	m_Movement->StopMovementImmediately();
@@ -291,7 +286,7 @@ void AMyBasePawn::SetActorFeetLocation(FVector loc)
 {
 	FVector NewLoc = loc;
 
-	NewLoc.Z += GetCapsule()->Bounds.BoxExtent.Z;
+	NewLoc.Z += 88;
 		
 	SetActorLocation(NewLoc);
 }
@@ -310,6 +305,25 @@ FPathFollowingRequestResult AMyBasePawn::MoveToLocation(FVector loc, float accep
 	MoveReq.SetNavigationFilter(UNavigationQueryFilter::StaticClass());
 	MoveReq.SetAcceptanceRadius(acceptRadius);
 	MoveReq.SetReachTestIncludesAgentRadius(true);
+	MoveReq.SetCanStrafe(true);
+
+	return MoveTo(MoveReq);
+}
+
+FPathFollowingRequestResult AMyBasePawn::MoveToLocationWithoutCapsule(FVector loc, float acceptRadius)
+{
+	if (m_PFComp && m_PFComp->GetStatus() != EPathFollowingStatus::Idle)
+	{
+		m_PFComp->AbortMove(*this, FPathFollowingResultFlags::ForcedScript | FPathFollowingResultFlags::NewRequest, FAIRequestID::CurrentRequest, EPathFollowingVelocityMode::Keep);
+	}
+
+	FAIMoveRequest MoveReq(loc);
+	MoveReq.SetUsePathfinding(true);
+	MoveReq.SetAllowPartialPath(true);
+	MoveReq.SetNavigationFilter(UNavigationQueryFilter::StaticClass());
+	MoveReq.SetAcceptanceRadius(acceptRadius);
+	MoveReq.SetReachTestIncludesAgentRadius(false);
+	MoveReq.SetReachTestIncludesGoalRadius(false);
 	MoveReq.SetCanStrafe(true);
 
 	return MoveTo(MoveReq);
@@ -416,11 +430,6 @@ UAnimMontage* AMyBasePawn::GetCurrentMontage()
 	return nullptr;
 }
 
-UCapsuleComponent* AMyBasePawn::GetCapsule() const
-{
-	return m_Capsule;
-}
-
 USkeletalMeshComponent* AMyBasePawn::GetSkMesh() const
 {
 	return m_BodyMesh;
@@ -448,5 +457,5 @@ FText AMyBasePawn::GetPawnName() const
 
 FVector AMyBasePawn::GetNavAgentLocation() const
 {
-	return GetActorLocation() - FVector(0.f, 0.f, GetCapsule()->Bounds.BoxExtent.Z);
+	return GetActorLocation() - FVector(0.f, 0.f, 88);
 }

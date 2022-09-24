@@ -24,8 +24,6 @@ protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
 	USceneCaptureComponent2D* m_Capture;
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
-	USceneCaptureComponent2D* m_CaptureAlpha;
-	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
 	USpringArmComponent* m_Spring;
 	
 protected:

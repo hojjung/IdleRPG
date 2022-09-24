@@ -2,6 +2,12 @@
 
 #include "MyGameInstance.h"
 #include "Monsters/MonsterPawn.h"
+
+UMyFlockSteering::UMyFlockSteering(const FObjectInitializer& obj): Super(obj)
+{
+	m_fRadius = 400;
+}
+
 void UMyFlockSteering::BeginPlay()
 {
 	Super::BeginPlay();
@@ -47,14 +53,7 @@ void UMyFlockSteering::ApplyControlInputToVelocity(float DeltaTime)
 
 	FVector NewDelta;
 	
-	if(Cast<ACombatPawn>(m_Owner)->GetFocusedTarget())
-	{
-		NewDelta = GetBoidDelta(ControlAcceleration);
-	}
-	else
-	{
-		NewDelta = ControlAcceleration;	
-	}
+	NewDelta = GetBoidDelta(ControlAcceleration);
 	
 	Velocity += NewDelta * FMath::Abs(Acceleration) * DeltaTime;
 	//둘의 차이가 너무크니까 지터링되는것
@@ -66,7 +65,7 @@ void UMyFlockSteering::ApplyControlInputToVelocity(float DeltaTime)
 FVector UMyFlockSteering::GetBoidDelta(FVector inputDelta)
 {
 	m_NearMobs.Reset();
-	UMyGameInstance::Get->m_SpawnManager->GetNearNpcs<AMonsterPawn>(m_Owner.Get(),m_NearMobs,400);
+	UMyGameInstance::Get->m_SpawnManager->GetNearNpcs<AMonsterPawn>(m_Owner.Get(),m_NearMobs,m_fRadius);
 	
 	FVector FinalDelta = FVector::ZeroVector;
 	
@@ -96,7 +95,7 @@ FVector UMyFlockSteering::GetBoidDelta(FVector inputDelta)
 		}
 		SepSum /= Count; 
 	}
-	FinalDelta = (DestDelta * 1.2f) + SepSum.GetSafeNormal(); 
+	FinalDelta = (DestDelta * 1.14f) + (SepSum.GetSafeNormal()); 
 	
 	return FinalDelta.GetSafeNormal();
 }

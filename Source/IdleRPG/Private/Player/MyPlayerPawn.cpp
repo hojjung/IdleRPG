@@ -3,11 +3,12 @@
 #include "Entity.h"
 #include "MyAssetManager.h"
 #include "Actors/Components/MyNavMovement.h"
+#include "Player/MyFlockSteering.h"
 #include "Player/PlayerSensor.h"
 
 AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 {
-	m_Capsule->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	//m_Capsule->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	m_DissolveCam = CreateDefaultSubobject<UCameraDissolve>(TEXT("CamDissolve00"));
 	m_DissolveCam->SetupAttachment(RootComponent);
@@ -16,10 +17,10 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_DissolveCam->CameraLagSpeed = 30;
 	m_DissolveCam->SetRelativeLocation(FVector(0.f));
 	m_DissolveCam->TargetArmLength = 1300; //1375
-	m_DissolveCam->SetRelativeRotation(FRotator(-50, -45.f, 0.f)); //-45.f
+	m_DissolveCam->SetRelativeRotation(FRotator(-55, -45.f, 0.f)); //-45.f
 	m_TopCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("m_TopCamera"));
 	m_TopCamera->SetupAttachment(m_DissolveCam);
-	m_TopCamera->FieldOfView = 30.f;
+	m_TopCamera->FieldOfView = 45.f;
 
 	m_AryTargetingObjectType.Reset();
 	m_AryTargetingObjectType.Add(EObjectTypeQuery::ObjectTypeQuery3);
@@ -33,6 +34,8 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_Cape->SetupAttachment(RootComponent, TEXT("Cape"));
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> CapeMeshTest(TEXT("StaticMesh'/Game/CharacterMesh/Cape/PolyCapes/ST_RedCloak.ST_RedCloak'"));
 	m_Cape->SetStaticMesh(CapeMeshTest.Object);
+
+	m_PFComp->SetAcceptanceRadius(34);
 }
 
 void AMyPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -80,12 +83,6 @@ void AMyPlayerPawn::OnLoaded(FPrimaryAssetId id)
 	
 	UUnitAsset* Asset = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(id));
 
-	if(!Asset)
-	{
-		PRINTF("AMyPlayerPawn::OnLoaded Fail, Id Was %s", *id.ToString());
-		return;
-	}
-	
 	SetEntity(Asset);
 
 	FAttachmentTransformRules Rule (EAttachmentRule::SnapToTarget, true);
@@ -115,24 +112,17 @@ void AMyPlayerPawn::OnTickAlive(float DeltaSeconds)
 			StopAnimMontage();
 		}
 		ClearStopMoveDelegate();
+		
 		m_Movement->SetActive(true);
 
-		FVector Loc = GetCapsule()->GetComponentLocation();
+		FVector Loc = RootComponent->GetComponentLocation();
 
 		FVector Delta = (m_DeltaX + m_DeltaY) * 100.0f;
 
 		FVector Dest = Loc + Delta;
 
-		FHitResult Hit;
-
-		if (UKismetSystemLibrary::LineTraceSingle(GetWorld(), Loc, Loc + Delta, ETraceTypeQuery::TraceTypeQuery3, false,
-		                                          m_AryIgnores, EDrawDebugTrace::None, Hit, true))
-		{
-			Dest = Hit.Location;
-		}
-
 		MoveToLocation(Dest, 0);
-
+		
 		m_DeltaX = FVector::ZeroVector;
 
 		m_DeltaY = FVector::ZeroVector;

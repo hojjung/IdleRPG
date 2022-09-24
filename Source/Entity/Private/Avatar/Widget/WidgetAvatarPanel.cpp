@@ -58,6 +58,8 @@ void UWidgetAvatarPanel::OnSelectLoaded(const FAvatarRow* row)
 void UWidgetAvatarPanel::OnOpen()
 {
 	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+
+	FEntityModule::Get().GetAvatarManager()->m_AvatarInven->ShowPreview();
 }
 
 void UWidgetAvatarPanel::OnClose()

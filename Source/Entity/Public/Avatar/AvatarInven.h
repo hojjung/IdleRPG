@@ -35,6 +35,8 @@ public:
 
 	void SetPreview(const UUnitAsset* asset);
 
+	void ShowPreview();
+	
 	void HidePreview();
 
 	APreviewActor* GetPreviewActor();

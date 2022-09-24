@@ -20,7 +20,7 @@ AMonsterPawn::AMonsterPawn(const FObjectInitializer& obj): Super(obj.SetDefaultS
 	m_HitParticle->Deactivate();
 	//PawnInfoWidget
 	m_PawnInfo = CreateDefaultSubobject<UWidgetPawnInfoComp>(TEXT("PawnInfoWidget"));
-	m_PawnInfo->SetupAttachment(m_Capsule);
+	m_PawnInfo->SetupAttachment(RootComponent);
 	m_PawnInfo->SetVisibility(false);
 	static ConstructorHelpers::FClassFinder<UUserWidget> FoundHpBar(
 		TEXT("WidgetBlueprint'/Game/Blueprints/Widgets/Comp/WB_PawnInfo.WB_PawnInfo_C'"));

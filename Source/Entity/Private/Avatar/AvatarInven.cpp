@@ -75,6 +75,11 @@ void AvatarInven::SetPreview(const UUnitAsset* asset)
 {
 	m_PreviewActor->SetEntity(asset);
 
+	ShowPreview();
+}
+
+void AvatarInven::ShowPreview()
+{
 	m_PreviewActor->ShowMeshWithTick();
 }
 

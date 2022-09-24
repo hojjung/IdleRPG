@@ -30,33 +30,22 @@ APreviewActor::APreviewActor()
 	//
 	m_Spring = CreateDefaultSubobject<USpringArmComponent>("Spring");
 	m_Spring->SetupAttachment(RootComponent);
-	m_Spring->SetRelativeLocation(FVector(0,0,20));
+	m_Spring->SetRelativeLocation(FVector(0,0,30));
 	m_Spring->SetRelativeRotation(FRotator(-5, 200.f, 0));
-	m_Spring->TargetArmLength = 400;
+	m_Spring->TargetArmLength = 350;
 	m_Spring->bDoCollisionTest = 0;
 
 	m_Capture = CreateDefaultSubobject<USceneCaptureComponent2D>("Capture2D");
 	m_Capture->SetupAttachment(m_Spring);
-	static ConstructorHelpers::FObjectFinder<UTextureRenderTarget2D> FoundTexture(TEXT("TextureRenderTarget2D'/Game/03_VisualEffect/T_PlayerPreview.T_PlayerPreview'"));
+	static ConstructorHelpers::FObjectFinder<UTextureRenderTarget2D> FoundTexture(TEXT("TextureRenderTarget2D'/Game/03_VisualEffect/T_PlayerPreviewAlpha.T_PlayerPreviewAlpha'"));
 	m_Capture->TextureTarget = FoundTexture.Object;
 	m_Capture->PrimitiveRenderMode = ESceneCapturePrimitiveRenderMode::PRM_UseShowOnlyList;
-	m_Capture->CaptureSource = ESceneCaptureSource::SCS_FinalColorHDR;
+	m_Capture->CaptureSource = ESceneCaptureSource::SCS_SceneColorHDR;
 	m_Capture->SetTickableWhenPaused(true);
 	m_Capture->ProjectionType = ECameraProjectionMode::Perspective;
 	m_Capture->FOVAngle = 45;
-	m_Capture->PostProcessBlendWeight = 1.f;
+	m_Capture->PostProcessBlendWeight = 0.f;
 	//
-	m_CaptureAlpha = CreateDefaultSubobject<USceneCaptureComponent2D>("m_CaptureAlpha");
-	m_CaptureAlpha->SetupAttachment(m_Spring);
-	static ConstructorHelpers::FObjectFinder<UTextureRenderTarget2D> FoundTexture2(TEXT("TextureRenderTarget2D'/Game/03_VisualEffect/T_PlayerPreviewAlpha.T_PlayerPreviewAlpha'"));
-	m_CaptureAlpha->TextureTarget = FoundTexture2.Object;
-	m_CaptureAlpha->PrimitiveRenderMode = ESceneCapturePrimitiveRenderMode::PRM_UseShowOnlyList;
-	m_CaptureAlpha->CaptureSource = ESceneCaptureSource::SCS_SceneColorHDR;
-	m_CaptureAlpha->SetTickableWhenPaused(true);
-	m_CaptureAlpha->ProjectionType = ECameraProjectionMode::Perspective;
-	m_CaptureAlpha->FOVAngle = 45;
-	//
-	//TextureRenderTarget2D'/Game/03_VisualEffect/T_PlayerPreviewAlpha.T_PlayerPreviewAlpha'
 	m_bTouched = false;
 
 	m_MeshBody->LightingChannels.bChannel0 = 0;
@@ -68,7 +57,6 @@ void APreviewActor::BeginPlay()
 	Super::BeginPlay();
 
 	m_Capture->ShowOnlyActors.Add(this);
-	m_CaptureAlpha->ShowOnlyActors.Add(this);
 
 	m_InitVisualRot = m_MeshBody->GetComponentRotation();
 
@@ -96,7 +84,6 @@ void APreviewActor::ShowMeshWithTick()
 	m_MeshBody->SetComponentTickEnabled(true);
 
 	m_Capture->SetComponentTickEnabled(true);
-	m_CaptureAlpha->SetComponentTickEnabled(true);
 
 	PRINTF("ShowMeshWithTick");
 }
@@ -108,7 +95,6 @@ void APreviewActor::HideMeshWithTick()
 	m_MeshBody->SetComponentTickEnabled(false);
 
 	m_Capture->SetComponentTickEnabled(false);
-	m_CaptureAlpha->SetComponentTickEnabled(false);
 
 	PRINTF("HideMeshWithTick");
 }

@@ -2,7 +2,7 @@
 #include "NavigationSystem.h"
 #include "Kismet/KismetMathLibrary.h"
 
-UMyNavMovement::UMyNavMovement(const FObjectInitializer& obj)
+UMyNavMovement::UMyNavMovement(const FObjectInitializer& obj): Super(obj)
 {
 	MaxSpeed = 1200.f;
 	Acceleration = 4000.f;
@@ -55,9 +55,9 @@ void UMyNavMovement::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 
 	ApplyControlInputToVelocity(DeltaTime);
 
-	LimitWorldBounds();
+	//LimitWorldBounds();
 
-	bPositionCorrected = false;
+	//bPositionCorrected = false;
 
 	FVector Delta = (Velocity * DeltaTime * m_fSpeedMultiple) + m_ImpactVector;
 
@@ -68,20 +68,22 @@ void UMyNavMovement::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 		const FQuat Rotation = UpdatedComponent->GetComponentQuat();
 
 		FHitResult Hit(1.f);
-		SafeMoveUpdatedComponent(Delta, Rotation, true, Hit);
+		SafeMoveUpdatedComponent(Delta, Rotation, false, Hit);
 
-		if (Hit.IsValidBlockingHit())
-		{
-			HandleImpact(Hit, DeltaTime, Delta);
-			
-			SlideAlongSurface(Delta, 1.f - Hit.Time, Hit.Normal, Hit, true);
-		}
+		// if (Hit.IsValidBlockingHit())
+		// {
+		// 	HandleImpact(Hit, DeltaTime, Delta);
+		// 	
+		// 	SlideAlongSurface(Delta, 1.f - Hit.Time, Hit.Normal, Hit, true);
+		// }
 
-		if (!bPositionCorrected)
+		//if (!bPositionCorrected)
 		{
 			const FVector NewLocation = UpdatedComponent->GetComponentLocation();
 			Velocity = ((NewLocation - OldLocation) / DeltaTime);
 		}
+
+		MySnapToNav();
 	}
 
 	m_ImpactVector = FVector::ZeroVector;

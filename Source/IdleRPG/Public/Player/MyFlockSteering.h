@@ -14,9 +14,14 @@ class IDLERPG_API UMyFlockSteering  : public UMyNavMovement
 {
 	GENERATED_BODY()
 
+public:
+	UMyFlockSteering(const FObjectInitializer& obj);
+
 protected:
 	TArray<AMonsterPawn*> m_NearMobs;
-	
+
+	float m_fRadius;
+
 protected:
 	virtual void BeginPlay() override;
 	

@@ -21,8 +21,6 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Category=Character)
-	UCapsuleComponent* m_Capsule;
-	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Category=Character)
 	USkeletalMeshComponent* m_BodyMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category = "AI")
 	UPathFollowingComponent* m_PFComp;//UCrowdFollowingComponent
@@ -55,6 +53,8 @@ protected:
 	virtual void LoadSetSkMeshAnim(const UUnitAsset* asset);
 
 	void ClearStopMoveDelegate();
+
+	virtual void GetSimpleCollisionCylinder(float& CollisionRadius, float& CollisionHalfHeight) const override;
 	
 public://플레이어는 어떻게? 스테이지가 있고 스테이지는데이터 테이블로 형성,
 	UFUNCTION(BlueprintCallable)
@@ -62,13 +62,13 @@ public://플레이어는 어떻게? 스테이지가 있고 스테이지는데이
 	
 	virtual FPathFollowingRequestResult MoveToLocation(FVector loc, float acceptRadius = 0.f);
 
+	virtual FPathFollowingRequestResult MoveToLocationWithoutCapsule(FVector loc, float acceptRadius = 0.f);
+
 	virtual FPathFollowingRequestResult MoveToActor(AActor* target, float acceptRadius = 0);
 
 	bool LineOfSightTo(const AActor* Other) const;
 
 public://Anim
-	
-	
 	float PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate = 1.f, FName StartSectionName = NAME_None);
 
 	void StopAnimMontage();
@@ -76,8 +76,6 @@ public://Anim
 	UAnimMontage* GetCurrentMontage();
 
 public:
-	UCapsuleComponent* GetCapsule() const;
-
 	USkeletalMeshComponent* GetSkMesh() const;
 
 	UPathFollowingComponent* GetPfComp() const;
@@ -88,8 +86,6 @@ public:
 
 	virtual bool IsMoving() const;
 public:
-	float GetRadius() const;
-	
 	void StopMove();
 	
 	virtual bool IsRange();
