@@ -20,15 +20,17 @@ class ENTITY_API UMyNavMovement : public UFloatingPawnMovement
 public:
 	UMyNavMovement(const FObjectInitializer& obj);
 
-protected:
-	TWeakObjectPtr<AMyBasePawn> m_Owner;
-	
 public:
 	float m_fSpeedMultiple;
 	
 protected:
-	FVector m_ImpactVector;
+	TWeakObjectPtr<AMyBasePawn> m_Owner;
 	
+	FVector m_ImpactVector;
+
+	FVector m_Delta;
+	
+protected:
 	void MySnapToNav();
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

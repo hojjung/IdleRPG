@@ -36,7 +36,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float m_RotYawOffset;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (UIMin = "34" ,UIMax = "88"))
-	float m_fCapsuleRadius = 34.f;
+	float m_fCapsuleRadius = 60.f;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (UIMin = "0.1"))
 	float m_fScale = 1.f;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (UIMin = "0.1"))

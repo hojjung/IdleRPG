@@ -8,7 +8,7 @@
 
 AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 {
-	//m_Capsule->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	m_Capsule->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	m_DissolveCam = CreateDefaultSubobject<UCameraDissolve>(TEXT("CamDissolve00"));
 	m_DissolveCam->SetupAttachment(RootComponent);
@@ -16,7 +16,7 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_DissolveCam->m_SocketOffset = FVector(0, 0, -30);
 	m_DissolveCam->CameraLagSpeed = 30;
 	m_DissolveCam->SetRelativeLocation(FVector(0.f));
-	m_DissolveCam->TargetArmLength = 1300; //1375
+	m_DissolveCam->TargetArmLength = 1000; //1375
 	m_DissolveCam->SetRelativeRotation(FRotator(-55, -45.f, 0.f)); //-45.f
 	m_TopCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("m_TopCamera"));
 	m_TopCamera->SetupAttachment(m_DissolveCam);

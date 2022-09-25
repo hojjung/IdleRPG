@@ -21,6 +21,8 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Category=Character)
+	UCapsuleComponent* m_Capsule;
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Category=Character)
 	USkeletalMeshComponent* m_BodyMesh;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite,Category = "AI")
 	UPathFollowingComponent* m_PFComp;//UCrowdFollowingComponent

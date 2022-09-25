@@ -59,23 +59,23 @@ void UMyNavMovement::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 
 	//bPositionCorrected = false;
 
-	FVector Delta = (Velocity * DeltaTime * m_fSpeedMultiple) + m_ImpactVector;
+	m_Delta = (Velocity * DeltaTime * m_fSpeedMultiple) + m_ImpactVector;
 
-	if (!Delta.IsNearlyZero(1e-6f))
+	if (!m_Delta.IsNearlyZero(1e-6f))
 	{
 		const FVector OldLocation = UpdatedComponent->GetComponentLocation();
 
 		const FQuat Rotation = UpdatedComponent->GetComponentQuat();
 
 		FHitResult Hit(1.f);
-		SafeMoveUpdatedComponent(Delta, Rotation, false, Hit);
+		SafeMoveUpdatedComponent(m_Delta, Rotation, true, Hit);
 
-		// if (Hit.IsValidBlockingHit())
-		// {
-		// 	HandleImpact(Hit, DeltaTime, Delta);
-		// 	
-		// 	SlideAlongSurface(Delta, 1.f - Hit.Time, Hit.Normal, Hit, true);
-		// }
+		if (Hit.IsValidBlockingHit())
+		{
+			HandleImpact(Hit, DeltaTime, m_Delta);
+			
+			SlideAlongSurface(m_Delta, 1.f - Hit.Time, Hit.Normal, Hit, true);
+		}
 
 		//if (!bPositionCorrected)
 		{
@@ -129,13 +129,13 @@ void UMyNavMovement::TickRotate(float deltaTime)
 
 FRotator UMyNavMovement::ComputeOrientToMovementRotation(const FRotator& CurrentRotation) const
 {
-	if (Velocity.IsNearlyZero(0.01f))
+	if (m_Delta.IsNearlyZero(0.01f))
 		//회전각이 0이여서 // 몬스터의 경우 추적 대상이 존재한다면 추적대상을 바라봐야함,이함수랑 별개로 만들어야할듯? ㄴㄴ 그냥 움직일때는 고개돌리는게 맞을듯
 	{
 		return CurrentRotation;
 	}
 
-	return Velocity.GetSafeNormal().Rotation();
+	return m_Delta.GetSafeNormal().Rotation();
 }
 
 void UMyNavMovement::HandleImpact(const FHitResult& Hit, float TimeSlice, const FVector& MoveDelta)

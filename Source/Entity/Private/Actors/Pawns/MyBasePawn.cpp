@@ -13,8 +13,17 @@ AMyBasePawn::AMyBasePawn(const FObjectInitializer& objInit): Super(objInit)
 {
 	PrimaryActorTick.bCanEverTick = true;
 	bAllowTickBeforeBeginPlay = false;
+	m_Capsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule00"));
+	m_Capsule->InitCapsuleSize(60.0f, 88.0f);
+	m_Capsule->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
+	m_Capsule->CanCharacterStepUpOn = ECB_No;
+	m_Capsule->SetShouldUpdatePhysicsVolume(false);
+	m_Capsule->SetCanEverAffectNavigation(false);
+	m_Capsule->bDynamicObstacle = false;
+	m_Capsule->AreaClass = nullptr;
+	RootComponent = m_Capsule;
+	m_Capsule->bReceivesDecals = false;
 	//
-	RootComponent = CreateDefaultSubobject<USceneComponent>("Root");
 	m_BodyMesh = CreateSkMeshComp(TEXT("BodyMesh"));
 	m_BodyMesh->SetupAttachment(RootComponent);
 	m_BodyMesh->SetRelativeRotation(FRotator(0,-90,0));
