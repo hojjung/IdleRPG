@@ -27,10 +27,6 @@ public:
 public:
 	static inline FEntityModule& Get()
 	{
-		if (IsAvailable())
-		{
-			return FModuleManager::GetModuleChecked< FEntityModule >("Entity");
-		}
 		return FModuleManager::LoadModuleChecked< FEntityModule >("Entity");
 	}
 

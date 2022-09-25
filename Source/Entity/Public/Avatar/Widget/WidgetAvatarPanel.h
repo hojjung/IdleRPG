@@ -36,17 +36,25 @@ protected:
 	UTextBlock* m_TextTierName;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetPreviewPanel* m_Preview;
+	UPROPERTY()
+	TArray<UWidgetAvatarEle*> m_AryEles;
 
 	TSharedPtr<AvatarManager> m_AvatarManager;
+
+	int m_TotalCount;
 	
 protected:
 	virtual void NativeOnInitialized() override;
 
 	void CreateAllElements();
 
+	void OnAvatarLoaded(const FAvatarRow* row);
+
 	void OnSelect(const FAvatarRow* row);
 	
 	void OnSelectLoaded(const FAvatarRow* row);
+
+	void SortAvatar();
 	
 public:
 	void OnOpen();

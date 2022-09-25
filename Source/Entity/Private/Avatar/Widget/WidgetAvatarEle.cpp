@@ -20,20 +20,9 @@ void UWidgetAvatarEle::Init(const FAvatarRow* row)
 	m_Row = row;
 	
 	m_ImgTier->SetBrushFromTexture(GetColorData().m_GlowTexture);
+
+	UUnitAsset* Asset = Cast<UUnitAsset>(UMyAssetManager::Get()->GetPrimaryAssetObject(m_Row->m_EntityAsset));
 	//
-	UMyAssetManager::Get()->LoadUnitAssetIconOnly(m_Row->m_EntityAsset,FStreamableDelegate::CreateUObject(this, &UWidgetAvatarEle::OnLoaded, m_Row->m_EntityAsset));
-}
-
-void UWidgetAvatarEle::OnLoaded(FPrimaryAssetId id)
-{
-	UUnitAsset* Asset = Cast<UUnitAsset>(UMyAssetManager::Get()->GetPrimaryAssetObject(id));
-
-	if(!Asset)
-	{
-		PRINTF("UWidgetAvatarEle:: No Avatar Data in Table");
-		return;
-	}
-
 	m_ImgPortrait->SetBrushFromSoftTexture(Asset->m_Icon);
 }
 

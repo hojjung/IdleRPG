@@ -1,4 +1,6 @@
 #include "Monsters/SpawnManager.h"
+
+#include "Entity.h"
 #include "MyAssetManager.h"
 #include "MyGameInstance.h"
 #include "MyLib.h"
@@ -37,6 +39,10 @@ const FPrimaryAssetId& SpawnManager::GetRandomMonsterID(int stageLevel)
 
 void SpawnManager::Update(float delta)
 {
+	if(m_AryMonsters.Num() <= 0)
+	{
+		return;
+	}
 	for(auto Mob : m_AryMonsters)
 	{
 		Mob.Get()->Update(delta);
@@ -46,7 +52,11 @@ void SpawnManager::Update(float delta)
 
 void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, int cnt)
 {
-	check(m_AryStage[stageLevel]->m_AryUnits.Num() > 0);
+	if(m_AryStage[stageLevel]->m_AryUnits.Num() <= 0)
+	{
+		PRINTF("SpawnManager Spawn Unit Fail, No Units in DataTable");
+		return;
+	}
 	
 	const UNavigationSystemV1* Nav =  FNavigationSystem::GetCurrent<UNavigationSystemV1>(world->GetWorld());
 

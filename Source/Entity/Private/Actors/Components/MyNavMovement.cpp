@@ -33,7 +33,7 @@ void UMyNavMovement::MySnapToNav()
 	
 	if(!Nav->ProjectPointToNavigation(ActorLoc,Loc))
 	{
-		Nav->GetRandomPointInNavigableRadius(ActorLoc,1000,Loc);
+		Nav->GetRandomPointInNavigableRadius(ActorLoc,10,Loc);
 	}
 	
 	m_Owner->SetActorFeetLocation(Loc.Location);

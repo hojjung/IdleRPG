@@ -20,15 +20,47 @@ void UWidgetAvatarPanel::NativeOnInitialized()
 
 void UWidgetAvatarPanel::CreateAllElements()
 {
-	for(const FAvatarRow* AvatarRow : FEntityModule::Get().GetAvatarManager()->GetAvatarDatas())
+	m_TotalCount = FEntityModule::Get().GetAvatarManager()->GetAvatarDatas().Num();
+	
+	for(const FAvatarRow* Row : FEntityModule::Get().GetAvatarManager()->GetAvatarDatas())
 	{
-		UWidgetAvatarEle* Ele = CreateWidget<UWidgetAvatarEle>(this, m_ClassEle);
+		FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &UWidgetAvatarPanel::OnAvatarLoaded, Row);
+
+		UMyAssetManager::Get()->LoadUnitAssetIconOnly(Row->m_EntityAsset, Delegate);
+	}
+}
+
+void UWidgetAvatarPanel::OnAvatarLoaded(const FAvatarRow* row)
+{
+	UWidgetAvatarEle* Ele = CreateWidget<UWidgetAvatarEle>(this, m_ClassEle);
 		
-		Ele->Init(AvatarRow);
+	Ele->Init(row);
 
-		Ele->m_OnClick.BindUObject(this, &UWidgetAvatarPanel::OnSelect);
+	Ele->m_OnClick.BindUObject(this, &UWidgetAvatarPanel::OnSelect);
 
-		m_Wrap->AddChild(Ele);
+	m_AryEles.Add(Ele);
+
+	PRINTF("Load:%d", m_AryEles.Num());
+	if(m_AryEles.Num() >= m_TotalCount)
+	{
+		SortAvatar();
+	}
+}
+
+void UWidgetAvatarPanel::SortAvatar()
+{
+	m_AryEles.Sort([](const UWidgetAvatarEle& LHS, const UWidgetAvatarEle& RHS)
+	{
+		int LhsLevel = LHS.GetColorData().m_fPriority;
+
+		int RhsLevel = RHS.GetColorData().m_fPriority;
+
+		return LhsLevel < RhsLevel;
+	});
+
+	for(UWidgetAvatarEle* Ele : m_AryEles)
+	{
+		m_Wrap->AddChildToWrapBox(Ele);
 	}
 }
 

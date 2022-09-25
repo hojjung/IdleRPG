@@ -33,6 +33,8 @@ public:
 	FText m_Name;
 	UPROPERTY(EditDefaultsOnly)
 	UTexture2D* m_GlowTexture;
+	UPROPERTY(EditDefaultsOnly)
+	float m_fPriority = 1;
 };
 
 USTRUCT(BlueprintType)

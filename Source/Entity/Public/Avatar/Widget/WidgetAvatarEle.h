@@ -32,14 +32,17 @@ protected:
 protected:
 	virtual void NativeOnInitialized() override;
 	
-	const FColorDataRow& GetColorData() const;
-
-	void OnLoaded(FPrimaryAssetId id);
-
 	virtual FReply NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	
 public:
 	void Init(const FAvatarRow* row);
+	
+	const FColorDataRow& GetColorData() const;
+
+	FORCEINLINE const FAvatarRow& GetAvatarDataRow()
+	{
+		return *m_Row;
+	}
 };
 
 
