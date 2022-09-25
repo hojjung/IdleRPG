@@ -24,7 +24,23 @@ TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAsset(FPrimaryAssetId id,
 {
 	TSharedPtr<FStreamableHandle> Handle = LoadPrimaryAsset(id, ary, dele, FStreamableManager::AsyncLoadHighPriority);
 
+	EAsyncPackageState::Type Result = Handle->WaitUntilComplete();
+
+	if(Result == EAsyncPackageState::Complete)
+	{
+		dele.Execute();
+		dele.Unbind();
+		Handle->CancelHandle();
+	}
+
 	m_SetUnits.Add(Handle);
+	//한 애셋을 동시에 로드 할때, 먼저 요청한게 덮어 씌워저버림.
+
+	//번들 스테이드가 다르면 어떡하지?\
+
+	//번들이 다를경우, 전부 로드가 되야지 맞다.
+
+	//Handle.Get()->WaitUntilComplete()
 
 	return Handle;
 }
