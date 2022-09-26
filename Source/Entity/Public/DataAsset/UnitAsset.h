@@ -6,9 +6,6 @@
 #include "Engine/DataAsset.h"
 #include "UnitAsset.generated.h"
 
-/**
- * 
- */
 UCLASS(Blueprintable, hidecategories = (Object, Actor, Advanced, Navigation))
 class ENTITY_API UUnitAsset : public UPrimaryDataAsset
 {
@@ -41,6 +38,10 @@ public:
 	float m_fScale = 1.f;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (UIMin = "0.1"))
 	float m_fShadowScale = 6.f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle ,meta = (AssetBundles = "Preview"))
+	TArray<TSoftObjectPtr<UStaticMesh>> m_AryAttachments;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle)
+	TArray<FName> m_ArySocketAttachments;
 
 	FORCEINLINE virtual FPrimaryAssetId GetPrimaryAssetId() const override
 	{

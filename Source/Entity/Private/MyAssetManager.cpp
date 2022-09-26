@@ -4,6 +4,7 @@
 
 #include "MyAssetManager.h"
 
+#include "Entity.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 UMyAssetManager* UMyAssetManager::Get()
@@ -20,32 +21,34 @@ UMyAssetManager* UMyAssetManager::Get()
 	}
 }
 
-TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAsset(FPrimaryAssetId id, FStreamableDelegate dele, TArray<FName> ary)
+UUnitAsset* UMyAssetManager::LoadUnitAsset(FPrimaryAssetId id, FStreamableDelegate dele, TArray<FName> ary)
 {
 	TSharedPtr<FStreamableHandle> Handle = LoadPrimaryAsset(id, ary, dele, FStreamableManager::AsyncLoadHighPriority);
-
-	EAsyncPackageState::Type Result = Handle->WaitUntilComplete();
-
-	if(Result == EAsyncPackageState::Complete)
-	{
-		dele.Execute();
-		dele.Unbind();
-		Handle->CancelHandle();
-	}
-
-	m_SetUnits.Add(Handle);
-	//한 애셋을 동시에 로드 할때, 먼저 요청한게 덮어 씌워저버림.
-
-	//번들 스테이드가 다르면 어떡하지?\
-
-	//번들이 다를경우, 전부 로드가 되야지 맞다.
-
-	//Handle.Get()->WaitUntilComplete()
-
-	return Handle;
+    // this block is required an subscription to load complete or stalled. Now this blocking thread.
+    {
+        // Get initial loading state.
+        EAsyncPackageState::Type LoadState = EAsyncPackageState::TimeOut;
+ 
+        // Get waiting for timeout if is 
+        while(LoadState != EAsyncPackageState::Complete && Handle->IsActive())
+        {
+            // Get Asset Object ready for async loading.
+            LoadState = Handle->WaitUntilComplete(0.f /*Forever*/, true/*Force load*/);
+ 
+            if(LoadState == EAsyncPackageState::PendingImports)
+            {
+                // exit from loading asset with invalid resolving object. wiil be promote UNRESOLVED error.
+                LoadState = EAsyncPackageState::Complete;
+            	PRINTF("AssetManager Pending");
+            }
+        }
+    }
+	UUnitAsset* Unit = Cast<UUnitAsset>(Handle->GetLoadedAsset());
+	
+    return Unit;
 }
 
-TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetMeshOnly(FPrimaryAssetId id, FStreamableDelegate dele)
+UUnitAsset* UMyAssetManager::LoadUnitAssetMeshOnly(FPrimaryAssetId id, FStreamableDelegate dele)
 {
 	TArray<FName> AryBundle;
 	AryBundle.Add(TEXT("Preview"));
@@ -54,7 +57,7 @@ TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetMeshOnly(FPrimaryAss
 	return LoadUnitAsset(id, dele, AryBundle);
 }
 
-TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetIconOnly(FPrimaryAssetId id, FStreamableDelegate dele)
+UUnitAsset* UMyAssetManager::LoadUnitAssetIconOnly(FPrimaryAssetId id, FStreamableDelegate dele)
 {
 	TArray<FName> AryBundle;
 
@@ -63,7 +66,7 @@ TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetIconOnly(FPrimaryAss
 	return LoadUnitAsset(id, dele, AryBundle);
 }
 
-TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetIconPreviewOnly(FPrimaryAssetId id, FStreamableDelegate dele)
+UUnitAsset* UMyAssetManager::LoadUnitAssetIconPreviewOnly(FPrimaryAssetId id, FStreamableDelegate dele)
 {
 	TArray<FName> AryBundle;
 	AryBundle.Add(TEXT("Preview"));
@@ -74,12 +77,5 @@ TSharedPtr<FStreamableHandle> UMyAssetManager::LoadUnitAssetIconPreviewOnly(FPri
 
 void UMyAssetManager::ClearUnits()
 {
-	for (auto Handle : m_SetUnits)
-	{
-		Handle->ReleaseHandle();
-	}
-
-	m_SetUnits.Reset();
-
 	UKismetSystemLibrary::CollectGarbage();
 }

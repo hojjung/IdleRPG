@@ -29,12 +29,6 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 
 	m_bCanMoveInSkill = false;
 	m_bIsSkillUsing = false;
-
-	m_Cape = CreateDefaultSubobject<UCapeComponent>(TEXT("m_Cape"));
-	m_Cape->SetupAttachment(RootComponent, TEXT("Cape"));
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> CapeMeshTest(TEXT("StaticMesh'/Game/CharacterMesh/Cape/PolyCapes/ST_RedCloak.ST_RedCloak'"));
-	m_Cape->SetStaticMesh(CapeMeshTest.Object);
-
 	m_PFComp->SetAcceptanceRadius(34);
 }
 
@@ -85,8 +79,19 @@ void AMyPlayerPawn::OnLoaded(FPrimaryAssetId id)
 
 	SetEntity(Asset);
 
-	FAttachmentTransformRules Rule (EAttachmentRule::SnapToTarget, true);
-	m_Cape->AttachToComponent(GetSkMesh(), Rule, TEXT("Cape"));
+	if(m_AddVisual)
+	{
+		m_AddVisual->Hide();
+	}
+	
+	m_AddVisual = NewObject<UAvatarAddtionalVisuals>(this);
+	m_AddVisual->Init(GetSkMesh());
+
+	int Index = 0;
+	for(const auto& Attach :  Asset->m_AryAttachments)
+	{
+		m_AddVisual->SpawnAttachment(Asset->m_ArySocketAttachments[Index++], Attach.Get());
+	}
 }
 
 bool AMyPlayerPawn::IsInputMoving()
@@ -128,14 +133,8 @@ void AMyPlayerPawn::OnTickAlive(float DeltaSeconds)
 		m_DeltaY = FVector::ZeroVector;
 	}
 
-	if(IsMoving())
-	{
-		m_Cape->SetWindPower(30);
-	}
-	else
-	{
-		m_Cape->SetWindPower(10);
-	}
+	m_AddVisual->TickWind(IsMoving());
+	
 }
 
 void AMyPlayerPawn::MoveForward(float AxisValue)

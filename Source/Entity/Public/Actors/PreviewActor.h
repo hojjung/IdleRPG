@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Avatar/AvatarAddtionalVisuals.h"
 #include "DataAsset/UnitAsset.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -25,7 +26,8 @@ protected:
 	USceneCaptureComponent2D* m_Capture;
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
 	USpringArmComponent* m_Spring;
-	
+	UPROPERTY()
+	UAvatarAddtionalVisuals* m_Visual;
 protected:
 	FDelegateHandle Handle1;
 

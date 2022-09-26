@@ -70,6 +70,20 @@ void APreviewActor::SetEntity(const UUnitAsset* asset)
 	m_MeshBody->SetAnimClass(asset->m_ClassAnim);
 	m_MeshBody->SetAnimationMode(EAnimationMode::AnimationBlueprint);
 	m_MeshBody->AddRelativeRotation(FRotator(0,asset->m_RotYawOffset,0));
+
+	if(m_Visual != nullptr)
+	{
+		m_Visual->Hide();
+	}
+	
+	m_Visual = NewObject<UAvatarAddtionalVisuals>(this);
+	m_Visual->Init(m_MeshBody);
+
+	int Index = 0;
+	for(const auto& Attach :  asset->m_AryAttachments)
+	{
+		m_Visual->SpawnAttachment(asset->m_ArySocketAttachments[Index++], Attach.Get());
+	}
 }
 
 void APreviewActor::SetMeshScale(float s)

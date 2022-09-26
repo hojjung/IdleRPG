@@ -4,24 +4,23 @@
 
 #include "CoreMinimal.h"
 #include "Components/StaticMeshComponent.h"
-#include "CapeComponent.generated.h"
+#include "MyCapeComponent.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API UCapeComponent : public UStaticMeshComponent
+class ENTITY_API UMyCapeComponent : public UStaticMeshComponent
 {
 	GENERATED_BODY()
-
 protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Transient)
 	UMaterialInstanceDynamic* m_MatInst;
 
 	FName m_NameWindParam;
-protected:
-	virtual void BeginPlay() override;
 
 public:
+	void Init(UStaticMesh* stm);
+	
 	void SetWindPower(float v);
 };

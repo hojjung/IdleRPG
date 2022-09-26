@@ -1,20 +1,22 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Player/CapeComponent.h"
+#include "Avatar/MyCapeComponent.h"
 
-void UCapeComponent::BeginPlay()
+void UMyCapeComponent::Init(UStaticMesh* stm)
 {
-	Super::BeginPlay();
-
+	SetStaticMesh(stm);
+	
 	m_NameWindParam = TEXT("VertexPushStrength");
 	
 	m_MatInst=UMaterialInstanceDynamic::Create(GetMaterial(0), this);
 
 	SetMaterial(0, m_MatInst);
+
+	SetWindPower(10);
 }
 
-void UCapeComponent::SetWindPower(float v)
+void UMyCapeComponent::SetWindPower(float v)
 {
 	if(FMath::IsNaN(v))
 	{
