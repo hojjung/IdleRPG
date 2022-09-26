@@ -13,7 +13,7 @@ void UMyCapeComponent::Init(UStaticMesh* stm)
 
 	SetMaterial(0, m_MatInst);
 
-	SetWindPower(10);
+	SetWindPower(40);
 }
 
 void UMyCapeComponent::SetWindPower(float v)

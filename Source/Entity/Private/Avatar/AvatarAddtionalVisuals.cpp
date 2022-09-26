@@ -42,14 +42,14 @@ void UAvatarAddtionalVisuals::TickWind(bool is_moving)
 	{
 		for(auto* Cape : m_AryCapes)
 		{
-			Cape->SetWindPower(30);
+			Cape->SetWindPower(90);
 		}
 	}
 	else
 	{
 		for(auto* Cape : m_AryCapes)
 		{
-			Cape->SetWindPower(10);
+			Cape->SetWindPower(40);
 		}
 	}
 }
