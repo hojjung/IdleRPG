@@ -23,7 +23,7 @@ UMyAssetManager* UMyAssetManager::Get()
 
 UUnitAsset* UMyAssetManager::LoadUnitAsset(FPrimaryAssetId id, FStreamableDelegate dele, TArray<FName> ary)
 {
-	TSharedPtr<FStreamableHandle> Handle = LoadPrimaryAsset(id, ary, dele, FStreamableManager::AsyncLoadHighPriority);
+	TSharedPtr<FStreamableHandle> Handle = LoadPrimaryAsset(id, ary, FStreamableDelegate(), FStreamableManager::AsyncLoadHighPriority);
     // this block is required an subscription to load complete or stalled. Now this blocking thread.
     {
         // Get initial loading state.
@@ -43,8 +43,10 @@ UUnitAsset* UMyAssetManager::LoadUnitAsset(FPrimaryAssetId id, FStreamableDelega
             }
         }
     }
-	UUnitAsset* Unit = Cast<UUnitAsset>(Handle->GetLoadedAsset());
+	dele.ExecuteIfBound();
 	
+	UUnitAsset* Unit = Cast<UUnitAsset>(Handle->GetLoadedAsset());
+
     return Unit;
 }
 
