@@ -5,7 +5,7 @@ UDataTable* UItemData::GetItemTable = nullptr;
 UItemData::UItemData()
 {
 	static ConstructorHelpers::FObjectFinder<UDataTable> Found(
-		TEXT("DataTable'/Game/DataTables/ItemTable.ItemTable'"));
+		TEXT("DataTable'/Game/02_DataTables/ItemTable.ItemTable'"));
 	//
 	GetItemTable = Found.Object;
 }

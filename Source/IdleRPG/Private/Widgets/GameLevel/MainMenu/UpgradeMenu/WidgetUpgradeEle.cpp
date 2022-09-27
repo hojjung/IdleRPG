@@ -1,7 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
-#include "Widgets/GameLevel/MainMenu/WidgetUpgradeEle.h"
+#include "Widgets/GameLevel/MainMenu/UpgradeMenu/WidgetUpgradeEle.h"
 
 void UWidgetUpgradeEle::NativeOnInitialized()
 {

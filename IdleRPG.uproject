@@ -42,11 +42,6 @@
 			]
 		},
 		{
-			"Name": "LevelManage",
-			"Type": "Runtime",
-			"LoadingPhase": "PreDefault"
-		},
-		{
 			"Name": "WebService",
 			"Type": "Runtime",
 			"LoadingPhase": "PreDefault"

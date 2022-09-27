@@ -2,10 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "AvatarCollection.h"
+#include "AvatarData.h"
 #include "AvatarGacha.h"
 #include "AvatarInven.h"
 #include "AvatarMerge.h"
-#include "DataTableRow/AvatarData.h"
 
 class IDLERPG_API AvatarManager
 {

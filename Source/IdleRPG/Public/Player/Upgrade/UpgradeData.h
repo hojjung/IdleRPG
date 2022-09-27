@@ -8,13 +8,17 @@
 #include "UpgradeData.generated.h"
 
 /**
- * 
+ * DataTable'/Game/02_DataTables/UpgradeTable.UpgradeTable'
  */
 UCLASS()
 class IDLERPG_API UUpgradeData : public UObject
 {
 	GENERATED_BODY()
+
+public:
+	UUpgradeData();
 	
+	static UDataTable* GetUpgradeTable;
 };
 
 USTRUCT(BlueprintType)

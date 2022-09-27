@@ -16,6 +16,5 @@ public class IdleRPGEditorTarget : TargetRules
 		ExtraModuleNames.AddRange( new string[] { "Crafting" } );
 		ExtraModuleNames.AddRange( new string[] { "Enchant" } );
 		ExtraModuleNames.AddRange( new string[] { "WebService" } );
-		ExtraModuleNames.AddRange( new string[] { "LevelManage" } );
 	}
 }

@@ -1,7 +1,6 @@
 #include "Widgets/GameLevel/MainMenu/WidgetAvatarPanel.h"
 #include "MyAssetManager.h"
 #include "MyGameInstance.h"
-#include "DataTableRow/AvatarData.h"
 
 void UWidgetAvatarPanel::NativeOnInitialized()
 {

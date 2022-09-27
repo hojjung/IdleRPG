@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Image.h"
-#include "DataTableRow/AvatarData.h"
+#include "Player/Avatar/AvatarData.h"
 #include "WidgetAvatarEle.generated.h"
 
 /**

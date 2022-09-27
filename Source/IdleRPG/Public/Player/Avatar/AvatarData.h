@@ -3,18 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ColorData.h"
-#include "DataAsset/UnitAsset.h"
+#include "DataTableRow/ColorData.h"
 #include "Engine/DataTable.h"
 #include "GameAbilitySystem/MyStat.h"
-#include "UObject/NoExportTypes.h"
 #include "AvatarData.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ENTITY_API UAvatarData : public UObject
+class IDLERPG_API UAvatarData : public UObject
 {
 	GENERATED_BODY()
 
