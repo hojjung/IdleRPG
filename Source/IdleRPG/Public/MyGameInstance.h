@@ -7,6 +7,7 @@
 #include "Monsters/SpawnManager.h"
 #include "Player/MyPlayerController.h"
 #include "Player/MyPlayerPawn.h"
+#include "Player/Avatar/AvatarManager.h"
 #include "MyGameInstance.generated.h"
 
 /**
@@ -21,6 +22,8 @@ public:
 	static UMyGameInstance* Get;
 
 public:
+	TSharedPtr<AvatarManager> m_AvatarManager;
+	
 	TSharedPtr<SpawnManager> m_SpawnManager;
 	
 	TWeakObjectPtr<AMyPlayerPawn> m_Player;

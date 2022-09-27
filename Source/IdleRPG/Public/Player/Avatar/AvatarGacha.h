@@ -7,9 +7,9 @@
 /**
  * 
  */
-class ENTITY_API AvatarMerge
+class IDLERPG_API AvatarGacha
 {
 public:
-	AvatarMerge();
-	~AvatarMerge();
+	AvatarGacha();
+	~AvatarGacha();
 };

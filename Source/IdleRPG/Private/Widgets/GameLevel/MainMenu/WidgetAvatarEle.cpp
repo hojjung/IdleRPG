@@ -1,6 +1,4 @@
-#include "Avatar/Widget/WidgetAvatarEle.h"
-
-#include "Entity.h"
+#include "Widgets/GameLevel/MainMenu/WidgetAvatarEle.h"
 #include "MyAssetManager.h"
 
 void UWidgetAvatarEle::NativeOnInitialized()

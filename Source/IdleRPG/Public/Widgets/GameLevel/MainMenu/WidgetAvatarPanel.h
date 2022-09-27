@@ -4,12 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "WidgetAvatarEle.h"
-#include "Avatar/AvatarManager.h"
+#include "Entity.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
-#include "Components/ScrollBox.h"
 #include "Components/TextBlock.h"
 #include "Components/WrapBox.h"
+#include "Player/Avatar/AvatarManager.h"
 #include "Preview/Widget/WidgetPreviewPanel.h"
 #include "WidgetAvatarPanel.generated.h"
 
@@ -17,7 +17,7 @@
  * 
  */
 UCLASS()
-class ENTITY_API UWidgetAvatarPanel : public UUserWidget
+class IDLERPG_API UWidgetAvatarPanel : public UUserWidget
 {
 	GENERATED_BODY()
 
@@ -39,9 +39,9 @@ protected:
 	UPROPERTY()
 	TArray<UWidgetAvatarEle*> m_AryEles;
 
-	TSharedPtr<AvatarManager> m_AvatarManager;
-
 	int m_TotalCount;
+
+	AvatarManager* m_AvatarManager;
 	
 protected:
 	virtual void NativeOnInitialized() override;

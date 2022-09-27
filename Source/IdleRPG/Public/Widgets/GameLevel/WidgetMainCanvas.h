@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Avatar/Widget/WidgetAvatarPanel.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "MainMenu/WidgetAvatarPanel.h"
 #include "MainMenu/WidgetMenuBtn.h"
 #include "WidgetMainCanvas.generated.h"
 

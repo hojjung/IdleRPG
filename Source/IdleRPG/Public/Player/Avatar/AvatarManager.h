@@ -7,7 +7,7 @@
 #include "AvatarMerge.h"
 #include "DataTableRow/AvatarData.h"
 
-class ENTITY_API AvatarManager
+class IDLERPG_API AvatarManager
 {
 public:
 	AvatarManager();

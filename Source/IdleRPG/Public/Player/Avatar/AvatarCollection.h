@@ -7,9 +7,9 @@
 /**
  * 
  */
-class ENTITY_API AvatarGacha
+class IDLERPG_API AvatarCollection
 {
 public:
-	AvatarGacha();
-	~AvatarGacha();
+	AvatarCollection();
+	~AvatarCollection();
 };

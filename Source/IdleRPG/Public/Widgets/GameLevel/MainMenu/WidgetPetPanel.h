@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "WidgetAvatarMergePanel.generated.h"
+#include "WidgetPetPanel.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ENTITY_API UWidgetAvatarMergePanel : public UUserWidget
+class IDLERPG_API UWidgetPetPanel : public UUserWidget
 {
 	GENERATED_BODY()
 	

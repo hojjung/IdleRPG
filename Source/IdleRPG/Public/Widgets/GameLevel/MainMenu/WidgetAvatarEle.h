@@ -12,7 +12,7 @@
  * 
  */
 UCLASS()
-class ENTITY_API UWidgetAvatarEle : public UUserWidget
+class IDLERPG_API UWidgetAvatarEle : public UUserWidget
 {
 	GENERATED_BODY()
 

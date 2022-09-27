@@ -39,7 +39,6 @@ UUnitAsset* UMyAssetManager::LoadUnitAsset(FPrimaryAssetId id, FStreamableDelega
             {
                 // exit from loading asset with invalid resolving object. wiil be promote UNRESOLVED error.
                 LoadState = EAsyncPackageState::Complete;
-            	PRINTF("AssetManager Pending");
             }
         }
     }

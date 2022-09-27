@@ -11,36 +11,12 @@
 #define PRINT3DGreen(Location,fString) if (GEngine) DrawDebugString(GEngine->GetWorldFromContextObject(this,EGetWorldErrorMode::LogAndReturnNull), Location, *fString, nullptr,  FColor::Green, 0, false);
 
 
-class AvatarManager;
-
 class  FEntityModule: public IModuleInterface
 {
-	
-protected:
-	TSharedPtr<AvatarManager> m_AvatarManager;
 	
 public:
 	virtual void StartupModule() override;
 
 	virtual void ShutdownModule() override;
-
-public:
-	static inline FEntityModule& Get()
-	{
-		return FModuleManager::LoadModuleChecked< FEntityModule >("Entity");
-	}
-
-	/**
-	* Checks to see if this module is loaded and ready.  It is only valid to call Get() if IsAvailable() returns true.
-	*
-	* @return True if the module is loaded and ready to use
-	*/
-	static inline bool IsAvailable()
-	{
-		return FModuleManager::Get().IsModuleLoaded("Entity");
-	}
-
-public:
-	AvatarManager* GetAvatarManager();
 };
 

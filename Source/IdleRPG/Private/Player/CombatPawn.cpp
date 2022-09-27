@@ -4,6 +4,17 @@
 ACombatPawn::ACombatPawn(const FObjectInitializer& objInit) :Super(objInit)
 {
 	SetAtkRange(150);
+
+	m_ShadowMeshComp = CreateDefaultSubobject<UStaticMeshComponent>("StShadow");
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> FoundSt(
+			TEXT("StaticMesh'/Game/03_VisualEffect/FX/Effects/FX_Meshes/SM_CharM_Shadow.SM_CharM_Shadow'"));
+	m_ShadowMeshComp->SetStaticMesh(FoundSt.Object);
+	m_ShadowMeshComp->SetupAttachment(GetSkMesh());
+	m_ShadowMeshComp->SetRelativeLocation(FVector(0,0,5.f));
+	m_ShadowMeshComp->SetRelativeScale3D(FVector(3));
+	m_ShadowMeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	m_ShadowMeshComp->SetCanEverAffectNavigation(false);
+	m_ShadowMeshComp->bReceivesDecals = false;
 }
 
 void ACombatPawn::SetFocusedTarget(ACombatPawn* pawn)

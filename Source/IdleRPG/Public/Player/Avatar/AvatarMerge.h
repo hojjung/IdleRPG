@@ -7,9 +7,9 @@
 /**
  * 
  */
-class ENTITY_API AvatarCollection
+class IDLERPG_API AvatarMerge
 {
 public:
-	AvatarCollection();
-	~AvatarCollection();
+	AvatarMerge();
+	~AvatarMerge();
 };

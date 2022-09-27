@@ -1,4 +1,4 @@
-#include "Avatar/AvatarManager.h"
+#include "Player/Avatar/AvatarManager.h"
 
 AvatarManager::AvatarManager()
 {

@@ -18,6 +18,9 @@ public:
 	ACombatPawn(const FObjectInitializer& objInit);
 	
 protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UStaticMeshComponent* m_ShadowMeshComp;
+	
 	TWeakObjectPtr<ACombatPawn> m_Target;
 	
 	bool m_bIsRotateable;

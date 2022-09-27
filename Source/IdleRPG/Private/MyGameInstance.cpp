@@ -25,6 +25,8 @@ void UMyGameInstance::Init()
 	Get = this;
 
 	m_SpawnManager = MakeShareable(new SpawnManager());
+
+	m_AvatarManager = MakeShareable(new AvatarManager());
 }
 
 void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)

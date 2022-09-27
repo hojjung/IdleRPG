@@ -1,13 +1,15 @@
-#include "Avatar/Widget/WidgetAvatarPanel.h"
-#include "Entity.h"
+#include "Widgets/GameLevel/MainMenu/WidgetAvatarPanel.h"
 #include "MyAssetManager.h"
+#include "MyGameInstance.h"
 #include "DataTableRow/AvatarData.h"
 
 void UWidgetAvatarPanel::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	FEntityModule::Get().GetAvatarManager()->m_AvatarInven->SpawnPreviewActor(GetWorld());
+	m_AvatarManager = UMyGameInstance::Get->m_AvatarManager.Get();
+	
+	m_AvatarManager->m_AvatarInven->SpawnPreviewActor(GetWorld());
 
 	SetVisibility(ESlateVisibility::Collapsed);
 
@@ -15,14 +17,14 @@ void UWidgetAvatarPanel::NativeOnInitialized()
 	
 	CreateAllElements();
 
-	m_Preview->Init(FEntityModule::Get().GetAvatarManager()->m_AvatarInven->GetPreviewActor());
+	m_Preview->Init(m_AvatarManager->m_AvatarInven->GetPreviewActor());
 }
 
 void UWidgetAvatarPanel::CreateAllElements()
 {
-	m_TotalCount = FEntityModule::Get().GetAvatarManager()->GetAvatarDatas().Num();
+	m_TotalCount = m_AvatarManager->GetAvatarDatas().Num();
 	
-	for(const FAvatarRow* Row : FEntityModule::Get().GetAvatarManager()->GetAvatarDatas())
+	for(const FAvatarRow* Row : m_AvatarManager->GetAvatarDatas())
 	{
 		FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &UWidgetAvatarPanel::OnAvatarLoaded, Row);
 
@@ -40,7 +42,6 @@ void UWidgetAvatarPanel::OnAvatarLoaded(const FAvatarRow* row)
 
 	m_AryEles.Add(Ele);
 
-	PRINTF("Load:%d", m_AryEles.Num());
 	if(m_AryEles.Num() >= m_TotalCount)
 	{
 		SortAvatar();
@@ -66,7 +67,7 @@ void UWidgetAvatarPanel::SortAvatar()
 
 void UWidgetAvatarPanel::OnSelect(const FAvatarRow* row)
 {
-	FEntityModule::Get().GetAvatarManager()->m_AvatarInven->ChangeAvatar(row->m_EntityAsset, FStreamableDelegate::CreateUObject(this, &UWidgetAvatarPanel::OnSelectLoaded, row));
+	m_AvatarManager->m_AvatarInven->ChangeAvatar(row->m_EntityAsset, FStreamableDelegate::CreateUObject(this, &UWidgetAvatarPanel::OnSelectLoaded, row));
 }
 
 void UWidgetAvatarPanel::OnSelectLoaded(const FAvatarRow* row)
@@ -84,19 +85,19 @@ void UWidgetAvatarPanel::OnSelectLoaded(const FAvatarRow* row)
 	
 	m_TextTierName->SetText(ColorData->m_Name);
 
-	FEntityModule::Get().GetAvatarManager()->m_AvatarInven->SetPreview(Asset);
+	m_AvatarManager->m_AvatarInven->SetPreview(Asset);
 }
 
 void UWidgetAvatarPanel::OnOpen()
 {
 	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 
-	FEntityModule::Get().GetAvatarManager()->m_AvatarInven->ShowPreview();
+	m_AvatarManager->m_AvatarInven->ShowPreview();
 }
 
 void UWidgetAvatarPanel::OnClose()
 {
 	SetVisibility(ESlateVisibility::Collapsed);
 
-	FEntityModule::Get().GetAvatarManager()->m_AvatarInven->HidePreview();
+	m_AvatarManager->m_AvatarInven->HidePreview();
 }

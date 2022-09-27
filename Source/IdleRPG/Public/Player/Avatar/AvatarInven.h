@@ -9,7 +9,7 @@
 /**
  * 
  */
-class ENTITY_API AvatarInven
+class IDLERPG_API AvatarInven
 {
 public:
 	AvatarInven();

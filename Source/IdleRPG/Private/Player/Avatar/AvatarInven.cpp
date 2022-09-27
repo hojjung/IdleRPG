@@ -1,10 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
-#include "Avatar/AvatarInven.h"
-
+#include "Player/Avatar/AvatarInven.h"
 #include "MyAssetManager.h"
-#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 AvatarInven::AvatarInven()
