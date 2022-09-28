@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DataTableRow/ColorData.h"
 #include "Engine/DataTable.h"
 #include "UObject/NoExportTypes.h"
 #include "UpgradeData.generated.h"
@@ -29,6 +30,8 @@ struct FUpgradeDataTableRow : public FTableRowBase
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UTexture2D* m_Icon;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FColorDataHandle m_Color;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FString m_StrUpgradeDesc;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)

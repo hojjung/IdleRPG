@@ -23,30 +23,36 @@ UMyAssetManager* UMyAssetManager::Get()
 
 UUnitAsset* UMyAssetManager::LoadUnitAsset(FPrimaryAssetId id, FStreamableDelegate dele, TArray<FName> ary)
 {
-	TSharedPtr<FStreamableHandle> Handle = LoadPrimaryAsset(id, ary, FStreamableDelegate(), FStreamableManager::AsyncLoadHighPriority);
-    // this block is required an subscription to load complete or stalled. Now this blocking thread.
-    {
-        // Get initial loading state.
-        EAsyncPackageState::Type LoadState = EAsyncPackageState::TimeOut;
- 
-        // Get waiting for timeout if is 
-        while(LoadState != EAsyncPackageState::Complete && Handle->IsActive())
-        {
-            // Get Asset Object ready for async loading.
-            LoadState = Handle->WaitUntilComplete(0.f /*Forever*/, true/*Force load*/);
- 
-            if(LoadState == EAsyncPackageState::PendingImports)
-            {
-                // exit from loading asset with invalid resolving object. wiil be promote UNRESOLVED error.
-                LoadState = EAsyncPackageState::Complete;
-            }
-        }
-    }
-	dele.ExecuteIfBound();
-	
-	UUnitAsset* Unit = Cast<UUnitAsset>(Handle->GetLoadedAsset());
+	TSharedPtr<FStreamableHandle> Handle = LoadPrimaryAsset(id, ary, FStreamableDelegate(),FStreamableManager::AsyncLoadHighPriority);
 
-    return Unit;
+	UUnitAsset* Unit = nullptr;
+
+	if (Handle != nullptr)
+	{
+		EAsyncPackageState::Type LoadState = EAsyncPackageState::TimeOut;
+		// Get waiting for timeout if is 
+		while (LoadState != EAsyncPackageState::Complete && Handle->IsActive())
+		{
+			// Get Asset Object ready for async loading.
+			LoadState = Handle->WaitUntilComplete(0.f /*Forever*/, true/*Force load*/);
+
+			if (LoadState == EAsyncPackageState::PendingImports)
+			{
+				LoadState = EAsyncPackageState::Complete;
+			}
+		}
+		
+
+		Unit = Cast<UUnitAsset>(Handle->GetLoadedAsset());
+	}
+	else
+	{
+		Unit = Cast<UUnitAsset>(GetPrimaryAssetObject(id));
+	}
+
+	dele.ExecuteIfBound();
+
+	return Unit;
 }
 
 UUnitAsset* UMyAssetManager::LoadUnitAssetMeshOnly(FPrimaryAssetId id, FStreamableDelegate dele)
