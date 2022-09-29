@@ -132,7 +132,7 @@ void AMyPlayerPawn::OnTickAlive(float DeltaSeconds)
 		m_DeltaY = FVector::ZeroVector;
 	}
 
-	m_AddVisual->TickWind(IsMoving());
+	m_AddVisual->TickWind(IsMoving(), DeltaSeconds);
 	
 }
 
@@ -178,9 +178,21 @@ void AMyPlayerPawn::OnRequestMoveDone(FAIRequestID id, const FPathFollowingResul
 	m_OnRequestDone.Unbind();
 }
 
+void AMyPlayerPawn::StopAnimMontage()
+{
+	Super::StopAnimMontage();
+
+	m_AddVisual->SetAttacking(-1);
+}
+
 void AMyPlayerPawn::TryAttack_External()
 {
-	TryAttack();
+	float t = TryAttack();
+
+	if(t > 0)
+	{
+		m_AddVisual->SetAttacking(t);
+	}
 }
 
 void AMyPlayerPawn::RequestAttack()

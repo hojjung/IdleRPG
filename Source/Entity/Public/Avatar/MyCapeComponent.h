@@ -13,6 +13,10 @@ UCLASS()
 class ENTITY_API UMyCapeComponent : public UStaticMeshComponent
 {
 	GENERATED_BODY()
+
+public:
+	UMyCapeComponent();
+	
 protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite,Transient)
 	UMaterialInstanceDynamic* m_MatInst;

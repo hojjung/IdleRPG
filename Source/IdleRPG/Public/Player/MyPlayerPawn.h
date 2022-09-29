@@ -77,7 +77,7 @@ protected:
 
 	void OnRequestMoveDone(FAIRequestID id, const FPathFollowingResult& rslt);
 
-	void TryAttack_External();
+	virtual void StopAnimMontage() override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
@@ -88,6 +88,8 @@ protected:
 	virtual bool IsAlive() override;
 
 public:
+	void TryAttack_External();
+	
 	bool IsInputMoving();
 
 	void SetSkillUsing(bool b);

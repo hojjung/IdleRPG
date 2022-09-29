@@ -3,7 +3,7 @@
 
 ACombatPawn::ACombatPawn(const FObjectInitializer& objInit) :Super(objInit)
 {
-	SetAtkRange(150);
+	SetAtkRange(130);
 
 	m_ShadowMeshComp = CreateDefaultSubobject<UStaticMeshComponent>("StShadow");
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> FoundSt(

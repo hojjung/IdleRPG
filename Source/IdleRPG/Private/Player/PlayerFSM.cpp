@@ -82,7 +82,7 @@ void PlayerFSM::OnCombat()
 
 	if(CheckAngle(60))
 	{
-		m_Pl->TryAttack();
+		m_Pl->TryAttack_External();
 	}
 }
 

@@ -3,6 +3,11 @@
 
 #include "Avatar/MyCapeComponent.h"
 
+UMyCapeComponent::UMyCapeComponent()
+{
+	PrimaryComponentTick.bCanEverTick = false;
+}
+
 void UMyCapeComponent::Init(UStaticMesh* stm)
 {
 	SetStaticMesh(stm);

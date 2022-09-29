@@ -2,6 +2,7 @@
 
 void UAvatarAddtionalVisuals::Init(USkeletalMeshComponent* owner)
 {
+	m_fAttackDur = -1;
 	m_Owner = owner;
 	m_AryCapes.Reset(10);
 }
@@ -36,20 +37,36 @@ void UAvatarAddtionalVisuals::SpawnAttachment(FName id, UStaticMesh* mesh)
 	m_AryCapes.Add(Cape);
 }
 
-void UAvatarAddtionalVisuals::TickWind(bool is_moving)
+void UAvatarAddtionalVisuals::TickWind(bool is_moving, float deltaTime)
 {
+	m_fAttackDur -= deltaTime;
+
+	if(m_fAttackDur > 0)
+	{
+		for(UMyCapeComponent* Cape : m_AryCapes)
+		{
+			Cape->SetWindPower(30);
+		}
+		return;
+	}
+	
 	if(is_moving)
 	{
-		for(auto* Cape : m_AryCapes)
+		for(UMyCapeComponent* Cape : m_AryCapes)
 		{
 			Cape->SetWindPower(20);
 		}
 	}
 	else
 	{
-		for(auto* Cape : m_AryCapes)
+		for(UMyCapeComponent* Cape : m_AryCapes)
 		{
 			Cape->SetWindPower(10);
 		}
 	}
+}
+
+void UAvatarAddtionalVisuals::SetAttacking(float dur)
+{
+	m_fAttackDur = dur;
 }

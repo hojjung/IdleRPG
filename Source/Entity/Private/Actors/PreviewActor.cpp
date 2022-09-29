@@ -84,7 +84,7 @@ void APreviewActor::SetEntity(const UUnitAsset* asset)
 	{
 		m_Visual->SpawnAttachment(asset->m_ArySocketAttachments[Index++], Attach.Get());
 	}
-	m_Visual->TickWind(false);
+	m_Visual->TickWind(false, 0);
 }
 
 void APreviewActor::SetMeshScale(float s)

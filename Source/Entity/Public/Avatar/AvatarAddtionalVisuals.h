@@ -19,6 +19,8 @@ protected:
 	
 	UPROPERTY(EditAnywhere)
 	TArray<UMyCapeComponent*> m_AryCapes;
+
+	float m_fAttackDur;
 	
 public:
 	void Init(USkeletalMeshComponent* owner);
@@ -27,5 +29,7 @@ public:
 
 	void SpawnAttachment(FName id, UStaticMesh* mesh);
 	
-	void TickWind(bool is_moving);
+	void TickWind(bool is_moving, float deltaTime);
+
+	void SetAttacking(float dur);
 };

@@ -73,7 +73,7 @@ public://플레이어는 어떻게? 스테이지가 있고 스테이지는데이
 public://Anim
 	float PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate = 1.f, FName StartSectionName = NAME_None);
 
-	void StopAnimMontage();
+	virtual void StopAnimMontage();
 
 	UAnimMontage* GetCurrentMontage();
 
