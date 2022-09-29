@@ -3,27 +3,25 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "DataTableRow/ColorData.h"
 #include "Engine/DataTable.h"
 #include "UObject/NoExportTypes.h"
-#include "UpgradeData.generated.h"
+#include "LevelUpData.generated.h"
 
 /**
- * DataTable'/Game/02_DataTables/UpgradeTable.UpgradeTable'
+ * 
  */
 UCLASS()
-class IDLERPG_API UUpgradeData : public UObject
+class IDLERPG_API ULevelUpData : public UObject
 {
 	GENERATED_BODY()
-
 public:
-	UUpgradeData();
+	ULevelUpData();
 	
 	static UDataTable* GetUpgradeTable;
 };
 
 USTRUCT(BlueprintType)
-struct FUpgradeDataTableRow : public FTableRowBase
+struct FLevelUpDataTableRow : public FTableRowBase
 {
 	GENERATED_BODY()
 
@@ -31,9 +29,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UTexture2D* m_Icon;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FColorDataHandle m_Color;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FString m_StrUpgradeDesc;
+	FText m_StrUpgradeDesc;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int m_nMaxLevel;
 };

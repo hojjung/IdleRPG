@@ -1,7 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
-#include "Player/Upgrade/UpgradeData.h"
+#include "Player/Upgrade/Data/UpgradeData.h"
 
 UDataTable* UUpgradeData::GetUpgradeTable = nullptr;
 

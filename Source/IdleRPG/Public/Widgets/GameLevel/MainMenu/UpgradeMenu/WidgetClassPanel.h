@@ -3,25 +3,25 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "WidgetUpgradeEle.h"
+#include "WidgetClassEle.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/ScrollBox.h"
-#include "WidgetLevelStatPanel.generated.h"
+#include "WidgetClassPanel.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API UWidgetLevelStatPanel : public UUserWidget
+class IDLERPG_API UWidgetClassPanel : public UUserWidget
 {
 	GENERATED_BODY()
 
 protected:
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UWidgetUpgradeEle> m_ClassEle;
+	TSubclassOf<UWidgetClassEle> m_ClassEle;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UScrollBox* m_ScrollBox;
-
+	
 protected:
 	virtual void NativeOnInitialized() override;
 

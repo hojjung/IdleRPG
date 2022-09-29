@@ -1,5 +1,73 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Widgets/GameLevel/MainMenu/UpgradeMenu/WidgetUpgradeMenu.h"
+
+#include "MyGameInstance.h"
+
+void UWidgetUpgradeMenu::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+
+	SetVisibility(ESlateVisibility::Collapsed);
+	
+	m_BtnClose->OnClicked.AddDynamic(this, &UWidgetUpgradeMenu::OnClose);
+	m_BtnUpgrade->OnClicked.AddDynamic(this, &UWidgetUpgradeMenu::OpenUpgrade);
+	m_BtnLevelStat->OnClicked.AddDynamic(this, &UWidgetUpgradeMenu::OpenLevelStat);
+	m_BtnClass->OnClicked.AddDynamic(this, &UWidgetUpgradeMenu::OpenClass);
+	m_BtnEmblem->OnClicked.AddDynamic(this, &UWidgetUpgradeMenu::OpenEmblem);
+
+	OpenUpgrade();
+	
+	m_LevelStatPanel->SetVisibility(ESlateVisibility::Collapsed);
+	m_ClassPanel->SetVisibility(ESlateVisibility::Collapsed);
+	m_EmblemPanel->SetVisibility(ESlateVisibility::Collapsed);
+}
+
+void UWidgetUpgradeMenu::OnOpen()
+{
+	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+
+	UMyGameInstance::Get->m_Player->SetCameraTop();
+}
+
+void UWidgetUpgradeMenu::OnClose()
+{
+	SetVisibility(ESlateVisibility::Collapsed);
+
+	UMyGameInstance::Get->m_Player->SetCameraCenter();
+}
+
+void UWidgetUpgradeMenu::OpenUpgrade()
+{
+	m_LevelStatPanel->SetVisibility(ESlateVisibility::Collapsed);
+	m_ClassPanel->SetVisibility(ESlateVisibility::Collapsed);
+	m_EmblemPanel->SetVisibility(ESlateVisibility::Collapsed);
+	
+	m_UpgradePanel->Open();
+}
+
+void UWidgetUpgradeMenu::OpenLevelStat()
+{
+	m_UpgradePanel->SetVisibility(ESlateVisibility::Collapsed);
+	m_ClassPanel->SetVisibility(ESlateVisibility::Collapsed);
+	m_EmblemPanel->SetVisibility(ESlateVisibility::Collapsed);
+	
+	m_LevelStatPanel->Open();
+}
+
+void UWidgetUpgradeMenu::OpenClass()
+{
+	m_UpgradePanel->SetVisibility(ESlateVisibility::Collapsed);
+	m_LevelStatPanel->SetVisibility(ESlateVisibility::Collapsed);
+	m_EmblemPanel->SetVisibility(ESlateVisibility::Collapsed);
+	
+	m_ClassPanel->Open();
+}
+
+void UWidgetUpgradeMenu::OpenEmblem()
+{
+	m_UpgradePanel->SetVisibility(ESlateVisibility::Collapsed);
+	m_LevelStatPanel->SetVisibility(ESlateVisibility::Collapsed);
+	m_ClassPanel->SetVisibility(ESlateVisibility::Collapsed);
+	
+	m_EmblemPanel->Open();
+}
 

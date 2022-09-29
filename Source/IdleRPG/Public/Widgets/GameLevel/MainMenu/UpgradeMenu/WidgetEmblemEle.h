@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "WidgetLevelStatEle.generated.h"
+#include "WidgetEmblemEle.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API UWidgetLevelStatEle : public UUserWidget
+class IDLERPG_API UWidgetEmblemEle : public UUserWidget
 {
 	GENERATED_BODY()
 	

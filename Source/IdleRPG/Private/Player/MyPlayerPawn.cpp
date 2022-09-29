@@ -12,12 +12,11 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 
 	m_DissolveCam = CreateDefaultSubobject<UCameraDissolve>(TEXT("CamDissolve00"));
 	m_DissolveCam->SetupAttachment(RootComponent);
-
-	m_DissolveCam->m_SocketOffset = FVector(0, 0, -30);
+	m_DissolveCam->m_TargetOffset = FVector(0, 0, 0);//-30
 	m_DissolveCam->CameraLagSpeed = 30;
-	m_DissolveCam->SetRelativeLocation(FVector(0.f));
 	m_DissolveCam->TargetArmLength = 1000; //1375
 	m_DissolveCam->SetRelativeRotation(FRotator(-60, -45.f, 0.f)); //-45.f
+	
 	m_TopCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("m_TopCamera"));
 	m_TopCamera->SetupAttachment(m_DissolveCam);
 	m_TopCamera->FieldOfView = 45.f;
@@ -246,4 +245,14 @@ void AMyPlayerPawn::SetCanMoveInSkill(bool b)
 bool AMyPlayerPawn::CanMoveInSkill()
 {
 	return m_bCanMoveInSkill;
+}
+
+void AMyPlayerPawn::SetCameraCenter()
+{
+	m_DissolveCam->m_TargetOffset = FVector(0,0,0);
+}
+
+void AMyPlayerPawn::SetCameraTop()
+{
+	m_DissolveCam->m_TargetOffset = FVector(-440,440,0);
 }

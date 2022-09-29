@@ -20,5 +20,5 @@ void UWidgetUpgradeEle::SetLevel(int lv)
 {
 	//FString FormatStr = FString::Printf(TEXT("%d"), lv);
 	
-	m_TextDesc->SetText(FText::FromString(m_Row->m_StrUpgradeDesc));
+	m_TextDesc->SetText(m_Row->m_StrUpgradeDesc);
 }

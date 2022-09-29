@@ -33,43 +33,19 @@ protected:
 
 	FVector m_CamPos;
 
-	bool m_bWasBlocked;
-
-	float m_fDissolvingTime;
-
-	float m_fTimer;
-
-	float m_fDissloveAmount;
-
-	float m_fDissolveHoleRadius;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera)
-	float m_fDissolveMaxAmount;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera)
-	float m_fDissolveHoleMaxRadius;
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Camera)
 	FVector m_SocketOffset;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Camera)
+	FVector m_TargetOffset;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Camera)
 	float TargetArmLength;
-protected:
-	UPROPERTY(Transient,VisibleAnywhere)
-	UMaterialParameterCollection* m_MatParamAsset;
 
 public:
-	void StartDissolve();
-
-	void EndDissolve();
-
 	virtual FTransform GetSocketTransform(FName InSocketName, ERelativeTransformSpace TransformSpace = RTS_World) const override;
 
 protected:
-	void ExecuteDissolve(float DeltaTime);
-
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
-
-	void SetValueParameter();
-	//
 
 	virtual void UpdateDesiredArmLocation(float DeltaTime);
 

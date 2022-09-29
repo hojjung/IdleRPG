@@ -6,32 +6,25 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
-#include "Player/Upgrade/Data/UpgradeData.h"
-#include "WidgetUpgradeEle.generated.h"
+#include "WidgetClassInfo.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API UWidgetUpgradeEle : public UUserWidget
+class IDLERPG_API UWidgetClassInfo : public UUserWidget
 {
 	GENERATED_BODY()
-
 protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UImage* m_ImgIcon;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UTextBlock* m_TextDesc;
+	UImage* m_ImgClassIcon;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UTextBlock* m_TextMaxLevel;
-
-	const FUpgradeDataTableRow* m_Row;
-	
-protected:
-	virtual void NativeOnInitialized() override;
+	UTextBlock* m_TextLevel;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UTextBlock* m_TextDesc;
 
 public:
-	void SetUpgradeData(const FUpgradeDataTableRow& row);
-
-	void SetLevel(int lv);
+	void SetClassInfo();
 };

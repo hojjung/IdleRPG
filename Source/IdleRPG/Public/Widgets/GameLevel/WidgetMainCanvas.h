@@ -7,6 +7,7 @@
 #include "Components/Button.h"
 #include "MainMenu/WidgetAvatarPanel.h"
 #include "MainMenu/WidgetMenuBtn.h"
+#include "MainMenu/UpgradeMenu/WidgetUpgradeMenu.h"
 #include "WidgetMainCanvas.generated.h"
 
 /**
@@ -18,6 +19,8 @@ class IDLERPG_API UWidgetMainCanvas : public UUserWidget
 	GENERATED_BODY()
 
 protected:
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetUpgradeMenu* m_UpgradePanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetAvatarPanel* m_AvatarPanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
@@ -42,4 +45,6 @@ protected:
 public:
 	UFUNCTION()
 	void OnClickAvatarMenu();
+	UFUNCTION()
+	void OnOpenUpgradePanel();
 };

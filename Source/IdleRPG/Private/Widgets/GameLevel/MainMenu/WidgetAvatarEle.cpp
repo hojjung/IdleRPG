@@ -1,13 +1,6 @@
 #include "Widgets/GameLevel/MainMenu/WidgetAvatarEle.h"
 #include "MyAssetManager.h"
 
-void UWidgetAvatarEle::NativeOnInitialized()
-{
-	Super::NativeOnInitialized();
-
-	m_Row = nullptr;
-}
-
 const FColorDataRow& UWidgetAvatarEle::GetColorData() const
 {
 	return *m_Row->m_ColorData.GetRow<FColorDataRow>("");

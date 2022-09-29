@@ -30,8 +30,6 @@ protected:
 	const FAvatarRow* m_Row;
 	
 protected:
-	virtual void NativeOnInitialized() override;
-	
 	virtual FReply NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	
 public:

@@ -10,6 +10,7 @@
 #include "Avatar/AvatarAddtionalVisuals.h"
 #include "Camera/CameraComponent.h"
 #include "Engine/StreamableManager.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "Monsters/QuadTree.h"
 #include "MyPlayerPawn.generated.h"
 
@@ -96,4 +97,8 @@ public:
 	void SetCanMoveInSkill(bool b);
 
 	bool CanMoveInSkill();
+
+	void SetCameraCenter();
+
+	void SetCameraTop();
 };
