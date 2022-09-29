@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "Player/Upgrade/Data/LevelUpData.h"
 #include "Player/Upgrade/Data/UpgradeData.h"
 #include "WidgetUpgradeEle.generated.h"
 
@@ -25,13 +26,17 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UTextBlock* m_TextMaxLevel;
 
-	const FUpgradeDataTableRow* m_Row;
+	const FUpgradeDataTableRow* m_UpgradeRow;
+
+	const FLevelUpDataTableRow* m_LevelUpRow;
 	
 protected:
 	virtual void NativeOnInitialized() override;
 
 public:
 	void SetUpgradeData(const FUpgradeDataTableRow& row);
+
+	void SetUpgradeData(const FLevelUpDataTableRow& row);
 
 	void SetLevel(int lv);
 };

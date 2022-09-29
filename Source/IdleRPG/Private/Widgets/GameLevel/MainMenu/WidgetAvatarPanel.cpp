@@ -21,21 +21,21 @@ void UWidgetAvatarPanel::NativeOnInitialized()
 
 void UWidgetAvatarPanel::CreateAllElements()
 {
-	m_TotalCount = m_AvatarManager->GetAvatarDatas().Num();
+	m_TotalCount = UAvatarData::GetAvatarTable->GetRowMap().Num();
 	
-	for(const FAvatarRow* Row : m_AvatarManager->GetAvatarDatas())
+	UAvatarData::GetAvatarTable->ForeachRow<FAvatarRow>("",[&](const FName& key, const FAvatarRow& row)
 	{
-		FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &UWidgetAvatarPanel::OnAvatarLoaded, Row);
+		FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &UWidgetAvatarPanel::OnAvatarLoaded, &row);
 
-		UMyAssetManager::Get()->LoadUnitAssetIconOnly(Row->m_EntityAsset, Delegate);
-	}
+		UMyAssetManager::Get()->LoadUnitAssetIconOnly(row.m_EntityAsset, Delegate);
+	});
 }
 
 void UWidgetAvatarPanel::OnAvatarLoaded(const FAvatarRow* row)
 {
 	UWidgetAvatarEle* Ele = CreateWidget<UWidgetAvatarEle>(this, m_ClassEle);
 		
-	Ele->Init(row);
+	Ele->Init(*row);
 
 	Ele->m_OnClick.BindUObject(this, &UWidgetAvatarPanel::OnSelect);
 
@@ -64,14 +64,15 @@ void UWidgetAvatarPanel::SortAvatar()
 	}
 }
 
-void UWidgetAvatarPanel::OnSelect(const FAvatarRow* row)
+void UWidgetAvatarPanel::OnSelect(const FAvatarRow& row)
 {
-	m_AvatarManager->m_AvatarInven->ChangeAvatar(row->m_EntityAsset, FStreamableDelegate::CreateUObject(this, &UWidgetAvatarPanel::OnSelectLoaded, row));
+	m_AvatarManager->m_AvatarInven->ChangeAvatar(row.m_EntityAsset, FStreamableDelegate::CreateUObject(this, &UWidgetAvatarPanel::OnSelectLoaded, &row));
 }
 
 void UWidgetAvatarPanel::OnSelectLoaded(const FAvatarRow* row)
 {
 	UUnitAsset* Asset = Cast<UUnitAsset>(UMyAssetManager::Get()->GetPrimaryAssetObject(row->m_EntityAsset));
+	
 	const FColorDataRow* ColorData = row->m_ColorData.GetRow<FColorDataRow>("");
 	
 	m_ImgGlow->SetColorAndOpacity(ColorData->m_Color.GetSpecifiedColor());

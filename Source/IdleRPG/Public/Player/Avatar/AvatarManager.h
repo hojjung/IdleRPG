@@ -22,13 +22,4 @@ public:
 	AvatarInven* m_AvatarInven;
 
 	AvatarMerge* m_AvatarMerge;
-	
-protected:
-	TArray<const FAvatarRow*> m_AryAvatars;
-
-public:
-	FORCEINLINE const TArray<const FAvatarRow*>& GetAvatarDatas() const
-	{
-		return m_AryAvatars;
-	}
 };

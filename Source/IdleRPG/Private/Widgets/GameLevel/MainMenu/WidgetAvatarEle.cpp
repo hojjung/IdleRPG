@@ -6,9 +6,9 @@ const FColorDataRow& UWidgetAvatarEle::GetColorData() const
 	return *m_Row->m_ColorData.GetRow<FColorDataRow>("");
 }
 
-void UWidgetAvatarEle::Init(const FAvatarRow* row)
+void UWidgetAvatarEle::Init(const FAvatarRow& row)
 {
-	m_Row = row;
+	m_Row = &row;
 	
 	m_ImgTier->SetBrushFromTexture(GetColorData().m_GlowTexture);
 
@@ -25,7 +25,7 @@ FReply UWidgetAvatarEle::NativeOnMouseButtonUp(const FGeometry& InGeometry, cons
 	{
 		return FReply::Handled(); 
 	}
-	m_OnClick.ExecuteIfBound(m_Row);
+	m_OnClick.ExecuteIfBound(*m_Row);
 
 	return FReply::Handled();
 }

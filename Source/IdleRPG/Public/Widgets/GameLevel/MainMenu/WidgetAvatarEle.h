@@ -17,7 +17,7 @@ class IDLERPG_API UWidgetAvatarEle : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	DECLARE_DELEGATE_OneParam(FOnClick, const FAvatarRow*)
+	DECLARE_DELEGATE_OneParam(FOnClick, const FAvatarRow&)
 
 	FOnClick m_OnClick;
 protected:
@@ -33,7 +33,7 @@ protected:
 	virtual FReply NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	
 public:
-	void Init(const FAvatarRow* row);
+	void Init(const FAvatarRow& row);
 	
 	const FColorDataRow& GetColorData() const;
 

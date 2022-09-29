@@ -9,6 +9,8 @@ void UWidgetLevelStatPanel::NativeOnInitialized()
 	{
 		UWidgetUpgradeEle* Ele = CreateWidget<UWidgetUpgradeEle>(this, m_ClassEle);
 
+		Ele->SetUpgradeData(row);
+
 		m_ScrollBox->AddChild(Ele);
 	});
 }

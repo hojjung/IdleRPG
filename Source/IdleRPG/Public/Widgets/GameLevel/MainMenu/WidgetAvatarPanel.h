@@ -50,7 +50,7 @@ protected:
 
 	void OnAvatarLoaded(const FAvatarRow* row);
 
-	void OnSelect(const FAvatarRow* row);
+	void OnSelect(const FAvatarRow& row);
 	
 	void OnSelectLoaded(const FAvatarRow* row);
 
