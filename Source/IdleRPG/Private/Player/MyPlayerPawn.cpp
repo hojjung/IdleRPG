@@ -24,7 +24,7 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_AryTargetingObjectType.Reset();
 	m_AryTargetingObjectType.Add(EObjectTypeQuery::ObjectTypeQuery3);
 
-	m_Movement->MaxSpeed = 400.f;
+	m_Movement->MaxSpeed = 500.f;
 
 	m_bCanMoveInSkill = false;
 	m_bIsSkillUsing = false;

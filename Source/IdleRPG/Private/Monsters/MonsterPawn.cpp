@@ -41,6 +41,8 @@ TEXT("ParticleSystem'/Game/03_VisualEffect/P_Hit.P_Hit'"));
 	m_HitParticle->SetTemplate(FoundHitEffect.Object);
 
 	m_SoundComp->SetSound(FoundHitSound.Object);
+	
+	m_Movement->MaxSpeed = 200.f;
 }
 
 void AMonsterPawn::SetMonsterInst(const TSharedPtr<Monster>& mob)

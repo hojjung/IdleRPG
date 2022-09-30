@@ -19,6 +19,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle ,meta = (AssetBundles = "Preview"))
 	TSoftObjectPtr< USkeletalMesh> m_BodyMesh;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
+	TSoftObjectPtr<UAnimMontage> m_SpawnAnim;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
 	TSoftObjectPtr<UAnimMontage> m_BaseAttackAnim;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
 	TSoftObjectPtr<UAnimMontage> m_DeathMontage;
