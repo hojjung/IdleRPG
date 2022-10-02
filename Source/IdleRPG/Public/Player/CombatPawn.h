@@ -6,9 +6,13 @@
 #include "Actors/Pawns/MyBasePawn.h"
 #include "CombatPawn.generated.h"
 
-/**
- * 
- */
+UENUM(BlueprintType)
+enum class EDmgType : uint8
+{
+	DmgPhys
+	
+};
+
 UCLASS()
 class IDLERPG_API ACombatPawn : public AMyBasePawn
 {
@@ -16,6 +20,11 @@ class IDLERPG_API ACombatPawn : public AMyBasePawn
 
 public:
 	ACombatPawn(const FObjectInitializer& objInit);
+
+public:
+	DECLARE_DELEGATE_OneParam(FOnDied, const ACombatPawn* );
+
+	FOnDied m_OnDied;
 	
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -58,4 +67,8 @@ public:
 	float GetAttackRangeSqr();
 
 	EPathFollowingRequestResult::Type ChaseTarget();
+
+	virtual  float MyTakeDamage(float DamageAmount, EDmgType dmgType, ACombatPawn* DamageCauser);
+
+	virtual void StartDie();
 };

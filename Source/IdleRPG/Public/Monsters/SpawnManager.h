@@ -7,6 +7,7 @@
 #include "QuadTree.h"
 #include "StageTable.h"
 #include "Engine/StreamableManager.h"
+#include "Player/CombatPawn.h"
 
 /**
  * 
@@ -17,7 +18,6 @@ public:
 	SpawnManager();
 	~SpawnManager();
 	
-
 private:
 	TArray<FStageRow*> m_AryStage;
 	
@@ -27,12 +27,12 @@ private:
 private:
 	const FPrimaryAssetId& GetRandomMonsterID(int stageLevel);
 
-	void OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot);
+	void OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot,  ACombatPawn::FOnDied dele);
 	
 public:
 	void Update(float delta);
 
-	void SpawnUnits(const UObject* world, int stageLevel, int cnt);
+	void SpawnUnits(const UObject* world, int stageLevel, ACombatPawn::FOnDied dele, int cnt = 20);
 	
 	template <class T>
 	void GetNearNpcs(const AMyBasePawn* caller, TArray<T*>& outAry, float range)
@@ -43,4 +43,6 @@ public:
 		}
 		m_QuadTree->TraceObjectInRange<T>(caller,range, outAry);
 	}
+	
+	void Clear();
 };

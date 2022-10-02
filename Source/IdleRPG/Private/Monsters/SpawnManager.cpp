@@ -50,7 +50,7 @@ void SpawnManager::Update(float delta)
 	m_QuadTree->UpdateState(UMyGameInstance::Get);
 }
 
-void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, int cnt)
+void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, ACombatPawn::FOnDied dele,  int cnt)
 {
 	if(m_AryStage[stageLevel]->m_AryUnits.Num() <= 0)
 	{
@@ -77,13 +77,25 @@ void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, int cnt)
 		
 		const FPrimaryAssetId& AssetID = GetRandomMonsterID(stageLevel);
 
-		FStreamableDelegate Delegate = FStreamableDelegate::CreateRaw(this, &SpawnManager::OnMonsterLoaded, AssetID, world, ResultPos.Location, Rot);
+		FStreamableDelegate Delegate = FStreamableDelegate::CreateRaw(this, &SpawnManager::OnMonsterLoaded, AssetID, world, ResultPos.Location, Rot, dele);
 
 		UMyAssetManager::Get()->LoadUnitAssetMeshOnly(AssetID, Delegate);
 	}
 }
 
-void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot)
+void SpawnManager::Clear()
+{
+	UMyGameInstance::Get->m_Player->SetFocusedTarget(nullptr);
+
+	for(TSharedPtr<Monster, ESPMode::NotThreadSafe> Mob : m_AryMonsters)
+	{
+		Mob.Get()->GetMonsterPawn()->Destroy();
+		Mob.Reset();
+	}
+	m_AryMonsters.Reset();
+}
+
+void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot,  ACombatPawn::FOnDied dele)
 {
 	FActorSpawnParameters Param;
 	Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
@@ -94,6 +106,8 @@ void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* worl
 	UUnitAsset* MonsterData = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(id));
 	
 	AMonsterPawn* Pawn = world->GetWorld()->SpawnActor<AMonsterPawn>(AMonsterPawn::StaticClass(),loc, rot, Param);
+
+	Pawn->m_OnDied = dele;
 	
 	m_QuadTree->InsertObject(Pawn);
 

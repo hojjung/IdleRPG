@@ -104,3 +104,13 @@ EPathFollowingRequestResult::Type ACombatPawn::ChaseTarget()
 {
 	return MoveToActor(GetFocusedTarget(), GetAttackRange());
 }
+
+float ACombatPawn::MyTakeDamage(float DamageAmount, EDmgType dmgType, ACombatPawn* DamageCauser)
+{
+	return 0;
+}
+
+void ACombatPawn::StartDie()
+{
+	m_OnDied.ExecuteIfBound(this);
+}

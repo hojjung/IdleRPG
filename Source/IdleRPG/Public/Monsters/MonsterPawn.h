@@ -39,4 +39,6 @@ public:
 	virtual bool IsAlive() override;
 
 	virtual bool UseBoidMove() override;
+
+	
 };

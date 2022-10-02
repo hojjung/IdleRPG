@@ -70,4 +70,6 @@ public:
 	void Update(float delta);
 	
 	float GetHpPercent();
+
+	AMonsterPawn* GetMonsterPawn();
 };

@@ -149,4 +149,10 @@ float Monster::GetHpPercent()
 
 	return Per;
 }
+
+AMonsterPawn* Monster::GetMonsterPawn()
+{
+	return m_Pawn.Get();
+}
+
 //
