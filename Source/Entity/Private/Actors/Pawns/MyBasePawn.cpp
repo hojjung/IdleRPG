@@ -88,7 +88,9 @@ void AMyBasePawn::SetEntity(const UUnitAsset* asset)
 
 	m_PawnName = asset->m_ShowingName;
 
-	m_Movement->NavAgentProps.AgentRadius = asset->m_fCapsuleRadius;
+	m_Capsule->SetCapsuleRadius(asset->m_fCapsuleRadius);
+
+	UpdateNavAgent();
 }
 
 void AMyBasePawn::LoadSetSkMeshAnim(const UUnitAsset* asset)
@@ -467,4 +469,9 @@ FText AMyBasePawn::GetPawnName() const
 FVector AMyBasePawn::GetNavAgentLocation() const
 {
 	return GetActorLocation() - FVector(0.f, 0.f, 88);
+}
+
+bool AMyBasePawn::UseBoidMove()
+{
+	return false;
 }

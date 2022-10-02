@@ -39,10 +39,10 @@ public:
 	void SetImpact(FVector v);
 
 	virtual void SetActive(bool bNewActive, bool bReset=false) override;
-	
+
 protected:
 	virtual void BeginPlay() override;
-	
+
 	void TickRotate(float deltaTime);
 
 	FRotator ComputeOrientToMovementRotation(const FRotator& CurrentRotation) const;
@@ -50,4 +50,6 @@ protected:
 	virtual void HandleImpact(const FHitResult& Hit, float TimeSlice=0.f, const FVector& MoveDelta = FVector::ZeroVector) override;
 
 	bool CanStepUp(const FHitResult& Hit) const;
+
+	bool IsNavBound(FVector delta);
 };

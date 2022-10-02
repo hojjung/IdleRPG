@@ -53,7 +53,14 @@ void UMyFlockSteering::ApplyControlInputToVelocity(float DeltaTime)
 
 	FVector NewDelta;
 	
-	NewDelta = GetBoidDelta(ControlAcceleration);
+	if(m_Owner->UseBoidMove())
+	{
+		NewDelta = GetBoidDelta(ControlAcceleration);
+	}
+	else
+	{
+		NewDelta = ControlAcceleration;	
+	}
 	
 	Velocity += NewDelta * FMath::Abs(Acceleration) * DeltaTime;
 	//둘의 차이가 너무크니까 지터링되는것

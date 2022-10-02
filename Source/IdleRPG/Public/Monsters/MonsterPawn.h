@@ -37,4 +37,6 @@ public:
 	float GetHpPercent() const;
 
 	virtual bool IsAlive() override;
+
+	virtual bool UseBoidMove() override;
 };

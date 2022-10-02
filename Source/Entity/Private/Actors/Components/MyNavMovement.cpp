@@ -21,6 +21,7 @@ void UMyNavMovement::BeginPlay()
 {
 	Super::BeginPlay();
 	m_Owner = GetOwner<AMyBasePawn>();
+	NavAgentProps = m_Owner->GetNavAgentPropertiesRef(); 
 	MySnapToNav();
 }
 
@@ -55,19 +56,20 @@ void UMyNavMovement::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 
 	ApplyControlInputToVelocity(DeltaTime);
 
-	//LimitWorldBounds();
+	LimitWorldBounds();
 
 	//bPositionCorrected = false;
 
 	m_Delta = (Velocity * DeltaTime * m_fSpeedMultiple) + m_ImpactVector;
 
-	if (!m_Delta.IsNearlyZero(1e-6f))
+	if (!m_Delta.IsNearlyZero(1e-6f) && IsNavBound(m_Delta))
 	{
 		const FVector OldLocation = UpdatedComponent->GetComponentLocation();
 
 		const FQuat Rotation = UpdatedComponent->GetComponentQuat();
 
 		FHitResult Hit(1.f);
+		
 		SafeMoveUpdatedComponent(m_Delta, Rotation, true, Hit);
 
 		if (Hit.IsValidBlockingHit())
@@ -77,13 +79,9 @@ void UMyNavMovement::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 			SlideAlongSurface(m_Delta, 1.f - Hit.Time, Hit.Normal, Hit, true);
 		}
 
-		//if (!bPositionCorrected)
-		{
-			const FVector NewLocation = UpdatedComponent->GetComponentLocation();
-			Velocity = ((NewLocation - OldLocation) / DeltaTime);
-		}
-
-		MySnapToNav();
+		const FVector NewLocation = UpdatedComponent->GetComponentLocation();
+		
+		Velocity = ((NewLocation - OldLocation) / DeltaTime);
 	}
 
 	m_ImpactVector = FVector::ZeroVector;
@@ -106,6 +104,17 @@ void UMyNavMovement::SetActive(bool new_active, bool reset)
 	{
 		m_ImpactVector = FVector::ZeroVector;
 	}
+}
+
+bool UMyNavMovement::IsNavBound(FVector delta)
+{
+	FVector ActorLoc = GetActorLocation();
+	
+	FNavLocation Loc;
+
+	UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
+
+	return Nav->ProjectPointToNavigation(delta + ActorLoc,Loc);
 }
 
 void UMyNavMovement::TickRotate(float deltaTime)

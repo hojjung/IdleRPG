@@ -59,3 +59,8 @@ bool AMonsterPawn::IsAlive()
 {
 	return 0.f < GetHpPercent();
 }
+
+bool AMonsterPawn::UseBoidMove()
+{
+	return GetFocusedTarget() != nullptr;
+}

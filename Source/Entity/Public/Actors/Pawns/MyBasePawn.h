@@ -95,4 +95,6 @@ public:
 	void SetActorFeetLocation(FVector loc);
 
 	virtual FVector GetNavAgentLocation() const override;
+
+	virtual bool UseBoidMove(); 
 };

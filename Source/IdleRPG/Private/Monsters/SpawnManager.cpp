@@ -62,7 +62,7 @@ void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, int cnt)
 
 	FBox NavBox = Nav->GetNavigationBounds().Array()[0].AreaBox;
 	
-	m_QuadTree = MakeShareable(new QuadTree(NavBox.GetCenter(), NavBox.GetExtent(),  4));
+	m_QuadTree = MakeShareable(new QuadTree(NavBox.GetCenter(), NavBox.GetExtent() * 1.3f,  4));
 	m_QuadTree->m_Root = m_QuadTree;
 
 	int Iter = -1;
