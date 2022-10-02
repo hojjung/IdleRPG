@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "MyAssetManager.h"
+#include "MyGameInstance.h"
 #include "Actors/Components/MyNavMovement.h"
 #include "Player/MyFlockSteering.h"
 #include "Player/PlayerSensor.h"
@@ -68,6 +69,8 @@ void AMyPlayerPawn::BeginPlay()
 	m_Fsm = MakeShareable(new PlayerFSM(this));
 
 	SetAtkRange(200);
+
+	UMyGameInstance::Get->m_Player = this;
 }
 
 void AMyPlayerPawn::OnLoaded(FPrimaryAssetId id)

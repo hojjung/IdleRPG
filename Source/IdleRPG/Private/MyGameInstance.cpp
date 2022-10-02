@@ -9,12 +9,16 @@ void UMyGameInstance::BeginDestroy()
 	Super::BeginDestroy();
 	
 	Get = nullptr;
+
+	m_AvatarManager.Reset();
 	
 	m_SpawnManager.Reset();
-	
-	//m_Player = nullptr;
 
-	//m_PlayerCon = nullptr;
+	m_GameMode.Reset();
+	
+	m_Player = nullptr;
+
+	m_PlayerCon = nullptr;
 }
 
 void UMyGameInstance::Init()

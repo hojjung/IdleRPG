@@ -31,6 +31,8 @@ protected:
 	
 protected:
 	virtual FReply NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+
+	virtual void NativeDestruct() override;
 	
 public:
 	void Init(const FAvatarRow& row);

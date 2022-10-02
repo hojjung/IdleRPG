@@ -19,6 +19,13 @@ void UWidgetAvatarPanel::NativeOnInitialized()
 	m_Preview->Init(m_AvatarManager->m_AvatarInven->GetPreviewActor());
 }
 
+void UWidgetAvatarPanel::NativeDestruct()
+{
+	Super::NativeDestruct();
+
+	m_AvatarManager = nullptr;
+}
+
 void UWidgetAvatarPanel::CreateAllElements()
 {
 	m_TotalCount = UAvatarData::GetAvatarTable->GetRowMap().Num();

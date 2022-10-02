@@ -29,3 +29,9 @@ FReply UWidgetAvatarEle::NativeOnMouseButtonUp(const FGeometry& InGeometry, cons
 
 	return FReply::Handled();
 }
+
+void UWidgetAvatarEle::NativeDestruct()
+{
+	Super::NativeDestruct();
+	m_Row = nullptr;
+}

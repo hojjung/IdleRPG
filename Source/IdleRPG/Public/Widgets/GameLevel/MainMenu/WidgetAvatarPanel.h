@@ -46,6 +46,8 @@ protected:
 protected:
 	virtual void NativeOnInitialized() override;
 
+	virtual void NativeDestruct() override;
+
 	void CreateAllElements();
 
 	void OnAvatarLoaded(const FAvatarRow* row);
