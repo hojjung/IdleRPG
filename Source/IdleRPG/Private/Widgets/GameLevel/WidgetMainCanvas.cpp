@@ -15,9 +15,11 @@ void UWidgetMainCanvas::NativeOnInitialized()
 void UWidgetMainCanvas::OnClickAvatarMenu()
 {
 	m_AvatarPanel->OnOpen();
+	m_UpgradePanel->OnClose();
 }
 
 void UWidgetMainCanvas::OnOpenUpgradePanel()
 {
 	m_UpgradePanel->OnOpen();
+	m_AvatarPanel->OnClose();
 }

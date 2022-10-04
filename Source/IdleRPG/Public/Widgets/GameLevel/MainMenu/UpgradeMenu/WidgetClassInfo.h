@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "Widgets/GameLevel/MainMenu/WidgetAvatarEle.h"
 #include "WidgetClassInfo.generated.h"
 
 /**
@@ -17,9 +18,9 @@ class IDLERPG_API UWidgetClassInfo : public UUserWidget
 	GENERATED_BODY()
 protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UImage* m_ImgIcon;
-	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UImage* m_ImgClassIcon;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetAvatarEle* m_Avatar;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UTextBlock* m_TextLevel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
