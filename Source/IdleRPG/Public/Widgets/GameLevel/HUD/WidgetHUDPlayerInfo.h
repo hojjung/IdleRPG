@@ -5,10 +5,11 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "Components/ProgressBar.h"
 #include "Components/Slider.h"
 #include "Components/TextBlock.h"
 #include "Components/WrapBox.h"
-#include "Widgets/GameLevel/MainMenu/WidgetAvatarEle.h"
+#include "Widgets/GameLevel/MainMenu/Avatar/WidgetAvatarEle.h"
 #include "WidgetHUDPlayerInfo.generated.h"
 
 /**
@@ -45,7 +46,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (BindWidget))
 	UButton* m_BtnOption;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (BindWidget))
-	USlider* m_ExpBar;
+	UProgressBar* m_ExpBar;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (BindWidget))
 	UTextBlock* m_TextExp;
 	

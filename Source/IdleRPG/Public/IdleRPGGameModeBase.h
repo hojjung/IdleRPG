@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "WebService/Public/GoogleLogin.h"
 #include "GameFramework/GameModeBase.h"
+#include "Player/CombatPawn.h"
 #include "IdleRPGGameModeBase.generated.h"
 
 /**
@@ -27,4 +28,6 @@ protected:
 	void LoginEnd(bool bSuccess);
 
 	virtual void Tick(float DeltaSeconds) override;
+
+	void TestOnDied(const ACombatPawn* p);
 };

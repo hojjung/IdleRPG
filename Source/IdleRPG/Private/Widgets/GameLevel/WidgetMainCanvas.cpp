@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Widgets/GameLevel/WidgetMainCanvas.h"
 
 void UWidgetMainCanvas::NativeOnInitialized()
@@ -10,16 +7,27 @@ void UWidgetMainCanvas::NativeOnInitialized()
 	m_BtnAvatar->m_OnClick.BindUObject(this, &UWidgetMainCanvas::OnClickAvatarMenu);
 
 	m_BtnUpgrade->m_OnClick.BindUObject(this, &UWidgetMainCanvas::OnOpenUpgradePanel);
+	
+	m_BtnInventory->m_OnClick.BindUObject(this, &UWidgetMainCanvas::OnInvenPanel);
 }
 
 void UWidgetMainCanvas::OnClickAvatarMenu()
 {
 	m_AvatarPanel->OnOpen();
 	m_UpgradePanel->OnClose();
+	m_InvenPanel->OnClose();
 }
 
 void UWidgetMainCanvas::OnOpenUpgradePanel()
 {
-	m_UpgradePanel->OnOpen();
 	m_AvatarPanel->OnClose();
+	m_UpgradePanel->OnOpen();
+	m_InvenPanel->OnClose();
+}
+
+void UWidgetMainCanvas::OnInvenPanel()
+{
+	m_UpgradePanel->OnClose();
+	m_AvatarPanel->OnClose();
+	m_InvenPanel->OnShow();
 }

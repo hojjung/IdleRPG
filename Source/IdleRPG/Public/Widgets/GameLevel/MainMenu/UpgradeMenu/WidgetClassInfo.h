@@ -6,7 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
-#include "Widgets/GameLevel/MainMenu/WidgetAvatarEle.h"
+#include "Widgets/GameLevel/MainMenu/Avatar/WidgetAvatarEle.h"
 #include "WidgetClassInfo.generated.h"
 
 /**

@@ -12,9 +12,6 @@ public class IdleRPGEditorTarget : TargetRules
 		ExtraModuleNames.AddRange( new string[] { "IdleRPG" } );
 		ExtraModuleNames.AddRange( new string[] { "IdleRPGEditor" } );
 		ExtraModuleNames.AddRange( new string[] { "Entity" } );
-		ExtraModuleNames.AddRange( new string[] { "ItemInventory" } );
-		ExtraModuleNames.AddRange( new string[] { "Crafting" } );
-		ExtraModuleNames.AddRange( new string[] { "Enchant" } );
 		ExtraModuleNames.AddRange( new string[] { "WebService" } );
 	}
 }

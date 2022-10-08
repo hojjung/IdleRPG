@@ -87,7 +87,7 @@ void SpawnManager::Clear()
 {
 	UMyGameInstance::Get->m_Player->SetFocusedTarget(nullptr);
 
-	for(TSharedPtr<Monster, ESPMode::NotThreadSafe> Mob : m_AryMonsters)
+	for(auto Mob : m_AryMonsters)
 	{
 		Mob.Get()->GetMonsterPawn()->Destroy();
 		Mob.Reset();

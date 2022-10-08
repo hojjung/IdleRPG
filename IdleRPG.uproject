@@ -26,22 +26,6 @@
 			]
 		},
 		{
-			"Name": "ItemInventory",
-			"Type": "Runtime",
-			"LoadingPhase": "PreDefault",
-			"AdditionalDependencies": [
-				"CoreUObject"
-			]
-		},
-		{
-			"Name": "Crafting",
-			"Type": "Runtime",
-			"LoadingPhase": "PreDefault",
-			"AdditionalDependencies": [
-				"UMG"
-			]
-		},
-		{
 			"Name": "WebService",
 			"Type": "Runtime",
 			"LoadingPhase": "PreDefault"

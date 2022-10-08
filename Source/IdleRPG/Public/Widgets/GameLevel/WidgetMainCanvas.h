@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/Button.h"
-#include "MainMenu/WidgetAvatarPanel.h"
 #include "MainMenu/WidgetMenuBtn.h"
+#include "MainMenu/Avatar/WidgetAvatarPanel.h"
+#include "MainMenu/InventoryMenu/WidgetInvenPanel.h"
 #include "MainMenu/UpgradeMenu/WidgetUpgradeMenu.h"
 #include "WidgetMainCanvas.generated.h"
 
@@ -24,6 +24,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetAvatarPanel* m_AvatarPanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetInvenPanel* m_InvenPanel;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetMenuBtn* m_BtnUpgrade;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetMenuBtn* m_BtnSkill;
@@ -39,6 +41,7 @@ protected:
 	UWidgetMenuBtn* m_BtnRelic;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetMenuBtn* m_BtnShop;
+	
 protected:
 	virtual void NativeOnInitialized() override;
 
@@ -47,4 +50,6 @@ public:
 	void OnClickAvatarMenu();
 	UFUNCTION()
 	void OnOpenUpgradePanel();
+	UFUNCTION()
+	void OnInvenPanel();
 };

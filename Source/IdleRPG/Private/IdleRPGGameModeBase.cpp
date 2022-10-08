@@ -6,9 +6,9 @@
 
 AIdleRPGGameModeBase::AIdleRPGGameModeBase()
 {
-	PlayerControllerClass=AMyPlayerController::StaticClass();
+	PlayerControllerClass = AMyPlayerController::StaticClass();
 	//HUDClass = AMyHUD::StaticClass();
-	DefaultPawnClass=AMyPlayerPawn::StaticClass();
+	DefaultPawnClass = AMyPlayerPawn::StaticClass();
 	PrimaryActorTick.bCanEverTick = true;	
 }
 
@@ -18,7 +18,7 @@ void AIdleRPGGameModeBase::StartPlay()
 
 	m_GoogleLogin = MakeShareable<GoogleLogin>(new GoogleLogin(GoogleLogin::FOnLoginEnd::CreateUObject(this, &AIdleRPGGameModeBase::LoginEnd)));
 
-	
+	UMyGameInstance::Get->m_SpawnManager->SpawnUnits(GetWorld(),0,ACombatPawn::FOnDied::CreateUObject(this, &AIdleRPGGameModeBase::TestOnDied),20);
 }
 
 void AIdleRPGGameModeBase::LoginEnd(bool bSuccess)
@@ -40,4 +40,9 @@ void AIdleRPGGameModeBase::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 
 	UMyGameInstance::Get->Tick(DeltaSeconds);
+}
+
+void AIdleRPGGameModeBase::TestOnDied(const ACombatPawn* p)
+{
+	
 }
