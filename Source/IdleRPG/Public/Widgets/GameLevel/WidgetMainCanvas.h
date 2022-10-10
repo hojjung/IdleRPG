@@ -7,6 +7,7 @@
 #include "MainMenu/WidgetMenuBtn.h"
 #include "MainMenu/Avatar/WidgetAvatarPanel.h"
 #include "MainMenu/InventoryMenu/WidgetInvenPanel.h"
+#include "MainMenu/Map/WidgetMenuMap.h"
 #include "MainMenu/Relic/WidgetRelicPanel.h"
 #include "MainMenu/UpgradeMenu/WidgetUpgradeMenu.h"
 #include "WidgetMainCanvas.generated.h"
@@ -28,6 +29,8 @@ protected:
 	UWidgetAvatarPanel* m_AvatarPanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetInvenPanel* m_InvenPanel;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetMenuMap* m_MapPanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetMenuBtn* m_BtnUpgrade;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
@@ -57,4 +60,6 @@ public:
 	void OnInvenPanel();
 	UFUNCTION()
 	void OnRelicPanel();
+	UFUNCTION()
+	void OnMapPanel();
 };

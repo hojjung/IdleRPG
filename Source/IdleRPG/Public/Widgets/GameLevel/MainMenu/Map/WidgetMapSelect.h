@@ -4,14 +4,20 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "WidgetMapPanel.generated.h"
+#include "WidgetMapSelect.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API UWidgetMapPanel : public UUserWidget
+class IDLERPG_API UWidgetMapSelect : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
+
+protected:
+	virtual void NativeOnInitialized() override;
+
+public:
+	void OnClose();
 };

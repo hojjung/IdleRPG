@@ -11,6 +11,8 @@ void UWidgetMainCanvas::NativeOnInitialized()
 	m_BtnInventory->m_OnClick.BindUObject(this, &UWidgetMainCanvas::OnInvenPanel);
 
 	m_BtnRelic->m_OnClick.BindUObject(this, &UWidgetMainCanvas::OnRelicPanel);
+	
+	m_BtnMap->m_OnClick.BindUObject(this, &UWidgetMainCanvas::OnMapPanel);
 }
 
 void UWidgetMainCanvas::OnClickAvatarMenu()
@@ -20,6 +22,8 @@ void UWidgetMainCanvas::OnClickAvatarMenu()
 	m_InvenPanel->OnClose();
 
 	m_RelicPanel->OnClose();
+
+	m_MapPanel->OnClose();
 }
 
 void UWidgetMainCanvas::OnOpenUpgradePanel()
@@ -29,6 +33,8 @@ void UWidgetMainCanvas::OnOpenUpgradePanel()
 	m_InvenPanel->OnClose();
 
 	m_RelicPanel->OnClose();
+
+	m_MapPanel->OnClose();
 }
 
 void UWidgetMainCanvas::OnInvenPanel()
@@ -38,11 +44,25 @@ void UWidgetMainCanvas::OnInvenPanel()
 	m_InvenPanel->OnShow();
 
 	m_RelicPanel->OnClose();
+
+	m_MapPanel->OnClose();
 }
 
 void UWidgetMainCanvas::OnRelicPanel()
 {
 	m_RelicPanel->OnOpen();
+	m_UpgradePanel->OnClose();
+	m_AvatarPanel->OnClose();
+	m_InvenPanel->OnClose();
+
+	m_MapPanel->OnClose();
+}
+
+void UWidgetMainCanvas::OnMapPanel()
+{
+	m_MapPanel->OnOpen();
+
+	m_RelicPanel->OnClose();
 	m_UpgradePanel->OnClose();
 	m_AvatarPanel->OnClose();
 	m_InvenPanel->OnClose();
