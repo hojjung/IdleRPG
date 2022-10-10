@@ -40,6 +40,11 @@ void UWidgetGachaButtonPanel::Init(const FText& text, int costPerOne)
 	m_BtnShowPercentInfo->OnClicked.AddDynamic(this, &UWidgetGachaButtonPanel::OnClickPercentInfo);
 }
 
+void UWidgetGachaButtonPanel::HideBottom()
+{
+	m_Btn->SetVisibility(ESlateVisibility::Collapsed);
+}
+
 void UWidgetGachaButtonPanel::UpdateLevel(int level, int cExp, int mExp)
 {
 	FString Str = FString::Printf(TEXT("Lv.%d"), level);

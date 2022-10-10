@@ -33,11 +33,18 @@ void UWidgetInvenPanel::NativeOnInitialized()
 void UWidgetInvenPanel::OnShow()
 {
 	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+	m_EquipWeapon->OnShow();
 }
 
 void UWidgetInvenPanel::OnClose()
 {
 	SetVisibility(ESlateVisibility::Collapsed);
+	m_EquipWeapon->OnClose();
+	m_EquipHelmet->OnClose();
+	m_EquipTorso->OnClose();
+	m_EquipGlove->OnClose();
+	m_EquipLeg->OnClose();
+	m_EquipFeet->OnClose();
 }
 
 void UWidgetInvenPanel::OnClickWeapon()

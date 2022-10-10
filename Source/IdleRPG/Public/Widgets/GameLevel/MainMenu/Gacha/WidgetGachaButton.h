@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "Components/HorizontalBox.h"
 #include "Components/Image.h"
 #include "Components/ProgressBar.h"
 #include "Components/TextBlock.h"
@@ -50,8 +51,13 @@ protected:
 	UTextBlock* m_Level;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UTextBlock* m_TextExp;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UHorizontalBox* m_Btn;
+	
 public:
 	void Init(const FText& text, int costPerOne);
+
+	void HideBottom();
 
 	void UpdateLevel(int level, int cExp, int mExp);
 

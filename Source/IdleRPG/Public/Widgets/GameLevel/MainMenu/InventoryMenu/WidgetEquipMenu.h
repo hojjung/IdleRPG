@@ -3,8 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WidgetEquipInfo.h"
 #include "WidgetEquipMenuEle.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/UniformGridPanel.h"
 #include "Components/WrapBox.h"
 #include "Widgets/GameLevel/MainMenu/Gacha/WidgetGachaButton.h"
 #include "WidgetEquipMenu.generated.h"
@@ -26,7 +28,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetGachaButtonPanel* m_GachaBtn;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UWrapBox* m_Wrap;
+	UUniformGridPanel* m_Grid;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetEquipInfo* m_EquipInfo;
 	UPROPERTY()
 	TArray<UWidgetEquipMenuEle*> m_AryEles;
 	

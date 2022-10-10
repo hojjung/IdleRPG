@@ -25,6 +25,8 @@ protected:
 	UTextBlock* m_TextDesc;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UTextBlock* m_TextMaxLevel;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UTextBlock* m_TextLevel;
 
 	const FUpgradeDataTableRow* m_UpgradeRow;
 

@@ -11,6 +11,8 @@ void UWidgetEquipMenu::NativePreConstruct()
 
 void UWidgetEquipMenu::Init(FText panelName, const UDataTable* equipItems, int costPerOne)
 {
+	m_EquipInfo->Close();
+	
 	m_GachaBtn->Init(panelName, costPerOne);
 
 	equipItems->ForeachRow<FEquipRow>("",[&](const FName& key, const FEquipRow& row)
@@ -20,8 +22,6 @@ void UWidgetEquipMenu::Init(FText panelName, const UDataTable* equipItems, int c
 		Ele->SetEquipData(row, UWidgetEquipMenuEle::FOnClick::CreateUObject(this, &UWidgetEquipMenu::OnSelectEquip));
 
 		m_AryEles.Add(Ele);
-
-		m_Wrap->AddChildToWrapBox(Ele);
 	});
 
 	Sort();
@@ -38,9 +38,21 @@ void UWidgetEquipMenu::Sort()
 		return LhsLevel < RhsLevel;
 	});
 
+	int RowY = 0;
+
+	int ColumnX = 0;
+	
 	for(UWidgetEquipMenuEle* Ele : m_AryEles)
 	{
-		m_Wrap->AddChildToWrapBox(Ele);
+		m_Grid->AddChildToUniformGrid(Ele,RowY,ColumnX);
+
+		ColumnX++;
+
+		if(ColumnX >= 5)
+		{
+			ColumnX = 0;
+			RowY++;
+		}
 	}
 }
 
@@ -57,6 +69,7 @@ void UWidgetEquipMenu::OnShow()
 void UWidgetEquipMenu::OnClose()
 {
 	SetVisibility(ESlateVisibility::Collapsed);
+	m_EquipInfo->Close();
 }
 
 
@@ -64,4 +77,5 @@ void UWidgetEquipMenu::OnClose()
 void UWidgetEquipMenu::OnSelectEquip(const FEquipRow& row)
 {
 	PRINTF("Show Info");
+	m_EquipInfo->ShowInfo(row);
 }

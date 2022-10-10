@@ -2,7 +2,7 @@
 
 #include "Entity.h"
 
-void UWidgetEquipMenuEle::SetEquipData(const FEquipRow& dataEquip, FOnClick onClick)
+void UWidgetEquipMenuEle::SetEquipData(const FEquipRow& dataEquip, const FOnClick& onClick)
 {
 	m_Row = &dataEquip;
 
@@ -17,8 +17,6 @@ void UWidgetEquipMenuEle::SetEquipData(const FEquipRow& dataEquip, FOnClick onCl
 	m_ImgIcon->SetBrushFromTexture(dataEquip.m_Icon);
 	
 	SetEquipSpec(0, false, 0);
-
-	m_BtnMerge->OnClicked.AddDynamic(this, &UWidgetEquipMenuEle::OnMerge);
 
 	m_nSortOrder = (Color.m_fPriority * 1000) + dataEquip.m_nTier;
 
@@ -59,11 +57,6 @@ void UWidgetEquipMenuEle::SetEquipSpec(int level, bool isEquip, int amount)
 	FString Str = FString::Printf(TEXT("%d/5"), amount);
 		
 	m_TextCount->SetText(FText::FromString(Str));
-}
-
-void UWidgetEquipMenuEle::OnMerge()
-{
-	PRINTF("Merge");
 }
 
 FReply UWidgetEquipMenuEle::NativeOnTouchEnded(const FGeometry& InGeometry, const FPointerEvent& InGestureEvent)

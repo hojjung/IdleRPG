@@ -41,22 +41,18 @@ protected:
 	UTextBlock* m_TextTierLevel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UTextBlock* m_TextCount;
-	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UButton* m_BtnMerge; 
 
 	const FEquipRow* m_Row;
 
 	int m_nSortOrder;
 	
 public:
-	void SetEquipData(const FEquipRow& dataEquip, FOnClick onClick);
+	void SetEquipData(const FEquipRow& dataEquip, const FOnClick& onClick);
 
 	int GetSortOrder() const;
 
 	void SetEquipSpec(int level, bool isEquip, int amount);
 
-	UFUNCTION()
-	void OnMerge();
 protected:
 	virtual FReply NativeOnTouchEnded(const FGeometry& InGeometry, const FPointerEvent& InGestureEvent) override;
 };

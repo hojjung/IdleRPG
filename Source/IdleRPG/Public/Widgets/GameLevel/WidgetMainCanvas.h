@@ -7,6 +7,7 @@
 #include "MainMenu/WidgetMenuBtn.h"
 #include "MainMenu/Avatar/WidgetAvatarPanel.h"
 #include "MainMenu/InventoryMenu/WidgetInvenPanel.h"
+#include "MainMenu/Relic/WidgetRelicPanel.h"
 #include "MainMenu/UpgradeMenu/WidgetUpgradeMenu.h"
 #include "WidgetMainCanvas.generated.h"
 
@@ -21,6 +22,8 @@ class IDLERPG_API UWidgetMainCanvas : public UUserWidget
 protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetUpgradeMenu* m_UpgradePanel;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetRelicPanel* m_RelicPanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetAvatarPanel* m_AvatarPanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
@@ -52,4 +55,6 @@ public:
 	void OnOpenUpgradePanel();
 	UFUNCTION()
 	void OnInvenPanel();
+	UFUNCTION()
+	void OnRelicPanel();
 };
