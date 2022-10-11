@@ -36,13 +36,3 @@ void UWidgetRelicPanel::OnUpgradeRelic(const FRelicRow& row)
 {
 	
 }
-
-void UWidgetRelicPanel::OnClose()
-{
-	SetVisibility(ESlateVisibility::Collapsed);
-}
-
-void UWidgetRelicPanel::OnOpen()
-{
-	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
-}

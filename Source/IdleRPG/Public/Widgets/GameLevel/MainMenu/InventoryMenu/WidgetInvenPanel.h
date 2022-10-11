@@ -49,9 +49,9 @@ protected:
 	virtual void NativeOnInitialized() override;
 
 public:
-	void OnOpen();
-	UFUNCTION()
-	void OnClose();
+	virtual void OnOpen() override;
+	virtual void OnClose() override;
+	
 	UFUNCTION()
 	void OnClickWeapon();
 	UFUNCTION()
