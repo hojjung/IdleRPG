@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Widgets/GameLevel/MainMenu/WidgetMenuBase.h"
 #include "WidgetSkillPanel.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API UWidgetSkillPanel : public UUserWidget
+class IDLERPG_API UWidgetSkillPanel : public UWidgetMenuBase
 {
 	GENERATED_BODY()
-	
 };

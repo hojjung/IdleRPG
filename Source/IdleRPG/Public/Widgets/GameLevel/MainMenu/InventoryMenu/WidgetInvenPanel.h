@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "WidgetEquipMenu.h"
 #include "Blueprint/UserWidget.h"
+#include "Widgets/GameLevel/MainMenu/WidgetMenuBase.h"
 #include "WidgetInvenPanel.generated.h"
 
 /**
@@ -13,13 +14,11 @@
  * 9C8967FF
  */
 UCLASS()
-class IDLERPG_API UWidgetInvenPanel : public UUserWidget
+class IDLERPG_API UWidgetInvenPanel : public UWidgetMenuBase
 {
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UButton* m_BtnClose;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetEquipMenu* m_EquipWeapon;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
@@ -50,7 +49,7 @@ protected:
 	virtual void NativeOnInitialized() override;
 
 public:
-	void OnShow();
+	void OnOpen();
 	UFUNCTION()
 	void OnClose();
 	UFUNCTION()

@@ -8,7 +8,6 @@ void UWidgetUpgradeMenu::NativeOnInitialized()
 
 	SetVisibility(ESlateVisibility::Collapsed);
 	
-	m_BtnClose->OnClicked.AddDynamic(this, &UWidgetUpgradeMenu::OnClose);
 	m_BtnUpgrade->OnClicked.AddDynamic(this, &UWidgetUpgradeMenu::OpenUpgrade);
 	m_BtnLevelStat->OnClicked.AddDynamic(this, &UWidgetUpgradeMenu::OpenLevelStat);
 	m_BtnClass->OnClicked.AddDynamic(this, &UWidgetUpgradeMenu::OpenClass);
@@ -23,14 +22,14 @@ void UWidgetUpgradeMenu::NativeOnInitialized()
 
 void UWidgetUpgradeMenu::OnOpen()
 {
-	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+	Super::OnOpen();
 
 	UMyGameInstance::Get->m_Player->SetCameraTop();
 }
 
 void UWidgetUpgradeMenu::OnClose()
 {
-	SetVisibility(ESlateVisibility::Collapsed);
+	Super::OnClose();
 
 	UMyGameInstance::Get->m_Player->SetCameraCenter();
 }

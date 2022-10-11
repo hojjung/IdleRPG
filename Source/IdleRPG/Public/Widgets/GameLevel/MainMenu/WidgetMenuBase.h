@@ -3,26 +3,26 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "WidgetMapSelect.h"
-#include "WidgetWorldMap.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
-#include "Widgets/GameLevel/MainMenu/WidgetMenuBase.h"
-#include "WidgetMenuMap.generated.h"
+#include "WidgetMenuBase.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API UWidgetMenuMap : public UWidgetMenuBase
+class IDLERPG_API UWidgetMenuBase : public UUserWidget
 {
 	GENERATED_BODY()
 
 protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UWidgetWorldMap* m_Map;
-	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UWidgetMapSelect* m_Select;
+	UButton* m_BtnClose;
+public:
+	virtual void OnOpen();
+	UFUNCTION()
+	virtual void OnClose();
+
 protected:
 	virtual void NativeOnInitialized() override;
 };

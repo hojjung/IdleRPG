@@ -4,15 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Widgets/GameLevel/MainMenu/WidgetMenuBase.h"
-#include "WidgetPetPanel.generated.h"
+#include "WidgetAcceSelectEle.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API UWidgetPetPanel : public UWidgetMenuBase
+class IDLERPG_API UWidgetAcceSelectEle : public UUserWidget
 {
 	GENERATED_BODY()
-
+	
 };

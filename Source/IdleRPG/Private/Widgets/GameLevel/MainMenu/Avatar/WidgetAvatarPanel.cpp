@@ -12,8 +12,6 @@ void UWidgetAvatarPanel::NativeOnInitialized()
 
 	SetVisibility(ESlateVisibility::Collapsed);
 
-	m_BtnClose->OnClicked.AddDynamic(this, &UWidgetAvatarPanel::OnClose);
-	
 	CreateAllElements();
 
 	m_Preview->Init(m_AvatarManager.Pin()->m_AvatarInven->GetPreviewActor());
@@ -97,14 +95,14 @@ void UWidgetAvatarPanel::OnSelectLoaded(const FAvatarRow* row)
 
 void UWidgetAvatarPanel::OnOpen()
 {
-	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+	Super::OnOpen();
 
 	m_AvatarManager.Pin()->m_AvatarInven->ShowPreview();
 }
 
 void UWidgetAvatarPanel::OnClose()
 {
-	SetVisibility(ESlateVisibility::Collapsed);
+	Super::OnClose();
 
 	m_AvatarManager.Pin()->m_AvatarInven->HidePreview();
 }

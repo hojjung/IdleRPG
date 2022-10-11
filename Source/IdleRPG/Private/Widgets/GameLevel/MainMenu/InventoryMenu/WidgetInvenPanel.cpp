@@ -16,8 +16,6 @@ void UWidgetInvenPanel::NativeOnInitialized()
 	m_EquipLeg->Init(ArmorT, UEquipData::GetLegData, 30);
 	m_EquipFeet->Init(ArmorT, UEquipData::GetFeetData, 30);
 
-	m_BtnClose->OnClicked.AddDynamic(this, &UWidgetInvenPanel::OnClose);
-
 	m_BtnWeapon->OnClicked.AddDynamic(this, &UWidgetInvenPanel::OnClickWeapon);
 	m_BtnArmor1->OnClicked.AddDynamic(this, &UWidgetInvenPanel::OnClickArmor1);
 	m_BtnArmor2->OnClicked.AddDynamic(this, &UWidgetInvenPanel::OnClickArmor2);
@@ -26,19 +24,19 @@ void UWidgetInvenPanel::NativeOnInitialized()
 	m_BtnArmor5->OnClicked.AddDynamic(this, &UWidgetInvenPanel::OnClickArmor5);
 
 	OnClickWeapon();
-	OnClose();
 }
 
 
-void UWidgetInvenPanel::OnShow()
+void UWidgetInvenPanel::OnOpen()
 {
-	SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+	Super::OnOpen();
 	m_EquipWeapon->OnShow();
 }
 
 void UWidgetInvenPanel::OnClose()
 {
-	SetVisibility(ESlateVisibility::Collapsed);
+	Super::OnClose();
+	
 	m_EquipWeapon->OnClose();
 	m_EquipHelmet->OnClose();
 	m_EquipTorso->OnClose();

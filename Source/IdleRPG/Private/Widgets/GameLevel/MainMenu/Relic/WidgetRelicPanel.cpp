@@ -30,10 +30,6 @@ void UWidgetRelicPanel::NativeOnInitialized()
 	{
 		m_Scroll->AddChild(Ele);
 	}
-
-	m_BtnClose->OnClicked.AddDynamic(this, &UWidgetRelicPanel::OnClose);
-
-	OnClose();
 }
 
 void UWidgetRelicPanel::OnUpgradeRelic(const FRelicRow& row)

@@ -11,19 +11,18 @@
 #include "Components/WrapBox.h"
 #include "Player/Avatar/AvatarManager.h"
 #include "Preview/Widget/WidgetPreviewPanel.h"
+#include "Widgets/GameLevel/MainMenu/WidgetMenuBase.h"
 #include "WidgetAvatarPanel.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API UWidgetAvatarPanel : public UUserWidget
+class IDLERPG_API UWidgetAvatarPanel : public UWidgetMenuBase
 {
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UButton* m_BtnClose;
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UWidgetAvatarEle> m_ClassEle;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
@@ -59,7 +58,6 @@ protected:
 	void SortAvatar();
 	
 public:
-	void OnOpen();
-	UFUNCTION()
-	void OnClose();
+	virtual void OnOpen() override;
+	virtual void OnClose() override;
 };

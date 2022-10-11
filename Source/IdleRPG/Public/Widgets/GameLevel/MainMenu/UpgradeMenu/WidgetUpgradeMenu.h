@@ -9,19 +9,18 @@
 #include "WidgetUpgradePanel.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "Widgets/GameLevel/MainMenu/WidgetMenuBase.h"
 #include "WidgetUpgradeMenu.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API UWidgetUpgradeMenu : public UUserWidget
+class IDLERPG_API UWidgetUpgradeMenu : public UWidgetMenuBase
 {
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UButton* m_BtnClose;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetUpgradePanel* m_UpgradePanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
@@ -43,9 +42,10 @@ protected:
 	virtual void NativeOnInitialized() override;
 
 public:
-	void OnOpen();
-	UFUNCTION()
-	void OnClose();
+	virtual void OnOpen() override;
+
+	virtual void OnClose() override;
+	
 	UFUNCTION()
 	void OpenUpgrade();
 	UFUNCTION()
