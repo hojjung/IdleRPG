@@ -4,17 +4,15 @@
 
 void UWidgetAvatarPanel::NativeOnInitialized()
 {
-	Super::NativeOnInitialized();
-
 	m_AvatarManager =TWeakPtr<AvatarManager>(UMyGameInstance::Get->m_AvatarManager);
 
 	m_AvatarManager.Pin()->m_AvatarInven->SpawnPreviewActor(GetWorld());
 
-	SetVisibility(ESlateVisibility::Collapsed);
-
 	CreateAllElements();
 
 	m_Preview->Init(m_AvatarManager.Pin()->m_AvatarInven->GetPreviewActor());
+	
+	Super::NativeOnInitialized();
 }
 
 void UWidgetAvatarPanel::NativeDestruct()
@@ -26,39 +24,29 @@ void UWidgetAvatarPanel::NativeDestruct()
 
 void UWidgetAvatarPanel::CreateAllElements()
 {
-	m_TotalCount = UAvatarData::GetAvatarTable->GetRowMap().Num();
-	
 	UAvatarData::GetAvatarTable->ForeachRow<FAvatarRow>("",[&](const FName& key, const FAvatarRow& row)
 	{
-		FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &UWidgetAvatarPanel::OnAvatarLoaded, &row);
-
-		UMyAssetManager::Get()->LoadUnitAssetIconOnly(row.m_EntityAsset, Delegate);
+		OnAvatarLoaded(key, row);
 	});
+	SortAvatar();
 }
 
-void UWidgetAvatarPanel::OnAvatarLoaded(const FAvatarRow* row)
+void UWidgetAvatarPanel::OnAvatarLoaded(const FName& key,const FAvatarRow& row)
 {
 	UWidgetAvatarEle* Ele = CreateWidget<UWidgetAvatarEle>(this, m_ClassEle);
-		
-	Ele->Init(*row);
 
-	Ele->m_OnClick.BindUObject(this, &UWidgetAvatarPanel::OnSelect);
+	Ele->SetData(key, row, UWidgetItemEle::FOnClick::CreateUObject(this, &UWidgetAvatarPanel::OnSelect));
 
 	m_AryEles.Add(Ele);
-
-	if(m_AryEles.Num() >= m_TotalCount)
-	{
-		SortAvatar();
-	}
 }
 
 void UWidgetAvatarPanel::SortAvatar()
 {
 	m_AryEles.Sort([](const UWidgetAvatarEle& LHS, const UWidgetAvatarEle& RHS)
 	{
-		int LhsLevel = LHS.GetColorData().m_fPriority;
+		int LhsLevel = LHS.GetSortOrder();
 
-		int RhsLevel = RHS.GetColorData().m_fPriority;
+		int RhsLevel = RHS.GetSortOrder();
 
 		return LhsLevel < RhsLevel;
 	});
@@ -69,28 +57,30 @@ void UWidgetAvatarPanel::SortAvatar()
 	}
 }
 
-void UWidgetAvatarPanel::OnSelect(const FAvatarRow& row)
+void UWidgetAvatarPanel::OnSelect(const FName& key, const FEntityDataRow& row)
 {
-	m_AvatarManager.Pin()->m_AvatarInven->ChangeAvatar(row.m_EntityAsset, FStreamableDelegate::CreateUObject(this, &UWidgetAvatarPanel::OnSelectLoaded, &row));
+	const FAvatarRow& AvRow = *(const FAvatarRow*)&row;
+	
+	m_AvatarManager.Pin()->m_AvatarInven->ChangeAvatar(AvRow.m_EntityAsset, FStreamableDelegate::CreateUObject(this, &UWidgetAvatarPanel::OnSelectLoaded, key, &AvRow));
 }
 
-void UWidgetAvatarPanel::OnSelectLoaded(const FAvatarRow* row)
+void UWidgetAvatarPanel::OnSelectLoaded(FName key, const FAvatarRow* row)
 {
 	UUnitAsset* Asset = Cast<UUnitAsset>(UMyAssetManager::Get()->GetPrimaryAssetObject(row->m_EntityAsset));
 	
-	const FColorDataRow* ColorData = row->m_ColorData.GetRow<FColorDataRow>("");
+	const FColorDataRow& ColorData = row->GetColor();
 	
-	m_ImgGlow->SetColorAndOpacity(ColorData->m_Color.GetSpecifiedColor());
+	m_ImgGlow->SetColorAndOpacity(ColorData.m_Color.GetSpecifiedColor());
 
-	m_TextName->SetColorAndOpacity(ColorData->m_Color.GetSpecifiedColor());
+	m_TextName->SetColorAndOpacity(ColorData.m_Color.GetSpecifiedColor());
 
-	m_TextTierName->SetColorAndOpacity(ColorData->m_Color.GetSpecifiedColor());
+	m_TextTierName->SetColorAndOpacity(ColorData.m_Color.GetSpecifiedColor());
 
-	m_TextName->SetText(Asset->m_ShowingName);
+	m_TextName->SetText(row->m_Name);
 	
-	m_TextTierName->SetText(ColorData->m_Name);
+	m_TextTierName->SetText(ColorData.m_Name);
 
-	m_AvatarManager.Pin()->m_AvatarInven->SetPreview(Asset);
+	m_AvatarManager.Pin()->m_AvatarInven->SetPreview(key, Asset);
 }
 
 void UWidgetAvatarPanel::OnOpen()

@@ -18,26 +18,39 @@ public:
 
 protected:
 	TWeakObjectPtr<APreviewActor> m_PreviewActor;
+
+	FPrimaryAssetId m_CurrentPreviewID;
 	
-	FPrimaryAssetId m_CurrentID;
+	FName m_PreviewID;
+	
+	FName m_EquippedAvatar;
+
+	FName m_EquipSkinAvatar;
+	
 
 protected:
 	void DeselectAvatar(FStreamableDelegate deSelect);
 
 	void SelectAvatar(FPrimaryAssetId id, FStreamableDelegate dele);
 
-	void OpenPreviewLevel(const UWorld* world);
-	
 public:
 	void ChangeAvatar(FPrimaryAssetId selectId, FStreamableDelegate onSelect);
 
 	void SpawnPreviewActor(UWorld* w);
 
-	void SetPreview(const UUnitAsset* asset);
+	void SetPreview(FName key, const UUnitAsset* asset);
 
 	void ShowPreview();
 	
 	void HidePreview();
 
 	APreviewActor* GetPreviewActor();
+
+	void EquipAvatar();
+
+	void EquipSkinAvatar();
+
+	void UpdateEquipAvatar();
+
+	void InitEquipAvatar();
 };

@@ -6,43 +6,19 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/Image.h"
 #include "Player/Avatar/AvatarData.h"
+#include "Widgets/GameLevel/MainMenu/WidgetItemEle.h"
 #include "WidgetAvatarEle.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API UWidgetAvatarEle : public UUserWidget
+class IDLERPG_API UWidgetAvatarEle : public UWidgetItemEle
 {
 	GENERATED_BODY()
 
 public:
-	DECLARE_DELEGATE_OneParam(FOnClick, const FAvatarRow&)
-
-	FOnClick m_OnClick;
-protected:
-	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UImage* m_ImgTier;
-	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UImage* m_ImgPortrait;
-
-protected:
-	const FAvatarRow* m_Row;
-	
-protected:
-	virtual FReply NativeOnMouseButtonUp(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
-
-	virtual void NativeDestruct() override;
-	
-public:
-	void Init(const FAvatarRow& row);
-	
-	const FColorDataRow& GetColorData() const;
-
-	FORCEINLINE const FAvatarRow& GetAvatarDataRow()
-	{
-		return *m_Row;
-	}
+	virtual void SetData(const FName& id, const FEntityDataRow& dataEquip, FOnClick onClick) override;
 };
 
 

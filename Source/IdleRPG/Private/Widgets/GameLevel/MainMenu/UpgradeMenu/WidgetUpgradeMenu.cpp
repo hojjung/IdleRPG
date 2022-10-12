@@ -24,14 +24,20 @@ void UWidgetUpgradeMenu::OnOpen()
 {
 	Super::OnOpen();
 
-	UMyGameInstance::Get->m_Player->SetCameraTop();
+	if(UMyGameInstance::Get->m_Player.Get())
+	{
+		UMyGameInstance::Get->m_Player->SetCameraTop();
+	}
 }
 
 void UWidgetUpgradeMenu::OnClose()
 {
 	Super::OnClose();
 
-	UMyGameInstance::Get->m_Player->SetCameraCenter();
+	if(UMyGameInstance::Get->m_Player.Get())
+	{
+		UMyGameInstance::Get->m_Player->SetCameraCenter();
+	}
 }
 
 void UWidgetUpgradeMenu::OpenUpgrade()

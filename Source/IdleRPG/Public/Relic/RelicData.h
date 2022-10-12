@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "DataTableRow/ColorData.h"
+#include "DataTableRow/EntityData.h"
 #include "Engine/DataTable.h"
 #include "UObject/NoExportTypes.h"
 #include "RelicData.generated.h"
@@ -22,18 +23,12 @@ public:
 };
 
 USTRUCT(BlueprintType)//���̵�,Ƽ��
-struct FRelicRow : public FTableRowBase
+struct FRelicRow : public FEntityDataRow
 {
 	GENERATED_USTRUCT_BODY()
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UTexture2D* m_Icon;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FText m_Name;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int m_nTier = 0;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FColorDataHandle m_Color;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int m_nMaxLevel = 100;
 };

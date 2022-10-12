@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/CapsuleComponent.h"
 #include "DataAsset/UnitAsset.h"
+#include "DataTableRow/EntityData.h"
 #include "GameFramework/Pawn.h"
 #include "Navigation/PathFollowingComponent.h"
 #include "MyBasePawn.generated.h"
@@ -30,8 +31,6 @@ protected:
 	UMyNavMovement* m_Movement;
 	
 	TWeakObjectPtr<const UUnitAsset> m_EntityAsset;
-
-	FText m_PawnName;
 
 	FTimerHandle m_MoveStopTimer;
 
@@ -83,8 +82,6 @@ public:
 	UPathFollowingComponent* GetPfComp() const;
 
 	UMyNavMovement* GetMove() const;
-
-	FText GetPawnName() const;
 
 	virtual bool IsMoving() const;
 public:

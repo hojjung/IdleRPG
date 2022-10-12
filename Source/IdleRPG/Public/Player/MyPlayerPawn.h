@@ -26,7 +26,6 @@ class IDLERPG_API AMyPlayerPawn : public ACombatPawn
 public:
 	DECLARE_DELEGATE(FVoidVoid);
 
-	
 public:
 	AMyPlayerPawn(const FObjectInitializer& objInit);
 	
@@ -35,8 +34,6 @@ protected:
 	UCameraDissolve* m_DissolveCam;
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* m_TopCamera;
-	UPROPERTY(EditAnywhere)
-	TArray<TEnumAsByte< EObjectTypeQuery>> m_AryTargetingObjectType;
 	UPROPERTY()
 	TArray<AActor*> m_AryIgnores;
 	UPROPERTY(EditAnywhere)
@@ -66,9 +63,9 @@ protected:
 	virtual void BeginPlay() override;
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-	
-	void OnLoaded(FPrimaryAssetId id);
 
+	
+	
 	virtual void OnTickAlive(float DeltaSeconds) override;
 
 	void MoveForward(float AxisValue);
@@ -88,6 +85,8 @@ protected:
 	virtual bool IsAlive() override;
 
 public:
+	virtual void SetEntity(const UUnitAsset* asset) override;
+	
 	void TryAttack_External();
 	
 	bool IsInputMoving();

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "DataTableRow/ColorData.h"
+#include "DataTableRow/EntityData.h"
 #include "Engine/DataTable.h"
 #include "GameAbilitySystem/MyStat.h"
 #include "AvatarData.generated.h"
@@ -23,12 +23,10 @@ public:
 };
 
 USTRUCT(BlueprintType)//���̵�,Ƽ��
-struct FAvatarRow : public FTableRowBase
+struct FAvatarRow : public FEntityDataRow
 {
 	GENERATED_USTRUCT_BODY()
 public:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FColorDataHandle m_ColorData;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FPrimaryAssetId m_EntityAsset;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)

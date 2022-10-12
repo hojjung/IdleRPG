@@ -19,8 +19,6 @@ class IDLERPG_API UWidgetPawnInfo : public UUserWidget
 	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (BindWidget))
-	UTextBlock* m_TextPawnName;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (BindWidget))
 	UProgressBar* m_HpBar;
 
 public:

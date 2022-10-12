@@ -47,8 +47,8 @@ FReply UWidgetWorldMap::NativeOnTouchMoved(const FGeometry& InGeometry, const FP
 	const FVector2D& Delta = InGestureEvent.GetCursorDelta();
 
 	FVector2D Pos = m_PanelSlot->GetPosition();
-
-	FVector2D ResultPos = Pos + (Delta * 2.f);
+	
+	FVector2D ResultPos = Pos + (Delta * 4.f);
 
 	ResultPos *= -1.f;
 	

@@ -22,4 +22,7 @@ public:
 	AvatarInven* m_AvatarInven;
 
 	AvatarMerge* m_AvatarMerge;
+
+public:
+	void SetEquippedAvatar();
 };

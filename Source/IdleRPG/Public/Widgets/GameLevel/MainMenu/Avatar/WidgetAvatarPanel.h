@@ -38,8 +38,6 @@ protected:
 	UPROPERTY()
 	TArray<UWidgetAvatarEle*> m_AryEles;
 
-	int m_TotalCount;
-
 	TWeakPtr<AvatarManager> m_AvatarManager;
 	
 protected:
@@ -49,15 +47,16 @@ protected:
 
 	void CreateAllElements();
 
-	void OnAvatarLoaded(const FAvatarRow* row);
+	void OnAvatarLoaded(const FName& key, const FAvatarRow& row);
 
-	void OnSelect(const FAvatarRow& row);
+	void OnSelect(const FName& key, const FEntityDataRow& row);
 	
-	void OnSelectLoaded(const FAvatarRow* row);
+	void OnSelectLoaded(FName key, const FAvatarRow* row);
 
 	void SortAvatar();
 	
 public:
 	virtual void OnOpen() override;
+	
 	virtual void OnClose() override;
 };

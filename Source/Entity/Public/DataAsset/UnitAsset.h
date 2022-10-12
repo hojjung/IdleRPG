@@ -12,10 +12,6 @@ class ENTITY_API UUnitAsset : public UPrimaryDataAsset
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FText m_ShowingName;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Icon"))
-	TSoftObjectPtr<UTexture2D> m_Icon;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle ,meta = (AssetBundles = "Preview"))
 	TSoftObjectPtr< USkeletalMesh> m_BodyMesh;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))

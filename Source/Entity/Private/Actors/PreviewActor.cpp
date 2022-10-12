@@ -30,9 +30,9 @@ APreviewActor::APreviewActor()
 	//
 	m_Spring = CreateDefaultSubobject<USpringArmComponent>("Spring");
 	m_Spring->SetupAttachment(RootComponent);
-	m_Spring->SetRelativeLocation(FVector(0,0,10));
+	m_Spring->SetRelativeLocation(FVector(0,0,-55));
 	m_Spring->SetRelativeRotation(FRotator(-5, 200.f, 0));
-	m_Spring->TargetArmLength = 350;
+	m_Spring->TargetArmLength = 450;
 	m_Spring->bDoCollisionTest = 0;
 
 	m_Capture = CreateDefaultSubobject<USceneCaptureComponent2D>("Capture2D");

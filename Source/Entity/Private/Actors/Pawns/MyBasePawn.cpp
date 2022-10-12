@@ -86,8 +86,6 @@ void AMyBasePawn::SetEntity(const UUnitAsset* asset)
 
 	m_BodyMesh->SetRelativeScale3D(FVector(asset->m_fScale));
 
-	m_PawnName = asset->m_ShowingName;
-
 	m_Capsule->SetCapsuleRadius(asset->m_fCapsuleRadius);
 
 	UpdateNavAgent();
@@ -459,11 +457,6 @@ UMyNavMovement* AMyBasePawn::GetMove() const
 bool AMyBasePawn::IsMoving() const
 {
 	return !GetMovementComponent()->Velocity.IsZero();
-}
-
-FText AMyBasePawn::GetPawnName() const
-{
-	return m_PawnName;
 }
 
 FVector AMyBasePawn::GetNavAgentLocation() const

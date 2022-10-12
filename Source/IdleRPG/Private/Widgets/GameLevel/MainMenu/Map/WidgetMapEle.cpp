@@ -34,7 +34,7 @@ void UWidgetMapEle::UpdateIcon()
 	Style.Disabled.SetResourceObject(t);
 	m_BtnIcon->SetStyle(Style);
 
-	m_TextName->SetText(ZoneData->m_ContentName);
+	m_TextName->SetText(ZoneData->m_Name);
 }
 
 void UWidgetMapEle::OnClick()

@@ -22,3 +22,8 @@ AvatarManager::~AvatarManager()
 	delete m_AvatarMerge;
 }
 
+void AvatarManager::SetEquippedAvatar()
+{
+	m_AvatarInven->InitEquipAvatar();
+}
+

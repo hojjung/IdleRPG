@@ -22,9 +22,6 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_TopCamera->SetupAttachment(m_DissolveCam);
 	m_TopCamera->FieldOfView = 45.f;
 
-	m_AryTargetingObjectType.Reset();
-	m_AryTargetingObjectType.Add(EObjectTypeQuery::ObjectTypeQuery3);
-
 	m_Movement->MaxSpeed = 500.f;
 
 	m_bCanMoveInSkill = false;
@@ -48,9 +45,12 @@ void AMyPlayerPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 	m_Fsm.Reset();
 }
+
 void AMyPlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UMyGameInstance::Get->m_Player = this;
 
 	m_PFComp->OnRequestFinished.AddUObject(this, &AMyPlayerPawn::OnRequestMoveDone);
 
@@ -60,26 +60,18 @@ void AMyPlayerPawn::BeginPlay()
 
 	m_DissolveCam->SetActive(true);
 
-	FPrimaryAssetId ID = FPrimaryAssetId(TEXT("Unit"),TEXT("DeathKnight01"));
-	UMyAssetManager::Get()->LoadUnitAssetMeshOnly( ID,
-		FStreamableDelegate::CreateUObject(this, &AMyPlayerPawn::OnLoaded, ID));
-
 	m_Sensor = MakeShareable(new PlayerSensor(this));
 
 	m_Fsm = MakeShareable(new PlayerFSM(this));
 
 	SetAtkRange(200);
-
-	UMyGameInstance::Get->m_Player = this;
+	
+	UMyGameInstance::Get->m_AvatarManager.Get()->SetEquippedAvatar();
 }
 
-void AMyPlayerPawn::OnLoaded(FPrimaryAssetId id)
+void AMyPlayerPawn::SetEntity(const UUnitAsset* asset)
 {
-	UAssetManager* Manager = UAssetManager::GetIfValid();
-	
-	UUnitAsset* Asset = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(id));
-
-	SetEntity(Asset);
+	Super::SetEntity(asset);
 
 	if(m_AddVisual)
 	{
@@ -90,9 +82,9 @@ void AMyPlayerPawn::OnLoaded(FPrimaryAssetId id)
 	m_AddVisual->Init(GetSkMesh());
 
 	int Index = 0;
-	for(const auto& Attach :  Asset->m_AryAttachments)
+	for(const auto& Attach :  asset->m_AryAttachments)
 	{
-		m_AddVisual->SpawnAttachment(Asset->m_ArySocketAttachments[Index++], Attach.Get());
+		m_AddVisual->SpawnAttachment(asset->m_ArySocketAttachments[Index++], Attach.Get());
 	}
 }
 

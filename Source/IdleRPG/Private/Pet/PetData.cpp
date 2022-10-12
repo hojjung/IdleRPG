@@ -3,3 +3,11 @@
 
 #include "Pet/PetData.h"
 
+UDataTable* UPetData::GetPetData = nullptr;
+
+UPetData::UPetData()
+{
+	static ConstructorHelpers::FObjectFinder<UDataTable> Found(TEXT("DataTable'/Game/02_DataTables/Equipments/FeetData.FeetData'"));
+	
+	GetPetData = Found.Object;	
+}

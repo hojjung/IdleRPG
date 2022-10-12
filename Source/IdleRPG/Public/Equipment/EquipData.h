@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "DataTableRow/ColorData.h"
+#include "DataTableRow/EntityData.h"
 #include "Engine/DataTable.h"
 #include "UObject/NoExportTypes.h"
 #include "EquipData.generated.h"
@@ -33,14 +34,10 @@ public:
 };
 
 USTRUCT(BlueprintType)//���̵�,Ƽ��
-struct FEquipRow : public FTableRowBase
+struct FEquipRow : public FEntityDataRow
 {
 	GENERATED_USTRUCT_BODY()
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	UTexture2D* m_Icon;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int m_nTier = 0;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FColorDataHandle m_Color;
 };
