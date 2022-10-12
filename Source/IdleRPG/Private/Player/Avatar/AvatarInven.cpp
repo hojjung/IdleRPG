@@ -5,11 +5,43 @@
 
 AvatarInven::AvatarInven()
 {
-	m_EquippedAvatar = TEXT("Avatar_39");
+	SetEquip(TEXT("Avatar_39"));
+	SetSkin(TEXT("Avatar_39"));
 }
 
 AvatarInven::~AvatarInven()
 {
+	
+}
+
+void AvatarInven::SetEquip(const FName& key)
+{
+	if(key == NAME_None)
+	{
+		m_RowEquipAvatar = nullptr;
+		m_EquippedAvatar = NAME_None;
+		return;
+	}
+	const FAvatarRow* AvatarEquip = UAvatarData::GetAvatarTable->FindRow<FAvatarRow>(key, "");
+
+	m_RowEquipAvatar = AvatarEquip;
+
+	m_EquippedAvatar = key;
+}
+
+void AvatarInven::SetSkin(const FName& key)
+{
+	if(key == NAME_None)
+	{
+		m_RowSkinAvatar = nullptr;
+		m_EquipSkinAvatar = NAME_None;
+		return;
+	}
+	const FAvatarRow* AvatarEquip = UAvatarData::GetAvatarTable->FindRow<FAvatarRow>(key, "");
+
+	m_RowSkinAvatar = AvatarEquip;
+
+	m_EquipSkinAvatar = key;
 }
 
 void AvatarInven::DeselectAvatar(FStreamableDelegate deSelect)
@@ -93,12 +125,8 @@ void AvatarInven::EquipAvatar()
 	{
 		return;
 	}
-	m_EquippedAvatar = m_PreviewID;
 
-	if(m_EquipSkinAvatar == NAME_None)
-	{
-		m_EquipSkinAvatar = m_EquippedAvatar;
-	}
+	SetEquip(m_PreviewID);
 
 	UpdateEquipAvatar();
 }
@@ -109,7 +137,7 @@ void AvatarInven::EquipSkinAvatar()
 	{
 		return;
 	}
-	m_EquipSkinAvatar = m_PreviewID;
+	SetSkin(m_PreviewID);
 
 	UpdateEquipAvatar();
 }
@@ -121,18 +149,18 @@ void AvatarInven::UpdateEquipAvatar()
 		return;
 	}
 
-	FName Skin = m_EquippedAvatar;
-	
-	if(m_EquipSkinAvatar != NAME_None)
-	{
-		Skin = m_EquipSkinAvatar;
-	}
-
-	const FAvatarRow& Avatar = *UAvatarData::GetAvatarTable->FindRow<FAvatarRow>(Skin, "");
-
 	UAssetManager* Manager = UAssetManager::GetIfValid();
 	
-	UUnitAsset* Asset = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(Avatar.m_EntityAsset));
+	UUnitAsset* Asset = nullptr;
+
+	if(m_EquipSkinAvatar != NAME_None)
+	{
+		Asset = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(GetRowSkin().m_EntityAsset));
+	}
+	else
+	{
+		Asset = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(GetRowEquip().m_EntityAsset));
+	}
 
 	UMyGameInstance::Get->m_Player->SetEntity(Asset);
 }

@@ -20,6 +20,10 @@ class IDLERPG_API UWidgetItemEle : public UUserWidget
 public:
 	DECLARE_DELEGATE_TwoParams(FOnClick, const FName&, const FEntityDataRow&);
 
+	FORCEINLINE FOnClick& GetOnClick()
+	{
+		return m_OnClick; 
+	}
 protected:
 	FOnClick m_OnClick;
 
@@ -47,7 +51,9 @@ protected:
 	int m_nSortOrder;
 	
 public:
-	virtual void SetData( const FName& id, const FEntityDataRow& dataEquip, FOnClick onClick =FOnClick());
+	virtual void SetData( const FName& id, const FEntityDataRow& dataEquip, FOnClick onClick);
+	
+	virtual void SetData( const FName& id, const FEntityDataRow& dataEquip);
 
 	int GetSortOrder() const;
 
@@ -64,6 +70,12 @@ public:
 	void SetHideTopText();
 
 	virtual const FColorDataRow& GetColorData() const;
+
+	void SetColorTier(const FColorDataRow& colorRow);
+
+	void SetIcon(UTexture2D* icon);
+
+	void Clear();
 
 protected:
 	virtual void NativeOnInitialized() override;

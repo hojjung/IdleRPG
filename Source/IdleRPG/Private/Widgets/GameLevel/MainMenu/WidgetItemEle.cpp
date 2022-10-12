@@ -3,23 +3,51 @@
 
 void UWidgetItemEle::SetData(const FName& id, const FEntityDataRow& dataEquip, FOnClick onClick)
 {
-	m_Row = &dataEquip;
+	SetData(id, dataEquip);
 
 	m_OnClick = onClick;
+}
+
+void UWidgetItemEle::SetData(const FName& id, const FEntityDataRow& dataEquip)
+{
+	m_ID = id;
+	
+	m_Row = &dataEquip;
 
 	const FColorDataRow& Color = *m_Row->m_Color.GetRow<FColorDataRow>("");
 
-	m_ImgGlow->SetColorAndOpacity(Color.m_Color.GetSpecifiedColor());
+	SetColorTier(Color);
 
-	m_ImgTier->SetBrushFromTexture(Color.m_GlowTexture);
-
-	m_ImgIcon->SetBrushFromTexture(dataEquip.m_Icon);
+	SetIcon(dataEquip.m_Icon);
 	
 	m_nSortOrder = (Color.m_fPriority * 1000) + dataEquip.m_fPriority;
 
 	SetHideTopText();
 	
 	SetHideBottomText();
+}
+
+void UWidgetItemEle::SetColorTier(const FColorDataRow& colorRow)
+{
+	m_ImgGlow->SetColorAndOpacity(colorRow.m_Color.GetSpecifiedColor());
+
+	m_ImgTier->SetBrushFromTexture(colorRow.m_GlowTexture);
+}
+
+void UWidgetItemEle::SetIcon(UTexture2D* icon)
+{
+	m_ImgIcon->SetBrushFromTexture(icon);
+}
+
+void UWidgetItemEle::Clear()
+{
+	m_Row = nullptr;
+
+	m_ID = NAME_None;
+
+	m_TextTierLevel->SetText(FText());
+
+	m_TextCount->SetText(FText());
 }
 
 int UWidgetItemEle::GetSortOrder() const
@@ -66,6 +94,8 @@ const FColorDataRow& UWidgetItemEle::GetColorData() const
 	return *m_Row->m_Color.GetRow<FColorDataRow>("");
 }
 
+
+
 void UWidgetItemEle::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
@@ -86,7 +116,7 @@ void UWidgetItemEle::NativeDestruct()
 {
 	Super::NativeDestruct();
 
-	m_Row = nullptr;
+	Clear();
 }
 
 void UWidgetItemEle::NativePreConstruct()

@@ -16,9 +16,6 @@ UCLASS()
 class IDLERPG_API UWidgetAvatarEle : public UWidgetItemEle
 {
 	GENERATED_BODY()
-
-public:
-	virtual void SetData(const FName& id, const FEntityDataRow& dataEquip, FOnClick onClick) override;
 };
 
 

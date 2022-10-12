@@ -13,7 +13,26 @@ void UWidgetAvatarPanel::NativeOnInitialized()
 	m_Preview->Init(m_AvatarManager.Pin()->m_AvatarInven->GetPreviewActor());
 	
 	Super::NativeOnInitialized();
+
+	m_Equip->GetOnClick().BindUObject(this, &UWidgetAvatarPanel::OnClickEquip);
+
+	m_Skin->GetOnClick().BindUObject(this, &UWidgetAvatarPanel::OnClickSkin);
+	
+	ClearPanel();
+
+	FName KeyEquip = m_AvatarManager.Pin()->m_AvatarInven->GetKeyEquip();
+
+	const FAvatarRow& RowEquip = m_AvatarManager.Pin()->m_AvatarInven->GetRowEquip();
+		
+	m_Equip->SetData(KeyEquip, RowEquip);
+
+	FName KeySkin = m_AvatarManager.Pin()->m_AvatarInven->GetKeySkin();
+
+	const FAvatarRow& RowSkin = m_AvatarManager.Pin()->m_AvatarInven->GetRowSkin();
+
+	m_Skin->SetData(KeySkin, RowSkin);
 }
+
 
 void UWidgetAvatarPanel::NativeDestruct()
 {
@@ -57,6 +76,50 @@ void UWidgetAvatarPanel::SortAvatar()
 	}
 }
 
+void UWidgetAvatarPanel::ClearPanel()
+{
+	m_TextName->SetText(FText());
+
+	const FColorDataRow& ColorDataFound = *UColorData::GetColorTable->FindRow<FColorDataRow>(TEXT("Default"), "");
+	
+	SetColor(ColorDataFound);
+}
+
+void UWidgetAvatarPanel::OnClickEquip(const FName& key, const FEntityDataRow& row)
+{
+	OnClickSkin(key, row);
+		
+	m_AvatarManager.Pin()->m_AvatarInven->EquipAvatar();
+		
+	FName KeyEquip = m_AvatarManager.Pin()->m_AvatarInven->GetKeyEquip();
+
+	const FAvatarRow& RowEquip = m_AvatarManager.Pin()->m_AvatarInven->GetRowEquip();
+		
+	m_Equip->SetData(KeyEquip, RowEquip);
+}
+
+void UWidgetAvatarPanel::OnClickSkin(const FName& key, const FEntityDataRow& row)
+{
+	m_AvatarManager.Pin()->m_AvatarInven->EquipSkinAvatar();
+		
+	FName KeyEquip = m_AvatarManager.Pin()->m_AvatarInven->GetKeySkin();
+
+	const FAvatarRow& RowEquip = m_AvatarManager.Pin()->m_AvatarInven->GetRowSkin();
+		
+	m_Skin->SetData(KeyEquip, RowEquip);
+}
+
+void UWidgetAvatarPanel::SetColor(const FColorDataRow& ColorData)
+{
+	m_ImgGlow->SetColorAndOpacity(ColorData.m_Color.GetSpecifiedColor());
+
+	m_TextName->SetColorAndOpacity(ColorData.m_Color.GetSpecifiedColor());
+
+	m_TextTierName->SetColorAndOpacity(ColorData.m_Color.GetSpecifiedColor());
+	
+	m_TextTierName->SetText(ColorData.m_Name);
+}
+
 void UWidgetAvatarPanel::OnSelect(const FName& key, const FEntityDataRow& row)
 {
 	const FAvatarRow& AvRow = *(const FAvatarRow*)&row;
@@ -67,18 +130,10 @@ void UWidgetAvatarPanel::OnSelect(const FName& key, const FEntityDataRow& row)
 void UWidgetAvatarPanel::OnSelectLoaded(FName key, const FAvatarRow* row)
 {
 	UUnitAsset* Asset = Cast<UUnitAsset>(UMyAssetManager::Get()->GetPrimaryAssetObject(row->m_EntityAsset));
+
+	SetColor(row->GetColor());
 	
-	const FColorDataRow& ColorData = row->GetColor();
-	
-	m_ImgGlow->SetColorAndOpacity(ColorData.m_Color.GetSpecifiedColor());
-
-	m_TextName->SetColorAndOpacity(ColorData.m_Color.GetSpecifiedColor());
-
-	m_TextTierName->SetColorAndOpacity(ColorData.m_Color.GetSpecifiedColor());
-
 	m_TextName->SetText(row->m_Name);
-	
-	m_TextTierName->SetText(ColorData.m_Name);
 
 	m_AvatarManager.Pin()->m_AvatarInven->SetPreview(key, Asset);
 }
@@ -88,6 +143,12 @@ void UWidgetAvatarPanel::OnOpen()
 	Super::OnOpen();
 
 	m_AvatarManager.Pin()->m_AvatarInven->ShowPreview();
+	
+	FName KeySkin = m_AvatarManager.Pin()->m_AvatarInven->GetKeySkin();
+
+	const FAvatarRow& RowSkin = m_AvatarManager.Pin()->m_AvatarInven->GetRowSkin();
+	
+	OnSelectLoaded(KeySkin, &RowSkin);
 }
 
 void UWidgetAvatarPanel::OnClose()

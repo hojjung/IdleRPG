@@ -35,6 +35,10 @@ protected:
 	UTextBlock* m_TextTierName;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetPreviewPanel* m_Preview;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetAvatarEle* m_Equip;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetAvatarEle* m_Skin;
 	UPROPERTY()
 	TArray<UWidgetAvatarEle*> m_AryEles;
 
@@ -54,9 +58,18 @@ protected:
 	void OnSelectLoaded(FName key, const FAvatarRow* row);
 
 	void SortAvatar();
+
+	void ClearPanel();
+
+	void OnClickEquip(const FName& key, const FEntityDataRow& row);
+
+	void OnClickSkin(const FName& key, const FEntityDataRow& row);
+
+	void SetColor(const FColorDataRow& ColorData);
 	
 public:
 	virtual void OnOpen() override;
 	
 	virtual void OnClose() override;
 };
+
