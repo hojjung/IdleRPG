@@ -49,6 +49,8 @@ protected:
 	const FEntityDataRow* m_Row;
 
 	int m_nSortOrder;
+
+	bool m_bHasTouch;
 	
 public:
 	virtual void SetData( const FName& id, const FEntityDataRow& dataEquip, FOnClick onClick);
@@ -79,6 +81,8 @@ public:
 
 protected:
 	virtual void NativeOnInitialized() override;
+
+	virtual FReply NativeOnTouchStarted(const FGeometry& InGeometry, const FPointerEvent& InGestureEvent) override;
 	
 	virtual FReply NativeOnTouchEnded(const FGeometry& InGeometry, const FPointerEvent& InGestureEvent) override;
 

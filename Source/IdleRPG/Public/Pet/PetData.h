@@ -20,11 +20,15 @@ public:
 
 	static UDataTable* GetPetData;
 };
+
 USTRUCT(BlueprintType)//���̵�,Ƽ��
 struct FPetDataRow : public FEntityDataRow
 {
 	GENERATED_USTRUCT_BODY()
+	
 public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FPrimaryAssetId m_EntityAsset;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int m_nTier = 0;
 };

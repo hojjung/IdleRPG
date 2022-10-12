@@ -7,7 +7,7 @@ UDataTable* UPetData::GetPetData = nullptr;
 
 UPetData::UPetData()
 {
-	static ConstructorHelpers::FObjectFinder<UDataTable> Found(TEXT("DataTable'/Game/02_DataTables/Equipments/FeetData.FeetData'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> Found(TEXT("DataTable'/Game/02_DataTables/PetTable.PetTable'"));
 	
 	GetPetData = Found.Object;	
 }

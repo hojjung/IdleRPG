@@ -10,6 +10,8 @@ void UWidgetItemEle::SetData(const FName& id, const FEntityDataRow& dataEquip, F
 
 void UWidgetItemEle::SetData(const FName& id, const FEntityDataRow& dataEquip)
 {
+	Clear();
+	
 	m_ID = id;
 	
 	m_Row = &dataEquip;
@@ -41,6 +43,8 @@ void UWidgetItemEle::SetIcon(UTexture2D* icon)
 
 void UWidgetItemEle::Clear()
 {
+	m_bHasTouch = false;
+	
 	m_Row = nullptr;
 
 	m_ID = NAME_None;
@@ -94,8 +98,6 @@ const FColorDataRow& UWidgetItemEle::GetColorData() const
 	return *m_Row->m_Color.GetRow<FColorDataRow>("");
 }
 
-
-
 void UWidgetItemEle::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
@@ -103,11 +105,25 @@ void UWidgetItemEle::NativeOnInitialized()
 	m_nSortOrder = 0;
 }
 
+FReply UWidgetItemEle::NativeOnTouchStarted(const FGeometry& InGeometry, const FPointerEvent& InGestureEvent)
+{
+	Super::NativeOnTouchStarted(InGeometry, InGestureEvent);
+
+	m_bHasTouch = true;
+	
+	return FReply::Handled();
+}
+
 FReply UWidgetItemEle::NativeOnTouchEnded(const FGeometry& InGeometry, const FPointerEvent& InGestureEvent)
 {
 	Super::NativeOnTouchEnded(InGeometry, InGestureEvent);
-	
-	m_OnClick.ExecuteIfBound(m_ID, *m_Row);
+
+	if(m_bHasTouch)
+	{
+		m_OnClick.ExecuteIfBound(m_ID, *m_Row);
+	}
+
+	m_bHasTouch = false;
 
 	return FReply::Handled();
 }

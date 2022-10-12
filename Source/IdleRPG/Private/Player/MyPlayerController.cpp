@@ -19,7 +19,7 @@ AMyPlayerController::AMyPlayerController()
 	m_MousePos = FVector2D(0.f);
 
 	//UWidgetMainCanvas
-	static ConstructorHelpers::FClassFinder<UWidgetMainCanvas> FoundWW(TEXT("WidgetBlueprint'/Game/Blueprints/Widgets/MainGame/WB_MainCanvas.WB_MainCanvas_C'"));
+	static ConstructorHelpers::FClassFinder<UWidgetMainCanvas> FoundWW(TEXT("WidgetBlueprint'/Game/Blueprints/Widgets/MainGame/MainMenu/WB_MainCanvas.WB_MainCanvas_C'"));
 	
 	m_ClassCanvas = FoundWW.Class;	
 }
