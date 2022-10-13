@@ -28,6 +28,8 @@ protected:
 
 	void SelectAvatar(FPrimaryAssetId id, FStreamableDelegate dele);
 
+	void LoadAvatar(FPrimaryAssetId id, FStreamableDelegate dele);
+
 public:
 	void ChangeAvatar(FPrimaryAssetId selectId, FStreamableDelegate onSelect);
 

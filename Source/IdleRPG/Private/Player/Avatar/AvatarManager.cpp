@@ -24,6 +24,6 @@ AvatarManager::~AvatarManager()
 
 void AvatarManager::SetEquippedAvatar()
 {
-	m_AvatarInven->InitEquipAvatar();
+	m_AvatarInven->UpdateEquipAvatar();
 }
 

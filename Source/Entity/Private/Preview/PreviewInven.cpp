@@ -45,6 +45,21 @@ void PreviewInven::SelectAvatar(FPrimaryAssetId id, FStreamableDelegate dele)
 	UAssetManager::Get().ChangeBundleStateForPrimaryAssets(AryIds, AryBundlesAdd, AryBundlesRemove,false,dele);
 }
 
+void PreviewInven::LoadAvatar(FPrimaryAssetId id, FStreamableDelegate dele)
+{
+	TArray<FPrimaryAssetId> AryIds;
+
+	AryIds.Add(id);
+
+	TArray<FName> AryBundlesAdd;
+	AryBundlesAdd.Add(TEXT("Preview"));
+	AryBundlesAdd.Add(TEXT("Default"));
+	
+	TArray<FName> AryBundlesRemove;
+	
+	UAssetManager::Get().ChangeBundleStateForPrimaryAssets(AryIds, AryBundlesAdd, AryBundlesRemove,false,dele);
+}
+
 void PreviewInven::ChangeAvatar(FPrimaryAssetId selectId, FStreamableDelegate onSelect)
 {
 	DeselectAvatar(FStreamableDelegate::CreateLambda(

@@ -75,29 +75,6 @@ void AvatarInven::UpdateEquipAvatar()
 		return;
 	}
 
-	UAssetManager* Manager = UAssetManager::GetIfValid();
-	
-	UUnitAsset* Asset = nullptr;
-
-	if(m_EquipSkinAvatar != NAME_None)
-	{
-		Asset = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(GetRowSkin().m_EntityAsset));
-	}
-	else
-	{
-		Asset = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(GetRowEquip().m_EntityAsset));
-	}
-
-	UMyGameInstance::Get->m_Player->SetEntity(Asset);
-}
-
-void AvatarInven::InitEquipAvatar()
-{
-	if(!UMyGameInstance::Get->m_Player.Get())
-	{
-		return;
-	}
-
 	FName Skin = m_EquippedAvatar;
 	
 	if(m_EquipSkinAvatar != NAME_None)
@@ -107,7 +84,7 @@ void AvatarInven::InitEquipAvatar()
 
 	const FAvatarRow& Avatar = *UAvatarData::GetAvatarTable->FindRow<FAvatarRow>(Skin, "");
 
-	SelectAvatar(Avatar.m_EntityAsset, FStreamableDelegate::CreateLambda(
+	LoadAvatar(Avatar.m_EntityAsset, FStreamableDelegate::CreateLambda(
 		[=]
 		{
 			UAssetManager* Manager = UAssetManager::GetIfValid();

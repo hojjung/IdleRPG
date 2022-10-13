@@ -37,8 +37,6 @@ public:
 
 	void UpdateEquipAvatar();
 
-	void InitEquipAvatar();
-
 public:
 	FORCEINLINE const FName& GetKeyEquip() const
 	{

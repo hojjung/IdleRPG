@@ -78,7 +78,7 @@ void PlayerFSM::OnChase()
 
 void PlayerFSM::OnCombat()
 {
-	m_Pl->HomingRotateToTarget(5, m_Pl->GetFocusedTarget()->GetActorLocation());
+	m_Pl->HomingRotateToTarget(15, m_Pl->GetFocusedTarget()->GetActorLocation());
 
 	if(CheckAngle(60))
 	{
