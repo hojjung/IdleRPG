@@ -15,7 +15,7 @@
 class IDLERPG_API SpawnManager
 {
 public:
-	SpawnManager();
+	SpawnManager(int stageLevel);
 	~SpawnManager();
 	
 private:
@@ -24,6 +24,8 @@ private:
 	TArray<TSharedPtr<Monster>> m_AryMonsters;
 
 	TSharedPtr<QuadTree> m_QuadTree;
+
+	int m_nStageLevel;
 private:
 	const FPrimaryAssetId& GetRandomMonsterID(int stageLevel);
 
@@ -51,4 +53,6 @@ public:
 	}
 	
 	void Clear();
+
+	int GetStageLevel();
 };

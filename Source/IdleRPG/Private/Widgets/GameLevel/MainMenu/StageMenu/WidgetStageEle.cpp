@@ -9,8 +9,8 @@ void UWidgetStageEle::SetZone(const FText& z, int level)
 {
 	m_nLevel = level;
 
-	FString Str = FString::Printf(TEXT("%s-%d"), *z.ToString(), m_nLevel + 1); 
-
+	FString Str = FString::Printf(TEXT("%s-%d"), *z.ToString(), (int)level + 1);
+	
 	m_TextName->SetText(FText::FromString(Str));
 
 	m_BtnEnter->OnClicked.AddDynamic(this, &UWidgetStageEle::OnEnter);

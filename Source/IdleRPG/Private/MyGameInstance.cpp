@@ -33,7 +33,7 @@ void UMyGameInstance::Init()
 
 	m_PetManager = MakeShareable(new PetManager());
 
-	m_SpawnManager = MakeShareable(new SpawnManager());
+	m_SpawnManager = MakeShareable(new SpawnManager(0));
 
 	m_AvatarManager = MakeShareable(new AvatarManager());
 }
@@ -79,7 +79,12 @@ FText UMyGameInstance::GetDefaultStageName(int level)
 
 	DownIndex = FMath::Modf(Index, &UpIndex);
 
-	FString Str = FString::Printf(TEXT("%s-%d"), *StageWant.m_StageName.ToString(), (int)DownIndex);
+	FString Str = FString::Printf(TEXT("%s-%d"), *StageWant.m_StageName.ToString(), (int)DownIndex + 1);
 
 	return FText::FromString(Str);
+}
+
+int UMyGameInstance::GetStageLevel()
+{
+	return m_SpawnManager->GetStageLevel();
 }

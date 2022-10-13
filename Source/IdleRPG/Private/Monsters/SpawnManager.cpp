@@ -11,8 +11,9 @@
 #include "Monsters/StageTable.h"
 #include "Player/MyPlayerPawn.h"
 
-SpawnManager::SpawnManager()//9개의 지역, 20개의 스테이지
+SpawnManager::SpawnManager(int stageLevel)//9개의 지역, 20개의 스테이지
 {
+	m_nStageLevel = stageLevel;
 	m_AryStage.Reserve(100);
 	UStageTable::GetData->GetAllRows<FStageRow>("", m_AryStage);
 }
@@ -90,6 +91,7 @@ void SpawnManager::Update(float delta)
 
 void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, ACombatPawn::FOnDied dele,  int cnt)
 {
+	m_nStageLevel = stageLevel;
 	Clear();
 	
 	const UNavigationSystemV1* Nav =  FNavigationSystem::GetCurrent<UNavigationSystemV1>(world->GetWorld());
@@ -110,7 +112,7 @@ void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, ACombatPawn:
 
 		FRotator Rot = FRotator(0,FMath::RandRange(0, 360),0);
 		
-		const FPrimaryAssetId& AssetID = GetRandomMonsterID(stageLevel);
+		const FPrimaryAssetId& AssetID = GetRandomMonsterID(m_nStageLevel);
 
 		FStreamableDelegate Delegate = FStreamableDelegate::CreateRaw(this, &SpawnManager::OnMonsterLoaded, AssetID, world, ResultPos.Location, Rot, dele);
 
@@ -128,6 +130,11 @@ void SpawnManager::Clear()
 		Mob.Reset();
 	}
 	m_AryMonsters.Reset();
+}
+
+int SpawnManager::GetStageLevel()
+{
+	return m_nStageLevel;
 }
 
 void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot,  ACombatPawn::FOnDied dele)

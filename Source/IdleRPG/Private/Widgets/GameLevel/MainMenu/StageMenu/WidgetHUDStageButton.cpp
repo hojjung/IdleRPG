@@ -10,6 +10,10 @@ void UWidgetHUDStageButton::NativeOnInitialized()
 	Super::NativeOnInitialized();
 
 	UMyGameInstance::Get->m_OnMapChange.AddUObject(this, &UWidgetHUDStageButton::UpdateText);
+
+	int Level = UMyGameInstance::Get->GetStageLevel();
+
+	UpdateText(EGameMode::Default, Level);
 }
 
 void UWidgetHUDStageButton::UpdateText(EGameMode mode, int level)

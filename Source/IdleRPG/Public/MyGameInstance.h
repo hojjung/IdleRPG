@@ -62,6 +62,8 @@ public:
 	void StartGameMode(EGameMode mode, int level);
 
 	FText GetDefaultStageName(int level);
+
+	int GetStageLevel();
 };
 
 
