@@ -23,6 +23,8 @@ public:
 	UFUNCTION()
 	virtual void OnClose();
 
+	bool IsOpened();
+
 protected:
 	virtual void NativeOnInitialized() override;
 };

@@ -14,4 +14,9 @@ UCLASS()
 class IDLERPG_API UWidgetAcceMenu : public UWidgetMenuBase
 {
 	GENERATED_BODY()
+
+public:
+	virtual void OnOpen() override;
+
+	virtual void OnClose() override;
 };

@@ -29,6 +29,11 @@ class IDLERPG_API UMyGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
+	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnMapChange, EGameMode, int);
+
+	FOnMapChange m_OnMapChange;
+
+public:
 	static UMyGameInstance* Get;
 
 public:
@@ -55,6 +60,8 @@ public:
 	void Tick(float deltaTime);
 
 	void StartGameMode(EGameMode mode, int level);
+
+	FText GetDefaultStageName(int level);
 };
 
 

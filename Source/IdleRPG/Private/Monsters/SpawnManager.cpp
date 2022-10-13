@@ -11,7 +11,7 @@
 #include "Monsters/StageTable.h"
 #include "Player/MyPlayerPawn.h"
 
-SpawnManager::SpawnManager()
+SpawnManager::SpawnManager()//9개의 지역, 20개의 스테이지
 {
 	m_AryStage.Reserve(100);
 	UStageTable::GetData->GetAllRows<FStageRow>("", m_AryStage);
@@ -28,13 +28,51 @@ SpawnManager::~SpawnManager()
 	m_QuadTree.Reset();
 }
 
+const FStageRow& SpawnManager::GetStage(int stageLevel)
+{
+	float Index = stageLevel / 20.0f;
+
+	float UpIndex = 0.0f;
+
+	float DownIndex = 0.0f;
+
+	DownIndex = FMath::Modf(Index, &UpIndex);
+
+	UpIndex *= 10;
+
+	return *m_AryStage[UpIndex];
+}
+const FZone& SpawnManager::GetZone(int stageLevel)//20, 0, 19
+{
+	float Index = stageLevel / 20.0f;
+
+	float UpIndex = 0.0f;
+
+	float DownIndex = 0.0f;
+
+	DownIndex = FMath::Modf(Index, &UpIndex);
+
+	UpIndex *= 10;
+
+	DownIndex *= 10;
+
+	const FZone& SelectZone = m_AryStage[UpIndex]->m_AryUnits[DownIndex];
+
+	return SelectZone;
+}
+
 const FPrimaryAssetId& SpawnManager::GetRandomMonsterID(int stageLevel)
 {
-	int MaxIndex = m_AryStage[stageLevel]->m_AryUnits.Num() - 1;
+	const FZone& SelectZone = GetZone(stageLevel);
 
-	int RandIndex = FMath::RandRange(0, MaxIndex);
+	int RandIndex = FMath::RandRange(0, SelectZone.m_AryUnits.Num() - 1);
 
-	return m_AryStage[stageLevel]->m_AryUnits[RandIndex];
+	return SelectZone.m_AryUnits[RandIndex];
+}
+
+const FPrimaryAssetId& SpawnManager::GetBossMonster(int stageLevel)
+{
+	return GetZone(stageLevel).m_AryUnits[0];
 }
 
 void SpawnManager::Update(float delta)
@@ -52,17 +90,14 @@ void SpawnManager::Update(float delta)
 
 void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, ACombatPawn::FOnDied dele,  int cnt)
 {
-	if(m_AryStage[stageLevel]->m_AryUnits.Num() <= 0)
-	{
-		PRINTF("SpawnManager Spawn Unit Fail, No Units in DataTable");
-		return;
-	}
+	Clear();
 	
 	const UNavigationSystemV1* Nav =  FNavigationSystem::GetCurrent<UNavigationSystemV1>(world->GetWorld());
 
 	FBox NavBox = Nav->GetNavigationBounds().Array()[0].AreaBox;
 	
 	m_QuadTree = MakeShareable(new QuadTree(NavBox.GetCenter(), NavBox.GetExtent() * 1.3f,  4));
+	
 	m_QuadTree->m_Root = m_QuadTree;
 
 	int Iter = -1;
@@ -117,9 +152,12 @@ void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* worl
 		
 	Pawn->SetMonsterInst(Mob);
 
-	auto* Play = UMyLib::GetPlayer();
-	
-	Pawn->SetFocusedTarget(Play);
+	if(MonsterData->m_bAttackFirst)
+	{
+		auto* Play = UMyLib::GetPlayer();
+		
+		Pawn->SetFocusedTarget(Play);
+	}
 
 	m_AryMonsters.Add(Mob);
 }

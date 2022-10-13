@@ -27,9 +27,15 @@ private:
 private:
 	const FPrimaryAssetId& GetRandomMonsterID(int stageLevel);
 
+	const FPrimaryAssetId& GetBossMonster(int stageLevel);
+
 	void OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot,  ACombatPawn::FOnDied dele);
 	
 public:
+	const FStageRow& GetStage(int stageLevel);
+	
+	const FZone& GetZone(int stageLevel);
+	
 	void Update(float delta);
 
 	void SpawnUnits(const UObject* world, int stageLevel, ACombatPawn::FOnDied dele, int cnt = 20);

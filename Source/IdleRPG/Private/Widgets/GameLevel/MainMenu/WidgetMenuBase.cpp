@@ -18,3 +18,8 @@ void UWidgetMenuBase::OnClose()
 	SetVisibility(ESlateVisibility::Collapsed);
 }
 
+bool UWidgetMenuBase::IsOpened()
+{
+	return IsVisible();
+}
+

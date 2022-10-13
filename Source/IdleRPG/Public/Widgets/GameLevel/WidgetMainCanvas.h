@@ -13,6 +13,8 @@
 #include "MainMenu/Relic/WidgetRelicPanel.h"
 #include "MainMenu/Shop/WidgetShopPanel.h"
 #include "MainMenu/Skill/WidgetSkillPanel.h"
+#include "MainMenu/StageMenu/WidgetHUDStageButton.h"
+#include "MainMenu/StageMenu/WidgetStagePanel.h"
 #include "MainMenu/UpgradeMenu/WidgetUpgradeMenu.h"
 #include "WidgetMainCanvas.generated.h"
 
@@ -43,6 +45,10 @@ protected:
 	UWidgetRelicPanel* m_RelicPanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetShopPanel* m_ShopPanel;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetStagePanel* m_StagePanel;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetHUDStageButton* m_StageBtn;
 	//
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetMenuBtn* m_BtnUpgrade;
@@ -64,8 +70,9 @@ protected:
 	UWidgetMenuBtn* m_BtnShop;
 	
 protected:
-	
 	virtual void NativeOnInitialized() override;
+
+	void TryOpen(UWidgetMenuBase* menu);
 
 public:
 	UFUNCTION()
@@ -86,4 +93,6 @@ public:
 	void OnClickRelicPanel();
 	UFUNCTION()
 	void OnClickMapPanel();
+	UFUNCTION()
+	void OnOpenStage();
 };

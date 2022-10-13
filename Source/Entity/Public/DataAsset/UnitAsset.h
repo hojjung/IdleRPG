@@ -31,6 +31,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Preview"))
 	TSoftObjectPtr<UAnimSequence> m_IdleAnim;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	bool m_bAttackFirst = false;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float m_RotYawOffset;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (UIMin = "34" ,UIMax = "88"))
 	float m_fCapsuleRadius = 60.f;

@@ -1,5 +1,7 @@
 #include "Widgets/GameLevel/WidgetMainCanvas.h"
 
+#include "MyGameInstance.h"
+
 void UWidgetMainCanvas::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
@@ -21,11 +23,22 @@ void UWidgetMainCanvas::NativeOnInitialized()
 	m_BtnRelic->m_OnClick.BindUObject(this, &UWidgetMainCanvas::OnClickRelicPanel);
 
 	m_BtnShop->m_OnClick.BindUObject(this, &UWidgetMainCanvas::OnClickShopPanel);
+
+	m_StageBtn->GetBtn()->OnClicked.AddDynamic(this, &UWidgetMainCanvas::OnOpenStage);
+}
+
+void UWidgetMainCanvas::TryOpen(UWidgetMenuBase* menu)
+{
+	if(menu->IsOpened())
+	{
+		menu->OnClose();
+		return;
+	}
+	menu->OnOpen();
 }
 
 void UWidgetMainCanvas::OnOpenUpgradePanel()
 {
-	m_UpgradePanel->OnOpen();
 	m_SkillPanel->OnClose();
 	m_InvenPanel->OnClose();
 	m_PetPanel->OnClose();
@@ -34,11 +47,12 @@ void UWidgetMainCanvas::OnOpenUpgradePanel()
 	m_AccePanel->OnClose();
 	m_RelicPanel->OnClose();
 	m_ShopPanel->OnClose();
+
+	TryOpen(m_UpgradePanel);
 }
 void UWidgetMainCanvas::OnClickSkillPanel()
 {
 	m_UpgradePanel->OnClose();
-	m_SkillPanel->OnOpen();
 	m_InvenPanel->OnClose();
 	m_PetPanel->OnClose();
 	m_AvatarPanel->OnClose();
@@ -46,18 +60,21 @@ void UWidgetMainCanvas::OnClickSkillPanel()
 	m_AccePanel->OnClose();
 	m_RelicPanel->OnClose();
 	m_ShopPanel->OnClose();
+
+	TryOpen(m_SkillPanel);
 }
 void UWidgetMainCanvas::OnClickInvenPanel()
 {
 	m_UpgradePanel->OnClose();
 	m_SkillPanel->OnClose();
-	m_InvenPanel->OnOpen();
 	m_PetPanel->OnClose();
 	m_AvatarPanel->OnClose();
 	m_MapPanel->OnClose();
 	m_AccePanel->OnClose();
 	m_RelicPanel->OnClose();
 	m_ShopPanel->OnClose();
+
+	TryOpen(m_InvenPanel);
 }
 
 void UWidgetMainCanvas::OnClickPetMenu()
@@ -65,12 +82,13 @@ void UWidgetMainCanvas::OnClickPetMenu()
 	m_UpgradePanel->OnClose();
 	m_SkillPanel->OnClose();
 	m_InvenPanel->OnClose();
-	m_PetPanel->OnOpen();
 	m_AvatarPanel->OnClose();
 	m_MapPanel->OnClose();
 	m_AccePanel->OnClose();
 	m_RelicPanel->OnClose();
 	m_ShopPanel->OnClose();
+
+	TryOpen(m_PetPanel);
 }
 
 void UWidgetMainCanvas::OnClickAvatarMenu()
@@ -79,11 +97,12 @@ void UWidgetMainCanvas::OnClickAvatarMenu()
 	m_SkillPanel->OnClose();
 	m_InvenPanel->OnClose();
 	m_PetPanel->OnClose();
-	m_AvatarPanel->OnOpen();
 	m_MapPanel->OnClose();
 	m_AccePanel->OnClose();
 	m_RelicPanel->OnClose();
 	m_ShopPanel->OnClose();
+
+	TryOpen(m_AvatarPanel);
 }
 
 void UWidgetMainCanvas::OnClickMapPanel()
@@ -93,10 +112,16 @@ void UWidgetMainCanvas::OnClickMapPanel()
 	m_InvenPanel->OnClose();
 	m_PetPanel->OnClose();
 	m_AvatarPanel->OnClose();
-	m_MapPanel->OnOpen();
 	m_AccePanel->OnClose();
 	m_RelicPanel->OnClose();
 	m_ShopPanel->OnClose();
+
+	TryOpen(m_MapPanel);
+}
+
+void UWidgetMainCanvas::OnOpenStage()
+{
+	m_StagePanel->OnOpen();
 }
 
 void UWidgetMainCanvas::OnClickAccePanel()
@@ -107,9 +132,10 @@ void UWidgetMainCanvas::OnClickAccePanel()
 	m_PetPanel->OnClose();
 	m_AvatarPanel->OnClose();
 	m_MapPanel->OnClose();
-	m_AccePanel->OnOpen();
 	m_RelicPanel->OnClose();
 	m_ShopPanel->OnClose();
+
+	TryOpen(m_AccePanel);
 }
 
 void UWidgetMainCanvas::OnClickRelicPanel()
@@ -121,11 +147,10 @@ void UWidgetMainCanvas::OnClickRelicPanel()
 	m_AvatarPanel->OnClose();
 	m_MapPanel->OnClose();
 	m_AccePanel->OnClose();
-	m_RelicPanel->OnOpen();
 	m_ShopPanel->OnClose();
+
+	TryOpen(m_RelicPanel);
 }
-
-
 
 void UWidgetMainCanvas::OnClickShopPanel()
 {
@@ -137,13 +162,6 @@ void UWidgetMainCanvas::OnClickShopPanel()
 	m_MapPanel->OnClose();
 	m_AccePanel->OnClose();
 	m_RelicPanel->OnClose();
-	m_ShopPanel->OnOpen();
+	
+	TryOpen(m_ShopPanel);
 }
-
-
-
-
-
-
-
-

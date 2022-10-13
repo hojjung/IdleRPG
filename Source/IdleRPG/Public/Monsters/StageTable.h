@@ -23,13 +23,26 @@ public:
 	static UDataTable* GetData;
 };
 
+USTRUCT(BlueprintType)
+struct FZone
+{
+	GENERATED_BODY()
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TArray<FPrimaryAssetId> m_AryUnits;
+	//스테이지 추가 드랍
+};
+
 USTRUCT(BlueprintType)//���̵�,Ƽ��
 struct FStageRow : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	FText m_ShowingName;
+	FText m_StageName;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TArray<FPrimaryAssetId> m_AryUnits;
+	UTexture2D* m_IconStage;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TArray<FZone> m_AryUnits;
+	//클리어보상
 };

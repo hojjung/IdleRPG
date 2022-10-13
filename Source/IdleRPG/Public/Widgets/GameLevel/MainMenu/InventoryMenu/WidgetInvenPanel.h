@@ -32,6 +32,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetEquipMenu* m_EquipFeet;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnConsumable;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UButton* m_BtnWeapon;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UButton* m_BtnArmor1;
