@@ -1,4 +1,6 @@
 ﻿#include "Entity.h"
+#include "Styling/SlateStyleRegistry.h"
+
 void FEntityModule::StartupModule()
 {
 	IModuleInterface::StartupModule();

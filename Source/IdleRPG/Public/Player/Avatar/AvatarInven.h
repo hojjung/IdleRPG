@@ -6,24 +6,17 @@
 #include "AvatarData.h"
 #include "Actors/PreviewActor.h"
 #include "Engine/StreamableManager.h"
+#include "Preview/PreviewInven.h"
 
-/**
- * 
- */
-class IDLERPG_API AvatarInven
+
+class IDLERPG_API AvatarInven : public PreviewInven
 {
 public:
 	AvatarInven();
 	
-	~AvatarInven();
+	virtual  ~AvatarInven() override;
 
 protected:
-	TWeakObjectPtr<APreviewActor> m_PreviewActor;
-
-	FPrimaryAssetId m_CurrentPreviewID;
-	
-	FName m_PreviewID;
-	
 	FName m_EquippedAvatar;
 
 	FName m_EquipSkinAvatar;
@@ -32,29 +25,12 @@ protected:
 
 	const FAvatarRow* m_RowSkinAvatar;
 	
-
 protected:
-	void DeselectAvatar(FStreamableDelegate deSelect);
-
-	void SelectAvatar(FPrimaryAssetId id, FStreamableDelegate dele);
-
 	void SetEquip(const FName& key);
 
 	void SetSkin(const FName& key);
 
 public:
-	void ChangeAvatar(FPrimaryAssetId selectId, FStreamableDelegate onSelect);
-
-	void SpawnPreviewActor(UWorld* w);
-
-	void SetPreview(FName key, const UUnitAsset* asset);
-
-	void ShowPreview();
-	
-	void HidePreview();
-
-	APreviewActor* GetPreviewActor();
-
 	void EquipAvatar();
 
 	void EquipSkinAvatar();

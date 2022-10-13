@@ -12,8 +12,10 @@
 #include "Engine/StreamableManager.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Monsters/QuadTree.h"
+#include "Pet/PetAsset.h"
 #include "MyPlayerPawn.generated.h"
 
+class APetPawn;
 class PlayerSensor;
 /**
  * 
@@ -38,6 +40,8 @@ protected:
 	TArray<AActor*> m_AryIgnores;
 	UPROPERTY(EditAnywhere)
 	UAvatarAddtionalVisuals* m_AddVisual;
+
+	TWeakObjectPtr<APetPawn> m_Pet;
 	
 	TSharedPtr<PlayerSensor> m_Sensor;
 
@@ -102,4 +106,8 @@ public:
 	void SetCameraCenter();
 
 	void SetCameraTop();
+	
+	void SetPet(const UPetAsset* asset);
+
+	void UnEquipPet();
 };

@@ -6,6 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "MyPlayerController.generated.h"
 
+class SSlateEleBase;
 class UWidgetMainCanvas;
 /**
  * 
@@ -27,6 +28,7 @@ public:
 public:
 	AMyPlayerController();
 
+	TSharedPtr<SSlateEleBase> m_Ele;
 protected:
 	TSubclassOf<UWidgetMainCanvas> m_ClassCanvas;
 	UPROPERTY()

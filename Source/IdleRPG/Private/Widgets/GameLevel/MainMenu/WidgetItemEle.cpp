@@ -13,6 +13,11 @@ void UWidgetItemEle::SetData(const FName& id, const FEntityDataRow& dataEquip)
 	Clear();
 	
 	m_ID = id;
+
+	if(m_ID == NAME_None)
+	{
+		return;
+	}
 	
 	m_Row = &dataEquip;
 

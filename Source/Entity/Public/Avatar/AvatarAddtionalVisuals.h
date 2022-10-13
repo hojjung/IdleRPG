@@ -7,6 +7,7 @@
 #include "UObject/NoExportTypes.h"
 #include "AvatarAddtionalVisuals.generated.h"
 
+
 /**
  * 
  */
@@ -19,6 +20,8 @@ protected:
 	
 	UPROPERTY(EditAnywhere)
 	TArray<UMyCapeComponent*> m_AryCapes;
+	
+	 
 
 	float m_fAttackDur;
 	
@@ -32,4 +35,5 @@ public:
 	void TickWind(bool is_moving, float deltaTime);
 
 	void SetAttacking(float dur);
+
 };

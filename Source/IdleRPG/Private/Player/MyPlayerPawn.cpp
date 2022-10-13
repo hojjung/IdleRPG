@@ -3,7 +3,9 @@
 #include "Entity.h"
 #include "MyAssetManager.h"
 #include "MyGameInstance.h"
+#include "NavigationSystem.h"
 #include "Actors/Components/MyNavMovement.h"
+#include "Pet/PetPawn.h"
 #include "Player/MyFlockSteering.h"
 #include "Player/PlayerSensor.h"
 
@@ -262,4 +264,29 @@ void AMyPlayerPawn::SetCameraCenter()
 void AMyPlayerPawn::SetCameraTop()
 {
 	m_DissolveCam->m_TargetOffset = FVector(-440,440,0);
+}
+
+void AMyPlayerPawn::SetPet(const UPetAsset* pet)
+{
+	UnEquipPet();
+
+	FActorSpawnParameters Param;
+
+	Param.bNoFail = true;
+
+	UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
+
+	FVector Loc = Nav->GetRandomReachablePointInRadius(GetWorld(),GetActorLocation(),400);
+
+	m_Pet = GetWorld()->SpawnActor<APetPawn>(APetPawn::StaticClass(),Loc,FRotator(0),Param);
+
+	m_Pet->SetPetEntity(pet);
+}
+
+void AMyPlayerPawn::UnEquipPet()
+{
+	if(m_Pet.Get())
+	{
+		m_Pet->Destroy();
+	}
 }

@@ -1,4 +1,5 @@
 #include "Avatar/AvatarAddtionalVisuals.h"
+#include "NavigationSystem.h"
 
 void UAvatarAddtionalVisuals::Init(USkeletalMeshComponent* owner)
 {

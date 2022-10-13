@@ -6,6 +6,7 @@
 #include "Engine/GameInstance.h"
 #include "Manager/GameMode/MyGameModeBase.h"
 #include "Monsters/SpawnManager.h"
+#include "Pet/PetManager.h"
 #include "Player/MyPlayerController.h"
 #include "Player/MyPlayerPawn.h"
 #include "Player/Avatar/AvatarManager.h"
@@ -31,6 +32,8 @@ public:
 	static UMyGameInstance* Get;
 
 public:
+	TSharedPtr<PetManager> m_PetManager;
+	
 	TSharedPtr<AvatarManager> m_AvatarManager;
 	
 	TSharedPtr<SpawnManager> m_SpawnManager;

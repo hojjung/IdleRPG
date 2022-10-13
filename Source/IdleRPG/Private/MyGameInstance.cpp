@@ -10,6 +10,8 @@ void UMyGameInstance::BeginDestroy()
 	
 	Get = nullptr;
 
+	m_PetManager.Reset();
+
 	m_AvatarManager.Reset();
 	
 	m_SpawnManager.Reset();
@@ -28,6 +30,8 @@ void UMyGameInstance::Init()
 	UKismetSystemLibrary::ControlScreensaver(false);
 	
 	Get = this;
+
+	m_PetManager = MakeShareable(new PetManager());
 
 	m_SpawnManager = MakeShareable(new SpawnManager());
 
