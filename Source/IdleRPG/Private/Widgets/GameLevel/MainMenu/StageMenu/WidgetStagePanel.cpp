@@ -41,7 +41,7 @@ void UWidgetStagePanel::UpdateStage()
 
 	m_TextName->SetText(StageRowFound->m_StageName);
 
-	int Level = 1;
+	int Level = 0;
 
 	for(const FZone& Z : StageRowFound->m_AryUnits)
 	{

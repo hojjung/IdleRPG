@@ -9,7 +9,7 @@ void UWidgetStageEle::SetZone(const FText& z, int level)
 {
 	m_nLevel = level;
 
-	FString Str = FString::Printf(TEXT("%s-%d"), *z.ToString(), m_nLevel); 
+	FString Str = FString::Printf(TEXT("%s-%d"), *z.ToString(), m_nLevel + 1); 
 
 	m_TextName->SetText(FText::FromString(Str));
 

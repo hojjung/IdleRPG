@@ -42,7 +42,7 @@ const FStageRow& SpawnManager::GetStage(int stageLevel)
 
 	return *m_AryStage[UpIndex];
 }
-const FZone& SpawnManager::GetZone(int stageLevel)//20, 0, 19
+const FZone& SpawnManager::GetZone(int stageLevel)//19, 0, 19
 {
 	float Index = stageLevel / 20.0f;
 
