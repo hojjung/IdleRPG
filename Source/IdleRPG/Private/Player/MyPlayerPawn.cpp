@@ -277,7 +277,7 @@ void AMyPlayerPawn::SetPet(const UUnitAsset* pet)
 
 	UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
 
-	FVector Loc = Nav->GetRandomReachablePointInRadius(GetWorld(),GetActorLocation(),400);
+	FVector Loc = Nav->GetRandomPointInNavigableRadius(GetWorld(),GetActorLocation(),400);
 
 	m_Pet = GetWorld()->SpawnActor<APetPawn>(APetPawn::StaticClass(),Loc,FRotator(0),Param);
 

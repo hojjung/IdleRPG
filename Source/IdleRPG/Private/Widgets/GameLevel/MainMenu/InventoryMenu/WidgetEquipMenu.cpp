@@ -19,12 +19,18 @@ void UWidgetEquipMenu::Init(FText panelName, const UDataTable* equipItems, int c
 	{
 		UWidgetEquipMenuEle* Ele = CreateWidget<UWidgetEquipMenuEle>(this, m_ClassEle);
 		
-		Ele->SetEquipData(row, UWidgetEquipMenuEle::FOnClick::CreateUObject(this, &UWidgetEquipMenu::OnSelectEquip));
+		Ele->SetDataOnClick(key, row, UWidgetItemEle::FOnClick::CreateUObject(this, &UWidgetEquipMenu::OnSelectEquip));
 
 		m_AryEles.Add(Ele);
 	});
-
+\
 	Sort();
+}
+
+void UWidgetEquipMenu::OnSelectEquip(const FName& id , const FEntityDataRow& row)
+{
+	PRINTF("Show Info");
+	m_EquipInfo->ShowInfo((const FEquipRow&)row);
 }
 
 void UWidgetEquipMenu::Sort()
@@ -74,8 +80,4 @@ void UWidgetEquipMenu::OnClose()
 
 
 
-void UWidgetEquipMenu::OnSelectEquip(const FEquipRow& row)
-{
-	PRINTF("Show Info");
-	m_EquipInfo->ShowInfo(row);
-}
+

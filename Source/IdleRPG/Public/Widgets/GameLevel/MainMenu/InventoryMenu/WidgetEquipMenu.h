@@ -46,7 +46,7 @@ public:
 protected:
 	void Sort();
 	
-	void OnSelectEquip(const FEquipRow& row);
+	void OnSelectEquip(const FName& id , const FEntityDataRow& row);
 
 	virtual void NativePreConstruct() override;
 };

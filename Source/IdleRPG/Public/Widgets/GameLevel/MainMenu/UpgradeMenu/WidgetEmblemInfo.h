@@ -4,14 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Widgets/GameLevel/MainMenu/WidgetItemEle.h"
-#include "WidgetSkillEle.generated.h"
+#include "WidgetEmblemInfo.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API UWidgetSkillEle : public UWidgetItemEle
+class IDLERPG_API UWidgetEmblemInfo : public UUserWidget
 {
 	GENERATED_BODY()
 	

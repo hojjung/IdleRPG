@@ -3,3 +3,8 @@
 
 #include "Widgets/GameLevel/MainMenu/Pet/WidgetPetEle.h"
 
+void UWidgetPetEle::Clear()
+{
+	Super::Clear();
+	
+}

@@ -53,7 +53,7 @@ protected:
 	bool m_bHasTouch;
 	
 public:
-	virtual void SetData( const FName& id, const FEntityDataRow& dataEquip, FOnClick onClick);
+	virtual void SetDataOnClick( const FName& id, const FEntityDataRow& dataEquip, FOnClick onClick);
 	
 	virtual void SetData( const FName& id, const FEntityDataRow& dataEquip);
 
@@ -77,7 +77,7 @@ public:
 
 	void SetIcon(UTexture2D* icon);
 
-	void Clear();
+	virtual  void Clear();
 
 protected:
 	virtual void NativeOnInitialized() override;

@@ -1,7 +1,7 @@
 #include "Widgets/GameLevel/MainMenu/WidgetItemEle.h"
 #include "DataTableRow/ColorData.h"
 
-void UWidgetItemEle::SetData(const FName& id, const FEntityDataRow& dataEquip, FOnClick onClick)
+void UWidgetItemEle::SetDataOnClick(const FName& id, const FEntityDataRow& dataEquip, FOnClick onClick)
 {
 	SetData(id, dataEquip);
 
@@ -43,7 +43,14 @@ void UWidgetItemEle::SetColorTier(const FColorDataRow& colorRow)
 
 void UWidgetItemEle::SetIcon(UTexture2D* icon)
 {
+	if(icon == nullptr)
+	{
+		m_ImgIcon->SetBrushFromTexture(nullptr);
+		m_ImgIcon->SetVisibility(ESlateVisibility::Collapsed);
+		return;
+	}
 	m_ImgIcon->SetBrushFromTexture(icon);
+	m_ImgIcon->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 }
 
 void UWidgetItemEle::Clear()
@@ -57,6 +64,8 @@ void UWidgetItemEle::Clear()
 	m_TextTierLevel->SetText(FText());
 
 	m_TextCount->SetText(FText());
+
+	SetIcon(nullptr);
 }
 
 int UWidgetItemEle::GetSortOrder() const

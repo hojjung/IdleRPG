@@ -39,10 +39,26 @@ protected:
 	UWidgetAvatarEle* m_Equip;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetAvatarEle* m_Skin;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnAll;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnTier1;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnTier2;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnTier3;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnTier4;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnTier5;
 	UPROPERTY()
 	TArray<UWidgetAvatarEle*> m_AryEles;
 
 	TWeakPtr<AvatarManager> m_AvatarManager;
+	
+	TWeakObjectPtr<UButton> m_CurrentBtn;
+
+	TMap<FName,TArray<UWidgetAvatarEle*>> m_MapEle;
 	
 protected:
 	virtual void NativeOnInitialized() override;
@@ -66,10 +82,28 @@ protected:
 	void OnClickSkin(const FName& key, const FEntityDataRow& row);
 
 	void SetColor(const FColorDataRow& ColorData);
+
+	void Filter(FName colorID);
+
+	void NoFilter();
 	
 public:
 	virtual void OnOpen() override;
 	
 	virtual void OnClose() override;
+
+public:
+	UFUNCTION()
+	void OnClickAll();
+	UFUNCTION()
+	void OnClickTier1();
+	UFUNCTION()
+	void OnClickTier2();
+	UFUNCTION()
+	void OnClickTier3();
+	UFUNCTION()
+	void OnClickTier4();
+	UFUNCTION()
+	void OnClickTier5();
 };
 

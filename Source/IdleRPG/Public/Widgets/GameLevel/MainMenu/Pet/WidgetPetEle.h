@@ -15,4 +15,7 @@ UCLASS()
 class IDLERPG_API UWidgetPetEle : public UWidgetItemEle
 {
 	GENERATED_BODY()
+
+public:
+	virtual void Clear() override;
 };

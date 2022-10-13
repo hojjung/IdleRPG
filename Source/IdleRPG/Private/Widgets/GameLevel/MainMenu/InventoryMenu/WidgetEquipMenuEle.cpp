@@ -2,36 +2,25 @@
 
 #include "Entity.h"
 
-void UWidgetEquipMenuEle::SetEquipData(const FEquipRow& dataEquip, const FOnClick& onClick)
+void UWidgetEquipMenuEle::SetData(const FName& id, const FEntityDataRow& dataEquip)
 {
-	m_Row = &dataEquip;
+	Super::SetData(id, dataEquip);
 
-	m_OnClick = onClick;
+	const FEquipRow& EquipDataFound = (const FEquipRow&)dataEquip;
 
-	const FColorDataRow& Color = *m_Row->m_Color.GetRow<FColorDataRow>("");
-
-	m_ImgGlow->SetColorAndOpacity(Color.m_Color.GetSpecifiedColor());
-
-	m_ImgTier->SetBrushFromTexture(Color.m_GlowTexture);
-
-	m_ImgIcon->SetBrushFromTexture(dataEquip.m_Icon);
-	
-	SetEquipSpec(0, false, 0);
-
-	m_nSortOrder = (Color.m_fPriority * 1000) + dataEquip.m_nTier;
-
-	FString Str = FString::Printf(TEXT("T%d"), dataEquip.m_nTier);
+	FString Str = FString::Printf(TEXT("T%d"), EquipDataFound.m_nTier);
 	
 	m_TextTierLevel->SetText(FText::FromString(Str));
+
+	UpdateSpec();
 }
 
-int UWidgetEquipMenuEle::GetSortOrder() const
+void UWidgetEquipMenuEle::UpdateSpec()
 {
-	return m_nSortOrder;
-}
-
-void UWidgetEquipMenuEle::SetEquipSpec(int level, bool isEquip, int amount)
-{
+	bool isEquip = false;
+	int level = 0;
+	int amount = 0;
+	
 	if(isEquip)
 	{
 		m_SizeEquip->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
@@ -43,28 +32,18 @@ void UWidgetEquipMenuEle::SetEquipSpec(int level, bool isEquip, int amount)
 
 	if(level > 0)
 	{
-		m_TextLevel->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+		m_TextCount->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 		
 		FString Str = FString::Printf(TEXT("+%d"), level);
 		
-		m_TextLevel->SetText(FText::FromString(Str));
+		m_TextCount->SetText(FText::FromString(Str));
 	}
 	else
 	{
-		m_TextLevel->SetVisibility(ESlateVisibility::Collapsed);
+		m_TextCount->SetVisibility(ESlateVisibility::Collapsed);
 	}
 	
 	FString Str = FString::Printf(TEXT("%d/5"), amount);
 		
-	m_TextCount->SetText(FText::FromString(Str));
+	m_TextMergeCount->SetText(FText::FromString(Str));
 }
-
-FReply UWidgetEquipMenuEle::NativeOnTouchEnded(const FGeometry& InGeometry, const FPointerEvent& InGestureEvent)
-{
-	Super::NativeOnTouchEnded(InGeometry, InGestureEvent);
-	
-	m_OnClick.ExecuteIfBound(*m_Row);
-
-	return FReply::Handled();
-}
-
