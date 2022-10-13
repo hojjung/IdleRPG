@@ -5,7 +5,6 @@
 
 #include "MyGameInstance.h"
 #include "Engine/AssetManager.h"
-#include "Pet/PetAsset.h"
 #include "Pet/PetData.h"
 
 PetInven::PetInven()
@@ -24,7 +23,7 @@ void PetInven::UpdatePet()
 {
 	//for unequip
 	//for equip
-	UPetAsset* Asset = nullptr;
+	UUnitAsset* Asset = nullptr;
 
 	UAssetManager* Manager = UAssetManager::GetIfValid();
 	
@@ -36,13 +35,17 @@ void PetInven::UpdatePet()
 		{
 			continue;
 		}
-		Asset = Cast<UPetAsset>(Manager->GetPrimaryAssetObject(m_AryEquipRows[Iter]->m_EntityAsset));
+		Asset = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(m_AryEquipRows[Iter]->m_EntityAsset));
 		break;;
 	}
 
 	if(Asset != nullptr)
 	{
 		UMyGameInstance::Get->m_Player->SetPet(Asset);
+	}
+	else
+	{
+		UMyGameInstance::Get->m_Player->UnEquipPet();
 	}
 }
 

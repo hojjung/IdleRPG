@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PetAsset.h"
 #include "Actors/Pawns/MyBasePawn.h"
 #include "Player/MyPlayerPawn.h"
 #include "PetPawn.generated.h"
@@ -36,7 +35,7 @@ protected:
 
 	float m_fFloatingZ;
 public:
-	void SetPetEntity(const UPetAsset* pet_row);
+	void SetPetEntity(const UUnitAsset* pet_row);
 
 protected:
 	virtual void Tick(float DeltaSeconds) override;

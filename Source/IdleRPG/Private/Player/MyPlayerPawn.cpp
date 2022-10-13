@@ -1,6 +1,7 @@
 #include "Player/MyPlayerPawn.h"
 
 #include "Entity.h"
+#include "IdleRPG.h"
 #include "MyAssetManager.h"
 #include "MyGameInstance.h"
 #include "NavigationSystem.h"
@@ -24,7 +25,7 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_TopCamera->SetupAttachment(m_DissolveCam);
 	m_TopCamera->FieldOfView = 45.f;
 
-	m_Movement->MaxSpeed = 500.f;
+	m_Movement->MaxSpeed = FGlobalVariable::HERO_DEFAULT_SPEED;
 
 	m_bCanMoveInSkill = false;
 	m_bIsSkillUsing = false;
@@ -221,7 +222,7 @@ void AMyPlayerPawn::RequestInteract(AActor* target, const FVoidVoid& delegate, f
 	if (Result.Code == EPathFollowingRequestResult::Type::AlreadyAtGoal)
 	{
 		m_ReqID = FAIRequestID();
-		HomingRotateToTarget(0);
+		HomingRotateToTarget(0, target->GetActorLocation());
 		delegate.ExecuteIfBound();
 		return;
 	}
@@ -266,7 +267,7 @@ void AMyPlayerPawn::SetCameraTop()
 	m_DissolveCam->m_TargetOffset = FVector(-440,440,0);
 }
 
-void AMyPlayerPawn::SetPet(const UPetAsset* pet)
+void AMyPlayerPawn::SetPet(const UUnitAsset* pet)
 {
 	UnEquipPet();
 

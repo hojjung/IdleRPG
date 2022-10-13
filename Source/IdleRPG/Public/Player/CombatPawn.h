@@ -54,8 +54,6 @@ public:
 	
 	ACombatPawn* GetFocusedTarget();
 	
-	void HomingRotateToTarget(float speedTime = 5.0f);
-	
 	float TryAttack(float playRate = 1.f);
 
 	virtual bool IsAlive() {return true;};

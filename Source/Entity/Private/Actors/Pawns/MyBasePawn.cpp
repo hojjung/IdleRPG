@@ -6,6 +6,7 @@
 #include "Actors/Components/MyNavMovement.h"
 #include "Anims/MyAnimInstance.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Navigation/PathFollowingComponent.h"
 
 
@@ -99,11 +100,20 @@ void AMyBasePawn::LoadSetSkMeshAnim(const UUnitAsset* asset)
 
 	m_BodyMesh->SetVisibility(true);
 
-	m_BodyMesh->SetAnimationMode(EAnimationMode::Type::AnimationBlueprint);
+	if(m_EntityAsset->m_IdleAnim.Get())
+	{
+		m_BodyMesh->SetAnimationMode(EAnimationMode::Type::AnimationSingleNode);
 
-	m_BodyMesh->SetAnimClass(asset->m_ClassAnim);
+		m_BodyMesh->PlayAnimation(m_EntityAsset->m_IdleAnim.Get(),true);		
+	}
+	else
+	{
+		m_BodyMesh->SetAnimationMode(EAnimationMode::Type::AnimationBlueprint);
 
-	m_BodyMesh->AddRelativeRotation(FRotator(0,asset->m_RotYawOffset,0));
+		m_BodyMesh->SetAnimClass(m_EntityAsset->m_ClassAnim);	
+	}
+
+	m_BodyMesh->AddRelativeRotation(FRotator(0,m_EntityAsset->m_RotYawOffset,0));
 }
 
 void AMyBasePawn::ClearStopMoveDelegate()
@@ -467,4 +477,21 @@ FVector AMyBasePawn::GetNavAgentLocation() const
 bool AMyBasePawn::UseBoidMove()
 {
 	return false;
+}
+
+
+void AMyBasePawn::HomingRotateToTarget(float speedTime, FVector target)
+{
+	FRotator NewRot = GetActorRotation();
+
+	if(speedTime <= 0)
+	{
+		NewRot.Yaw = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), target).Yaw;
+	}
+	else
+	{
+		NewRot.Yaw = UKismetMathLibrary::RInterpTo(NewRot, UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), target),GetWorld()->GetDeltaSeconds(), speedTime).Yaw;
+	}
+
+	SetActorRotation(NewRot);
 }

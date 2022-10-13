@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Components/SceneCaptureComponent2D.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Engine/TextureRenderTarget2D.h"
 
 APreviewActor::APreviewActor()
 {
@@ -21,7 +22,7 @@ APreviewActor::APreviewActor()
 	m_MeshBody->bOwnerNoSee = false;
 	//
 	m_MeshBody->bCastDynamicShadow = false; //chanage for mobile
-	m_MeshBody->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::OnlyTickPoseWhenRendered;//최적화
+	//m_MeshBody->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::OnlyTickPoseWhenRendered;//최적화
 	m_MeshBody->bAffectDynamicIndirectLighting = true;
 	m_MeshBody->PrimaryComponentTick.TickGroup = TG_PrePhysics;
 	m_MeshBody->CanCharacterStepUpOn = ECanBeCharacterBase::ECB_No;
@@ -67,9 +68,21 @@ void APreviewActor::SetEntity(const UUnitAsset* asset)
 {
 	m_MeshBody->SetAnimClass(nullptr);
 	m_MeshBody->SetSkeletalMesh(asset->m_BodyMesh.Get());
-	m_MeshBody->SetAnimClass(asset->m_ClassAnim);
-	m_MeshBody->SetAnimationMode(EAnimationMode::AnimationBlueprint);
+
+	if(asset->m_IdleAnim.Get())
+	{
+		m_MeshBody->SetAnimationMode(EAnimationMode::AnimationSingleNode);
+		m_MeshBody->PlayAnimation(asset->m_IdleAnim.Get(),true);
+	}
+	else
+	{
+		m_MeshBody->SetAnimClass(asset->m_ClassAnim);
+		m_MeshBody->SetAnimationMode(EAnimationMode::AnimationBlueprint);	
+	}
+	
 	m_MeshBody->AddRelativeRotation(FRotator(0,asset->m_RotYawOffset,0));
+
+	m_MeshBody->SetRelativeScale3D(FVector(asset->m_fScale));
 
 	if(m_Visual != nullptr)
 	{
@@ -78,6 +91,8 @@ void APreviewActor::SetEntity(const UUnitAsset* asset)
 	
 	m_Visual = NewObject<UAvatarAddtionalVisuals>(this);
 	m_Visual->Init(m_MeshBody);
+
+	
 
 	int Index = 0;
 	for(const auto& Attach :  asset->m_AryAttachments)
@@ -125,6 +140,16 @@ void APreviewActor::RotatePawn(float delta_x)
 	FRotator Rot(0.f);
 	Rot.Yaw = delta_x;
 	m_MeshBody->AddLocalRotation(Rot);
+}
+
+void APreviewActor::SetCamSize(float cam_size)
+{
+	m_Spring->TargetArmLength = cam_size;
+}
+
+void APreviewActor::SetZOffset(float z_offset)
+{
+	m_Spring->SetRelativeLocation(FVector(0,0,z_offset));
 }
 
 void APreviewActor::Tick(float delta)

@@ -6,7 +6,7 @@ void UWidgetAvatarPanel::NativeOnInitialized()
 {
 	m_AvatarManager =TWeakPtr<AvatarManager>(UMyGameInstance::Get->m_AvatarManager);
 
-	m_AvatarManager.Pin()->m_AvatarInven->SpawnPreviewActor(GetWorld());
+	m_AvatarManager.Pin()->m_AvatarInven->SpawnPreviewActor(GetWorld(), 450, -55);
 
 	CreateAllElements();
 
@@ -142,8 +142,6 @@ void UWidgetAvatarPanel::OnOpen()
 {
 	Super::OnOpen();
 
-	m_AvatarManager.Pin()->m_AvatarInven->ShowPreview();
-	
 	FName KeySkin = m_AvatarManager.Pin()->m_AvatarInven->GetKeySkin();
 
 	const FAvatarRow& RowSkin = m_AvatarManager.Pin()->m_AvatarInven->GetRowSkin();

@@ -26,8 +26,10 @@ public:
 	TSoftObjectPtr<UParticleSystem> m_TakeHitEffect;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
 	TSoftObjectPtr<USoundBase> m_TakeHitSound;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (AssetBundles = "Preview"))
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle,meta = (AssetBundles = "Preview"))
 	TSubclassOf<UAnimInstance> m_ClassAnim;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Preview"))
+	TSoftObjectPtr<UAnimSequence> m_IdleAnim;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float m_RotYawOffset;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (UIMin = "34" ,UIMax = "88"))

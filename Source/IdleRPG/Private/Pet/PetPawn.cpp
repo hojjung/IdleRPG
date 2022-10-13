@@ -12,14 +12,16 @@ APetPawn::APetPawn(const FObjectInitializer& objInit):Super(objInit)
 {
 	m_BodyMesh->SetRelativeLocation(FVector(0,0,100));
 	m_Capsule->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	
 }
 
-void APetPawn::SetPetEntity(const UPetAsset* pet_row)
+void APetPawn::SetPetEntity(const UUnitAsset* pet_row)
 {
 	m_PFComp->SetMovementComponent(m_Movement);	
 	m_PFComp->Initialize();
 	m_Movement->SetPathFollowingAgent(m_PFComp);
-	m_Movement->MaxSpeed = FGlobalVariable::HERO_DEFAULT_SPEED * 0.9f;
+	m_Movement->MaxSpeed = FGlobalVariable::HERO_DEFAULT_SPEED * 0.99f;
 
 	LoadSetSkMeshAnim(pet_row);
 
@@ -40,6 +42,8 @@ void APetPawn::SetPetEntity(const UPetAsset* pet_row)
 	m_fTimer = 0;
 
 	m_fFloatingTime = 0.6f;
+
+	SetActorTickEnabled(true);
 }
 
 void APetPawn::Tick(float DeltaSeconds)
@@ -49,6 +53,8 @@ void APetPawn::Tick(float DeltaSeconds)
 	AnimateFly(DeltaSeconds);
 
 	MoveToActor(m_PlayerPawn.Get(),100);
+
+	HomingRotateToTarget(5, m_PlayerPawn.Get()->GetActorLocation());
 }
 
 void APetPawn::AnimateFly(float DeltaSeconds)

@@ -93,5 +93,7 @@ public:
 
 	virtual FVector GetNavAgentLocation() const override;
 
-	virtual bool UseBoidMove(); 
+	virtual bool UseBoidMove();
+
+	void HomingRotateToTarget(float speedTime, FVector target);
 };

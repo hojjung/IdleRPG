@@ -123,7 +123,7 @@ void Monster::OnChase()
 
 void Monster::OnCombat()
 {
-	m_Pawn->HomingRotateToTarget();
+	m_Pawn->HomingRotateToTarget(5, m_Pawn->GetFocusedTarget()->GetActorLocation());
 
 	if(CheckAngle(60))
 	{

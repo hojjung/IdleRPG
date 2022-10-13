@@ -7,7 +7,6 @@
 #include "DataAsset/UnitAsset.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Engine/TextureRenderTarget2D.h"
 #include "Preview/PreviewProxy.h"
 #include "PreviewActor.generated.h"
 
@@ -46,7 +45,7 @@ protected:
 
 public:
 	void SetEntity(const UUnitAsset* asset);
-	
+
 	void SetMeshScale(float s);
 	
 	void ShowMeshWithTick();
@@ -56,4 +55,8 @@ public:
 	virtual void SetIsTouched(bool b) override;
 
 	virtual void RotatePawn(float delta_x) override;
+	
+	void SetCamSize(float cam_size);
+	
+	void SetZOffset(float z_offset);
 };

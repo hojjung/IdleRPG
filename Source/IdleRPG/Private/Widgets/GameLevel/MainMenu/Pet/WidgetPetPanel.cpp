@@ -8,7 +8,7 @@ void UWidgetPetPanel::NativeOnInitialized()
 {
 	m_PetManager = TWeakPtr<PetManager>(UMyGameInstance::Get->m_PetManager);
 
-	m_PetManager.Pin()->m_PetInven->SpawnPreviewActor(GetWorld());
+	m_PetManager.Pin()->m_PetInven->SpawnPreviewActor(GetWorld(), 300, -80);
 
 	CreateAllElements();
 
@@ -60,16 +60,16 @@ void UWidgetPetPanel::OnOpen()
 
 	m_PetManager.Pin()->m_PetInven->ShowPreview();
 
-	FName Key;
-	
-	const FPetDataRow* Row = nullptr;
-
-	m_PetManager.Pin()->m_PetInven->GetKeyVisualEquip(Key, &Row);
-
-	if(Key != NAME_None)
-	{
-		OnSelectLoaded(Key, Row);
-	}
+	// FName Key;
+	//
+	// const FPetDataRow* Row = nullptr;
+	//
+	// m_PetManager.Pin()->m_PetInven->GetKeyVisualEquip(Key, &Row);
+	//
+	// if(Key != NAME_None)
+	// {
+	// 	OnSelectLoaded(Key, Row);
+	// }
 }
 
 void UWidgetPetPanel::OnSelectLoaded(FName key, const FPetDataRow* row)
@@ -148,13 +148,15 @@ void UWidgetPetPanel::SetColor(const FColorDataRow& ColorData)
 
 void UWidgetPetPanel::OnClickEquip1(const FName& key, const FEntityDataRow& row)
 {
-	// m_PetManager.Pin()->m_PetInven->EquipAvatar();
-	//
-	// FName KeyEquip = m_PetManager.Pin()->m_PetInven->GetKeyEquip();
-	//
-	// const FAvatarRow& RowEquip = m_PetManager.Pin()->m_PetInven->GetRowEquip();
-	//
-	// m_Equip1->SetData(KeyEquip, RowEquip);
+	m_PetManager.Pin()->m_PetInven->EquipPet(0);
+
+	FName KeyEquip;
+	
+	const FPetDataRow* Row;
+	
+	m_PetManager.Pin()->m_PetInven->GetKeyEquip(0, KeyEquip, &Row);
+	
+	m_Equip1->SetData(KeyEquip, *Row);
 }
 void UWidgetPetPanel::OnClickEquip2(const FName& key, const FEntityDataRow& row)
 {

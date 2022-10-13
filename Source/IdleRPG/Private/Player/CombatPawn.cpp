@@ -27,23 +27,6 @@ ACombatPawn* ACombatPawn::GetFocusedTarget()
 	return m_Target.Get();
 }
 
-void ACombatPawn::HomingRotateToTarget(float speedTime)
-{
-	FRotator NewRot = GetActorRotation();
-
-	if(speedTime <= 0)
-	{
-		NewRot.Yaw = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), GetFocusedTarget()->GetActorLocation()).Yaw;
-	}
-	else
-	{
-		NewRot.Yaw = UKismetMathLibrary::RInterpTo(NewRot, UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), GetFocusedTarget()->GetActorLocation()),GetWorld()->GetDeltaSeconds(), speedTime).Yaw;
-	}
-
-	SetActorRotation(NewRot);
-}
-
-
 float ACombatPawn::PlayBaseAttackAnim()
 {
 	const TArray<FCompositeSection>& AnimAry = m_EntityAsset->m_BaseAttackAnim->CompositeSections;

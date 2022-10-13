@@ -56,7 +56,7 @@ void PreviewInven::ChangeAvatar(FPrimaryAssetId selectId, FStreamableDelegate on
 		));
 }
 
-void PreviewInven::SpawnPreviewActor(UWorld* w)
+void PreviewInven::SpawnPreviewActor(UWorld* w, float camSize, float zOffset)
 {
 	FActorSpawnParameters Param;
 	Param.bNoFail = true;
@@ -64,6 +64,10 @@ void PreviewInven::SpawnPreviewActor(UWorld* w)
 	m_PreviewActor = w->SpawnActor<APreviewActor>(APreviewActor::StaticClass(),FVector(9999,9999,9999),FRotator(0),Param);
 
 	m_PreviewActor->HideMeshWithTick();
+
+	m_PreviewActor->SetCamSize(camSize);
+
+	m_PreviewActor->SetZOffset(zOffset);
 }
 
 void PreviewInven::SetPreview(FName key, const UUnitAsset* asset)

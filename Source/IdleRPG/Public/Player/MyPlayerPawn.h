@@ -12,7 +12,6 @@
 #include "Engine/StreamableManager.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Monsters/QuadTree.h"
-#include "Pet/PetAsset.h"
 #include "MyPlayerPawn.generated.h"
 
 class APetPawn;
@@ -107,7 +106,7 @@ public:
 
 	void SetCameraTop();
 	
-	void SetPet(const UPetAsset* asset);
+	void SetPet(const UUnitAsset* asset);
 
 	void UnEquipPet();
 };

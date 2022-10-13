@@ -31,7 +31,7 @@ protected:
 public:
 	void ChangeAvatar(FPrimaryAssetId selectId, FStreamableDelegate onSelect);
 
-	void SpawnPreviewActor(UWorld* w);
+	void SpawnPreviewActor(UWorld* w, float camSize, float zOffset);
 
 	void SetPreview(FName key, const UUnitAsset* asset);
 
