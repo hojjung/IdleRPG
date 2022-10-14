@@ -1,4 +1,7 @@
 #include "MyGameInstance.h"
+
+#include "Entity.h"
+
 #include "Kismet/KismetSystemLibrary.h"
 #include "Manager/GameMode/MyGameModeDefaultStage.h"
 
@@ -36,6 +39,8 @@ void UMyGameInstance::Init()
 	m_SpawnManager = MakeShareable(new SpawnManager(0));
 
 	m_AvatarManager = MakeShareable(new AvatarManager());
+
+	
 }
 
 void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)
