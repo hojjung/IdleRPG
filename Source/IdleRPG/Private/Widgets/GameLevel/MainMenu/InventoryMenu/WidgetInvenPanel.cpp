@@ -16,6 +16,7 @@ void UWidgetInvenPanel::NativeOnInitialized()
 	m_EquipLeg->Init(ArmorT, UEquipData::GetLegData, 30);
 	m_EquipFeet->Init(ArmorT, UEquipData::GetFeetData, 30);
 
+	m_BtnConsumable->OnClicked.AddDynamic(this, &UWidgetInvenPanel::OnClickConsume);
 	m_BtnWeapon->OnClicked.AddDynamic(this, &UWidgetInvenPanel::OnClickWeapon);
 	m_BtnArmor1->OnClicked.AddDynamic(this, &UWidgetInvenPanel::OnClickArmor1);
 	m_BtnArmor2->OnClicked.AddDynamic(this, &UWidgetInvenPanel::OnClickArmor2);
@@ -30,7 +31,7 @@ void UWidgetInvenPanel::NativeOnInitialized()
 void UWidgetInvenPanel::OnOpen()
 {
 	Super::OnOpen();
-	m_EquipWeapon->OnShow();
+	m_EquipWeapon->OnOpen();
 }
 
 void UWidgetInvenPanel::OnClose()
@@ -45,16 +46,31 @@ void UWidgetInvenPanel::OnClose()
 	m_EquipFeet->OnClose();
 }
 
-void UWidgetInvenPanel::OnClickWeapon()
+void UWidgetInvenPanel::OnClickConsume()
 {
-	UWidgetLib::SetCurrentButton(m_CurrentBtn, m_BtnWeapon);
+	UWidgetLib::SetCurrentButton(m_CurrentBtn, m_BtnConsumable);
 	
-	m_EquipWeapon->OnShow();
+	m_EquipWeapon->OnClose();
 	m_EquipHelmet->OnClose();
 	m_EquipTorso->OnClose();
 	m_EquipGlove->OnClose();
 	m_EquipLeg->OnClose();
 	m_EquipFeet->OnClose();
+
+	m_ConsumInven->OnOpen();
+}
+
+void UWidgetInvenPanel::OnClickWeapon()
+{
+	UWidgetLib::SetCurrentButton(m_CurrentBtn, m_BtnWeapon);
+	
+	m_EquipWeapon->OnOpen();
+	m_EquipHelmet->OnClose();
+	m_EquipTorso->OnClose();
+	m_EquipGlove->OnClose();
+	m_EquipLeg->OnClose();
+	m_EquipFeet->OnClose();
+	m_ConsumInven->OnClose();
 }
 
 void UWidgetInvenPanel::OnClickArmor1()
@@ -62,11 +78,12 @@ void UWidgetInvenPanel::OnClickArmor1()
 	UWidgetLib::SetCurrentButton(m_CurrentBtn, m_BtnArmor1);
 	
 	m_EquipWeapon->OnClose();
-	m_EquipHelmet->OnShow();
+	m_EquipHelmet->OnOpen();
 	m_EquipTorso->OnClose();
 	m_EquipGlove->OnClose();
 	m_EquipLeg->OnClose();
 	m_EquipFeet->OnClose();
+	m_ConsumInven->OnClose();
 }
 
 void UWidgetInvenPanel::OnClickArmor2()
@@ -75,10 +92,11 @@ void UWidgetInvenPanel::OnClickArmor2()
 	
 	m_EquipWeapon->OnClose();
 	m_EquipHelmet->OnClose();
-	m_EquipTorso->OnShow();
+	m_EquipTorso->OnOpen();
 	m_EquipGlove->OnClose();
 	m_EquipLeg->OnClose();
 	m_EquipFeet->OnClose();
+	m_ConsumInven->OnClose();
 }
 
 void UWidgetInvenPanel::OnClickArmor3()
@@ -88,9 +106,10 @@ void UWidgetInvenPanel::OnClickArmor3()
 	m_EquipWeapon->OnClose();
 	m_EquipHelmet->OnClose();
 	m_EquipTorso->OnClose();
-	m_EquipGlove->OnShow();
+	m_EquipGlove->OnOpen();
 	m_EquipLeg->OnClose();
 	m_EquipFeet->OnClose();
+	m_ConsumInven->OnClose();
 }
 
 void UWidgetInvenPanel::OnClickArmor4()
@@ -101,8 +120,9 @@ void UWidgetInvenPanel::OnClickArmor4()
 	m_EquipHelmet->OnClose();
 	m_EquipTorso->OnClose();
 	m_EquipGlove->OnClose();
-	m_EquipLeg->OnShow();
+	m_EquipLeg->OnOpen();
 	m_EquipFeet->OnClose();
+	m_ConsumInven->OnClose();
 }
 
 void UWidgetInvenPanel::OnClickArmor5()
@@ -114,5 +134,6 @@ void UWidgetInvenPanel::OnClickArmor5()
 	m_EquipTorso->OnClose();
 	m_EquipGlove->OnClose();
 	m_EquipLeg->OnClose();
-	m_EquipFeet->OnShow();
+	m_EquipFeet->OnOpen();
+	m_ConsumInven->OnClose();
 }

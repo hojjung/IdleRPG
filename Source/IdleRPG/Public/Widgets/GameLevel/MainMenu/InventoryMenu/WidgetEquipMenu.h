@@ -39,7 +39,7 @@ public:
 
 	void UpdatePanel();
 	
-	void OnShow();
+	void OnOpen();
 
 	void OnClose();
 

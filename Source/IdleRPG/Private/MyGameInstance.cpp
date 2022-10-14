@@ -58,6 +58,7 @@ void UMyGameInstance::Tick(float deltaTime)
 
 void UMyGameInstance::StartGameMode(EGameMode mode, int level)
 {
+	
 	m_GameMode.Reset();
 	switch (mode)
 	{

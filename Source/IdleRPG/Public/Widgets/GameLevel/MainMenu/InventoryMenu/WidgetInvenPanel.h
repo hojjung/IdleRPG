@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WidgetConsumInven.h"
 #include "WidgetEquipMenu.h"
 #include "Blueprint/UserWidget.h"
 #include "Widgets/GameLevel/MainMenu/WidgetMenuBase.h"
@@ -19,6 +20,8 @@ class IDLERPG_API UWidgetInvenPanel : public UWidgetMenuBase
 	GENERATED_BODY()
 
 protected:
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetConsumInven* m_ConsumInven;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetEquipMenu* m_EquipWeapon;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
@@ -53,7 +56,9 @@ protected:
 public:
 	virtual void OnOpen() override;
 	virtual void OnClose() override;
-	
+
+	UFUNCTION()
+	void OnClickConsume();
 	UFUNCTION()
 	void OnClickWeapon();
 	UFUNCTION()

@@ -13,5 +13,8 @@ UCLASS()
 class IDLERPG_API UMyCheatManager : public UCheatManager
 {
 	GENERATED_BODY()
-	
+
+public:
+	UFUNCTION(Exec)
+	void SpawnDefaultMap(int level);
 };

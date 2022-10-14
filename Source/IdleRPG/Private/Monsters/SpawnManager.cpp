@@ -31,40 +31,22 @@ SpawnManager::~SpawnManager()
 
 const FStageRow& SpawnManager::GetStage(int stageLevel)
 {
-	float Index = stageLevel / 20.0f;
+	int Stage = stageLevel % UStageTable::GetData->GetRowMap().Num();
 
-	float UpIndex = 0.0f;
-
-	float DownIndex = 0.0f;
-
-	DownIndex = FMath::Modf(Index, &UpIndex);
-
-	UpIndex *= 10;
-
-	return *m_AryStage[UpIndex];
+	return *m_AryStage[Stage];
 }
 const FZone& SpawnManager::GetZone(int stageLevel)//19, 0, 19
 {
-	float Index = stageLevel / 20.0f;
+	int Zone = stageLevel % 20;
 
-	float UpIndex = 0.0f;
-
-	float DownIndex = 0.0f;
-
-	DownIndex = FMath::Modf(Index, &UpIndex);
-
-	UpIndex *= 10;
-
-	DownIndex *= 10;
-
-	const FZone& SelectZone = m_AryStage[UpIndex]->m_AryUnits[DownIndex];
+	const FZone& SelectZone = GetStage(stageLevel).m_AryUnits[Zone];
 
 	return SelectZone;
 }
 
-const FPrimaryAssetId& SpawnManager::GetRandomMonsterID(int stageLevel)
+const FPrimaryAssetId& SpawnManager::GetRandomMonsterID(int stageLevel, const FZone& z)
 {
-	const FZone& SelectZone = GetZone(stageLevel);
+	const FZone& SelectZone = z;
 
 	int RandIndex = FMath::RandRange(0, SelectZone.m_AryUnits.Num() - 1);
 
@@ -103,6 +85,8 @@ void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, ACombatPawn:
 	m_QuadTree->m_Root = m_QuadTree;
 
 	int Iter = -1;
+
+	const FZone& SelectZone = GetZone(stageLevel);
 	
 	while (++Iter < cnt)
 	{
@@ -112,7 +96,7 @@ void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, ACombatPawn:
 
 		FRotator Rot = FRotator(0,FMath::RandRange(0, 360),0);
 		
-		const FPrimaryAssetId& AssetID = GetRandomMonsterID(m_nStageLevel);
+		const FPrimaryAssetId& AssetID = GetRandomMonsterID(m_nStageLevel, SelectZone);
 
 		FStreamableDelegate Delegate = FStreamableDelegate::CreateRaw(this, &SpawnManager::OnMonsterLoaded, AssetID, world, ResultPos.Location, Rot, dele);
 

@@ -27,7 +27,7 @@ private:
 
 	int m_nStageLevel;
 private:
-	const FPrimaryAssetId& GetRandomMonsterID(int stageLevel);
+	const FPrimaryAssetId& GetRandomMonsterID(int stageLevel, const FZone& z);
 
 	const FPrimaryAssetId& GetBossMonster(int stageLevel);
 

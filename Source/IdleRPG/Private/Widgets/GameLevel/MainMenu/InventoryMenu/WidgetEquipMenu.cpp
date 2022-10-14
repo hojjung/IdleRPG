@@ -67,7 +67,7 @@ void UWidgetEquipMenu::UpdatePanel()
 	//매니저가 가진 실제 데이터와 배열 포문 돌려서 장착 및 머지 가능 여부 필요
 }
 
-void UWidgetEquipMenu::OnShow()
+void UWidgetEquipMenu::OnOpen()
 {
 	SetVisibility(ESlateVisibility::SelfHitTestInvisible);	
 }
