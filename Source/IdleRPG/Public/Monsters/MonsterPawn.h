@@ -27,18 +27,7 @@ protected:
 	UAudioComponent* m_SoundComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UParticleSystemComponent* m_HitParticle;
-	
-protected:
-	TWeakPtr<Monster> m_MonsterInst;
 
 public:
-	void SetMonsterInst(const TSharedPtr<Monster>& mob);
-	
-	float GetHpPercent() const;
-
-	virtual bool IsAlive() override;
-
 	virtual bool UseBoidMove() override;
-
-	
 };

@@ -106,7 +106,7 @@ void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, ACombatPawn:
 
 void SpawnManager::Clear()
 {
-	UMyGameInstance::Get->m_Player->SetFocusedTarget(nullptr);
+	UMyGameInstance::Get->GetPlayerPawn()->SetFocusedTarget(nullptr);
 
 	for(auto Mob : m_AryMonsters)
 	{
@@ -140,12 +140,10 @@ void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* worl
 	Pawn->SetEntity(MonsterData);
 
 	TSharedPtr<Monster> Mob = MakeShareable(new Monster(Pawn));
-		
-	Pawn->SetMonsterInst(Mob);
 
 	if(MonsterData->m_bAttackFirst)
 	{
-		auto* Play = UMyLib::GetPlayer();
+		AMyPlayerPawn* Play = UMyGameInstance::Get->GetPlayerPawn();
 		
 		Pawn->SetFocusedTarget(Play);
 	}

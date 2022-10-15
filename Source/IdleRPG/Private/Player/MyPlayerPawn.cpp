@@ -53,7 +53,7 @@ void AMyPlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UMyGameInstance::Get->m_Player = this;
+	UMyGameInstance::Get->SetPlayerPawn(this);
 
 	m_PFComp->OnRequestFinished.AddUObject(this, &AMyPlayerPawn::OnRequestMoveDone);
 

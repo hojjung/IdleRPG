@@ -38,6 +38,8 @@ void AMyPlayerController::BeginPlay()
 	SetVirtualJoystickVisibility(true);
 
 	m_Joystick = CurrentTouchInterface;
+
+	UMyGameInstance::Get->SetPlayerCon(this);
 }
 
 void AMyPlayerController::SetupInputComponent()

@@ -59,6 +59,11 @@ void ACombatPawn::OnTickAlive(float DeltaSeconds)
 	m_fAttackCD -= DeltaSeconds;
 }
 
+void ACombatPawn::SetGas(TSharedPtr<GAS> newGas)
+{
+	m_Gas = newGas;
+}
+
 void ACombatPawn::SetEntity(const UUnitAsset* asset)
 {
 	Super::SetEntity(asset);
@@ -103,4 +108,14 @@ float ACombatPawn::MyTakeDamage(float DamageAmount, EDmgType dmgType, ACombatPaw
 void ACombatPawn::StartDie()
 {
 	m_OnDied.ExecuteIfBound(this);
+}
+
+bool ACombatPawn::IsAlive()
+{
+	return m_Gas.Pin()->IsAlive();
+}
+
+float ACombatPawn::GetHpPercent() const
+{
+	return m_Gas.Pin()->GetHpPercent();
 }

@@ -1,0 +1,30 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+#pragma once
+
+#include "CoreMinimal.h"
+#include "BigInt/BigIntLib.h"
+
+/**
+ * 
+ */
+class IDLERPG_API GAS
+{
+public:
+	GAS(uint32 id);
+	~GAS();
+
+private:
+	uint32 m_PtrID;
+
+	BigInt m_cHp;
+
+	BigInt m_mHp;
+
+public:
+	void Restart();
+
+	float GetHpPercent() const;
+
+	bool IsAlive() const; 
+};

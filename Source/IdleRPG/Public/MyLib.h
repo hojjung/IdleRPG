@@ -59,24 +59,4 @@ public:
 	
 		want->SetActorLocation(NewLoc);
 	}
-
-	static AMyPlayerPawn* GetPlayer()
-	{
-		if(!UMyGameInstance::Get->m_Player.Get())
-		{
-			UMyGameInstance::Get->m_Player = Cast<AMyPlayerPawn>(UGameplayStatics::GetPlayerPawn(UMyGameInstance::Get, 0));
-		}
-	
-		return UMyGameInstance::Get->m_Player.Get();
-	}
-
-	static AMyPlayerController* GetPlayerCon()
-	{
-		if(!UMyGameInstance::Get->m_PlayerCon.Get())
-		{
-			UMyGameInstance::Get->m_PlayerCon = Cast<AMyPlayerController>( UGameplayStatics::GetPlayerController(UMyGameInstance::Get,0));
-		}
-	
-		return UMyGameInstance::Get->m_PlayerCon.Get();
-	}
 };

@@ -3,11 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BigInt/BigIntLib.h"
+#include "GAS/BigInt/BigIntLib.h"
 
-/**
- * 
- */
 class IDLERPG_API GoldManager
 {
 public:

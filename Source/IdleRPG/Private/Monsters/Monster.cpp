@@ -7,6 +7,10 @@
 Monster::Monster(AMonsterPawn* pawn)
 {
 	m_Pawn = pawn;
+	
+	m_Gas = MakeShareable(new GAS(m_Pawn->GetUniqueID()));
+
+	m_Pawn->SetGas(m_Gas);
 	//
 	m_fAlertTimer = -1.f;
 
@@ -23,14 +27,11 @@ Monster::Monster(AMonsterPawn* pawn)
 	m_AryStateFunction[static_cast<int>(EFSM::Combat)] = &Monster::OnCombat;
 	//
 	ResetStartPosition(m_Pawn->GetActorLocation());
-
-	m_fMaxHp = 100.f;
-	m_fHp = m_fMaxHp;
 }
 
 Monster::~Monster()
 {
-	
+	m_Gas.Reset();
 }
 
 void Monster::Update(float delta)
@@ -134,20 +135,6 @@ void Monster::OnCombat()
 void Monster::ResetStartPosition(FVector loc)
 {
 	m_StartPoint = loc;
-}
-
-float Monster::GetHpPercent()
-{
-	float Per = 0.f;
-
-	if(m_fMaxHp <= 0.f)
-	{
-		return Per; 
-	}
-
-	Per = m_fHp / m_fMaxHp;
-
-	return Per;
 }
 
 AMonsterPawn* Monster::GetMonsterPawn()

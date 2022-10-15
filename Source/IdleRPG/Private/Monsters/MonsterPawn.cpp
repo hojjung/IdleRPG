@@ -45,21 +45,6 @@ TEXT("ParticleSystem'/Game/03_VisualEffect/P_Hit.P_Hit'"));
 	m_Movement->MaxSpeed = 200.f;
 }
 
-void AMonsterPawn::SetMonsterInst(const TSharedPtr<Monster>& mob)
-{
-	m_MonsterInst = mob;
-}
-
-float AMonsterPawn::GetHpPercent() const
-{
-	return m_MonsterInst.Pin()->GetHpPercent();
-}
-
-bool AMonsterPawn::IsAlive()
-{
-	return 0.f < GetHpPercent();
-}
-
 bool AMonsterPawn::UseBoidMove()
 {
 	return GetFocusedTarget() != nullptr;

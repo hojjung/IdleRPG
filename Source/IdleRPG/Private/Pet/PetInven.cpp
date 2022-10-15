@@ -41,11 +41,11 @@ void PetInven::UpdatePet()
 
 	if(Asset != nullptr)
 	{
-		UMyGameInstance::Get->m_Player->SetPet(Asset);
+		UMyGameInstance::Get->GetPlayerPawn()->SetPet(Asset);
 	}
 	else
 	{
-		UMyGameInstance::Get->m_Player->UnEquipPet();
+		UMyGameInstance::Get->GetPlayerPawn()->UnEquipPet();
 	}
 }
 

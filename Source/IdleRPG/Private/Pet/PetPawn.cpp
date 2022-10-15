@@ -27,7 +27,7 @@ void APetPawn::SetPetEntity(const UUnitAsset* pet_row)
 
 	m_BodyMesh->SetRelativeScale3D(FVector(pet_row->m_fScale));
 
-	m_PlayerPawn = UMyLib::GetPlayer();
+	m_PlayerPawn = UMyGameInstance::Get->GetPlayerPawn();
 
 	m_fInitZ = GetSkMesh()->GetRelativeLocation().Z;
 

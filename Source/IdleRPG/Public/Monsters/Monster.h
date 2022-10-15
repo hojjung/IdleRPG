@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Actors/Pawns/MyBasePawn.h"
+#include "GAS/GAS.h"
 
 class AMonsterPawn;
 /**
@@ -19,9 +20,7 @@ public:
 protected:
 	TWeakObjectPtr<AMonsterPawn> m_Pawn;
 
-	float m_fMaxHp;
-	
-	float m_fHp;
+	TSharedPtr<GAS> m_Gas;
 
 protected:
 	enum EFSM

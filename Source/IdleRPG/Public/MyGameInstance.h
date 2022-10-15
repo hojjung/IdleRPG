@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "GAS/GAS.h"
 #include "Manager/GoldManager.h"
 #include "Manager/GameMode/MyGameModeBase.h"
 #include "Monsters/SpawnManager.h"
@@ -37,7 +38,14 @@ public:
 public:
 	static UMyGameInstance* Get;
 
+private:
+	TWeakObjectPtr<AMyPlayerPawn> m_Player;
+	
+	TWeakObjectPtr<AMyPlayerController> m_PlayerCon;
+	
 public:
+	TSharedPtr<GAS> m_PlayerGas;
+	
 	TSharedPtr<GoldManager> m_GoldManager;
 	
 	TSharedPtr<PetManager> m_PetManager;
@@ -48,9 +56,6 @@ public:
 
 	TSharedPtr<MyGameModeBase> m_GameMode;
 	
-	TWeakObjectPtr<AMyPlayerPawn> m_Player;
-	
-	TWeakObjectPtr<AMyPlayerController> m_PlayerCon;
 	
 protected:
 	virtual void BeginDestroy() override;
@@ -67,6 +72,14 @@ public:
 	FText GetDefaultStageName(int level);
 
 	int GetStageLevel();
+
+	void SetPlayerPawn(AMyPlayerPawn* p);
+
+	AMyPlayerPawn* GetPlayerPawn();
+
+	void SetPlayerCon(AMyPlayerController* p);
+
+	AMyPlayerController* GetPlayerCon();
 };
 
 

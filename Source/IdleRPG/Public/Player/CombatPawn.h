@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Actors/Pawns/MyBasePawn.h"
+#include "GAS/GAS.h"
 #include "CombatPawn.generated.h"
 
 UENUM(BlueprintType)
@@ -27,6 +28,8 @@ public:
 	FOnDied m_OnDied;
 	
 protected:
+	TWeakPtr<GAS> m_Gas;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStaticMeshComponent* m_ShadowMeshComp;
 	
@@ -39,7 +42,7 @@ protected:
 	float m_fAtkRange;
 
 	float m_fAtkRangeSqr;
-
+	
 protected:
 	float PlayBaseAttackAnim();
 
@@ -50,6 +53,8 @@ protected:
 	virtual void OnTickAlive(float DeltaSeconds);
 
 public:
+	void SetGas(TSharedPtr<GAS> newGas);
+	
 	virtual void SetEntity(const UUnitAsset* asset) override;
 	
 	void SetFocusedTarget(ACombatPawn* pawn);
@@ -58,7 +63,6 @@ public:
 	
 	float TryAttack(float playRate = 1.f);
 
-	virtual bool IsAlive() {return true;};
 	
 	virtual bool IsRangeMode() {return true;};
 
@@ -71,4 +75,8 @@ public:
 	virtual  float MyTakeDamage(float DamageAmount, EDmgType dmgType, ACombatPawn* DamageCauser);
 
 	virtual void StartDie();
+
+	virtual bool IsAlive();
+	
+	float GetHpPercent() const;
 };

@@ -24,9 +24,9 @@ void UWidgetUpgradeMenu::OnOpen()
 {
 	Super::OnOpen();
 
-	if(UMyGameInstance::Get->m_Player.Get())
+	if(UMyGameInstance::Get->GetPlayerPawn())
 	{
-		UMyGameInstance::Get->m_Player->SetCameraTop();
+		UMyGameInstance::Get->GetPlayerPawn()->SetCameraTop();
 	}
 }
 
@@ -34,9 +34,9 @@ void UWidgetUpgradeMenu::OnClose()
 {
 	Super::OnClose();
 
-	if(UMyGameInstance::Get->m_Player.Get())
+	if(UMyGameInstance::Get->GetPlayerPawn())
 	{
-		UMyGameInstance::Get->m_Player->SetCameraCenter();
+		UMyGameInstance::Get->GetPlayerPawn()->SetCameraCenter();
 	}
 }
 

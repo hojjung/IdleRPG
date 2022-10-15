@@ -70,7 +70,7 @@ void AvatarInven::EquipSkinAvatar()
 
 void AvatarInven::UpdateEquipAvatar()
 {
-	if(!UMyGameInstance::Get->m_Player.Get())
+	if(!UMyGameInstance::Get->GetPlayerPawn())
 	{
 		return;
 	}
@@ -91,7 +91,7 @@ void AvatarInven::UpdateEquipAvatar()
 	
 			UUnitAsset* Asset = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(Avatar.m_EntityAsset));
 			
-			UMyGameInstance::Get->m_Player->SetEntity(Asset);		
+			UMyGameInstance::Get->GetPlayerPawn()->SetEntity(Asset);		
 		}
 		));
 }

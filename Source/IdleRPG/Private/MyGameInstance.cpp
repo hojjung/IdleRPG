@@ -43,6 +43,8 @@ void UMyGameInstance::Init()
 	m_AvatarManager = MakeShareable(new AvatarManager());
 
 	m_GoldManager = MakeShareable(new GoldManager());
+
+	m_PlayerGas = MakeShareable(new GAS(GetUniqueID()));
 }
 
 void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)
@@ -95,4 +97,28 @@ FText UMyGameInstance::GetDefaultStageName(int level)
 int UMyGameInstance::GetStageLevel()
 {
 	return m_SpawnManager->GetStageLevel();
+}
+
+void UMyGameInstance::SetPlayerPawn(AMyPlayerPawn* p)
+{
+	m_PlayerGas->Restart();
+	
+	m_Player = p;
+
+	m_Player->SetGas(m_PlayerGas);
+}
+
+AMyPlayerPawn* UMyGameInstance::GetPlayerPawn()
+{
+	return m_Player.Get();
+}
+
+void UMyGameInstance::SetPlayerCon(AMyPlayerController* p)
+{
+	m_PlayerCon = p;
+}
+
+AMyPlayerController* UMyGameInstance::GetPlayerCon()
+{
+	return m_PlayerCon.Get();
 }
