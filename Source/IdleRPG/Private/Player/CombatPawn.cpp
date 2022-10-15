@@ -122,9 +122,9 @@ EPathFollowingRequestResult::Type ACombatPawn::ChaseTarget()
 	return MoveToActor(GetFocusedTarget(), GetAttackRange());
 }
 
-float ACombatPawn::MyTakeDamage(ACombatPawn* DamageCauser, EDmgType dmgType)
+void ACombatPawn::MyTakeDamage(ACombatPawn* DamageCauser, EDmgType dmgType)
 {
-	return 0;
+	m_Gas.Pin()->TakeDamage(DamageCauser, dmgType);
 }
 
 void ACombatPawn::StartDie()

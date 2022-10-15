@@ -3,14 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "MatineeCameraShake.h"
 #include "Animation/AnimNotifies/AnimNotify.h"
+#include "Animation/AnimNotifies/AnimNotifyState.h"
+#include "Player/CombatPawn.h"
 #include "AnimNotifySt_AOECircle.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API UAnimNotifySt_AOECircle : public UAnimNotify
+class IDLERPG_API UAnimNotifySt_AOECircle : public UAnimNotifyState
 {
 	GENERATED_BODY()
 	
@@ -18,6 +21,8 @@ public:
 	UAnimNotifySt_AOECircle(const FObjectInitializer& obj);
 
 protected:
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	EDmgType m_DmgType;
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	TSubclassOf<UMatineeCameraShake> m_ClassCamShake;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="AnimNotify")
@@ -28,8 +33,6 @@ protected:
 	UMaterialInstanceDynamic* m_MatDynamic;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="AnimNotify")
 	FLinearColor m_DecalColorWant;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="AnimNotify")
-	TSubclassOf<ACombatUnitPawn> m_TargetClass = ACombatUnitPawn::StaticClass();
 	
 	TWeakObjectPtr<UDecalComponent> m_Decal;
 	
@@ -53,9 +56,9 @@ protected:
 	
 	virtual void NotifyTick(USkeletalMeshComponent * MeshComp, UAnimSequenceBase * Animation, float FrameDeltaTime) override;
 	
-	bool TraceDamage(ACombatUnitPawn* CPawn);
-
 	virtual void NotifyEnd(USkeletalMeshComponent * MeshComp, UAnimSequenceBase * Animation) override;
+	
+	bool TraceDamage(ACombatPawn* CPawn);
 
-	bool TraceSphere(const ACombatUnitPawn* instigator, TArray<ACombatUnitPawn*>& outHits, float radius);
+	bool TraceSphere(const ACombatPawn* instigator, TArray<ACombatPawn*>& outHits, float radius);
 };

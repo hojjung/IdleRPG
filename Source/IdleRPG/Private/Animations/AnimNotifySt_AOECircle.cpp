@@ -3,6 +3,9 @@
 
 #include "Animations/AnimNotifySt_AOECircle.h"
 
+#include "MyLib.h"
+#include "Components/DecalComponent.h"
+
 
 UAnimNotifySt_AOECircle::UAnimNotifySt_AOECircle(const FObjectInitializer& obj): Super(obj)
 {
@@ -23,7 +26,7 @@ UAnimNotifySt_AOECircle::UAnimNotifySt_AOECircle(const FObjectInitializer& obj):
 
 void UAnimNotifySt_AOECircle::NotifyBegin(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation, float TotalDuration)
 {
-	ACombatUnitPawn* CPawn =  MeshComp->GetOwner<ACombatUnitPawn>();
+	ACombatPawn* CPawn =  MeshComp->GetOwner<ACombatPawn>();
 	if(CPawn)
 	{
 		CPawn->SetRotateAble(false);
@@ -96,9 +99,9 @@ void UAnimNotifySt_AOECircle::NotifyTick(USkeletalMeshComponent* MeshComp, UAnim
 	Super::NotifyTick(MeshComp, Animation, FrameDeltaTime);
 }
 
-bool UAnimNotifySt_AOECircle::TraceDamage(ACombatUnitPawn* CPawn)
+bool UAnimNotifySt_AOECircle::TraceDamage(ACombatPawn* CPawn)
 {
-	TArray<ACombatUnitPawn*> Hits;
+	TArray<ACombatPawn*> Hits;
 
 	if (!TraceSphere(CPawn, Hits, m_Radius))
 	{
@@ -108,16 +111,16 @@ bool UAnimNotifySt_AOECircle::TraceDamage(ACombatUnitPawn* CPawn)
 	
 	for (AActor* Mob : Hits)
 	{
-		if (Mob->GetClass() != m_TargetClass || !UMyLib::CheckAngle(m_StartDir, m_StartPos, Mob, m_EulerAngle))
+		if (Mob->GetClass() != ACombatPawn::StaticClass() || !UMyLib::CheckAngle(m_StartDir, m_StartPos, Mob, m_EulerAngle))
 		{
 			continue;
 		}
 
 		HitCone = true;
 
-		ACombatUnitPawn* CombatPawn = Cast<ACombatUnitPawn>(Mob);
+		ACombatPawn* CombatPawn = Cast<ACombatPawn>(Mob);
 
-		CombatPawn->TakeDmg(m_fDamage, CPawn);
+		CombatPawn->MyTakeDamage(CPawn, m_DmgType);
 	}
 	return HitCone;
 }
@@ -130,7 +133,7 @@ void UAnimNotifySt_AOECircle::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimS
 		m_Decal = nullptr;
 	}
 	
-	ACombatUnitPawn* CPawn =  MeshComp->GetOwner<ACombatUnitPawn>();
+	ACombatPawn* CPawn =  MeshComp->GetOwner<ACombatPawn>();
 	
 	FAnimMontageInstance* CurrentMont = MeshComp->GetAnimInstance()->GetActiveMontageInstance();
 	
@@ -142,7 +145,7 @@ void UAnimNotifySt_AOECircle::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimS
 
 		if(Hit && m_ClassCamShake->IsValidLowLevel())
 		{
-			UMyLib::GetPlayerCon()->ClientStartCameraShake(m_ClassCamShake);
+			UMyGameInstance::Get->GetPlayerCon()->ClientStartCameraShake(m_ClassCamShake);
 		}
 	}
 	

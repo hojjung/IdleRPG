@@ -52,3 +52,8 @@ void GAS::TryExecuteSkill(const FName& id)
 	}
 	//AsD.
 }
+
+void GAS::TakeDamage(ACombatPawn* combat_pawn, EDmgType dmg)
+{
+	
+}

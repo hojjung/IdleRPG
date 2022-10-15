@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "BigInt/BigIntLib.h"
+#include "Player/CombatPawn.h"
 
 /**
  * 
@@ -12,8 +13,8 @@ class IDLERPG_API GAS
 {
 public:
 	GAS(uint32 id);
-	~GAS();
 	
+	~GAS();
 
 private:
 	uint32 m_PtrID;
@@ -32,4 +33,6 @@ public:
 	bool IsAlive() const;
 	
 	void TryExecuteSkill(const FName& id);
+	
+	void TakeDamage(ACombatPawn* combat_pawn, EDmgType dmg);
 };
