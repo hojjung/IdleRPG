@@ -20,6 +20,8 @@ void UMyGameInstance::BeginDestroy()
 	m_SpawnManager.Reset();
 
 	m_GameMode.Reset();
+
+	m_GoldManager.Reset();
 	
 	m_Player = nullptr;
 
@@ -40,7 +42,7 @@ void UMyGameInstance::Init()
 
 	m_AvatarManager = MakeShareable(new AvatarManager());
 
-	
+	m_GoldManager = MakeShareable(new GoldManager());
 }
 
 void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)

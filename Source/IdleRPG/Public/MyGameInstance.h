@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
+#include "Manager/GoldManager.h"
 #include "Manager/GameMode/MyGameModeBase.h"
 #include "Monsters/SpawnManager.h"
 #include "Pet/PetManager.h"
@@ -37,6 +38,8 @@ public:
 	static UMyGameInstance* Get;
 
 public:
+	TSharedPtr<GoldManager> m_GoldManager;
+	
 	TSharedPtr<PetManager> m_PetManager;
 	
 	TSharedPtr<AvatarManager> m_AvatarManager;

@@ -48,8 +48,10 @@ protected:
 	virtual void Tick(float DeltaSeconds) override;
 
 	virtual void OnTickAlive(float DeltaSeconds);
-	
+
 public:
+	virtual void SetEntity(const UUnitAsset* asset) override;
+	
 	void SetFocusedTarget(ACombatPawn* pawn);
 	
 	ACombatPawn* GetFocusedTarget();

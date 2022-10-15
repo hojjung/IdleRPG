@@ -59,6 +59,13 @@ void ACombatPawn::OnTickAlive(float DeltaSeconds)
 	m_fAttackCD -= DeltaSeconds;
 }
 
+void ACombatPawn::SetEntity(const UUnitAsset* asset)
+{
+	Super::SetEntity(asset);
+
+	m_ShadowMeshComp->SetRelativeScale3D(FVector(asset->m_fShadowScale));
+}
+
 float ACombatPawn::TryAttack(float playRate)
 {
 	if (IsAlive() && m_EntityAsset->m_BaseAttackAnim && m_fAttackCD < 0.f)

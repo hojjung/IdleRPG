@@ -35,7 +35,10 @@
 		{
 			"Name": "IdleRPGEditor",
 			"Type": "Editor",
-			"LoadingPhase": "PreDefault"
+			"LoadingPhase": "PreDefault",
+			"AdditionalDependencies": [
+				"DeveloperSettings"
+			]
 		}
 	],
 	"Plugins": [
