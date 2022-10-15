@@ -41,3 +41,14 @@ bool GAS::IsAlive() const
 {
 	return !m_cHp.IsLessThanZero();
 }
+
+void GAS::TryExecuteSkill(const FName& id)
+{
+	FName* FoundValue = m_MapSkillInst.Find(id);
+
+	if(!FoundValue)//not contain = nullptr ㅇㅇ
+	{
+		return;
+	}
+	//AsD.
+}

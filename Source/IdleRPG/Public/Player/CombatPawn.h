@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Actors/Pawns/MyBasePawn.h"
+#include "Animations/AnimNotify_Trigger.h"
 #include "GAS/GAS.h"
 #include "CombatPawn.generated.h"
 
@@ -53,6 +54,8 @@ protected:
 	virtual void OnTickAlive(float DeltaSeconds);
 
 public:
+	virtual void OnNotifyTrigger(const FName& id);
+	
 	void SetGas(TSharedPtr<GAS> newGas);
 	
 	virtual void SetEntity(const UUnitAsset* asset) override;
@@ -64,15 +67,15 @@ public:
 	float TryAttack(float playRate = 1.f);
 
 	
-	virtual bool IsRangeMode() {return true;};
-
+	virtual bool IsRangeMode() {return true;}
+	
 	float GetAttackRange();
 
 	float GetAttackRangeSqr();
 
 	EPathFollowingRequestResult::Type ChaseTarget();
 
-	virtual  float MyTakeDamage(float DamageAmount, EDmgType dmgType, ACombatPawn* DamageCauser);
+	virtual  float MyTakeDamage(ACombatPawn* DamageCauser, EDmgType dmgType);
 
 	virtual void StartDie();
 

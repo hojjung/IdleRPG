@@ -13,6 +13,7 @@ class IDLERPG_API GAS
 public:
 	GAS(uint32 id);
 	~GAS();
+	
 
 private:
 	uint32 m_PtrID;
@@ -21,10 +22,14 @@ private:
 
 	BigInt m_mHp;
 
+	TMap<FName, FName> m_MapSkillInst;//temp
+
 public:
 	void Restart();
 
 	float GetHpPercent() const;
 
-	bool IsAlive() const; 
+	bool IsAlive() const;
+	
+	void TryExecuteSkill(const FName& id);
 };

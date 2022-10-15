@@ -59,6 +59,28 @@ void ACombatPawn::OnTickAlive(float DeltaSeconds)
 	m_fAttackCD -= DeltaSeconds;
 }
 
+void ACombatPawn::OnNotifyTrigger(const FName& id)
+{
+	if(id == TEXT("BaseAttack"))
+	{
+		if(!GetFocusedTarget())
+		{
+			return;
+		}
+
+		ACombatPawn* Pawn =  GetFocusedTarget();
+
+		if(!Pawn)
+		{
+			return;
+		}
+
+		Pawn->MyTakeDamage(this,EDmgType::DmgPhys);
+		return;
+	}
+	m_Gas.Pin()->TryExecuteSkill(id);
+}
+
 void ACombatPawn::SetGas(TSharedPtr<GAS> newGas)
 {
 	m_Gas = newGas;
@@ -100,7 +122,7 @@ EPathFollowingRequestResult::Type ACombatPawn::ChaseTarget()
 	return MoveToActor(GetFocusedTarget(), GetAttackRange());
 }
 
-float ACombatPawn::MyTakeDamage(float DamageAmount, EDmgType dmgType, ACombatPawn* DamageCauser)
+float ACombatPawn::MyTakeDamage(ACombatPawn* DamageCauser, EDmgType dmgType)
 {
 	return 0;
 }
