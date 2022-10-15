@@ -36,7 +36,7 @@ AMonsterPawn::AMonsterPawn(const FObjectInitializer& obj): Super(obj.SetDefaultS
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> FoundHitEffect(
 TEXT("ParticleSystem'/Game/03_VisualEffect/P_Hit.P_Hit'"));
 	static ConstructorHelpers::FObjectFinder<USoundBase> FoundHitSound(
-		TEXT("SoundWave'/Game/Sound/Fantasy_Game_Weapon_Impact.Fantasy_Game_Weapon_Impact'"));
+		TEXT("SoundWave'/Game/Sound/Use/Fantasy_Game_Weapon_Impact.Fantasy_Game_Weapon_Impact'"));
 
 	m_HitParticle->SetTemplate(FoundHitEffect.Object);
 
