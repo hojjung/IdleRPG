@@ -11,22 +11,7 @@ void SPopupText::Construct(const FArguments& InArgs)
 		.VAlign(VAlign_Fill)
 		.HAlign(HAlign_Fill)
 		[
-			SNew(SHorizontalBox)
-			+ SHorizontalBox::Slot()
-			  .VAlign(VAlign_Fill)
-			  .HAlign(HAlign_Left)
-			  .AutoWidth()
-			[
-				SAssignNew(m_ImageSlate, SImage)
-			]
-			+ SHorizontalBox::Slot()
-			  .VAlign(VAlign_Center)
-			  .HAlign(HAlign_Right)
-			  .AutoWidth()
-			  .Padding(0,3,0,0)
-			[
-				SAssignNew(m_TextSlate, STextBlock)
-			]
+			SAssignNew(m_TextSlate, STextBlock)
 		];
 }
 
@@ -41,22 +26,6 @@ void SPopupText::SetTextColorAndOpacity(FLinearColor InColorAndOpacity)
 {
 	m_TextSlate->SetColorAndOpacity(InColorAndOpacity);
 }
-
-void SPopupText::SetImageColorAndOpacity(const TAttribute<FSlateColor>& InColorAndOpacity)
-{
-	m_ImageSlate->SetColorAndOpacity(InColorAndOpacity);
-}
-
-void SPopupText::SetImageColorAndOpacity(FLinearColor InColorAndOpacity)
-{
-	m_ImageSlate->SetColorAndOpacity(InColorAndOpacity);
-}
-
-void SPopupText::SetImage(TAttribute<const FSlateBrush*> InImage)
-{
-	m_ImageSlate->SetImage(InImage);
-}
-
 
 void SPopupText::SetText(const TAttribute<FText>& InText)
 {

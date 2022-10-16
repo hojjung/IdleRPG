@@ -2,14 +2,12 @@
 
 PopupTextPool::~PopupTextPool()
 {
+	m_CompUseIndex = 0;
+	m_AryWidgets.Reset();
 	
 }
-PopupTextPool::PopupTextPool()
-{
-	m_CompUseIndex = 0;
-}
 
-void PopupTextPool::CreateIGWC(int count, USceneComponent* root)
+PopupTextPool::PopupTextPool(int count, USceneComponent* root): m_CompUseIndex(0)
 {
 	m_AryWidgets.Reset();
 

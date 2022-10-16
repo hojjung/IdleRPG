@@ -29,20 +29,12 @@ public:
 	
 	void Construct(const FArguments& InArgs);
  
-	TSharedPtr<SImage> m_ImageSlate;
-
 	TSharedPtr<STextBlock> m_TextSlate;
 
 public:
 	void SetTextColorAndOpacity( const TAttribute<FSlateColor>& InColorAndOpacity );
 	
 	void SetTextColorAndOpacity(FLinearColor InColorAndOpacity );
-
-	void SetImageColorAndOpacity( const TAttribute<FSlateColor>& InColorAndOpacity );
-	
-	void SetImageColorAndOpacity(FLinearColor InColorAndOpacity );
-
-	void SetImage(TAttribute<const FSlateBrush*> InImage);
 
 	void SetText( const TAttribute< FText >& InText );
 	

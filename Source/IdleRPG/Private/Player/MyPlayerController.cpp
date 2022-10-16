@@ -40,6 +40,15 @@ void AMyPlayerController::BeginPlay()
 	m_Joystick = CurrentTouchInterface;
 
 	UMyGameInstance::Get->SetPlayerCon(this);
+
+	m_PopupTextPool = MakeShareable(new PopupTextPool(30,GetRootComponent())); 
+}
+
+void AMyPlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	m_PopupTextPool.Reset();
 }
 
 void AMyPlayerController::SetupInputComponent()
@@ -104,6 +113,17 @@ void AMyPlayerController::OnReleased()
 {
 	m_bUseFlick = false;
 	m_MousePos = FVector2D(0.f);
+}
+
+void AMyPlayerController::ShowInGameWorldText(BigInt number, const ACombatPawn* interactActor, EDamagePopup dmgPopup)
+{
+	ShowInGameWorldText(number.ToString(), interactActor, dmgPopup);
+}
+
+void AMyPlayerController::ShowInGameWorldText(const FString& stringWant, const ACombatPawn* interactActor,
+	EDamagePopup dmgPopup)
+{
+	m_PopupTextPool->ShowInGameWorldText(stringWant,interactActor->GetActorLocation(),(int)dmgPopup);
 }
 
 void AMyPlayerController::OnTouchPressed()

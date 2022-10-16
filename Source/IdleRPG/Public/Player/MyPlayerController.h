@@ -3,7 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "CombatPawn.h"
 #include "GameFramework/PlayerController.h"
+#include "GAS/BigInt/BigIntLib.h"
+#include "PopupText/PopupTextPool.h"
 #include "MyPlayerController.generated.h"
 
 class SSlateEleBase;
@@ -30,11 +33,8 @@ public:
 
 	TSharedPtr<SSlateEleBase> m_Ele;
 protected:
-	TSubclassOf<UWidgetMainCanvas> m_ClassCanvas;
 	UPROPERTY()
 	UWidgetMainCanvas* m_Canvas;
-	//UPROPERTY(VisibleAnywhere)
-	//TArray<UInGameTextWidgetComp*> m_AryIGWC;
 	UPROPERTY()
 	TArray<AActor*> m_AryIgnoreActors;
 	UPROPERTY()
@@ -42,16 +42,18 @@ protected:
 	UPROPERTY()
 	UTouchInterface* m_Joystick;
 
+	TSubclassOf<UWidgetMainCanvas> m_ClassCanvas;
+	
 	FVector2D m_MousePos;
+
+	TSharedPtr<PopupTextPool> m_PopupTextPool;
 
 	bool m_bUseFlick;
 	
 protected:
 	virtual void BeginPlay() override;
 
-	//void CreateIGWC(int count);
-
-	//UInGameTextWidgetComp* GetIGWC(); 
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	virtual void SetupInputComponent() override;
 
@@ -66,9 +68,9 @@ protected:
 	void OnReleased();
 
 public:
-	//void ShowInGameWorldText(float number,ABaseUnitPawn* interactActor,ETextType dmgPopup); //target
+	void ShowInGameWorldText(BigInt number, const ACombatPawn* interactActor, EDamagePopup dmgPopup); //target
 	
-	//void ShowInGameWorldText(const FString& stringWant, const ABaseUnitPawn* interactActor, ETextType dmgPopup); //target
+	void ShowInGameWorldText(const FString& stringWant, const ACombatPawn* interactActor, EDamagePopup dmgPopup); //target
 
 	UFUNCTION()
 	void BackToSelectMenu();

@@ -12,7 +12,7 @@
 class IDLERPG_API PopupTextPool
 {
 public:
-	PopupTextPool();
+	PopupTextPool(int count, USceneComponent* root);
 	~PopupTextPool();
 	
 protected:
@@ -21,8 +21,6 @@ protected:
 	int m_CompUseIndex;
 	
 public:
-	void CreateIGWC(int count, USceneComponent* root);
-
 	void ShowInGameWorldText(const FString& stringWant, FVector loc, int index);
 
 	void ShowInGameWorldText(float number, FVector loc, int index);

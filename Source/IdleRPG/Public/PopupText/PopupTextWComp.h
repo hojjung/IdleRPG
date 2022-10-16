@@ -7,6 +7,7 @@
 #include "Components/WidgetComponent.h"
 #include "PopupTextWComp.generated.h"
 
+class UWidgetPopupText;
 /**
  * 
  */
@@ -19,11 +20,15 @@ public:
 	UPopupTextWComp();
 
 protected:
+	TSubclassOf<UWidgetPopupText> m_ClassTextWidget;
+
+	TWeakObjectPtr<UWidgetPopupText> m_TextWidget;
+	
+protected:
 	virtual void BeginPlay() override;
 
-	TSharedPtr<SPopupText> m_PopupText;
-	
-	
 public:
+	void EndAnimation();
+	
 	void SetTextWant(const FVector& loc, const FText& text, int index);
 };

@@ -1,4 +1,6 @@
 #include "Monsters/MonsterPawn.h"
+
+#include "MyGameInstance.h"
 #include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -248,6 +250,7 @@ void AMonsterPawn::OnTookDamage(BigInt dmg, EDamagePopup pop)
 	PlayHitFlash();
 	PlayTookHitMontage();
 	PlayHitEffect();
+	UMyGameInstance::Get->GetPlayerCon()->ShowInGameWorldText(dmg, this, pop);
 	//m_PlCon->ShowDamageNumber(amount,this,pp);
 }
 
