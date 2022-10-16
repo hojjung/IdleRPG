@@ -3,9 +3,15 @@
 
 #include "GAS/GAS.h"
 
+#include "Player/CombatPawn.h"
+
 GAS::GAS(uint32 id)
 {
 	m_PtrID = id;
+
+	m_mHp = 100;
+	
+	m_Dmg = 5;
 
 	Restart();
 }
@@ -55,5 +61,38 @@ void GAS::TryExecuteSkill(const FName& id)
 
 void GAS::TakeDamage(ACombatPawn* combat_pawn, EDmgType dmg)
 {
+	GAS* Instigator = combat_pawn->GetGas();
 	
+	BigInt Damage = Instigator->GetDmg(dmg);
+
+	BigInt FinalDmg = Damage;
+
+	BigInt CriBonus = Instigator->GetCriDmg();
+
+	FinalDmg = UBigIntLib::MultiplePercent(FinalDmg, CriBonus);
+	
+	BigInt DamageReduction = GetDmgWeak(dmg);
+
+	FinalDmg = UBigIntLib::MultiplePercent(FinalDmg, DamageReduction);
+
+	m_cHp.Subtract(FinalDmg);
+
+	m_OnTookDamage.Broadcast(FinalDmg);
+	
+	m_OnHpChanged.Broadcast();
+}
+
+BigInt GAS::GetDmg(EDmgType dmg)
+{
+	return m_Dmg;
+}
+
+BigInt GAS::GetCriDmg()
+{
+	return 100;
+}
+
+BigInt GAS::GetDmgWeak(EDmgType dmg)
+{
+	return 100;//bonus damage so more than 1 is correct, less 1 is reduct
 }

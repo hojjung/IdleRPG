@@ -1,8 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Animations/AnimNotifySt_AOECircle.h"
-
 #include "MyLib.h"
 #include "Components/DecalComponent.h"
 
@@ -111,7 +107,7 @@ bool UAnimNotifySt_AOECircle::TraceDamage(ACombatPawn* CPawn)
 	
 	for (AActor* Mob : Hits)
 	{
-		if (Mob->GetClass() != ACombatPawn::StaticClass() || !UMyLib::CheckAngle(m_StartDir, m_StartPos, Mob, m_EulerAngle))
+		if (!UMyLib::CheckAngle(m_StartDir, m_StartPos, Mob, m_EulerAngle))
 		{
 			continue;
 		}
@@ -158,9 +154,9 @@ void UAnimNotifySt_AOECircle::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimS
 	Super::NotifyEnd(MeshComp, Animation);
 }
 
-bool UAnimNotifySt_AOECircle::TraceSphere(const ACombatUnitPawn* instigator, TArray<ACombatUnitPawn*>& outHits, float radius)
+bool UAnimNotifySt_AOECircle::TraceSphere(const ACombatPawn* instigator, TArray<ACombatPawn*>& outHits, float radius)
 {
-	UMyGameInstance::Get->m_ZoneInst->GetNearNpcs(instigator, outHits, radius);
+	UMyLib::GetNearNpcs(instigator, outHits, radius);
 	
 	return outHits.Num() > 0;
 }

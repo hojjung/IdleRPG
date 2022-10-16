@@ -13,10 +13,10 @@ UCLASS()
 class IDLERPG_API UAnimNotify_Trigger : public UAnimNotify
 {
 	GENERATED_BODY()
-	protected:
-    	UPROPERTY(EditAnywhere)
-    	FName m_ID;
+protected:
+   	UPROPERTY(EditAnywhere)
+   	FName m_ID = TEXT("BaseAttack");
     
-    public:
-    	virtual void Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation) override;
+public:
+   	virtual void Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation) override;
 };

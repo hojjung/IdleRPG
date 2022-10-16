@@ -49,3 +49,52 @@ bool AMonsterPawn::UseBoidMove()
 {
 	return GetFocusedTarget() != nullptr;
 }
+
+void AMonsterPawn::PlayTookHitMontage()
+{
+	if(m_EntityAsset->m_TookHitMontage && m_fHitAnimCD < 0.f)
+	{
+		PlayAnimMontage(m_EntityAsset->m_TookHitMontage.Get(),1);
+
+		m_fHitAnimCD = FMath::RandRange(1.5f,2.5f);
+	}
+}
+
+void AMonsterPawn::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	m_fHitAnimCD -= DeltaSeconds;
+}
+
+void AMonsterPawn::SetGas(TSharedPtr<GAS> newGas)
+{
+	Super::SetGas(newGas);
+
+	m_Gas.Pin()->m_OnHpChanged.AddUObject(this, &AMonsterPawn::OnHpChanged);
+
+	m_Gas.Pin()->m_OnTookDamage.AddUObject(this, &AMonsterPawn::OnTookDamage);
+}
+
+void AMonsterPawn::SetEntity(const UUnitAsset* asset)
+{
+	Super::SetEntity(asset);
+
+	float Z =  m_BodyMesh->Bounds.BoxExtent.Z;
+
+	m_PawnInfo->SetRelativeLocation(FVector(0,0,Z));
+}
+
+void AMonsterPawn::OnHpChanged()
+{
+	if(!m_PawnInfo->IsVisible())
+	{
+		m_PawnInfo->SetVisibility(true);
+	}
+	m_PawnInfo->SetPawnInfo(this);
+}
+
+void AMonsterPawn::OnTookDamage(BigInt dmg)
+{
+	
+}

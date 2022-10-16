@@ -495,3 +495,8 @@ void AMyBasePawn::HomingRotateToTarget(float speedTime, FVector target)
 
 	SetActorRotation(NewRot);
 }
+
+void AMyBasePawn::SetRotateAble(bool cond)
+{
+	m_bIsRotateable = cond;
+}

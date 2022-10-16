@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "BigInt/BigIntLib.h"
-#include "Player/CombatPawn.h"
 
+enum class EDmgType : uint8;
+class ACombatPawn;
 /**
  * 
  */
@@ -16,14 +17,36 @@ public:
 	
 	~GAS();
 
+	DECLARE_MULTICAST_DELEGATE(FOnHpChanged)
+	
+	DECLARE_MULTICAST_DELEGATE_OneParam(FOnTookDmg, BigInt)
+
+	FOnHpChanged m_OnHpChanged;
+
+	FOnTookDmg m_OnTookDamage;
+
 private:
 	uint32 m_PtrID;
 
+	TMap<FName, FName> m_MapSkillInst;//temp
+	
+private:
 	BigInt m_cHp;
 
 	BigInt m_mHp;
 
-	TMap<FName, FName> m_MapSkillInst;//temp
+	BigInt m_Dmg;
+
+	BigInt m_DmgWeak;//속성별로있어야함
+	
+	BigInt m_CriPer;
+
+	BigInt m_CriDmg;
+
+	BigInt m_SuperCriPer;
+
+	BigInt m_SuperCriDmg;
+
 
 public:
 	void Restart();
@@ -33,6 +56,13 @@ public:
 	bool IsAlive() const;
 	
 	void TryExecuteSkill(const FName& id);
-	
+
 	void TakeDamage(ACombatPawn* combat_pawn, EDmgType dmg);
+	
+public:
+	BigInt GetDmg(EDmgType dmg);
+	
+	BigInt GetCriDmg();
+	
+	BigInt GetDmgWeak(EDmgType dmg);
 };

@@ -3,6 +3,8 @@
 
 #include "Animations/AnimNotify_CameraShake.h"
 
+#include "MyGameInstance.h"
+
 void UAnimNotify_CameraShake::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
 {
 	if(!m_ClassCamShake)
@@ -17,10 +19,5 @@ void UAnimNotify_CameraShake::Notify(USkeletalMeshComponent* MeshComp, UAnimSequ
 		return;
 	}
      
-	// if(World->WorldType != EWorldType::Game)
-	// {
-	// 	return;
-	// }
-	
-	UMyGameinstance::Get->GetPlayerCon()->ClientStartCameraShake(m_ClassCamShake);	
+	UMyGameInstance::Get->GetPlayerCon()->ClientStartCameraShake(m_ClassCamShake);	
 }

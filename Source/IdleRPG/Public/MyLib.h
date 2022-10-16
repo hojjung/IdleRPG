@@ -74,4 +74,10 @@ public:
 	
 		want->SetActorLocation(NewLoc);
 	}
+
+ 	template <class T>
+	static void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range)
+	{
+		return UMyGameInstance::Get->m_SpawnManager->GetNearNpcs<T>(caller,outAry,range);
+	}
 };

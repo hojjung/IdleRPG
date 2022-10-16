@@ -28,6 +28,21 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UParticleSystemComponent* m_HitParticle;
 
+	float m_fHitAnimCD;
+	
 public:
 	virtual bool UseBoidMove() override;
+
+	virtual void SetGas(TSharedPtr<GAS> newGas) override;
+	
+	virtual void SetEntity(const UUnitAsset* asset) override;
+private:
+	
+	void PlayTookHitMontage();
+
+	virtual void Tick(float DeltaSeconds) override;
+	
+	void OnHpChanged();
+
+	void OnTookDamage(BigInt dmg);
 };

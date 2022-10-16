@@ -34,6 +34,8 @@ protected:
 
 	FTimerHandle m_MoveStopTimer;
 
+	bool m_bIsRotateable;
+
 protected:
 	virtual void BeginPlay() override;
 	
@@ -96,4 +98,6 @@ public:
 	virtual bool UseBoidMove();
 
 	void HomingRotateToTarget(float speedTime, FVector target);
+
+	void SetRotateAble(bool cond);
 };

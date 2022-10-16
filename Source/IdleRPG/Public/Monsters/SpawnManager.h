@@ -43,7 +43,7 @@ public:
 	void SpawnUnits(const UObject* world, int stageLevel, ACombatPawn::FOnDied dele, int cnt = 20);
 	
 	template <class T>
-	void GetNearNpcs(const AMyBasePawn* caller, TArray<T*>& outAry, float range)
+	void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range)
 	{
 		if(!m_QuadTree)
 		{

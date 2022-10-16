@@ -18,7 +18,7 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_DissolveCam->SetupAttachment(RootComponent);
 	m_DissolveCam->m_TargetOffset = FVector(0, 0, 0);//-30
 	m_DissolveCam->CameraLagSpeed = 30;
-	m_DissolveCam->TargetArmLength = 3000; //1375
+	m_DissolveCam->TargetArmLength = 3700; //1375
 	m_DissolveCam->SetRelativeRotation(FRotator(-45, -45.f, 0.f)); //-45.f
 	
 	m_TopCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("m_TopCamera"));

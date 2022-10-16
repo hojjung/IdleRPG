@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "MatineeCameraShake.h"
-#include "Animation/AnimNotifies/AnimNotify.h"
 #include "Animation/AnimNotifies/AnimNotifyState.h"
 #include "Player/CombatPawn.h"
 #include "AnimNotifySt_AOECircle.generated.h"

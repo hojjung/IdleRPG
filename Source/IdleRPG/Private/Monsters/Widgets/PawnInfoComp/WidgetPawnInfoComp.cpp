@@ -18,7 +18,7 @@ void UWidgetPawnInfoComp::SetPawnInfo(const AMonsterPawn* pawn)
 	{
 		return;
 	}
-	
+
 	UWidgetPawnInfo* WidgetProgressBar = Cast<UWidgetPawnInfo>(WidgetObj);
 
 	WidgetProgressBar->SetPawnInfo(pawn);

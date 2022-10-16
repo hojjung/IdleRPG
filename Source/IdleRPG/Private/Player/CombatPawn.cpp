@@ -1,5 +1,4 @@
 #include "Player/CombatPawn.h"
-#include "Kismet/KismetMathLibrary.h"
 
 ACombatPawn::ACombatPawn(const FObjectInitializer& objInit) :Super(objInit)
 {
@@ -86,6 +85,11 @@ void ACombatPawn::SetGas(TSharedPtr<GAS> newGas)
 	m_Gas = newGas;
 }
 
+GAS* ACombatPawn::GetGas()
+{
+	return m_Gas.Pin().Get();
+}
+
 void ACombatPawn::SetEntity(const UUnitAsset* asset)
 {
 	Super::SetEntity(asset);
@@ -140,4 +144,22 @@ bool ACombatPawn::IsAlive()
 float ACombatPawn::GetHpPercent() const
 {
 	return m_Gas.Pin()->GetHpPercent();
+}
+
+void ACombatPawn::AddComp(UObject* key, UActorComponent* get)
+{
+	m_MapComp.Emplace(key, TStrongObjectPtr<UActorComponent>(get));
+}
+
+UActorComponent* ACombatPawn::FindComp(UObject* key)
+{
+	TStrongObjectPtr<UObject> KeyWrap (key);
+	
+	TStrongObjectPtr<UActorComponent>* Found = m_MapComp.Find(KeyWrap);
+
+	if(!Found)
+	{
+		return nullptr;
+	}
+	return Found->Get();
 }

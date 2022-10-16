@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Actors/Pawns/MyBasePawn.h"
-#include "Animations/AnimNotify_Trigger.h"
 #include "GAS/GAS.h"
+#include "UObject/StrongObjectPtr.h"
 #include "CombatPawn.generated.h"
 
 UENUM(BlueprintType)
@@ -13,6 +13,17 @@ enum class EDmgType : uint8
 {
 	DmgPhys
 	
+};
+
+UENUM(Blueprintable)
+enum class EDamagePopup: uint8
+{
+	Normal,
+	Critcal,
+	Critcal2,
+	SwordBomb,
+	Miss,
+	Length
 };
 
 UCLASS()
@@ -36,13 +47,13 @@ protected:
 	
 	TWeakObjectPtr<ACombatPawn> m_Target;
 	
-	bool m_bIsRotateable;
-
 	float m_fAttackCD;
 
 	float m_fAtkRange;
 
 	float m_fAtkRangeSqr;
+
+	TMap<TStrongObjectPtr<UObject>, TStrongObjectPtr<UActorComponent>> m_MapComp;
 	
 protected:
 	float PlayBaseAttackAnim();
@@ -56,7 +67,9 @@ protected:
 public:
 	virtual void OnNotifyTrigger(const FName& id);
 	
-	void SetGas(TSharedPtr<GAS> newGas);
+	virtual void SetGas(TSharedPtr<GAS> newGas);
+
+	GAS* GetGas();
 	
 	virtual void SetEntity(const UUnitAsset* asset) override;
 	
@@ -82,4 +95,9 @@ public:
 	virtual bool IsAlive();
 	
 	float GetHpPercent() const;
+public:
+	void AddComp(UObject* key, UActorComponent* get);
+	
+	UActorComponent* FindComp(UObject* key);
+
 };
