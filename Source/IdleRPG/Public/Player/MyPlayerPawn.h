@@ -32,6 +32,8 @@ public:
 	
 protected:
 	UPROPERTY(VisibleAnywhere)
+	UAudioComponent* m_SwingSoundComp;
+	UPROPERTY(VisibleAnywhere)
 	UCameraDissolve* m_DissolveCam;
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* m_TopCamera;
@@ -52,10 +54,6 @@ protected:
 	
 	FVector m_DeltaY;
 	
-	FAIRequestID m_ReqID;
-
-	FVoidVoid m_OnRequestDone;
-
 	FVoidVoid m_OnCancelInteract;
 
 	bool m_bCanMoveInSkill;
@@ -66,8 +64,6 @@ protected:
 	virtual void BeginPlay() override;
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
-	
 	
 	virtual void OnTickAlive(float DeltaSeconds) override;
 
@@ -75,17 +71,13 @@ protected:
 
 	void MoveRight(float AxisValue);
 
-	void OnRequestMoveDone(FAIRequestID id, const FPathFollowingResult& rslt);
-
 	virtual void StopAnimMontage() override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void RequestAttack();
-
-	void RequestInteract(AActor* target, const FVoidVoid& delegate, float r);
-
 	virtual bool IsAlive() override;
+
+	virtual float PlayBaseAttackAnim(float rate) override;
 
 public:
 	virtual void SetEntity(const UUnitAsset* asset) override;

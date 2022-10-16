@@ -9,13 +9,17 @@
 
 AMonsterPawn::AMonsterPawn(const FObjectInitializer& obj): Super(obj.SetDefaultSubobjectClass<UMyFlockSteering>(TEXT("m_Movement")))
 {
-	m_SoundComp = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio01"));
-	m_SoundComp->SetupAttachment(RootComponent);
-	m_SoundComp->SetAutoActivate(false);
+	m_HitSoundComp = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio01"));
+	m_HitSoundComp->SetupAttachment(RootComponent);
+	m_HitSoundComp->SetAutoActivate(false);
 
 	m_CoinSoundComp = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio02"));
 	m_CoinSoundComp->SetupAttachment(RootComponent);
 	m_CoinSoundComp->SetAutoActivate(false);
+
+	m_DeathSoundComp = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio03"));
+	m_DeathSoundComp->SetupAttachment(RootComponent);
+	m_DeathSoundComp->SetAutoActivate(false);
 	
 
 	m_HitParticle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleHit02"));
@@ -64,6 +68,9 @@ TEXT("ParticleSystem'/Game/03_VisualEffect/PS_CoinDrop.PS_CoinDrop'"));
 	static ConstructorHelpers::FObjectFinder<USoundBase> CoinSound(
 		TEXT("SoundWave'/Game/Sound/Use/Coins_01.Coins_01'"));
 
+	static ConstructorHelpers::FObjectFinder<USoundBase> DeathSound(
+		TEXT("SoundWave'/Game/Sound/WeaponsNew/Monsters_Sounds_Pro/large_monster_Death/large_monster_Death_1.large_monster_Death_1'"));
+
 	m_DefaultHitSound = FoundHitSound.Object;
 	
 	m_CriHitSound = FoundCriHitSound.Object;
@@ -74,7 +81,9 @@ TEXT("ParticleSystem'/Game/03_VisualEffect/PS_CoinDrop.PS_CoinDrop'"));
 	
 	m_CoinParticle->SetTemplate(FoundCoinEffect.Object);
 
-	m_SoundComp->SetSound(FoundHitSound.Object);
+	m_HitSoundComp->SetSound(FoundHitSound.Object);
+
+	m_DeathSoundComp->SetSound(DeathSound.Object);
 	
 	m_Movement->MaxSpeed = 200.f;
 
@@ -91,6 +100,10 @@ void AMonsterPawn::SetEntity(const UUnitAsset* asset)
 	float Z =  m_BodyMesh->Bounds.BoxExtent.Z;
 
 	m_PawnInfo->SetRelativeLocation(FVector(0,0,Z));
+
+	m_HitParticle->SetRelativeLocation(FVector(0,0,Z * 0.3f));
+
+	m_CoinParticle->SetRelativeLocation(FVector(0,0,Z * 0.75f));
 }
 void AMonsterPawn::SetGas(TSharedPtr<GAS> newGas)
 {
@@ -152,7 +165,7 @@ void AMonsterPawn::PlayHitFlash()
 
 void AMonsterPawn::PlayHitEffect()
 {
-	m_HitParticle->Activate();
+	m_HitParticle->Activate(true);
 }
 
 void AMonsterPawn::PlayCoinEffect()
@@ -167,13 +180,13 @@ void AMonsterPawn::PlayHittenSound(EDamagePopup pop)
 	switch (pop)
 	{
 	case EDamagePopup::Normal:
-		m_SoundComp->SetSound(m_DefaultHitSound);
-		m_SoundComp->Play();
+		m_HitSoundComp->SetSound(m_DefaultHitSound);
+		m_HitSoundComp->Play();
 		break;
 	case EDamagePopup::Critcal:
 	case EDamagePopup::Critcal2:
-		m_SoundComp->SetSound(m_CriHitSound);
-		m_SoundComp->Play();
+		m_HitSoundComp->SetSound(m_CriHitSound);
+		m_HitSoundComp->Play();
 		break;
 	case EDamagePopup::SwordBomb: break;
 	case EDamagePopup::Miss: break;
@@ -238,11 +251,17 @@ void AMonsterPawn::OnTookDamage(BigInt dmg, EDamagePopup pop)
 	//m_PlCon->ShowDamageNumber(amount,this,pp);
 }
 
+void AMonsterPawn::PlayDeathSound()
+{
+	m_DeathSoundComp->Play();
+}
+
 void AMonsterPawn::OnDead()
 {
 	Super::OnDead();
 	m_PawnInfo->SetVisibility(false);
 	PlayCoinEffect();
+	PlayDeathSound();
 }
 
 void AMonsterPawn::PlayDeathAnim()

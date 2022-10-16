@@ -24,9 +24,11 @@ protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
 	UWidgetPawnInfoComp* m_PawnInfo;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UAudioComponent* m_SoundComp;
+	UAudioComponent* m_HitSoundComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UAudioComponent* m_CoinSoundComp;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UAudioComponent* m_DeathSoundComp;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UParticleSystemComponent* m_HitParticle;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -70,6 +72,8 @@ private:
 
 	void PlayHittenSound(EDamagePopup pop);
 
+	void PlayDeathSound();
+	
 	void OnTookDamage(BigInt dmg, EDamagePopup pop);
 
 	virtual void OnDead() override;

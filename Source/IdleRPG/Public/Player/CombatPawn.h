@@ -56,7 +56,7 @@ protected:
 	TMap<TStrongObjectPtr<UObject>, TStrongObjectPtr<UActorComponent>> m_MapComp;
 	
 protected:
-	float PlayBaseAttackAnim(float rate);
+	virtual float PlayBaseAttackAnim(float rate);
 
 	void SetAtkRange(float v);
 

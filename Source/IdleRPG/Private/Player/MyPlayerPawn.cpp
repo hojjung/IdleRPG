@@ -30,6 +30,16 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_bCanMoveInSkill = false;
 	m_bIsSkillUsing = false;
 	m_PFComp->SetAcceptanceRadius(34);
+
+	m_SwingSoundComp = CreateDefaultSubobject<UAudioComponent>(TEXT("Audio03"));
+	m_SwingSoundComp->SetupAttachment(RootComponent);
+	m_SwingSoundComp->SetAutoActivate(false);
+
+	static ConstructorHelpers::FObjectFinder<USoundBase> FoundSwingSound(
+	TEXT("SoundCue'/Game/Sound/Use/SwordSwing.SwordSwing'"));
+
+	m_SwingSoundComp->SetSound(FoundSwingSound.Object);
+	//SoundCue'/Game/Sound/Use/SwordSwing.SwordSwing'
 }
 
 void AMyPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -37,7 +47,6 @@ void AMyPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AMyPlayerPawn::MoveForward);
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AMyPlayerPawn::MoveRight);
-	PlayerInputComponent->BindAction(TEXT("Attack"), EInputEvent::IE_Pressed,this, &AMyPlayerPawn::RequestAttack);
 	//PlayerInputComponent->BindTouch()
 }
 void AMyPlayerPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -54,8 +63,6 @@ void AMyPlayerPawn::BeginPlay()
 	Super::BeginPlay();
 
 	UMyGameInstance::Get->SetPlayerPawn(this);
-
-	m_PFComp->OnRequestFinished.AddUObject(this, &AMyPlayerPawn::OnRequestMoveDone);
 
 	m_AryIgnores.Reset();
 
@@ -101,6 +108,7 @@ void AMyPlayerPawn::OnTickAlive(float DeltaSeconds)
 	Super::OnTickAlive(DeltaSeconds);
 
 	m_Sensor->Update(DeltaSeconds);
+	
 	m_Fsm->Update(DeltaSeconds);
 
 	if(m_bIsSkillUsing && !m_bCanMoveInSkill)
@@ -131,7 +139,6 @@ void AMyPlayerPawn::OnTickAlive(float DeltaSeconds)
 	}
 
 	m_AddVisual->TickWind(IsMoving(), DeltaSeconds);
-	
 }
 
 void AMyPlayerPawn::MoveForward(float AxisValue)
@@ -166,16 +173,6 @@ void AMyPlayerPawn::MoveRight(float AxisValue)
 	}
 }
 
-void AMyPlayerPawn::OnRequestMoveDone(FAIRequestID id, const FPathFollowingResult& rslt)
-{
-	if (m_ReqID != id || !rslt.IsSuccess())
-	{
-		return;
-	}
-	m_OnRequestDone.ExecuteIfBound();
-	m_OnRequestDone.Unbind();
-}
-
 void AMyPlayerPawn::StopAnimMontage()
 {
 	Super::StopAnimMontage();
@@ -193,48 +190,16 @@ void AMyPlayerPawn::TryAttack_External()
 	}
 }
 
-void AMyPlayerPawn::RequestAttack()
-{
-	if (m_bIsSkillUsing || IsMoving())
-	{
-		return;
-	}
-	
-	ACombatPawn* FocusActor = GetFocusedTarget();
-	
-	if (!FocusActor)
-	{
-		TryAttack_External();
-		
-		return;
-	}
-	RequestInteract(FocusActor, FVoidVoid::CreateUObject(this, &AMyPlayerPawn::TryAttack_External), GetAttackRange());
-}
-
-void AMyPlayerPawn::RequestInteract(AActor* target, const FVoidVoid& delegate, float r)
-{
-	FPathFollowingRequestResult Result = MoveToActor(target, r);
-	
-	if (Result.Code == EPathFollowingRequestResult::Type::Failed)
-	{
-		return;
-	}
-	if (Result.Code == EPathFollowingRequestResult::Type::AlreadyAtGoal)
-	{
-		m_ReqID = FAIRequestID();
-		HomingRotateToTarget(0, target->GetActorLocation());
-		delegate.ExecuteIfBound();
-		return;
-	}
-	
-	m_ReqID = Result.MoveId;
-	
-	m_OnRequestDone = delegate;
-}
-
 bool AMyPlayerPawn::IsAlive()
 {
 	return true;
+}
+
+float AMyPlayerPawn::PlayBaseAttackAnim(float rate)
+{
+	m_SwingSoundComp->Play();
+	
+	return Super::PlayBaseAttackAnim(rate);
 }
 
 void AMyPlayerPawn::SetSkillUsing(bool b)
