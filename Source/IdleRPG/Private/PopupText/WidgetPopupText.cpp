@@ -13,14 +13,27 @@ UWidgetPopupText::UWidgetPopupText(const FObjectInitializer& objInit):Super(objI
 
 void UWidgetPopupText::SetTextWant(const FText& textWant, int index)
 {
+	switch (index)
+	{
+	case 0:
+		m_TextName->SetColorAndOpacity(FLinearColor::Yellow);
+		break;
+	case 1:
+		break;
+	case 2:
+		break;
+	}
 	m_TextName->SetText(textWant);
 
-	float RandX = FMath::RandRange(-100, 100);
+	float RandX = FMath::RandBool() ? FMath::RandRange(100, 200) : FMath::RandRange(-200, -100);
 
-	float RandY = FMath::RandRange(0, 100);
+	float RandY = FMath::RandBool() ? FMath::RandRange(-300, -200) : FMath::RandRange(-400, -300);
 
-	UBUITween::Create(this,0.5f)
-	.ToTranslation(300, 300)
+	UBUITween::Create(this,0.7f)
+	.FromTranslation(0, 0)
+	.ToTranslation(RandX, RandY)
+	.FromScale(FVector2D(0.1f))
+	.ToScale(FVector2D(1.0f))
 	.Easing(EBUIEasingType::OutCubic)
 	.OnComplete( FBUITweenSignature::CreateLambda([]( UWidget* Owner )
 		{

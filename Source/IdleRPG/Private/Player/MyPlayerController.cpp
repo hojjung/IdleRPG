@@ -117,11 +117,12 @@ void AMyPlayerController::OnReleased()
 
 void AMyPlayerController::ShowInGameWorldText(BigInt number, const ACombatPawn* interactActor, EDamagePopup dmgPopup)
 {
-	ShowInGameWorldText(number.ToString(), interactActor, dmgPopup);
+	FString Str = UBigIntLib::GetAlphabetTextBigInt(number);
+	
+	ShowInGameWorldText(Str, interactActor, dmgPopup);
 }
 
-void AMyPlayerController::ShowInGameWorldText(const FString& stringWant, const ACombatPawn* interactActor,
-	EDamagePopup dmgPopup)
+void AMyPlayerController::ShowInGameWorldText(const FString& stringWant, const ACombatPawn* interactActor,EDamagePopup dmgPopup)
 {
 	m_PopupTextPool->ShowInGameWorldText(stringWant,interactActor->GetActorLocation(),(int)dmgPopup);
 }

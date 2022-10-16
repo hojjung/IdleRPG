@@ -44,5 +44,4 @@ void UPopupTextWComp::SetTextWant(const FVector& loc, const FText& text, int ind
 void UPopupTextWComp::EndAnimation()
 {
 	SetHiddenInGame(true);
-	//SetRelativeLocation(FVector(0,0,0));
 }
