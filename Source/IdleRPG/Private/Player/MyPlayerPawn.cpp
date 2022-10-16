@@ -185,7 +185,7 @@ void AMyPlayerPawn::StopAnimMontage()
 
 void AMyPlayerPawn::TryAttack_External()
 {
-	float t = TryAttack();
+	float t = TryAttack(6.5f);
 
 	if(t > 0)
 	{

@@ -1,5 +1,7 @@
 #include "Player/CombatPawn.h"
 
+#include "Actors/Components/MyNavMovement.h"
+
 ACombatPawn::ACombatPawn(const FObjectInitializer& objInit) :Super(objInit)
 {
 	SetAtkRange(130);
@@ -26,13 +28,13 @@ ACombatPawn* ACombatPawn::GetFocusedTarget()
 	return m_Target.Get();
 }
 
-float ACombatPawn::PlayBaseAttackAnim()
+float ACombatPawn::PlayBaseAttackAnim(float rate)
 {
 	const TArray<FCompositeSection>& AnimAry = m_EntityAsset->m_BaseAttackAnim->CompositeSections;
 	
 	int RandIndex = FMath::RandRange(0, AnimAry.Num()-1);
 	
-	return PlayAnimMontage(m_EntityAsset->m_BaseAttackAnim.Get(), 1, AnimAry[RandIndex].SectionName);
+	return PlayAnimMontage(m_EntityAsset->m_BaseAttackAnim.Get(), rate, AnimAry[RandIndex].SectionName);
 }
 
 void ACombatPawn::SetAtkRange(float v)
@@ -83,6 +85,36 @@ void ACombatPawn::OnNotifyTrigger(const FName& id)
 void ACombatPawn::SetGas(TSharedPtr<GAS> newGas)
 {
 	m_Gas = newGas;
+
+	m_Gas.Pin()->m_OnDead.AddUObject(this, &ACombatPawn::OnDead);
+}
+
+void ACombatPawn::OnDead()
+{
+	m_Capsule->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	SetFocusedTarget(nullptr);
+
+	m_Movement->SetComponentTickEnabled(false);
+
+	PlayDeathAnim();
+}
+
+void ACombatPawn::PlayDeathAnim()
+{
+	if(m_EntityAsset->m_DeathMontage)
+	{
+		PlayAnimMontage(m_EntityAsset->m_DeathMontage.Get());
+	}
+	else
+	{
+		OnDeathAnimEnd();
+	}
+}
+
+void ACombatPawn::OnDeathAnimEnd()
+{
+	m_BodyMesh->bPauseAnims = true;
 }
 
 GAS* ACombatPawn::GetGas()
@@ -101,7 +133,7 @@ float ACombatPawn::TryAttack(float playRate)
 {
 	if (IsAlive() && m_EntityAsset->m_BaseAttackAnim && m_fAttackCD < 0.f)
 	{
-		float AnimMongLen = PlayBaseAttackAnim();
+		float AnimMongLen = PlayBaseAttackAnim(playRate);
 
 		m_fAttackCD = FMath::Max(AnimMongLen - 0.1f,  0.15f);
 

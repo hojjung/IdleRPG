@@ -11,7 +11,7 @@ GAS::GAS(uint32 id)
 
 	m_mHp = 100;
 	
-	m_Dmg = 5;
+	m_Dmg = 35;
 
 	Restart();
 }
@@ -61,13 +61,19 @@ void GAS::TryExecuteSkill(const FName& id)
 
 void GAS::TakeDamage(ACombatPawn* combat_pawn, EDmgType dmg)
 {
+	if(!IsAlive())
+	{
+		return;
+	}
+	EDamagePopup Pop = EDamagePopup::Normal;
+	
 	GAS* Instigator = combat_pawn->GetGas();
 	
 	BigInt Damage = Instigator->GetDmg(dmg);
 
 	BigInt FinalDmg = Damage;
 
-	BigInt CriBonus = Instigator->GetCriDmg();
+	BigInt CriBonus = Instigator->GetCriDmg(Pop);
 
 	FinalDmg = UBigIntLib::MultiplePercent(FinalDmg, CriBonus);
 	
@@ -77,9 +83,15 @@ void GAS::TakeDamage(ACombatPawn* combat_pawn, EDmgType dmg)
 
 	m_cHp.Subtract(FinalDmg);
 
-	m_OnTookDamage.Broadcast(FinalDmg);
+	m_OnTookDamage.Broadcast(FinalDmg, Pop);
 	
 	m_OnHpChanged.Broadcast();
+
+	if(!IsAlive())
+	{
+		combat_pawn->SetFocusedTarget(nullptr);
+		m_OnDead.Broadcast();
+	}
 }
 
 BigInt GAS::GetDmg(EDmgType dmg)
@@ -87,8 +99,9 @@ BigInt GAS::GetDmg(EDmgType dmg)
 	return m_Dmg;
 }
 
-BigInt GAS::GetCriDmg()
+BigInt GAS::GetCriDmg(EDamagePopup& outPop)
 {
+	outPop = EDamagePopup::Normal;
 	return 100;
 }
 

@@ -56,13 +56,19 @@ protected:
 	TMap<TStrongObjectPtr<UObject>, TStrongObjectPtr<UActorComponent>> m_MapComp;
 	
 protected:
-	float PlayBaseAttackAnim();
+	float PlayBaseAttackAnim(float rate);
 
 	void SetAtkRange(float v);
 
 	virtual void Tick(float DeltaSeconds) override;
 
 	virtual void OnTickAlive(float DeltaSeconds);
+
+	virtual void OnDead();
+
+	virtual void PlayDeathAnim();
+
+	virtual void OnDeathAnimEnd();
 
 public:
 	virtual void OnNotifyTrigger(const FName& id);

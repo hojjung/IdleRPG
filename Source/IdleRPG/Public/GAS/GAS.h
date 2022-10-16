@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "BigInt/BigIntLib.h"
 
+enum class EDamagePopup : uint8;
 enum class EDmgType : uint8;
 class ACombatPawn;
 /**
@@ -18,12 +19,16 @@ public:
 	~GAS();
 
 	DECLARE_MULTICAST_DELEGATE(FOnHpChanged)
+
+	DECLARE_MULTICAST_DELEGATE(FOnDead)
 	
-	DECLARE_MULTICAST_DELEGATE_OneParam(FOnTookDmg, BigInt)
+	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnTookDmg, BigInt, EDamagePopup)
 
 	FOnHpChanged m_OnHpChanged;
 
 	FOnTookDmg m_OnTookDamage;
+
+	FOnDead m_OnDead;
 
 private:
 	uint32 m_PtrID;
@@ -62,7 +67,7 @@ public:
 public:
 	BigInt GetDmg(EDmgType dmg);
 	
-	BigInt GetCriDmg();
+	BigInt GetCriDmg(EDamagePopup& outPop);
 	
 	BigInt GetDmgWeak(EDmgType dmg);
 };
