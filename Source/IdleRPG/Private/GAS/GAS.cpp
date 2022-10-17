@@ -81,6 +81,10 @@ void GAS::TakeDamage(ACombatPawn* combat_pawn, EDmgType dmg)
 
 	FinalDmg = UBigIntLib::MultiplePercent(FinalDmg, DamageReduction);
 
+	int RandRange = FMath::RandRange(80,120);
+	
+	FinalDmg = UBigIntLib::MultiplePercent(FinalDmg, RandRange);
+
 	m_cHp.Subtract(FinalDmg);
 
 	m_OnTookDamage.Broadcast(FinalDmg, Pop);

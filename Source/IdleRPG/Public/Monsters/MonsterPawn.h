@@ -33,10 +33,6 @@ protected:
 	UParticleSystemComponent* m_HitParticle;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UParticleSystemComponent* m_CoinParticle;
-	UPROPERTY()
-	USoundBase* m_DefaultHitSound;
-	UPROPERTY()
-	USoundBase* m_CriHitSound;
 private:
 	float m_fDeathAnimDurationMax;
 	
@@ -50,6 +46,8 @@ private:
 
 	FTimerHandle m_StunTimer;
 
+	FVector m_SpawnPos;
+
 public:
 	virtual bool UseBoidMove() override;
 
@@ -57,7 +55,11 @@ public:
 	
 	virtual void SetEntity(const UUnitAsset* asset) override;
 	
+	void Revive();
+
 private:
+	void OnReviveAnimEnd();
+	
 	virtual void Tick(float DeltaSeconds) override;
 	
 	void OnHpChanged();
@@ -79,6 +81,8 @@ private:
 	virtual void OnDead() override;
 
 	virtual void PlayDeathAnim() override;
+
+	virtual  void OnDeathAnimEnd() override;
 
 	void CreateSetDeathCurve(float fullLength);
 

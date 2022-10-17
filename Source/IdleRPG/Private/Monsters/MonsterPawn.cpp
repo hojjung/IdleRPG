@@ -1,6 +1,8 @@
 #include "Monsters/MonsterPawn.h"
 
+#include "Entity.h"
 #include "MyGameInstance.h"
+#include "MyLib.h"
 #include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -73,10 +75,8 @@ TEXT("ParticleSystem'/Game/03_VisualEffect/PS_CoinDrop.PS_CoinDrop'"));
 	static ConstructorHelpers::FObjectFinder<USoundBase> DeathSound(
 		TEXT("SoundWave'/Game/Sound/WeaponsNew/Monsters_Sounds_Pro/large_monster_Death/large_monster_Death_1.large_monster_Death_1'"));
 
-	m_DefaultHitSound = FoundHitSound.Object;
+	m_HitSoundComp->SetSound(FoundHitSound.Object);
 	
-	m_CriHitSound = FoundCriHitSound.Object;
-
 	m_CoinSoundComp->SetSound(CoinSound.Object);
 
 	m_HitParticle->SetTemplate(FoundHitEffect.Object);
@@ -106,7 +106,58 @@ void AMonsterPawn::SetEntity(const UUnitAsset* asset)
 	m_HitParticle->SetRelativeLocation(FVector(0,0,Z * 0.3f));
 
 	m_CoinParticle->SetRelativeLocation(FVector(0,0,Z * 0.75f));
+
+	m_SpawnPos = GetActorLocation();
 }
+
+void AMonsterPawn::Revive()
+{
+	FNavLocation NewLoc;
+	
+	UMyLib::GetNavSys()->GetRandomPointInNavigableRadius(m_SpawnPos, 400,NewLoc);
+
+	SetActorFeetLocation(NewLoc);
+
+	SetActorRotation(FRotator(0,FMath::RandRange(0,360),0));
+	
+	SetActorHiddenInGame(false);
+	
+	m_BodyMesh->bPauseAnims = false;
+	
+	m_Capsule->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	//
+	FName MaskParam = TEXT("Visibility");
+
+	m_BodyMesh->SetScalarParameterValueOnMaterials(MaskParam, 1.0f);
+
+	FName DurationParamName = TEXT("Duration");
+
+	m_BodyMesh->SetScalarParameterValueOnMaterials(DurationParamName, 0.25f);
+
+	FName TimeParamName = TEXT("StartTime");
+
+	float TimeSec = 0;
+
+	m_BodyMesh->SetScalarParameterValueOnMaterials(TimeParamName, TimeSec);
+	////
+	PlayAnimMontage(m_EntityAsset->m_SpawnAnim.Get());
+	//
+	float AnimLength = m_EntityAsset->m_SpawnAnim->GetPlayLength() - 0.4f;
+	//
+	GetWorldTimerManager().SetTimer(m_DeathAnimTimer, this, &AMonsterPawn::OnReviveAnimEnd, AnimLength, false);
+}
+
+void AMonsterPawn::OnReviveAnimEnd()
+{
+	m_ShadowMeshComp->SetVisibility(true);
+
+	m_Movement->SetComponentTickEnabled(true);
+
+	SetActorTickEnabled(true);
+	
+	m_Gas.Pin()->Restart();
+}
+
 void AMonsterPawn::SetGas(TSharedPtr<GAS> newGas)
 {
 	Super::SetGas(newGas);
@@ -124,14 +175,6 @@ void AMonsterPawn::Tick(float DeltaSeconds)
 	if(!IsAlive())
 	{
 		SetDeathEffectMaterial(DeltaSeconds);
-
-		if(m_fDeathAnimDurationTimer>=m_fDeathAnimDurationMax)
-		{
-			SetActorTickEnabled(false);
-			
-			SetActorHiddenInGame(true);
-		}
-
 		return;
 	}
 
@@ -179,23 +222,7 @@ void AMonsterPawn::PlayCoinEffect()
 
 void AMonsterPawn::PlayHittenSound(EDamagePopup pop)
 {
-	switch (pop)
-	{
-	case EDamagePopup::Normal:
-		m_HitSoundComp->SetSound(m_DefaultHitSound);
-		m_HitSoundComp->Play();
-		break;
-	case EDamagePopup::Critcal:
-	case EDamagePopup::Critcal2:
-		m_HitSoundComp->SetSound(m_CriHitSound);
-		m_HitSoundComp->Play();
-		break;
-	case EDamagePopup::SwordBomb: break;
-	case EDamagePopup::Miss: break;
-	case EDamagePopup::Length: break;
-	default: ;
-	}
-	//m_A->Play();
+	m_HitSoundComp->Play();
 }
 
 void AMonsterPawn::OnHpChanged()
@@ -265,6 +292,8 @@ void AMonsterPawn::OnDead()
 	m_PawnInfo->SetVisibility(false);
 	PlayCoinEffect();
 	PlayDeathSound();
+
+	UMyGameInstance::Get->OnMonsterDead(this);
 }
 
 void AMonsterPawn::PlayDeathAnim()
@@ -283,4 +312,14 @@ void AMonsterPawn::PlayDeathAnim()
 	{
 		OnDeathAnimEnd();
 	}
+}
+
+void AMonsterPawn::OnDeathAnimEnd()
+{
+	Super::OnDeathAnimEnd();
+	SetActorTickEnabled(false);
+			
+	SetActorHiddenInGame(true);
+	//Respawn?
+	UMyGameInstance::Get->OnMonsterAnimEnd(this);
 }

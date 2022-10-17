@@ -16,7 +16,7 @@ void UWidgetPopupText::SetTextWant(const FText& textWant, int index)
 	switch (index)
 	{
 	case 0:
-		m_TextName->SetColorAndOpacity(FLinearColor::Yellow);
+		m_TextName->SetColorAndOpacity(FLinearColor::White);
 		break;
 	case 1:
 		break;
@@ -29,16 +29,24 @@ void UWidgetPopupText::SetTextWant(const FText& textWant, int index)
 
 	float RandY = FMath::RandBool() ? FMath::RandRange(-300, -200) : FMath::RandRange(-400, -300);
 
+	SetRenderOpacity(1);
 	UBUITween::Create(this,0.7f)
 	.FromTranslation(0, 0)
 	.ToTranslation(RandX, RandY)
 	.FromScale(FVector2D(0.1f))
 	.ToScale(FVector2D(1.0f))
 	.Easing(EBUIEasingType::OutCubic)
-	.OnComplete( FBUITweenSignature::CreateLambda([]( UWidget* Owner )
-		{
-		UWidgetPopupText* t = Cast<UWidgetPopupText>(Owner); 
-			t->m_ParentComponent->EndAnimation();
+	.OnComplete(FBUITweenSignature::CreateLambda([](UWidget* Owner)
+	{
+		UBUITween::Create(Owner, 0.3f)
+			.FromOpacity(1)
+			.ToOpacity(0)
+			.OnComplete(FBUITweenSignature::CreateLambda([](UWidget* Owner)
+			{
+				UWidgetPopupText* t = Cast<UWidgetPopupText>(Owner);
+				t->m_ParentComponent->EndAnimation();
+			}))
+			.Begin();
 		}))
 	.Begin();
 }

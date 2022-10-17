@@ -71,7 +71,7 @@ void SpawnManager::Update(float delta)
 	m_QuadTree->UpdateState(UMyGameInstance::Get);
 }
 
-void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, ACombatPawn::FOnDied dele,  int cnt)
+void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, int cnt)
 {
 	m_nStageLevel = stageLevel;
 	Clear();
@@ -98,7 +98,7 @@ void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, ACombatPawn:
 		
 		const FPrimaryAssetId& AssetID = GetRandomMonsterID(m_nStageLevel, SelectZone);
 
-		FStreamableDelegate Delegate = FStreamableDelegate::CreateRaw(this, &SpawnManager::OnMonsterLoaded, AssetID, world, ResultPos.Location, Rot, dele);
+		FStreamableDelegate Delegate = FStreamableDelegate::CreateRaw(this, &SpawnManager::OnMonsterLoaded, AssetID, world, ResultPos.Location, Rot);
 
 		UMyAssetManager::Get()->LoadUnitAssetMeshOnly(AssetID, Delegate);
 	}
@@ -121,7 +121,7 @@ int SpawnManager::GetStageLevel()
 	return m_nStageLevel;
 }
 
-void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot,  ACombatPawn::FOnDied dele)
+void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot)
 {
 	FActorSpawnParameters Param;
 	Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
@@ -133,8 +133,6 @@ void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* worl
 	
 	AMonsterPawn* Pawn = world->GetWorld()->SpawnActor<AMonsterPawn>(AMonsterPawn::StaticClass(),loc, rot, Param);
 
-	Pawn->m_OnDied = dele;
-	
 	m_QuadTree->InsertObject(Pawn);
 
 	Pawn->SetEntity(MonsterData);

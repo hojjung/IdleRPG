@@ -34,11 +34,6 @@ class IDLERPG_API ACombatPawn : public AMyBasePawn
 public:
 	ACombatPawn(const FObjectInitializer& objInit);
 
-public:
-	DECLARE_DELEGATE_OneParam(FOnDied, const ACombatPawn* );
-
-	FOnDied m_OnDied;
-	
 protected:
 	TWeakPtr<GAS> m_Gas;
 	
@@ -61,8 +56,6 @@ protected:
 	void SetAtkRange(float v);
 
 	virtual void Tick(float DeltaSeconds) override;
-
-	virtual void OnTickAlive(float DeltaSeconds);
 
 	virtual void OnDead();
 
@@ -95,8 +88,6 @@ public:
 	EPathFollowingRequestResult::Type ChaseTarget();
 
 	virtual void MyTakeDamage(ACombatPawn* DamageCauser, EDmgType dmgType);
-
-	virtual void StartDie();
 
 	virtual bool IsAlive();
 	

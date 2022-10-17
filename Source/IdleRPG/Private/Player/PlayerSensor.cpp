@@ -55,6 +55,10 @@ AMonsterPawn* PlayerSensor::GetNearTarget(float SearchRange)
 
 void PlayerSensor::Update(float delta)
 {
+	if(m_Pl->GetFocusedTarget())
+	{
+		return;
+	}
 	m_SensingTimer += delta;
 
 	if(m_SensingTimer < 0.3f)

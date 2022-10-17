@@ -48,15 +48,6 @@ void ACombatPawn::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if(!IsAlive())
-	{
-		return;
-	}
-	OnTickAlive(DeltaSeconds);
-}
-
-void ACombatPawn::OnTickAlive(float DeltaSeconds)
-{
 	m_fAttackCD -= DeltaSeconds;
 }
 
@@ -161,11 +152,6 @@ EPathFollowingRequestResult::Type ACombatPawn::ChaseTarget()
 void ACombatPawn::MyTakeDamage(ACombatPawn* DamageCauser, EDmgType dmgType)
 {
 	m_Gas.Pin()->TakeDamage(DamageCauser, dmgType);
-}
-
-void ACombatPawn::StartDie()
-{
-	m_OnDied.ExecuteIfBound(this);
 }
 
 bool ACombatPawn::IsAlive()

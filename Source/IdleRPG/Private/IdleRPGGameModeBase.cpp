@@ -18,7 +18,7 @@ void AIdleRPGGameModeBase::StartPlay()
 
 	m_GoogleLogin = MakeShareable<GoogleLogin>(new GoogleLogin(GoogleLogin::FOnLoginEnd::CreateUObject(this, &AIdleRPGGameModeBase::LoginEnd)));
 
-	UMyGameInstance::Get->m_SpawnManager->SpawnUnits(GetWorld(),0,ACombatPawn::FOnDied::CreateUObject(this, &AIdleRPGGameModeBase::TestOnDied),20);
+	UMyGameInstance::Get->StartGameMode(EGameMode::Default,0);
 }
 
 void AIdleRPGGameModeBase::LoginEnd(bool bSuccess)

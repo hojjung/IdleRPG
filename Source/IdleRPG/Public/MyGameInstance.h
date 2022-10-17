@@ -63,15 +63,7 @@ protected:
 public:
 	virtual void Init() override;
 
-	virtual void LoadComplete(const float LoadTime, const FString& MapName) override;
-	
 	void Tick(float deltaTime);
-
-	void StartGameMode(EGameMode mode, int level);
-
-	FText GetDefaultStageName(int level);
-
-	int GetStageLevel();
 
 	void SetPlayerPawn(AMyPlayerPawn* p);
 
@@ -80,6 +72,19 @@ public:
 	void SetPlayerCon(AMyPlayerController* p);
 
 	AMyPlayerController* GetPlayerCon();
+
+public:
+	FText GetDefaultStageName(int level);
+
+	int GetStageLevel();
+	
+	virtual void LoadComplete(const float LoadTime, const FString& MapName) override;
+	
+	void StartGameMode(EGameMode mode, int level);
+
+	void OnMonsterDead(AMonsterPawn* target);
+
+	void OnMonsterAnimEnd(AMonsterPawn* target);
 };
 
 

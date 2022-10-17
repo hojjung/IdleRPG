@@ -12,7 +12,10 @@ class IDLERPG_API MyGameModeDefaultStage : public  MyGameModeBase
 {
 public:
 	MyGameModeDefaultStage();
+	
 	virtual ~MyGameModeDefaultStage() override;
 
-	virtual void OnMonsterDied(const ACombatPawn* pawn) override;
+	virtual void OnMonsterDead(AMonsterPawn* target) override;
+	
+	virtual void OnMonsterAnimEnd(AMonsterPawn* target) override;
 };

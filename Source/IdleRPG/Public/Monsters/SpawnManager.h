@@ -31,7 +31,7 @@ private:
 
 	const FPrimaryAssetId& GetBossMonster(int stageLevel);
 
-	void OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot,  ACombatPawn::FOnDied dele);
+	void OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot);
 	
 public:
 	const FStageRow& GetStage(int stageLevel);
@@ -40,7 +40,7 @@ public:
 	
 	void Update(float delta);
 
-	void SpawnUnits(const UObject* world, int stageLevel, ACombatPawn::FOnDied dele, int cnt = 20);
+	void SpawnUnits(const UObject* world, int stageLevel, int cnt = 20);
 	
 	template <class T>
 	void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range)

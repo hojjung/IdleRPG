@@ -65,7 +65,7 @@ protected:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
-	virtual void OnTickAlive(float DeltaSeconds) override;
+	virtual void Tick(float DeltaSeconds) override;
 
 	void MoveForward(float AxisValue);
 

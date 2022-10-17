@@ -103,9 +103,9 @@ bool AMyPlayerPawn::IsInputMoving()
 	return !m_Input.IsZero();
 }
 
-void AMyPlayerPawn::OnTickAlive(float DeltaSeconds)
+void AMyPlayerPawn::Tick(float DeltaSeconds)
 {
-	Super::OnTickAlive(DeltaSeconds);
+	Super::Tick(DeltaSeconds);
 
 	m_Sensor->Update(DeltaSeconds);
 	
@@ -117,6 +117,7 @@ void AMyPlayerPawn::OnTickAlive(float DeltaSeconds)
 	}
 	if (IsInputMoving())
 	{
+		SetFocusedTarget(nullptr);
 		if(!m_bCanMoveInSkill)
 		{
 			StopAnimMontage();
