@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "MyGameModeBase.h"
 
+struct FBigIntCalcTableRow;
 /**
  * 기본 스테이지
  */
@@ -15,6 +16,11 @@ public:
 	
 	virtual ~MyGameModeDefaultStage() override;
 
+protected:
+	const FBigIntCalcTableRow* m_GoldRow; 
+
+
+public:
 	virtual void OnMonsterDead(AMonsterPawn* target) override;
 	
 	virtual void OnMonsterAnimEnd(AMonsterPawn* target) override;

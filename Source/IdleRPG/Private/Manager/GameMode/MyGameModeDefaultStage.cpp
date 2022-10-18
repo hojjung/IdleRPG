@@ -1,10 +1,10 @@
 #include "Manager/GameMode/MyGameModeDefaultStage.h"
-
 #include "MyGameInstance.h"
-#include "GAS/CalcLib.h"
+#include "GAS/BigInt/BigIntCalcTableBase.h"
 
 MyGameModeDefaultStage::MyGameModeDefaultStage()
 {
+	m_GoldRow = UBigIntCalcTableBase::GetGoldTable->FindRow<FBigIntCalcTableRow>(TEXT("Default"),"");
 }
 
 MyGameModeDefaultStage::~MyGameModeDefaultStage()
@@ -15,7 +15,7 @@ void MyGameModeDefaultStage::OnMonsterDead(AMonsterPawn* target)
 {
 	int Lv = UMyGameInstance::Get->GetStageLevel();
 
-	BigInt Gold = UCalcLib::GetGoldPerLevel(Lv);
+	BigInt Gold = m_GoldRow->GetValue(Lv);
 
 	UMyGameInstance::Get->m_GoldManager->AddGold(Gold);
 }

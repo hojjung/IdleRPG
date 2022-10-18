@@ -82,4 +82,32 @@ public:
 
 		return a;
 	}
+
+	static BigInt GetLinearValue(int level, float init, float inc)
+	{
+		level  = FMath::Max(level,1);
+		
+		BigInt Value = init;
+		
+		Value.MultiplyFast(inc);
+
+		Value.MultiplyFast(level);
+	
+		return  Value;
+	}
+
+	static BigInt GetExponentValue(int level, float init, float inc)
+	{
+		level  = FMath::Max(level,1);
+		
+		BigInt Coeff = init;
+
+		int Iter = -1;
+
+		while (++Iter < level)
+		{
+			Coeff.MultiplyFast(inc);
+		}
+		return Coeff;
+	}
 };
