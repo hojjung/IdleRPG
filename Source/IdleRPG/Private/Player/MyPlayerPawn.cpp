@@ -183,7 +183,7 @@ void AMyPlayerPawn::StopAnimMontage()
 
 void AMyPlayerPawn::TryAttack_External()
 {
-	float t = TryAttack(6.5f);
+	float t = TryAttack(3.5f);
 
 	if(t > 0)
 	{
@@ -256,4 +256,9 @@ void AMyPlayerPawn::UnEquipPet()
 	{
 		m_Pet->Destroy();
 	}
+}
+
+bool AMyPlayerPawn::IsInCombat()
+{
+	return m_Fsm->GetState() == PlayerFSM::EFSM::Combat;
 }

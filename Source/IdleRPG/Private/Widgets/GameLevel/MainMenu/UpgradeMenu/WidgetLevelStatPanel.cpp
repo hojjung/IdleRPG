@@ -1,11 +1,10 @@
 #include "Widgets/GameLevel/MainMenu/UpgradeMenu/WidgetLevelStatPanel.h"
-#include "Player/Upgrade/Data/LevelUpData.h"
 
 void UWidgetLevelStatPanel::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	ULevelUpData::GetUpgradeTable->ForeachRow<FLevelUpDataTableRow>("",[=](const FName& key, const FLevelUpDataTableRow& row)
+	UBigIntCalcTableBase::GetLevelUpTable->ForeachRow<FBigIntCalcTableRow>("",[=](const FName& key, const FBigIntCalcTableRow& row)
 	{
 		UWidgetUpgradeEle* Ele = CreateWidget<UWidgetUpgradeEle>(this, m_ClassEle);
 

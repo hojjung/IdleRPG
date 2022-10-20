@@ -139,12 +139,6 @@ void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* worl
 
 	TSharedPtr<Monster> Mob = MakeShareable(new Monster(Pawn));
 
-	if(MonsterData->m_bAttackFirst)
-	{
-		AMyPlayerPawn* Play = UMyGameInstance::Get->GetPlayerPawn();
-		
-		Pawn->SetFocusedTarget(Play);
-	}
-
+	
 	m_AryMonsters.Add(Mob);
 }

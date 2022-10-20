@@ -29,6 +29,11 @@ void PlayerFSM::Update(float delta)
 	(this->*m_AryStateFunction[static_cast<int>(m_CurrentState)])();
 }
 
+PlayerFSM::EFSM PlayerFSM::GetState()
+{
+	return m_CurrentState;
+}
+
 void PlayerFSM::CheckSetState()
 {
 	ACombatPawn* Focused = m_Pl->GetFocusedTarget();

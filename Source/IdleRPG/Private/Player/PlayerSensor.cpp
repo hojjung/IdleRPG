@@ -55,7 +55,7 @@ AMonsterPawn* PlayerSensor::GetNearTarget(float SearchRange)
 
 void PlayerSensor::Update(float delta)
 {
-	if(m_Pl->GetFocusedTarget())
+	if(m_Pl->IsInCombat())
 	{
 		return;
 	}

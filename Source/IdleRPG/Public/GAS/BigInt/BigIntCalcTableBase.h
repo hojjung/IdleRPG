@@ -21,6 +21,10 @@ public:
 	static UDataTable* GetGoldTable;
 
 	static UDataTable* GetPlayerUpgradeTable;
+
+	static UDataTable* GetLevelUpTable;
+
+	static UDataTable* GetExpTable;
 };
 USTRUCT(BlueprintType)//���̵�,Ƽ��
 struct FBigIntCalcTableRow : public FEntityDataRow

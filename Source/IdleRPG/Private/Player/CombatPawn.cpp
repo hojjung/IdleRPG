@@ -146,7 +146,7 @@ float ACombatPawn::GetAttackRangeSqr()
 
 EPathFollowingRequestResult::Type ACombatPawn::ChaseTarget()
 {
-	return MoveToActor(GetFocusedTarget(), GetAttackRange());
+	return MoveToActor(GetFocusedTarget(), GetAttackRange() - 12.0f);
 }
 
 void ACombatPawn::MyTakeDamage(ACombatPawn* DamageCauser, EDmgType dmgType)

@@ -101,4 +101,6 @@ public:
 	void SetPet(const UUnitAsset* asset);
 
 	void UnEquipPet();
+
+	bool IsInCombat();
 };

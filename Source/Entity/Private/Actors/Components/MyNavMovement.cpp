@@ -1,4 +1,6 @@
 #include "Actors/Components/MyNavMovement.h"
+
+#include "Entity.h"
 #include "NavigationSystem.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -38,6 +40,7 @@ void UMyNavMovement::MySnapToNav()
 	}
 	
 	m_Owner->SetActorFeetLocation(Loc.Location);
+	
 }
 
 void UMyNavMovement::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)

@@ -74,8 +74,6 @@ FVector UMyFlockSteering::GetBoidDelta(FVector inputDelta)
 	m_NearMobs.Reset();
 	UMyGameInstance::Get->m_SpawnManager->GetNearNpcs<AMonsterPawn>(m_Owner.Get(),m_NearMobs,m_fRadius);
 	
-	FVector FinalDelta = FVector::ZeroVector;
-	
 	FVector DestDelta = inputDelta;
 	
 	FVector SepSum = FVector::ZeroVector;
@@ -103,7 +101,14 @@ FVector UMyFlockSteering::GetBoidDelta(FVector inputDelta)
 		SepSum /= Count; 
 	}
 	
-	FinalDelta = (DestDelta * 1.35f) + (SepSum.GetSafeNormal()); 
+	FVector FinalDelta = (DestDelta * 1.35f) + (SepSum.GetSafeNormal(0.01f)); 
 	
 	return FinalDelta.GetSafeNormal();
+}
+
+void UMyFlockSteering::SetComponentTickEnabled(bool bEnabled)
+{
+	Super::SetComponentTickEnabled(bEnabled);
+
+	Velocity = FVector::ZeroVector;
 }

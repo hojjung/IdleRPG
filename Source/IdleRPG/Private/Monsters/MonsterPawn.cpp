@@ -99,6 +99,13 @@ void AMonsterPawn::SetEntity(const UUnitAsset* asset)
 {
 	Super::SetEntity(asset);
 
+	if(m_EntityAsset->m_bAttackFirst)
+	{
+		AMyPlayerPawn* Play = UMyGameInstance::Get->GetPlayerPawn();
+		
+		SetFocusedTarget(Play);
+	}
+
 	float Z =  m_BodyMesh->Bounds.BoxExtent.Z;
 
 	m_PawnInfo->SetRelativeLocation(FVector(0,0,Z));
@@ -112,12 +119,12 @@ void AMonsterPawn::SetEntity(const UUnitAsset* asset)
 
 void AMonsterPawn::Revive()
 {
-	FNavLocation NewLoc;
+	//FNavLocation NewLoc;
 	
-	UMyLib::GetNavSys()->GetRandomPointInNavigableRadius(m_SpawnPos, 400,NewLoc);
+	//UMyLib::GetNavSys()->GetRandomPointInNavigableRadius(m_SpawnPos, 400,NewLoc);
 
-	SetActorFeetLocation(NewLoc);
-
+	SetActorFeetLocation(m_SpawnPos);
+	PRINTF("SetSpawnPos");
 	SetActorRotation(FRotator(0,FMath::RandRange(0,360),0));
 	
 	SetActorHiddenInGame(false);
@@ -149,6 +156,13 @@ void AMonsterPawn::Revive()
 
 void AMonsterPawn::OnReviveAnimEnd()
 {
+	if(m_EntityAsset->m_bAttackFirst)
+	{
+		AMyPlayerPawn* Play = UMyGameInstance::Get->GetPlayerPawn();
+		
+		SetFocusedTarget(Play);
+	}
+	
 	m_ShadowMeshComp->SetVisibility(true);
 
 	m_Movement->SetComponentTickEnabled(true);

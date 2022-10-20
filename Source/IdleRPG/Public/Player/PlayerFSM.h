@@ -53,4 +53,6 @@ protected:
 	
 public:
 	void Update(float delta);
+
+	EFSM GetState();
 };

@@ -4,7 +4,7 @@ void UWidgetUpgradePanel::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	UUpgradeData::GetUpgradeTable->ForeachRow<FUpgradeDataTableRow>("",[=](const FName& key, const FUpgradeDataTableRow& row)
+	UBigIntCalcTableBase::GetPlayerUpgradeTable->ForeachRow<FBigIntCalcTableRow>("",[=](const FName& key, const FBigIntCalcTableRow& row)
 	{
 		UWidgetUpgradeEle* Ele = CreateWidget<UWidgetUpgradeEle>(this, m_ClassEle);
 

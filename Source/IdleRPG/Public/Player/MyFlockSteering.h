@@ -28,4 +28,6 @@ protected:
 	virtual void ApplyControlInputToVelocity(float DeltaTime) override;
 
 	FVector GetBoidDelta(FVector inputDelta);
+
+	virtual void SetComponentTickEnabled(bool bEnabled) override;
 };
