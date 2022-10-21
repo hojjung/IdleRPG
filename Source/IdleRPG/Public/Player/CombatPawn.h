@@ -41,6 +41,8 @@ protected:
 	UStaticMeshComponent* m_ShadowMeshComp;
 	
 	TWeakObjectPtr<ACombatPawn> m_Target;
+
+	FTimerHandle m_DeathAnimTimer;
 	
 	float m_fAttackCD;
 

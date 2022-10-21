@@ -11,7 +11,7 @@ GAS::GAS(uint32 id)
 
 	m_mHp = 100;
 	
-	m_Dmg = 35;
+	m_Dmg = 25;
 
 	Restart();
 }
@@ -21,6 +21,22 @@ GAS::~GAS()
 	
 }
 
+void GAS::UpdateHpPercent(float v)
+{
+	m_cHp = m_mHp * v;
+}
+
+void GAS::SetDefaultStat(BigInt mHp, BigInt dmg)
+{
+	float V = GetHpPercent();
+	
+	m_mHp = mHp;
+	
+	UpdateHpPercent(V);
+	
+	m_Dmg = dmg;
+}
+
 void GAS::Restart()
 {
 	m_cHp = m_mHp;
@@ -28,6 +44,10 @@ void GAS::Restart()
 
 float GAS::GetHpPercent() const
 {
+	if(m_mHp.IsZero())
+	{
+		return  0.0f;
+	}
 	BigInt CopiedCH = m_cHp;
 
 	CopiedCH.Multiply(100);
@@ -87,7 +107,7 @@ void GAS::TakeDamage(ACombatPawn* combat_pawn, EDmgType dmg)
 
 	m_cHp.Subtract(FinalDmg);
 
-	m_OnTookDamage.Broadcast(FinalDmg, Pop);
+	m_OnTookDamage.Broadcast(combat_pawn, FinalDmg, Pop);
 	
 	m_OnHpChanged.Broadcast();
 

@@ -87,11 +87,11 @@ public:
 	{
 		level  = FMath::Max(level,1);
 		
-		BigInt Value = init;
+		BigInt Value = inc;
 		
-		Value.MultiplyFast(inc);
-
 		Value.MultiplyFast(level);
+
+		Value.Add(init);
 	
 		return  Value;
 	}
@@ -108,6 +108,8 @@ public:
 		{
 			Coeff.MultiplyFast(inc);
 		}
+		Coeff.MultiplyFast(4);
+		
 		return Coeff;
 	}
 };

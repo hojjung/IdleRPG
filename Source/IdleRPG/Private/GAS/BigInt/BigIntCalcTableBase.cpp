@@ -9,6 +9,10 @@ UDataTable* UBigIntCalcTableBase::GetLevelUpTable = nullptr;
 
 UDataTable* UBigIntCalcTableBase::GetExpTable = nullptr;
 
+UDataTable* UBigIntCalcTableBase::GetMobHpTable = nullptr;
+
+UDataTable* UBigIntCalcTableBase::GetMobDmgTable = nullptr;
+
 
 UBigIntCalcTableBase::UBigIntCalcTableBase()
 {
@@ -27,4 +31,12 @@ UBigIntCalcTableBase::UBigIntCalcTableBase()
 	static ConstructorHelpers::FObjectFinder<UDataTable> Found4(TEXT("DataTable'/Game/02_DataTables/BigInt/ExpTable.ExpTable'"));
 
 	GetExpTable = Found4.Object;
+	
+	static ConstructorHelpers::FObjectFinder<UDataTable> Found5(TEXT("DataTable'/Game/02_DataTables/BigInt/MobHpTable.MobHpTable'"));
+
+	GetMobHpTable = Found5.Object;
+
+	static ConstructorHelpers::FObjectFinder<UDataTable> Found6(TEXT("DataTable'/Game/02_DataTables/BigInt/MobDmgTable.MobDmgTable'"));
+
+	GetMobDmgTable = Found6.Object;
 }

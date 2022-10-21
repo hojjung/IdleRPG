@@ -22,7 +22,7 @@ public:
 
 	DECLARE_MULTICAST_DELEGATE(FOnDead)
 	
-	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnTookDmg, BigInt, EDamagePopup)
+	DECLARE_MULTICAST_DELEGATE_ThreeParams(FOnTookDmg, ACombatPawn* , BigInt, EDamagePopup)
 
 	FOnHpChanged m_OnHpChanged;
 
@@ -52,6 +52,10 @@ private:
 
 	BigInt m_SuperCriDmg;
 
+public:
+	void UpdateHpPercent(float v);
+	
+	void SetDefaultStat(BigInt mHp, BigInt dmg);
 
 public:
 	void Restart();

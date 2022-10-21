@@ -14,6 +14,7 @@
 #include "Monsters/QuadTree.h"
 #include "MyPlayerPawn.generated.h"
 
+class UWidgetPawnInfoComp;
 class APetPawn;
 class PlayerSensor;
 /**
@@ -31,6 +32,8 @@ public:
 	AMyPlayerPawn(const FObjectInitializer& objInit);
 	
 protected:
+	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
+	UWidgetPawnInfoComp* m_PawnInfo;
 	UPROPERTY(VisibleAnywhere)
 	UAudioComponent* m_SwingSoundComp;
 	UPROPERTY(VisibleAnywhere)
@@ -75,11 +78,19 @@ protected:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	virtual bool IsAlive() override;
-
 	virtual float PlayBaseAttackAnim(float rate) override;
 
+	void OnHpChanged();
+
+	void OnTookDamage(ACombatPawn* other, BigInt dmg, EDamagePopup pop);
+
+	virtual void OnDead() override;
+
+	virtual void OnDeathAnimEnd() override;
+
 public:
+	virtual void SetGas(TSharedPtr<GAS> newGas) override;
+	
 	virtual void SetEntity(const UUnitAsset* asset) override;
 	
 	void TryAttack_External();

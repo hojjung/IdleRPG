@@ -25,6 +25,10 @@ public:
 	static UDataTable* GetLevelUpTable;
 
 	static UDataTable* GetExpTable;
+
+	static UDataTable* GetMobHpTable;
+
+	static UDataTable* GetMobDmgTable;
 };
 USTRUCT(BlueprintType)//���̵�,Ƽ��
 struct FBigIntCalcTableRow : public FEntityDataRow

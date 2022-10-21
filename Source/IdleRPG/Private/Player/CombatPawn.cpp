@@ -96,6 +96,10 @@ void ACombatPawn::PlayDeathAnim()
 	if(m_EntityAsset->m_DeathMontage)
 	{
 		PlayAnimMontage(m_EntityAsset->m_DeathMontage.Get());
+
+		float AnimLength = m_EntityAsset->m_DeathMontage->GetPlayLength() - 0.4f;
+
+		GetWorldTimerManager().SetTimer(m_DeathAnimTimer, this, &ACombatPawn::OnDeathAnimEnd, AnimLength, false);
 	}
 	else
 	{
@@ -106,6 +110,10 @@ void ACombatPawn::PlayDeathAnim()
 void ACombatPawn::OnDeathAnimEnd()
 {
 	m_BodyMesh->bPauseAnims = true;
+	
+	SetActorTickEnabled(false);
+			
+	SetActorHiddenInGame(true);
 }
 
 GAS* ACombatPawn::GetGas()
@@ -146,6 +154,7 @@ float ACombatPawn::GetAttackRangeSqr()
 
 EPathFollowingRequestResult::Type ACombatPawn::ChaseTarget()
 {
+	HomingRotateToTarget(15, GetFocusedTarget()->GetActorLocation());
 	return MoveToActor(GetFocusedTarget(), GetAttackRange() - 12.0f);
 }
 

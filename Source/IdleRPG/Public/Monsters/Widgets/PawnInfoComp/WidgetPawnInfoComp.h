@@ -6,7 +6,8 @@
 #include "Components/WidgetComponent.h"
 #include "WidgetPawnInfoComp.generated.h"
 
-class AMonsterPawn;
+class UWidgetPawnInfo;
+class ACombatPawn;
 /**
  * 
  */
@@ -15,9 +16,17 @@ class IDLERPG_API UWidgetPawnInfoComp  : public UWidgetComponent
 {
 	GENERATED_BODY()
 
-protected:
+public:
 	UWidgetPawnInfoComp();
 
+protected:
+	UPROPERTY()
+	UWidgetPawnInfo* m_Info;
+	
 public:
-	void SetPawnInfo(const AMonsterPawn* pawn);
+	virtual void BeginPlay() override;
+	
+	void SetPawnInfo(const ACombatPawn* pawn);
+
+	void SetGreen();
 };

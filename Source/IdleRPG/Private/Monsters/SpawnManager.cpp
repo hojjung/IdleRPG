@@ -74,6 +74,9 @@ void SpawnManager::Update(float delta)
 void SpawnManager::SpawnUnits(const UObject* world, int stageLevel, int cnt)
 {
 	m_nStageLevel = stageLevel;
+
+	UMyGameInstance::Get->m_GameMode->SetLevel(m_nStageLevel);
+	
 	Clear();
 	
 	const UNavigationSystemV1* Nav =  FNavigationSystem::GetCurrent<UNavigationSystemV1>(world->GetWorld());
@@ -139,6 +142,11 @@ void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* worl
 
 	TSharedPtr<Monster> Mob = MakeShareable(new Monster(Pawn));
 
+	BigInt Dmg = UMyGameInstance::Get->m_GameMode->GetDmg();
+
+	BigInt Hp = UMyGameInstance::Get->m_GameMode->GetHp();
+
+	Pawn->GetGas()->SetDefaultStat(Hp, Dmg);
 	
 	m_AryMonsters.Add(Mob);
 }

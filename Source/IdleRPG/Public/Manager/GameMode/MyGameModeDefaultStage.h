@@ -17,11 +17,12 @@ public:
 	virtual ~MyGameModeDefaultStage() override;
 
 protected:
-	const FBigIntCalcTableRow* m_GoldRow; 
-
+	BigInt m_Gold;
 
 public:
 	virtual void OnMonsterDead(AMonsterPawn* target) override;
 	
 	virtual void OnMonsterAnimEnd(AMonsterPawn* target) override;
+
+	virtual void SetLevel(int lv) override;
 };

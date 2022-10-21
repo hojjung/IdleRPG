@@ -9,19 +9,21 @@ UWidgetPawnInfoComp::UWidgetPawnInfoComp()
 {
 	SetManuallyRedraw(true);
 }
-
-void UWidgetPawnInfoComp::SetPawnInfo(const AMonsterPawn* pawn)
+void UWidgetPawnInfoComp::BeginPlay()
 {
-	UUserWidget* WidgetObj = GetUserWidgetObject();
+	Super::BeginPlay();
 
-	if (!WidgetObj)
-	{
-		return;
-	}
+	m_Info = Cast<UWidgetPawnInfo>(GetUserWidgetObject());
+}
 
-	UWidgetPawnInfo* WidgetProgressBar = Cast<UWidgetPawnInfo>(WidgetObj);
-
-	WidgetProgressBar->SetPawnInfo(pawn);
+void UWidgetPawnInfoComp::SetPawnInfo(const ACombatPawn* pawn)
+{
+	m_Info->SetPawnInfo(pawn);
 
 	RequestRedraw();
+}
+
+void UWidgetPawnInfoComp::SetGreen()
+{
+	m_Info->SetGreen();
 }

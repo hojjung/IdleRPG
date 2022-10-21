@@ -42,7 +42,7 @@ private:
 
 	FFloatCurve m_CurveDeathAnim;
 
-	FTimerHandle m_DeathAnimTimer;
+	
 
 	FTimerHandle m_StunTimer;
 
@@ -76,7 +76,7 @@ private:
 
 	void PlayDeathSound();
 	
-	void OnTookDamage(BigInt dmg, EDamagePopup pop);
+	void OnTookDamage(ACombatPawn* other, BigInt dmg, EDamagePopup pop);
 
 	virtual void OnDead() override;
 

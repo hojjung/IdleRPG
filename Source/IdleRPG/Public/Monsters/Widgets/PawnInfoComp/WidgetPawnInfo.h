@@ -20,7 +20,10 @@ class IDLERPG_API UWidgetPawnInfo : public UUserWidget
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (BindWidget))
 	UProgressBar* m_HpBar;
-
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FSlateBrush m_GreenBar;
 public:
-	void SetPawnInfo(const AMonsterPawn* pawn);
+	void SetPawnInfo(const ACombatPawn* pawn);
+
+	void SetGreen();
 };

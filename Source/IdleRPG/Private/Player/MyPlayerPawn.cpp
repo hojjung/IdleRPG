@@ -6,6 +6,7 @@
 #include "MyGameInstance.h"
 #include "NavigationSystem.h"
 #include "Actors/Components/MyNavMovement.h"
+#include "Monsters/Widgets/PawnInfoComp/WidgetPawnInfoComp.h"
 #include "Pet/PetPawn.h"
 #include "Player/MyFlockSteering.h"
 #include "Player/PlayerSensor.h"
@@ -39,7 +40,21 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	TEXT("SoundCue'/Game/Sound/Use/SwordSwing.SwordSwing'"));
 
 	m_SwingSoundComp->SetSound(FoundSwingSound.Object);
-	//SoundCue'/Game/Sound/Use/SwordSwing.SwordSwing'
+	
+	m_PawnInfo = CreateDefaultSubobject<UWidgetPawnInfoComp>(TEXT("PawnInfoWidget"));
+	m_PawnInfo->SetupAttachment(RootComponent);
+	m_PawnInfo->SetVisibility(false);
+	static ConstructorHelpers::FClassFinder<UUserWidget> FoundHpBar(
+		TEXT("WidgetBlueprint'/Game/Blueprints/Widgets/Comp/WB_PawnInfo.WB_PawnInfo_C'"));
+	m_PawnInfo->SetWidgetClass(FoundHpBar.Class);
+	//m_PawnInfo->SetDrawSize(FVector2D(150.f, 22.f));
+	m_PawnInfo->SetDrawAtDesiredSize(true);
+	FVector2D Pivot(0.5f, 0.5f);
+	m_PawnInfo->SetPivot(Pivot);
+	m_PawnInfo->SetWidgetSpace(EWidgetSpace::Screen);
+	m_PawnInfo->SetRelativeLocation(FVector(0, 0, 130));
+	m_PawnInfo->SetCanEverAffectNavigation(false);
+	
 }
 
 void AMyPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -77,6 +92,9 @@ void AMyPlayerPawn::BeginPlay()
 	SetAtkRange(200);
 	
 	UMyGameInstance::Get->m_AvatarManager.Get()->SetEquippedAvatar();
+	
+	m_PawnInfo->SetGreen();
+	m_PawnInfo->SetVisibility(true);
 }
 
 void AMyPlayerPawn::SetEntity(const UUnitAsset* asset)
@@ -96,6 +114,53 @@ void AMyPlayerPawn::SetEntity(const UUnitAsset* asset)
 	{
 		m_AddVisual->SpawnAttachment(asset->m_ArySocketAttachments[Index++], Attach.Get());
 	}
+	
+	float Z =  m_BodyMesh->Bounds.BoxExtent.Z;
+
+	m_PawnInfo->SetRelativeLocation(FVector(0,0,Z));
+
+	m_PawnInfo->SetPawnInfo(this);
+}
+
+void AMyPlayerPawn::SetGas(TSharedPtr<GAS> newGas)
+{
+	Super::SetGas(newGas);
+
+	m_Gas.Pin()->m_OnHpChanged.AddUObject(this, &AMyPlayerPawn::OnHpChanged);
+
+	m_Gas.Pin()->m_OnTookDamage.AddUObject(this, &AMyPlayerPawn::OnTookDamage);
+
+	m_Gas.Pin()->SetDefaultStat(200,25);
+}
+
+void AMyPlayerPawn::OnHpChanged()
+{
+	m_PawnInfo->SetPawnInfo(this);
+}
+
+void AMyPlayerPawn::OnTookDamage(ACombatPawn* other, BigInt dmg, EDamagePopup pop)
+{
+	SetFocusedTarget(other);
+	
+	//PlayHittenSound(pop);
+	//PlayHitFlash();
+	//PlayTookHitMontage();
+	//PlayHitEffect();
+	UMyGameInstance::Get->GetPlayerCon()->ShowInGameWorldText(dmg, this, pop);
+}
+
+void AMyPlayerPawn::OnDead()
+{
+	Super::OnDead();
+	m_PawnInfo->SetVisibility(false);
+
+	//UMyGameInstance::Get->OnMonsterDead(this);
+}
+
+void AMyPlayerPawn::OnDeathAnimEnd()
+{
+	Super::OnDeathAnimEnd();
+	
 }
 
 bool AMyPlayerPawn::IsInputMoving()
@@ -106,6 +171,11 @@ bool AMyPlayerPawn::IsInputMoving()
 void AMyPlayerPawn::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+
+	if(!IsAlive())
+	{
+		return;
+	}
 
 	m_Sensor->Update(DeltaSeconds);
 	
@@ -189,11 +259,6 @@ void AMyPlayerPawn::TryAttack_External()
 	{
 		m_AddVisual->SetAttacking(t);
 	}
-}
-
-bool AMyPlayerPawn::IsAlive()
-{
-	return true;
 }
 
 float AMyPlayerPawn::PlayBaseAttackAnim(float rate)

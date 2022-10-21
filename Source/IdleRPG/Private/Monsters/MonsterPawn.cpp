@@ -179,8 +179,6 @@ void AMonsterPawn::SetGas(TSharedPtr<GAS> newGas)
 	m_Gas.Pin()->m_OnHpChanged.AddUObject(this, &AMonsterPawn::OnHpChanged);
 
 	m_Gas.Pin()->m_OnTookDamage.AddUObject(this, &AMonsterPawn::OnTookDamage);
-
-	m_Gas.Pin()->m_OnDead.AddUObject(this, &AMonsterPawn::OnDead);
 }
 void AMonsterPawn::Tick(float DeltaSeconds)
 {
@@ -285,19 +283,15 @@ void AMonsterPawn::StartDeathEffectMaterial(float duration)
 	m_BodyMesh->SetScalarParameterValueOnMaterials(DurationParamName, duration);
 }
 
-void AMonsterPawn::OnTookDamage(BigInt dmg, EDamagePopup pop)
+void AMonsterPawn::OnTookDamage(ACombatPawn* other, BigInt dmg, EDamagePopup pop)
 {
+	SetFocusedTarget(other);
 	PlayHittenSound(pop);
 	PlayHitFlash();
 	PlayTookHitMontage();
 	PlayHitEffect();
 	UMyGameInstance::Get->GetPlayerCon()->ShowInGameWorldText(dmg, this, pop);
 	//m_PlCon->ShowDamageNumber(amount,this,pp);
-}
-
-void AMonsterPawn::PlayDeathSound()
-{
-	m_DeathSoundComp->Play();
 }
 
 void AMonsterPawn::OnDead()
@@ -308,6 +302,11 @@ void AMonsterPawn::OnDead()
 	PlayDeathSound();
 
 	UMyGameInstance::Get->OnMonsterDead(this);
+}
+
+void AMonsterPawn::PlayDeathSound()
+{
+	m_DeathSoundComp->Play();
 }
 
 void AMonsterPawn::PlayDeathAnim()
@@ -331,9 +330,6 @@ void AMonsterPawn::PlayDeathAnim()
 void AMonsterPawn::OnDeathAnimEnd()
 {
 	Super::OnDeathAnimEnd();
-	SetActorTickEnabled(false);
-			
-	SetActorHiddenInGame(true);
 	//Respawn?
 	UMyGameInstance::Get->OnMonsterAnimEnd(this);
 }
