@@ -34,16 +34,12 @@ public:
 	TSharedPtr<SSlateEleBase> m_Ele;
 protected:
 	UPROPERTY()
-	UWidgetMainCanvas* m_Canvas;
-	UPROPERTY()
 	TArray<AActor*> m_AryIgnoreActors;
 	UPROPERTY()
 	int m_CompUseIndex;
 	UPROPERTY()
 	UTouchInterface* m_Joystick;
 
-	TSubclassOf<UWidgetMainCanvas> m_ClassCanvas;
-	
 	FVector2D m_MousePos;
 
 	TSharedPtr<PopupTextPool> m_PopupTextPool;

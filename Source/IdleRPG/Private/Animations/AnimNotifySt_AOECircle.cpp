@@ -156,7 +156,7 @@ void UAnimNotifySt_AOECircle::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimS
 
 bool UAnimNotifySt_AOECircle::TraceSphere(const ACombatPawn* instigator, TArray<ACombatPawn*>& outHits, float radius)
 {
-	UMyLib::GetNearNpcs(instigator, outHits, radius);
+	UMyGameInstance::Get->GetNearNpcs(instigator, outHits, radius);
 	
 	return outHits.Num() > 0;
 }

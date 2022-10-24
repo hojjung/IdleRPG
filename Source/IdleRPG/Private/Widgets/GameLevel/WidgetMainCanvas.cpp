@@ -1,7 +1,5 @@
 #include "Widgets/GameLevel/WidgetMainCanvas.h"
 
-#include "MyGameInstance.h"
-
 void UWidgetMainCanvas::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();

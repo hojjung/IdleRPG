@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "MyGameModeBase.h"
 
+struct FZone;
+struct FStageRow;
 struct FBigIntCalcTableRow;
 /**
  * 기본 스테이지
@@ -12,17 +14,28 @@ struct FBigIntCalcTableRow;
 class IDLERPG_API MyGameModeDefaultStage : public  MyGameModeBase
 {
 public:
-	MyGameModeDefaultStage();
+	MyGameModeDefaultStage(int lv);
 	
 	virtual ~MyGameModeDefaultStage() override;
 
 protected:
+	TArray<FStageRow*> m_AryStage;
+	
 	BigInt m_Gold;
+
+private:
+	const FStageRow& GetStage(int stageLevel);
+
+	const FZone& GetZone(int stageLevel);
+
+	const FPrimaryAssetId& GetBossMonster(int stageLevel);
+
+	virtual FText GetDefaultStageName(int level) override;
 
 public:
 	virtual void OnMonsterDead(AMonsterPawn* target) override;
 	
 	virtual void OnMonsterAnimEnd(AMonsterPawn* target) override;
 
-	virtual void SetLevel(int lv) override;
+	virtual void OnPlayerDead(AMyPlayerPawn* target) override;
 };

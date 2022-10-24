@@ -6,41 +6,42 @@
 #include "Monster.h"
 #include "QuadTree.h"
 #include "StageTable.h"
-#include "Engine/StreamableManager.h"
 #include "Player/CombatPawn.h"
 
+class MyGameModeBase;
+class UNavigationSystemV1;
 /**
  * 
  */
 class IDLERPG_API SpawnManager
 {
 public:
-	SpawnManager(int stageLevel);
+	SpawnManager(BigInt hp, BigInt dmg);
+	
 	~SpawnManager();
 	
 private:
-	TArray<FStageRow*> m_AryStage;
-	
 	TArray<TSharedPtr<Monster>> m_AryMonsters;
 
 	TSharedPtr<QuadTree> m_QuadTree;
 
-	int m_nStageLevel;
+	TWeakObjectPtr<const UNavigationSystemV1> m_Nav;
+
+	FBox m_NavBox;
+
+	BigInt m_Hp;
+
+	BigInt m_Dmg;
+	
 private:
-	const FPrimaryAssetId& GetRandomMonsterID(int stageLevel, const FZone& z);
-
-	const FPrimaryAssetId& GetBossMonster(int stageLevel);
-
 	void OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot);
-	
+
 public:
-	const FStageRow& GetStage(int stageLevel);
-	
-	const FZone& GetZone(int stageLevel);
+	const FPrimaryAssetId& GetRandomMonsterID(const FZone& z);
 	
 	void Update(float delta);
 
-	void SpawnUnits(const UObject* world, int stageLevel, int cnt = 20);
+	void SpawnUnits(const FPrimaryAssetId& id);
 	
 	template <class T>
 	void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range)
@@ -51,8 +52,4 @@ public:
 		}
 		m_QuadTree->TraceObjectInRange<T>(caller,range, outAry);
 	}
-	
-	void Clear();
-
-	int GetStageLevel();
 };

@@ -1,9 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Animations/AnimNotify_CameraShake.h"
-
-#include "MyGameInstance.h"
+#include "Manager/MyGameInstance.h"
 
 void UAnimNotify_CameraShake::Notify(USkeletalMeshComponent* MeshComp, UAnimSequenceBase* Animation)
 {

@@ -6,6 +6,7 @@
 #include "WebService/Public/GoogleLogin.h"
 #include "GameFramework/GameModeBase.h"
 #include "Player/CombatPawn.h"
+#include "Widgets/GameLevel/WidgetMainCanvas.h"
 #include "IdleRPGGameModeBase.generated.h"
 
 /**
@@ -21,6 +22,10 @@ public:
 
 protected:
 	TSharedPtr<GoogleLogin> m_GoogleLogin;
+
+	TSubclassOf<UWidgetMainCanvas> m_ClassCanvas;
+	UPROPERTY()
+	UWidgetMainCanvas* m_Canvas;
 
 protected:
 	virtual void StartPlay() override;

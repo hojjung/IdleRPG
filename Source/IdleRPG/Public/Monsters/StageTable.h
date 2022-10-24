@@ -20,7 +20,7 @@ class IDLERPG_API UStageTable : public UObject
 public:
 	UStageTable();
 
-	static UDataTable* GetData;
+	static UDataTable* GetDefaultStage;
 };
 
 USTRUCT(BlueprintType)

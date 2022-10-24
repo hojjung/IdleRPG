@@ -1,7 +1,6 @@
 #include "Player/Avatar/AvatarInven.h"
 #include "MyAssetManager.h"
-#include "MyGameInstance.h"
-#include "Kismet/KismetSystemLibrary.h"
+#include "Manager/MyGameInstance.h"
 
 
 AvatarInven::AvatarInven()

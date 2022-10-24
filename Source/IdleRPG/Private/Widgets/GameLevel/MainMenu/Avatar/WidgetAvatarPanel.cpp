@@ -1,6 +1,6 @@
 #include "Widgets/GameLevel/MainMenu/Avatar/WidgetAvatarPanel.h"
 #include "MyAssetManager.h"
-#include "MyGameInstance.h"
+#include "Manager/MyGameInstance.h"
 #include "Widgets/Lib/WidgetLib.h"
 
 void UWidgetAvatarPanel::NativeOnInitialized()

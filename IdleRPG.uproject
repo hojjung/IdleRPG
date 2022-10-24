@@ -37,7 +37,9 @@
 			"Type": "Editor",
 			"LoadingPhase": "PreDefault",
 			"AdditionalDependencies": [
-				"DeveloperSettings"
+				"DeveloperSettings",
+				"CoreUObject",
+				"Engine"
 			]
 		}
 	],
@@ -423,6 +425,11 @@
 		{
 			"Name": "Niagara",
 			"Enabled": true
+		},
+		{
+			"Name": "ThumbnailExporter",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/b48e190a04664422972d37b03899371c"
 		}
 	]
 }

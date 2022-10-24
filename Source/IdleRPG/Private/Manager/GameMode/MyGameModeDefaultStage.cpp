@@ -1,33 +1,13 @@
 #include "Manager/GameMode/MyGameModeDefaultStage.h"
-#include "MyGameInstance.h"
 #include "GAS/BigInt/BigIntCalcTableBase.h"
+#include "Manager/MyGameInstance.h"
+#include "Monsters/StageTable.h"
 
-MyGameModeDefaultStage::MyGameModeDefaultStage()
+MyGameModeDefaultStage::MyGameModeDefaultStage(int lv): MyGameModeBase(lv)
 {
-	
-}
+	m_AryStage.Reserve(100);
 
-MyGameModeDefaultStage::~MyGameModeDefaultStage()
-{
-}
-
-void MyGameModeDefaultStage::OnMonsterDead(AMonsterPawn* target)
-{
-	int Lv = UMyGameInstance::Get->GetStageLevel();
-
-	UMyGameInstance::Get->m_GoldManager->AddGold(m_Gold);
-}
-
-void MyGameModeDefaultStage::OnMonsterAnimEnd(AMonsterPawn* target)
-{
-	FTimerHandle m_ReviveTimer;
-	
-	UMyGameInstance::Get->GetWorld()->GetTimerManager().SetTimer(m_ReviveTimer, target, &AMonsterPawn::Revive, FMath::RandRange(4, 7), false);
-}
-
-void MyGameModeDefaultStage::SetLevel(int lv)
-{
-	MyGameModeBase::SetLevel(lv);
+	UStageTable::GetDefaultStage->GetAllRows<FStageRow>("", m_AryStage);
 
 	const FBigIntCalcTableRow* GoldRow = UBigIntCalcTableBase::GetGoldTable->FindRow<FBigIntCalcTableRow>(TEXT("Default"), "");
 
@@ -40,4 +20,76 @@ void MyGameModeDefaultStage::SetLevel(int lv)
 	m_MobDmg = DmgRow->GetValue(m_nLevel);
 
 	m_MobHp = HpRow->GetValue(m_nLevel);
+
+	int Iter = -1;
+
+	m_SpawnManager = MakeShareable(new SpawnManager(m_MobHp, m_MobDmg));
+
+	const FZone& Z = GetZone(m_nLevel);
+	
+	while (++Iter < 20)
+	{
+		const FPrimaryAssetId& SelectedId = m_SpawnManager->GetRandomMonsterID(Z); 
+		
+		m_SpawnManager->SpawnUnits(SelectedId);
+	}
+}
+
+MyGameModeDefaultStage::~MyGameModeDefaultStage()
+{
+	
+}
+
+void MyGameModeDefaultStage::OnMonsterDead(AMonsterPawn* target)
+{
+	UMyGameInstance::Get->m_GoldManager->AddGold(m_Gold);
+}
+
+void MyGameModeDefaultStage::OnMonsterAnimEnd(AMonsterPawn* target)
+{
+	FTimerHandle ReviveTimer;
+	
+	UMyGameInstance::Get->GetWorld()->GetTimerManager().SetTimer(ReviveTimer, target, &AMonsterPawn::Revive, FMath::RandRange(4, 7), false);
+}
+
+void MyGameModeDefaultStage::OnPlayerDead(AMyPlayerPawn* target)
+{
+	
+}
+
+const FStageRow& MyGameModeDefaultStage::GetStage(int stageLevel)
+{
+	int Stage = stageLevel % UStageTable::GetDefaultStage->GetRowMap().Num();
+
+	return *m_AryStage[Stage];
+}
+const FZone& MyGameModeDefaultStage::GetZone(int stageLevel)//19, 0, 19
+{
+	int Zone = stageLevel % 20;
+
+	const FZone& SelectZone = GetStage(stageLevel).m_AryUnits[Zone];
+
+	return SelectZone;
+}
+
+const FPrimaryAssetId& MyGameModeDefaultStage::GetBossMonster(int stageLevel)
+{
+	return GetZone(stageLevel).m_AryUnits[0];
+}
+
+FText MyGameModeDefaultStage::GetDefaultStageName(int level)
+{
+	const FStageRow& StageWant = GetStage(level);
+	
+	float Index = level / 20.0f;
+
+	float UpIndex = 0.0f;
+
+	float DownIndex = 0.0f;
+
+	DownIndex = FMath::Modf(Index, &UpIndex);
+
+	FString Str = FString::Printf(TEXT("%s-%d"), *StageWant.m_StageName.ToString(), (int)DownIndex + 1);
+
+	return FText::FromString(Str);
 }

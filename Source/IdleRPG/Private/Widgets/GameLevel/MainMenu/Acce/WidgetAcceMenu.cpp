@@ -1,9 +1,5 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Widgets/GameLevel/MainMenu/Acce/WidgetAcceMenu.h"
-
-#include "MyGameInstance.h"
+#include "Manager/MyGameInstance.h"
 
 void UWidgetAcceMenu::OnOpen()
 {

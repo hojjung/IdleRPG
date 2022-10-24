@@ -37,7 +37,7 @@ public:
 
 public:
 	static UMyGameInstance* Get;
-
+	
 private:
 	TWeakObjectPtr<AMyPlayerPawn> m_Player;
 	
@@ -52,8 +52,6 @@ public:
 	
 	TSharedPtr<AvatarManager> m_AvatarManager;
 	
-	TSharedPtr<SpawnManager> m_SpawnManager;
-
 	TSharedPtr<MyGameModeBase> m_GameMode;
 	
 	
@@ -84,7 +82,15 @@ public:
 
 	void OnMonsterDead(AMonsterPawn* target);
 
+	void OnPlayerDead(AMyPlayerPawn* target);
+
 	void OnMonsterAnimEnd(AMonsterPawn* target);
+
+	template <class T>
+	void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range)
+	{
+		m_GameMode->GetNearNpcs<T>(caller, outAry, range);
+	}
 };
 
 

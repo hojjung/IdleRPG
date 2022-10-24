@@ -1,16 +1,16 @@
-#include "MyGameInstance.h"
-
+#include "Manager/MyGameInstance.h"
 #include "BUITween.h"
-#include "BUITweenInstance.h"
 #include "Entity.h"
-
 #include "Kismet/KismetSystemLibrary.h"
 #include "Manager/GameMode/MyGameModeDefaultStage.h"
+#include "Widgets/GameLevel/WidgetMainCanvas.h"
 
 UMyGameInstance* UMyGameInstance::Get = nullptr;
 
 void UMyGameInstance::BeginDestroy()
 {
+	m_GameMode.Reset();
+	
 	Super::BeginDestroy();
 
 	UBUITween::Shutdown();
@@ -21,9 +21,6 @@ void UMyGameInstance::BeginDestroy()
 
 	m_AvatarManager.Reset();
 	
-	m_SpawnManager.Reset();
-
-	m_GameMode.Reset();
 
 	m_GoldManager.Reset();
 	
@@ -42,8 +39,6 @@ void UMyGameInstance::Init()
 
 	m_PetManager = MakeShareable(new PetManager());
 
-	m_SpawnManager = MakeShareable(new SpawnManager(0));
-
 	m_AvatarManager = MakeShareable(new AvatarManager());
 
 	m_GoldManager = MakeShareable(new GoldManager());
@@ -54,15 +49,11 @@ void UMyGameInstance::Init()
 void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)
 {
 	UBUITween::Shutdown();
-	// if(m_LevelMoveManager->IsGameStart())
-	// {
-	// 	m_LevelMoveManager->OnOpenWorldLevelComplete();
-	// }
 }
 
 void UMyGameInstance::Tick(float deltaTime)
 {
-	m_SpawnManager->Update(deltaTime);
+	m_GameMode->Update(deltaTime);
 }
 
 void UMyGameInstance::StartGameMode(EGameMode mode, int level)
@@ -72,19 +63,21 @@ void UMyGameInstance::StartGameMode(EGameMode mode, int level)
 	switch (mode)
 	{
 	case EGameMode::Default:
-		m_GameMode = MakeShareable(new MyGameModeDefaultStage());
+		m_GameMode = MakeShareable(new MyGameModeDefaultStage(level));
 		break;
 	} 
 	
-	m_SpawnManager->Clear();
-	m_SpawnManager->SpawnUnits(GetWorld(), level,20);
-
 	m_OnMapChange.Broadcast(mode, level);
 }
 
 void UMyGameInstance::OnMonsterDead(AMonsterPawn* target)
 {
 	m_GameMode->OnMonsterDead(target);
+}
+
+void UMyGameInstance::OnPlayerDead(AMyPlayerPawn* target)
+{
+	m_GameMode->OnPlayerDead(target);
 }
 
 void UMyGameInstance::OnMonsterAnimEnd(AMonsterPawn* target)
@@ -94,24 +87,12 @@ void UMyGameInstance::OnMonsterAnimEnd(AMonsterPawn* target)
 
 FText UMyGameInstance::GetDefaultStageName(int level)
 {
-	const FStageRow& StageWant = m_SpawnManager->GetStage(level);
-	
-	float Index = level / 20.0f;
-
-	float UpIndex = 0.0f;
-
-	float DownIndex = 0.0f;
-
-	DownIndex = FMath::Modf(Index, &UpIndex);
-
-	FString Str = FString::Printf(TEXT("%s-%d"), *StageWant.m_StageName.ToString(), (int)DownIndex + 1);
-
-	return FText::FromString(Str);
+	return m_GameMode->GetDefaultStageName(level);
 }
 
 int UMyGameInstance::GetStageLevel()
 {
-	return m_SpawnManager->GetStageLevel();
+	return m_GameMode->GetLevel();
 }
 
 void UMyGameInstance::SetPlayerPawn(AMyPlayerPawn* p)

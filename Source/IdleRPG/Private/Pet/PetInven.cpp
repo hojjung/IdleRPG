@@ -1,10 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Pet/PetInven.h"
-
-#include "MyGameInstance.h"
 #include "Engine/AssetManager.h"
+#include "Manager/MyGameInstance.h"
 #include "Pet/PetData.h"
 
 PetInven::PetInven()

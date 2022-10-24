@@ -1,5 +1,4 @@
 #include "IdleRPGGameModeBase.h"
-#include "MyGameInstance.h"
 #include "MyLib.h"
 #include "Player/MyPlayerController.h"
 #include "Player/MyPlayerPawn.h"
@@ -9,7 +8,11 @@ AIdleRPGGameModeBase::AIdleRPGGameModeBase()
 	PlayerControllerClass = AMyPlayerController::StaticClass();
 	//HUDClass = AMyHUD::StaticClass();
 	DefaultPawnClass = AMyPlayerPawn::StaticClass();
-	PrimaryActorTick.bCanEverTick = true;	
+	PrimaryActorTick.bCanEverTick = true;
+
+	static ConstructorHelpers::FClassFinder<UWidgetMainCanvas> FoundWW(TEXT("WidgetBlueprint'/Game/Blueprints/Widgets/MainGame/MainMenu/WB_MainCanvas.WB_MainCanvas_C'"));
+	
+	m_ClassCanvas = FoundWW.Class;	
 }
 
 void AIdleRPGGameModeBase::StartPlay()
@@ -19,6 +22,13 @@ void AIdleRPGGameModeBase::StartPlay()
 	m_GoogleLogin = MakeShareable<GoogleLogin>(new GoogleLogin(GoogleLogin::FOnLoginEnd::CreateUObject(this, &AIdleRPGGameModeBase::LoginEnd)));
 
 	UMyGameInstance::Get->StartGameMode(EGameMode::Default,0);
+
+	m_Canvas = CreateWidget<UWidgetMainCanvas>(GetWorld(), m_ClassCanvas);
+
+	if(m_Canvas)
+	{
+		m_Canvas->AddToViewport();
+	}
 }
 
 void AIdleRPGGameModeBase::LoginEnd(bool bSuccess)

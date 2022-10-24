@@ -1,5 +1,4 @@
 #include "Player/PlayerSensor.h"
-#include "MyGameInstance.h"
 #include "MyLib.h"
 #include "Monsters/MonsterPawn.h"
 #include "Player/MyPlayerPawn.h"
@@ -22,7 +21,7 @@ AMonsterPawn* PlayerSensor::GetNearTarget(float SearchRange)
 	
 	m_AryMobs.Reset(10);
 
-	UMyGameInstance::Get->m_SpawnManager->GetNearNpcs<AMonsterPawn>(m_Pl.Get(), m_AryMobs, SearchRange);
+	UMyGameInstance::Get->GetNearNpcs<AMonsterPawn>(m_Pl.Get(), m_AryMobs, SearchRange);
 
 	AMonsterPawn* Target = nullptr;
 	

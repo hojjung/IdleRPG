@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyGameInstance.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
+#include "Manager/MyGameInstance.h"
 #include "WidgetHUDStageButton.generated.h"
 
 /**

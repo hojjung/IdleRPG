@@ -17,23 +17,11 @@ AMyPlayerController::AMyPlayerController()
 	m_bUseFlick = false;
 
 	m_MousePos = FVector2D(0.f);
-
-	//UWidgetMainCanvas
-	static ConstructorHelpers::FClassFinder<UWidgetMainCanvas> FoundWW(TEXT("WidgetBlueprint'/Game/Blueprints/Widgets/MainGame/MainMenu/WB_MainCanvas.WB_MainCanvas_C'"));
-	
-	m_ClassCanvas = FoundWW.Class;	
 }
 
 void AMyPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	m_Canvas = CreateWidget<UWidgetMainCanvas>(GetWorld(), m_ClassCanvas);
-
-	if(m_Canvas)
-	{
-		m_Canvas->AddToViewport();
-	}
 
 	SetVirtualJoystickVisibility(true);
 

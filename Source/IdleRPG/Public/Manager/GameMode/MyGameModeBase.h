@@ -7,11 +7,18 @@
 #include "Player/CombatPawn.h"
 
 
+class SpawnManager;
+class AMyPlayerPawn;
+
 class IDLERPG_API MyGameModeBase
 {
 public:
-	MyGameModeBase();
+	MyGameModeBase(int lv);
+	
 	virtual ~MyGameModeBase();
+
+	MyGameModeBase(const MyGameModeBase&) =delete;
+	MyGameModeBase& operator=(const MyGameModeBase&) =delete;
 
 protected:
 	int m_nLevel;
@@ -19,18 +26,29 @@ protected:
 	BigInt m_MobDmg;
 
 	BigInt m_MobHp;
+
+	TSharedPtr<SpawnManager> m_SpawnManager;
 	
 public:
-	virtual void OnMonsterDead(AMonsterPawn* target) {};
+	virtual FText GetDefaultStageName(int level);
 	
-	virtual void OnMonsterAnimEnd(AMonsterPawn* target) {};
+	virtual void Update(float delta_time);
+	
+	FORCEINLINE BigInt GetHp() { return m_MobHp;}
 
-	virtual void SetLevel(int lv)
+	FORCEINLINE BigInt GetDmg() { return m_MobDmg;}
+	
+	virtual void OnMonsterDead(AMonsterPawn* target) {}
+	
+	virtual void OnMonsterAnimEnd(AMonsterPawn* target) {}
+
+	virtual void OnPlayerDead(AMyPlayerPawn* target) {}
+
+	FORCEINLINE int GetLevel() {return m_nLevel;}
+
+	template <class T>
+	void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range)
 	{
-		m_nLevel = lv;
-	};
-
-	BigInt GetHp() { return m_MobHp;};
-
-	BigInt GetDmg() { return m_MobDmg;};
+		m_SpawnManager->GetNearNpcs<T>(caller, outAry, range);
+	}
 };

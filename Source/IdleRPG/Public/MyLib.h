@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyGameInstance.h"
 #include "NavigationSystem.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
+#include "Manager/MyGameInstance.h"
 #include "Player/MyPlayerPawn.h"
 #include "MyLib.generated.h"
 
@@ -73,11 +73,5 @@ public:
 		NewLoc.Z += Extent.Z;
 	
 		want->SetActorLocation(NewLoc);
-	}
-
- 	template <class T>
-	static void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range)
-	{
-		return UMyGameInstance::Get->m_SpawnManager->GetNearNpcs<T>(caller,outAry,range);
 	}
 };

@@ -1,6 +1,6 @@
 #include "Widgets/GameLevel/MainMenu/UpgradeMenu/WidgetUpgradeMenu.h"
 
-#include "MyGameInstance.h"
+#include "Manager/MyGameInstance.h"
 
 void UWidgetUpgradeMenu::NativeOnInitialized()
 {

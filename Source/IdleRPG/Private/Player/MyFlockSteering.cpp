@@ -1,6 +1,6 @@
 #include "Player/MyFlockSteering.h"
 
-#include "MyGameInstance.h"
+#include "Manager/MyGameInstance.h"
 #include "Monsters/MonsterPawn.h"
 
 UMyFlockSteering::UMyFlockSteering(const FObjectInitializer& obj): Super(obj)
@@ -72,7 +72,8 @@ void UMyFlockSteering::ApplyControlInputToVelocity(float DeltaTime)
 FVector UMyFlockSteering::GetBoidDelta(FVector inputDelta)
 {
 	m_NearMobs.Reset();
-	UMyGameInstance::Get->m_SpawnManager->GetNearNpcs<AMonsterPawn>(m_Owner.Get(),m_NearMobs,m_fRadius);
+	
+	UMyGameInstance::Get->GetNearNpcs<AMonsterPawn>(m_Owner.Get(),m_NearMobs,m_fRadius);
 	
 	FVector DestDelta = inputDelta;
 	

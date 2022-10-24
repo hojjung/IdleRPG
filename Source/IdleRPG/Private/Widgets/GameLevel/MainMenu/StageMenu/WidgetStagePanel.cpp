@@ -1,9 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Widgets/GameLevel/MainMenu/StageMenu/WidgetStagePanel.h"
-
-#include "MyGameInstance.h"
 #include "Monsters/StageTable.h"
 
 void UWidgetStagePanel::NativeOnInitialized()
@@ -19,7 +14,7 @@ void UWidgetStagePanel::NativeOnInitialized()
 
 	UMyGameInstance::Get->m_OnMapChange.AddUObject(this, &UWidgetStagePanel::OnMapChanged);
 
-	UStageTable::GetData->GetAllRows("", m_AryRows);
+	UStageTable::GetDefaultStage->GetAllRows("", m_AryRows);
 
 	m_nMaxStage = m_AryRows.Num() - 1;
 
@@ -59,7 +54,7 @@ void UWidgetStagePanel::UpdateStage()
 
 void UWidgetStagePanel::Clear()
 {
-	for (UWidgetStageEle* Ele : m_AryEles)
+	for (TWeakObjectPtr<UWidgetStageEle> Ele : m_AryEles)
 	{
 		Ele->SetVisibility(ESlateVisibility::Collapsed);
 		Ele->RemoveFromParent();

@@ -3,12 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyGameInstance.h"
 #include "WidgetStageEle.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Image.h"
 #include "Components/ScrollBox.h"
 #include "Components/TextBlock.h"
+#include "Manager/MyGameInstance.h"
 #include "Widgets/GameLevel/MainMenu/WidgetMenuBase.h"
 #include "WidgetStagePanel.generated.h"
 
@@ -35,7 +35,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UScrollBox* m_Scroll;
 	TArray<const FStageRow*> m_AryRows;
-	TArray<UWidgetStageEle*> m_AryEles;
+	
+	TArray<TWeakObjectPtr<UWidgetStageEle>> m_AryEles;
 	
 	int m_nMaxStage;
 

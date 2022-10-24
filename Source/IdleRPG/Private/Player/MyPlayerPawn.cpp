@@ -1,11 +1,10 @@
 #include "Player/MyPlayerPawn.h"
-
 #include "Entity.h"
 #include "IdleRPG.h"
 #include "MyAssetManager.h"
-#include "MyGameInstance.h"
 #include "NavigationSystem.h"
 #include "Actors/Components/MyNavMovement.h"
+#include "Manager/MyGameInstance.h"
 #include "Monsters/Widgets/PawnInfoComp/WidgetPawnInfoComp.h"
 #include "Pet/PetPawn.h"
 #include "Player/MyFlockSteering.h"
@@ -154,7 +153,7 @@ void AMyPlayerPawn::OnDead()
 	Super::OnDead();
 	m_PawnInfo->SetVisibility(false);
 
-	//UMyGameInstance::Get->OnMonsterDead(this);
+	UMyGameInstance::Get->OnPlayerDead(this);
 }
 
 void AMyPlayerPawn::OnDeathAnimEnd()
@@ -253,7 +252,7 @@ void AMyPlayerPawn::StopAnimMontage()
 
 void AMyPlayerPawn::TryAttack_External()
 {
-	float t = TryAttack(3.5f);
+	float t = TryAttack(2.f);
 
 	if(t > 0)
 	{
