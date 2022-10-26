@@ -42,11 +42,7 @@ private:
 
 	FFloatCurve m_CurveDeathAnim;
 
-	
-
 	FTimerHandle m_StunTimer;
-
-	FVector m_SpawnPos;
 
 public:
 	virtual bool UseBoidMove() override;
@@ -54,11 +50,13 @@ public:
 	virtual void SetGas(TSharedPtr<GAS> newGas) override;
 	
 	virtual void SetEntity(const UUnitAsset* asset) override;
-	
-	void Revive();
+
+	virtual void Revive() override;
+
+protected:
+	virtual void OnReviveAnimEnd() override;
 
 private:
-	void OnReviveAnimEnd();
 	
 	virtual void Tick(float DeltaSeconds) override;
 	

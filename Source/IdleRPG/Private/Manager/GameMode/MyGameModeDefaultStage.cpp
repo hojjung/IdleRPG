@@ -3,8 +3,22 @@
 #include "Manager/MyGameInstance.h"
 #include "Monsters/StageTable.h"
 
-MyGameModeDefaultStage::MyGameModeDefaultStage(int lv): MyGameModeBase(lv)
+MyGameModeDefaultStage::MyGameModeDefaultStage()
 {
+	
+}
+
+MyGameModeDefaultStage::~MyGameModeDefaultStage()
+{
+	
+}
+
+
+
+void MyGameModeDefaultStage::SetLevel(int l)
+{
+	MyGameModeBase::SetLevel(l);
+	
 	m_AryStage.Reserve(100);
 
 	UStageTable::GetDefaultStage->GetAllRows<FStageRow>("", m_AryStage);
@@ -20,10 +34,19 @@ MyGameModeDefaultStage::MyGameModeDefaultStage(int lv): MyGameModeBase(lv)
 	m_MobDmg = DmgRow->GetValue(m_nLevel);
 
 	m_MobHp = HpRow->GetValue(m_nLevel);
-
-	int Iter = -1;
-
+	
+	m_SpawnManager.Reset();
+	
 	m_SpawnManager = MakeShareable(new SpawnManager(m_MobHp, m_MobDmg));
+
+	const FStageRow& StageRow = GetStage(m_nLevel);
+
+	UMyGameInstance::Get->LoadMap(StageRow.m_LevelName, FVoidvoid::CreateRaw(this, &MyGameModeDefaultStage::SpawnMobs));
+}
+
+void MyGameModeDefaultStage::SpawnMobs()
+{
+	int Iter = -1;
 
 	const FZone& Z = GetZone(m_nLevel);
 	
@@ -33,11 +56,6 @@ MyGameModeDefaultStage::MyGameModeDefaultStage(int lv): MyGameModeBase(lv)
 		
 		m_SpawnManager->SpawnUnits(SelectedId);
 	}
-}
-
-MyGameModeDefaultStage::~MyGameModeDefaultStage()
-{
-	
 }
 
 void MyGameModeDefaultStage::OnMonsterDead(AMonsterPawn* target)
@@ -54,7 +72,9 @@ void MyGameModeDefaultStage::OnMonsterAnimEnd(AMonsterPawn* target)
 
 void MyGameModeDefaultStage::OnPlayerDead(AMyPlayerPawn* target)
 {
-	
+	int PreLevel = FMath::Max(0, m_nLevel - 8);
+
+	SetLevel(PreLevel);
 }
 
 const FStageRow& MyGameModeDefaultStage::GetStage(int stageLevel)
@@ -77,11 +97,11 @@ const FPrimaryAssetId& MyGameModeDefaultStage::GetBossMonster(int stageLevel)
 	return GetZone(stageLevel).m_AryUnits[0];
 }
 
-FText MyGameModeDefaultStage::GetDefaultStageName(int level)
+FText MyGameModeDefaultStage::GetStageName()
 {
-	const FStageRow& StageWant = GetStage(level);
+	const FStageRow& StageWant = GetStage(m_nLevel);
 	
-	float Index = level / 20.0f;
+	float Index = m_nLevel / 20.0f;
 
 	float UpIndex = 0.0f;
 

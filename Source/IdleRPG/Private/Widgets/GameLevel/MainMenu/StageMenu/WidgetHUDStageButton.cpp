@@ -4,16 +4,14 @@ void UWidgetHUDStageButton::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	UMyGameInstance::Get->m_OnMapChange.AddUObject(this, &UWidgetHUDStageButton::UpdateText);
+	UMyGameInstance::Get->m_GameMode->m_LevelChanged.AddUObject(this, &UWidgetHUDStageButton::UpdateText);
 
-	int Level = UMyGameInstance::Get->GetStageLevel();
-
-	UpdateText(EGameMode::Default, Level);
+	UpdateText();
 }
 
-void UWidgetHUDStageButton::UpdateText(EGameMode mode, int level)
+void UWidgetHUDStageButton::UpdateText()
 {
-	const FText& n = UMyGameInstance::Get->GetDefaultStageName(level);
+	const FText& n = UMyGameInstance::Get->GetStageName();
 
 	m_TextStageName->SetText(n);
 }

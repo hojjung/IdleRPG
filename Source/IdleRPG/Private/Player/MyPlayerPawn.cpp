@@ -94,6 +94,8 @@ void AMyPlayerPawn::BeginPlay()
 	
 	m_PawnInfo->SetGreen();
 	m_PawnInfo->SetVisibility(true);
+
+	m_SpawnPos = GetActorLocation();
 }
 
 void AMyPlayerPawn::SetEntity(const UUnitAsset* asset)
@@ -145,7 +147,7 @@ void AMyPlayerPawn::OnTookDamage(ACombatPawn* other, BigInt dmg, EDamagePopup po
 	//PlayHitFlash();
 	//PlayTookHitMontage();
 	//PlayHitEffect();
-	UMyGameInstance::Get->GetPlayerCon()->ShowInGameWorldText(dmg, this, pop);
+	//UMyGameInstance::Get->GetPlayerCon()->ShowInGameWorldText(dmg, this, pop);
 }
 
 void AMyPlayerPawn::OnDead()

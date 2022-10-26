@@ -41,10 +41,11 @@ protected:
 	int m_nMaxStage;
 
 	int m_nStageLevel;
+
 protected:
 	virtual void NativeOnInitialized() override;
 
-	void OnMapChanged(EGameMode m , int level);
+	void OnMapChanged();
 
 	void UpdateStage();
 

@@ -39,6 +39,8 @@ struct FStageRow : public FTableRowBase
 	GENERATED_USTRUCT_BODY()
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	FName m_LevelName;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	FText m_StageName;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UTexture2D* m_IconStage;

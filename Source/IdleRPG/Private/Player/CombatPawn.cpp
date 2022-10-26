@@ -116,6 +116,43 @@ void ACombatPawn::OnDeathAnimEnd()
 	SetActorHiddenInGame(true);
 }
 
+
+void ACombatPawn::Revive()
+{
+	SetActorFeetLocation(m_SpawnPos);
+	
+	SetActorRotation(FRotator(0,FMath::RandRange(0,360),0));
+	
+	SetActorHiddenInGame(false);
+	
+	m_BodyMesh->bPauseAnims = false;
+	
+	m_Capsule->SetCollisionEnabled(m_InitColl);
+	//
+	if(m_EntityAsset->m_SpawnAnim.Get())
+	{
+		PlayAnimMontage(m_EntityAsset->m_SpawnAnim.Get());
+		
+		float AnimLength = m_EntityAsset->m_SpawnAnim->GetPlayLength() - 0.4f;
+		//
+		GetWorldTimerManager().SetTimer(m_DeathAnimTimer, this, &ACombatPawn::OnReviveAnimEnd, AnimLength, false);
+		return;
+	}
+	OnReviveAnimEnd();
+}
+
+void ACombatPawn::OnReviveAnimEnd()
+{
+	m_ShadowMeshComp->SetVisibility(true);
+
+	m_Movement->SetComponentTickEnabled(true);
+
+	SetActorTickEnabled(true);
+	
+	m_Gas.Pin()->Restart();
+}
+
+
 GAS* ACombatPawn::GetGas()
 {
 	return m_Gas.Pin().Get();
@@ -124,6 +161,8 @@ GAS* ACombatPawn::GetGas()
 void ACombatPawn::SetEntity(const UUnitAsset* asset)
 {
 	Super::SetEntity(asset);
+
+	m_InitColl = m_Capsule->GetCollisionEnabled();
 
 	m_ShadowMeshComp->SetRelativeScale3D(FVector(asset->m_fShadowScale));
 }

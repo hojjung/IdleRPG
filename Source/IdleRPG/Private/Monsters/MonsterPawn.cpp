@@ -117,19 +117,7 @@ void AMonsterPawn::SetEntity(const UUnitAsset* asset)
 
 void AMonsterPawn::Revive()
 {
-	//FNavLocation NewLoc;
-	
-	//UMyLib::GetNavSys()->GetRandomPointInNavigableRadius(m_SpawnPos, 400,NewLoc);
-
-	SetActorFeetLocation(m_SpawnPos);
-	PRINTF("SetSpawnPos");
-	SetActorRotation(FRotator(0,FMath::RandRange(0,360),0));
-	
-	SetActorHiddenInGame(false);
-	
-	m_BodyMesh->bPauseAnims = false;
-	
-	m_Capsule->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	Super::Revive();
 	//
 	FName MaskParam = TEXT("Visibility");
 
@@ -144,12 +132,6 @@ void AMonsterPawn::Revive()
 	float TimeSec = 0;
 
 	m_BodyMesh->SetScalarParameterValueOnMaterials(TimeParamName, TimeSec);
-	////
-	PlayAnimMontage(m_EntityAsset->m_SpawnAnim.Get());
-	//
-	float AnimLength = m_EntityAsset->m_SpawnAnim->GetPlayLength() - 0.4f;
-	//
-	GetWorldTimerManager().SetTimer(m_DeathAnimTimer, this, &AMonsterPawn::OnReviveAnimEnd, AnimLength, false);
 }
 
 void AMonsterPawn::OnReviveAnimEnd()
@@ -161,13 +143,7 @@ void AMonsterPawn::OnReviveAnimEnd()
 		SetFocusedTarget(Play);
 	}
 	
-	m_ShadowMeshComp->SetVisibility(true);
-
-	m_Movement->SetComponentTickEnabled(true);
-
-	SetActorTickEnabled(true);
-	
-	m_Gas.Pin()->Restart();
+	Super::OnReviveAnimEnd();
 }
 
 void AMonsterPawn::SetGas(TSharedPtr<GAS> newGas)

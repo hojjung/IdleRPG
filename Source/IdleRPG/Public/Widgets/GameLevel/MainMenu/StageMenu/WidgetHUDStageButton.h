@@ -26,7 +26,7 @@ protected:
 protected:
 	virtual void NativeOnInitialized() override;
 
-	void UpdateText(EGameMode mode, int level);
+	void UpdateText();
 	
 public:
 	UButton* GetBtn();

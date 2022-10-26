@@ -14,9 +14,10 @@ struct FBigIntCalcTableRow;
 class IDLERPG_API MyGameModeDefaultStage : public  MyGameModeBase
 {
 public:
-	MyGameModeDefaultStage(int lv);
+	MyGameModeDefaultStage();
 	
 	virtual ~MyGameModeDefaultStage() override;
+	void SpawnMobs();
 
 protected:
 	TArray<FStageRow*> m_AryStage;
@@ -24,13 +25,15 @@ protected:
 	BigInt m_Gold;
 
 private:
+	virtual void SetLevel(int l) override;
+	
 	const FStageRow& GetStage(int stageLevel);
 
 	const FZone& GetZone(int stageLevel);
 
 	const FPrimaryAssetId& GetBossMonster(int stageLevel);
 
-	virtual FText GetDefaultStageName(int level) override;
+	virtual FText GetStageName() override;
 
 public:
 	virtual void OnMonsterDead(AMonsterPawn* target) override;

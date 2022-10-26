@@ -40,3 +40,7 @@ class DeleterNot
 public:
 	void operator()(void*) {}
 };
+
+DECLARE_MULTICAST_DELEGATE(FVoidvoidMulti);
+
+DECLARE_DELEGATE(FVoidvoid);

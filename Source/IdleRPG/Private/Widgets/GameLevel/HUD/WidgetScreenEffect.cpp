@@ -58,7 +58,7 @@ void UWidgetScreenEffect::EndFade()
 	m_OnFadeOutDone.Unbind();
 }
 
-void UWidgetScreenEffect::ShowFadeOut(float t, const FVoidVoid& onFadeOutEnd)
+void UWidgetScreenEffect::ShowFadeOut(float t, const FVoidvoid& onFadeOutEnd)
 {
 	if(IsFadeOut)
 	{

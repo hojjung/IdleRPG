@@ -5,25 +5,26 @@ void UWidgetStagePanel::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	m_BtnLeft->OnClicked.AddDynamic(this, &UWidgetStagePanel::OnClickLeft);
-	m_BtnRight->OnClicked.AddDynamic(this, &UWidgetStagePanel::OnClickRight);
-
-	m_nStageLevel = 0;
-
 	m_AryEles.Reserve(20);
-
-	UMyGameInstance::Get->m_OnMapChange.AddUObject(this, &UWidgetStagePanel::OnMapChanged);
-
+	
 	UStageTable::GetDefaultStage->GetAllRows("", m_AryRows);
 
 	m_nMaxStage = m_AryRows.Num() - 1;
+	
+	m_BtnLeft->OnClicked.AddDynamic(this, &UWidgetStagePanel::OnClickLeft);
+	
+	m_BtnRight->OnClicked.AddDynamic(this, &UWidgetStagePanel::OnClickRight);
 
+	UMyGameInstance::Get->m_GameMode->m_LevelChanged.AddUObject(this, &UWidgetStagePanel::OnMapChanged);
+
+	OnMapChanged();
+	
 	UpdateStage();
 }
 
-void UWidgetStagePanel::OnMapChanged(EGameMode m, int level)
+void UWidgetStagePanel::OnMapChanged()
 {
-	m_nStageLevel = level;
+	m_nStageLevel = UMyGameInstance::Get->GetStageLevel();
 }
 
 void UWidgetStagePanel::UpdateStage()

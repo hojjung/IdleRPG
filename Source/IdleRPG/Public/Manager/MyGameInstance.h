@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "IdleRPG.h"
+#include "LevelManager.h"
 #include "Engine/GameInstance.h"
 #include "GAS/GAS.h"
 #include "Manager/GoldManager.h"
@@ -31,11 +33,6 @@ class IDLERPG_API UMyGameInstance : public UGameInstance
 	GENERATED_BODY()
 
 public:
-	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnMapChange, EGameMode, int);
-
-	FOnMapChange m_OnMapChange;
-
-public:
 	static UMyGameInstance* Get;
 	
 private:
@@ -53,6 +50,8 @@ public:
 	TSharedPtr<AvatarManager> m_AvatarManager;
 	
 	TSharedPtr<MyGameModeBase> m_GameMode;
+
+	TSharedPtr<LevelManager> m_LevelManager;
 	
 	
 protected:
@@ -72,7 +71,13 @@ public:
 	AMyPlayerController* GetPlayerCon();
 
 public:
-	FText GetDefaultStageName(int level);
+	template <class T>
+	void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range)
+	{
+		m_GameMode->GetNearNpcs<T>(caller, outAry, range);
+	}
+	
+	FText GetStageName();
 
 	int GetStageLevel();
 	
@@ -86,11 +91,8 @@ public:
 
 	void OnMonsterAnimEnd(AMonsterPawn* target);
 
-	template <class T>
-	void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range)
-	{
-		m_GameMode->GetNearNpcs<T>(caller, outAry, range);
-	}
+public:
+	void LoadMap(const FName& levelName, FVoidvoid onLevelChanged = FVoidvoid());
 };
 
 

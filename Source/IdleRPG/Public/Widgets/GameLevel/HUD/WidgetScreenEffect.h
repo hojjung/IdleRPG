@@ -7,6 +7,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "IdleRPG.h"
 #include "WidgetScreenEffect.generated.h"
 
 /**
@@ -17,9 +18,6 @@ class IDLERPG_API UWidgetScreenEffect : public UUserWidget
 {
 	GENERATED_BODY()
 
-public:
-	DECLARE_DELEGATE(FVoidVoid);
-	
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (BindWidget))
 	UImage* m_ImgBlack;
@@ -31,7 +29,7 @@ protected:
 
 	float m_fMaxFadeOut;
 
-	FVoidVoid m_OnFadeOutDone;
+	FVoidvoid m_OnFadeOutDone;
 
 	bool IsFadeOut;
 
@@ -43,7 +41,7 @@ protected:
 	void EndFade();
 
 public:
-	void ShowFadeOut(float t, const FVoidVoid& onFadeOutEnd);
+	void ShowFadeOut(float t, const FVoidvoid& onFadeOutEnd);
 
 	void ShowHittenFlash();
 

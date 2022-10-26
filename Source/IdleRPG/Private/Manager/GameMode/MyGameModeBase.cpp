@@ -1,9 +1,8 @@
 #include "Manager/GameMode/MyGameModeBase.h"
 #include "Monsters/SpawnManager.h"
 
-MyGameModeBase::MyGameModeBase(int lv)
+MyGameModeBase::MyGameModeBase(): m_nLevel(-1)
 {
-	m_nLevel = lv;
 }
 
 MyGameModeBase::~MyGameModeBase()
@@ -12,7 +11,14 @@ MyGameModeBase::~MyGameModeBase()
 	m_SpawnManager.Reset();
 }
 
-FText MyGameModeBase::GetDefaultStageName(int level)
+void MyGameModeBase::SetLevel(int l)
+{
+	m_nLevel = l;
+
+	m_LevelChanged.Broadcast();
+}
+
+FText MyGameModeBase::GetStageName()
 {
 	return FText::FromString(TEXT("DefaultStageName"));
 }

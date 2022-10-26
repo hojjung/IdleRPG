@@ -43,13 +43,12 @@ void UMyGameInstance::Init()
 
 	m_GoldManager = MakeShareable(new GoldManager());
 
+	m_LevelManager= MakeShareable(new LevelManager(this));
+
 	m_PlayerGas = MakeShareable(new GAS(GetUniqueID()));
 }
 
-void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)
-{
-	UBUITween::Shutdown();
-}
+
 
 void UMyGameInstance::Tick(float deltaTime)
 {
@@ -63,11 +62,18 @@ void UMyGameInstance::StartGameMode(EGameMode mode, int level)
 	switch (mode)
 	{
 	case EGameMode::Default:
-		m_GameMode = MakeShareable(new MyGameModeDefaultStage(level));
+		m_GameMode = MakeShareable(new MyGameModeDefaultStage());
 		break;
-	} 
+	}
 	
-	m_OnMapChange.Broadcast(mode, level);
+	m_GameMode->SetLevel(level);
+}
+
+void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)
+{
+	UBUITween::Shutdown();
+	
+	m_LevelManager->OnLoadComplete(MapName);
 }
 
 void UMyGameInstance::OnMonsterDead(AMonsterPawn* target)
@@ -85,9 +91,23 @@ void UMyGameInstance::OnMonsterAnimEnd(AMonsterPawn* target)
 	m_GameMode->OnMonsterAnimEnd(target);
 }
 
-FText UMyGameInstance::GetDefaultStageName(int level)
+void UMyGameInstance::LoadMap(const FName& levelName, FVoidvoid onLevelChanged)
 {
-	return m_GameMode->GetDefaultStageName(level);
+	m_LevelManager->m_OnLevelLoadComplete = onLevelChanged;
+	
+	bool MapDiffrent = m_LevelManager->OpenLevel(levelName);
+
+	if(MapDiffrent)
+	{
+		return;
+	}
+	onLevelChanged.ExecuteIfBound();
+	m_Player->Revive();
+}
+
+FText UMyGameInstance::GetStageName()
+{
+	return m_GameMode->GetStageName();
 }
 
 int UMyGameInstance::GetStageLevel()

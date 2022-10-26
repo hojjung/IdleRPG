@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "IdleRPG.h"
 #include "Monsters/MonsterPawn.h"
 #include "Player/CombatPawn.h"
 
@@ -13,12 +14,15 @@ class AMyPlayerPawn;
 class IDLERPG_API MyGameModeBase
 {
 public:
-	MyGameModeBase(int lv);
+	MyGameModeBase();
 	
 	virtual ~MyGameModeBase();
 
 	MyGameModeBase(const MyGameModeBase&) =delete;
+	
 	MyGameModeBase& operator=(const MyGameModeBase&) =delete;
+
+	FVoidvoidMulti m_LevelChanged;
 
 protected:
 	int m_nLevel;
@@ -30,7 +34,9 @@ protected:
 	TSharedPtr<SpawnManager> m_SpawnManager;
 	
 public:
-	virtual FText GetDefaultStageName(int level);
+	virtual void SetLevel(int l);
+	
+	virtual FText GetStageName();
 	
 	virtual void Update(float delta_time);
 	

@@ -52,6 +52,10 @@ protected:
 
 	TMap<TStrongObjectPtr<UObject>, TStrongObjectPtr<UActorComponent>> m_MapComp;
 	
+	FVector m_SpawnPos;
+
+	ECollisionEnabled::Type m_InitColl;
+	
 protected:
 	virtual float PlayBaseAttackAnim(float rate);
 
@@ -65,7 +69,11 @@ protected:
 
 	virtual void OnDeathAnimEnd();
 
+	virtual void OnReviveAnimEnd();
+	
 public:
+	virtual void Revive();
+	
 	virtual void OnNotifyTrigger(const FName& id);
 	
 	virtual void SetGas(TSharedPtr<GAS> newGas);
