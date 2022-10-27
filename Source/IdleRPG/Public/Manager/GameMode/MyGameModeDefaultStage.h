@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MyGameModeBase.h"
+#include "IdleRPGGameModeBase.h"
 
 struct FZone;
 struct FStageRow;
@@ -11,23 +11,17 @@ struct FBigIntCalcTableRow;
 /**
  * 기본 스테이지
  */
-class IDLERPG_API MyGameModeDefaultStage : public  MyGameModeBase
+class IDLERPG_API MyGameModeDefaultStage : public  AIdleRPGGameModeBase
 {
-public:
-	MyGameModeDefaultStage();
-	
-	virtual ~MyGameModeDefaultStage() override;
-	void SpawnMobs();
-
 protected:
-	TArray<FStageRow*> m_AryStage;
-	
 	BigInt m_Gold;
 
 private:
+	virtual void StartPlay() override;
+	
 	virtual void SetLevel(int l) override;
 	
-	const FStageRow& GetStage(int stageLevel);
+	const FStageRow& GetStage(int stageLevel) const;
 
 	const FZone& GetZone(int stageLevel);
 
@@ -36,6 +30,8 @@ private:
 	virtual FText GetStageName() override;
 
 public:
+	void SpawnMobs();
+	
 	virtual void OnMonsterDead(AMonsterPawn* target) override;
 	
 	virtual void OnMonsterAnimEnd(AMonsterPawn* target) override;

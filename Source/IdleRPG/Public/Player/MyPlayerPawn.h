@@ -9,9 +9,7 @@
 #include "Actors/Pawns/MyBasePawn.h"
 #include "Avatar/AvatarAddtionalVisuals.h"
 #include "Camera/CameraComponent.h"
-#include "Engine/StreamableManager.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Monsters/QuadTree.h"
 #include "MyPlayerPawn.generated.h"
 
 class UWidgetPawnInfoComp;

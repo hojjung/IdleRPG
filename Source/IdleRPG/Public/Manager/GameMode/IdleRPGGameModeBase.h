@@ -1,30 +1,34 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Epic Games, Inc. All Rights Reserved.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "IdleRPG.h"
-#include "Monsters/MonsterPawn.h"
-#include "Player/CombatPawn.h"
+#include "GameFramework/GameModeBase.h"
+#include "GAS/BigInt/BigIntLib.h"
+#include "Monsters/SpawnManager.h"
+#include "Player/MyPlayerPawn.h"
+#include "IdleRPGGameModeBase.generated.h"
 
-
-class SpawnManager;
-class AMyPlayerPawn;
-
-class IDLERPG_API MyGameModeBase
+class UWidgetMainCanvas;
+/**
+ * 
+ */
+UCLASS()
+class IDLERPG_API AIdleRPGGameModeBase : public AGameModeBase
 {
-public:
-	MyGameModeBase();
-	
-	virtual ~MyGameModeBase();
+	GENERATED_BODY()
 
-	MyGameModeBase(const MyGameModeBase&) =delete;
-	
-	MyGameModeBase& operator=(const MyGameModeBase&) =delete;
+public:
+	AIdleRPGGameModeBase();
 
 	FVoidvoidMulti m_LevelChanged;
-
 protected:
+	TSubclassOf<UWidgetMainCanvas> m_ClassCanvas;
+	UPROPERTY()
+	UWidgetMainCanvas* m_Canvas;
+
+
 	int m_nLevel;
 
 	BigInt m_MobDmg;
@@ -32,13 +36,18 @@ protected:
 	BigInt m_MobHp;
 
 	TSharedPtr<SpawnManager> m_SpawnManager;
+
+protected:
+	virtual void StartPlay() override;
+
+	virtual void Tick(float DeltaSeconds) override;
+
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	
 public:
 	virtual void SetLevel(int l);
 	
 	virtual FText GetStageName();
-	
-	virtual void Update(float delta_time);
 	
 	FORCEINLINE BigInt GetHp() { return m_MobHp;}
 

@@ -1,12 +1,14 @@
-#include "IdleRPGGameModeBase.h"
+#include "Manager/GameMode/IdleRPGGameModeBase.h"
+
 #include "MyLib.h"
 #include "Player/MyPlayerController.h"
 #include "Player/MyPlayerPawn.h"
+#include "Widgets/GameLevel/WidgetMainCanvas.h"
 
 AIdleRPGGameModeBase::AIdleRPGGameModeBase()
 {
 	PlayerControllerClass = AMyPlayerController::StaticClass();
-	//HUDClass = AMyHUD::StaticClass();
+	HUDClass = nullptr;
 	DefaultPawnClass = AMyPlayerPawn::StaticClass();
 	PrimaryActorTick.bCanEverTick = true;
 
@@ -19,10 +21,6 @@ void AIdleRPGGameModeBase::StartPlay()
 {
 	Super::StartPlay();
 
-	m_GoogleLogin = MakeShareable<GoogleLogin>(new GoogleLogin(GoogleLogin::FOnLoginEnd::CreateUObject(this, &AIdleRPGGameModeBase::LoginEnd)));
-
-	UMyGameInstance::Get->StartGameMode(EGameMode::Default,0);
-
 	m_Canvas = CreateWidget<UWidgetMainCanvas>(GetWorld(), m_ClassCanvas);
 
 	if(m_Canvas)
@@ -31,28 +29,27 @@ void AIdleRPGGameModeBase::StartPlay()
 	}
 }
 
-void AIdleRPGGameModeBase::LoginEnd(bool bSuccess)
+void AIdleRPGGameModeBase::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	if(bSuccess)
-	{
-		PRINTF("Succcccccc");
-	}
-	else
-	{
-		PRINTF("Fafffffff");
-	}
+	Super::EndPlay(EndPlayReason);
 
-	m_GoogleLogin.Reset();
+	m_nLevel = -1;
+	m_SpawnManager.Reset();
 }
 
 void AIdleRPGGameModeBase::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	UMyGameInstance::Get->Tick(DeltaSeconds);
+	m_SpawnManager->Update(DeltaSeconds);
 }
 
-void AIdleRPGGameModeBase::TestOnDied(const ACombatPawn* p)
+void AIdleRPGGameModeBase::SetLevel(int l)
 {
 	
+}
+
+FText AIdleRPGGameModeBase::GetStageName()
+{
+	return FText::FromString(TEXT("DefaultStageName"));
 }

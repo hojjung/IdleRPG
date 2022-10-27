@@ -6,14 +6,15 @@
 #include "IdleRPG.h"
 #include "LevelManager.h"
 #include "Engine/GameInstance.h"
+#include "GameMode/IdleRPGGameModeBase.h"
 #include "GAS/GAS.h"
 #include "Manager/GoldManager.h"
-#include "Manager/GameMode/MyGameModeBase.h"
 #include "Monsters/SpawnManager.h"
 #include "Pet/PetManager.h"
 #include "Player/MyPlayerController.h"
 #include "Player/MyPlayerPawn.h"
 #include "Player/Avatar/AvatarManager.h"
+#include "Widgets/GameLevel/MainMenu/StageMenu/WidgetStageEle.h"
 #include "MyGameInstance.generated.h"
 
 UENUM(BlueprintType)
@@ -39,6 +40,10 @@ private:
 	TWeakObjectPtr<AMyPlayerPawn> m_Player;
 	
 	TWeakObjectPtr<AMyPlayerController> m_PlayerCon;
+
+	TArray<FStageRow*> m_AryStage;
+
+	int m_nStageLevel;
 	
 public:
 	TSharedPtr<GAS> m_PlayerGas;
@@ -49,8 +54,6 @@ public:
 	
 	TSharedPtr<AvatarManager> m_AvatarManager;
 	
-	TSharedPtr<MyGameModeBase> m_GameMode;
-
 	TSharedPtr<LevelManager> m_LevelManager;
 	
 	
@@ -60,8 +63,6 @@ protected:
 public:
 	virtual void Init() override;
 
-	void Tick(float deltaTime);
-
 	void SetPlayerPawn(AMyPlayerPawn* p);
 
 	AMyPlayerPawn* GetPlayerPawn();
@@ -70,21 +71,24 @@ public:
 
 	AMyPlayerController* GetPlayerCon();
 
+	AIdleRPGGameModeBase* GetGameMode();
+
 public:
+	FORCEINLINE const TArray<FStageRow*>& GetDefaultStageRows() const
+	{
+		return m_AryStage;
+	}
+	
 	template <class T>
 	void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range)
 	{
-		m_GameMode->GetNearNpcs<T>(caller, outAry, range);
+		GetGameMode()->GetNearNpcs<T>(caller, outAry, range);
 	}
 	
 	FText GetStageName();
 
 	int GetStageLevel();
 	
-	virtual void LoadComplete(const float LoadTime, const FString& MapName) override;
-	
-	void StartGameMode(EGameMode mode, int level);
-
 	void OnMonsterDead(AMonsterPawn* target);
 
 	void OnPlayerDead(AMyPlayerPawn* target);
@@ -93,6 +97,8 @@ public:
 
 public:
 	void LoadMap(const FName& levelName, FVoidvoid onLevelChanged = FVoidvoid());
+	
+	void StartGameMode(EGameMode m, int level);
 };
 
 

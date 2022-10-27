@@ -9,8 +9,6 @@ UMyGameInstance* UMyGameInstance::Get = nullptr;
 
 void UMyGameInstance::BeginDestroy()
 {
-	m_GameMode.Reset();
-	
 	Super::BeginDestroy();
 
 	UBUITween::Shutdown();
@@ -20,10 +18,11 @@ void UMyGameInstance::BeginDestroy()
 	m_PetManager.Reset();
 
 	m_AvatarManager.Reset();
-	
+
+	m_LevelManager.Reset();
 
 	m_GoldManager.Reset();
-	
+
 	m_Player = nullptr;
 
 	m_PlayerCon = nullptr;
@@ -32,6 +31,10 @@ void UMyGameInstance::BeginDestroy()
 void UMyGameInstance::Init()
 {
 	Super::Init();
+
+	m_AryStage.Reserve(100);
+
+	UStageTable::GetDefaultStage->GetAllRows<FStageRow>("", m_AryStage);
 	
 	UKismetSystemLibrary::ControlScreensaver(false);
 	
@@ -43,52 +46,53 @@ void UMyGameInstance::Init()
 
 	m_GoldManager = MakeShareable(new GoldManager());
 
-	m_LevelManager= MakeShareable(new LevelManager(this));
+	m_LevelManager = MakeShareable(new LevelManager(this));
 
 	m_PlayerGas = MakeShareable(new GAS(GetUniqueID()));
 }
 
-
-
-void UMyGameInstance::Tick(float deltaTime)
-{
-	m_GameMode->Update(deltaTime);
-}
-
-void UMyGameInstance::StartGameMode(EGameMode mode, int level)
-{
-	m_GameMode.Reset();
-	
-	switch (mode)
-	{
-	case EGameMode::Default:
-		m_GameMode = MakeShareable(new MyGameModeDefaultStage());
-		break;
-	}
-	
-	m_GameMode->SetLevel(level);
-}
-
-void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)
-{
-	UBUITween::Shutdown();
-	
-	m_LevelManager->OnLoadComplete(MapName);
-}
-
 void UMyGameInstance::OnMonsterDead(AMonsterPawn* target)
 {
-	m_GameMode->OnMonsterDead(target);
+	GetGameMode()->OnMonsterDead(target);
 }
 
 void UMyGameInstance::OnPlayerDead(AMyPlayerPawn* target)
 {
-	m_GameMode->OnPlayerDead(target);
+	GetGameMode()->OnPlayerDead(target);
 }
 
 void UMyGameInstance::OnMonsterAnimEnd(AMonsterPawn* target)
 {
-	m_GameMode->OnMonsterAnimEnd(target);
+	GetGameMode()->OnMonsterAnimEnd(target);
+}
+
+void UMyGameInstance::StartGameMode(EGameMode m, int level)
+{
+	m_nStageLevel = level;
+	
+	FName LevelName;
+	
+	switch (m)
+	{
+	case EGameMode::Default:
+		{
+			int Stage = level % m_AryStage.Num();
+
+			LevelName = m_AryStage[Stage]->m_LevelName;		
+		}
+		break;
+	case EGameMode::PVP:
+		LevelName = TEXT("MapPvp");
+	case EGameMode::BoneDragon:
+		LevelName = TEXT("MapBoneLayer");
+	case EGameMode::Reaper:
+		LevelName = TEXT("MapReaper");
+	case EGameMode::ChickenRun:
+		LevelName = TEXT("MapChicken");
+	case EGameMode::Story:
+		break;
+	}
+	LoadMap(LevelName);
 }
 
 void UMyGameInstance::LoadMap(const FName& levelName, FVoidvoid onLevelChanged)
@@ -102,17 +106,18 @@ void UMyGameInstance::LoadMap(const FName& levelName, FVoidvoid onLevelChanged)
 		return;
 	}
 	onLevelChanged.ExecuteIfBound();
+	
 	m_Player->Revive();
 }
 
 FText UMyGameInstance::GetStageName()
 {
-	return m_GameMode->GetStageName();
+	return GetGameMode()->GetStageName();
 }
 
 int UMyGameInstance::GetStageLevel()
 {
-	return m_GameMode->GetLevel();
+	return m_nStageLevel;
 }
 
 void UMyGameInstance::SetPlayerPawn(AMyPlayerPawn* p)
@@ -137,4 +142,9 @@ void UMyGameInstance::SetPlayerCon(AMyPlayerController* p)
 AMyPlayerController* UMyGameInstance::GetPlayerCon()
 {
 	return m_PlayerCon.Get();
+}
+
+AIdleRPGGameModeBase* UMyGameInstance::GetGameMode()
+{
+	return Cast<AIdleRPGGameModeBase>(UGameplayStatics::GetGameMode(this));
 }

@@ -15,7 +15,7 @@ void UWidgetStagePanel::NativeOnInitialized()
 	
 	m_BtnRight->OnClicked.AddDynamic(this, &UWidgetStagePanel::OnClickRight);
 
-	UMyGameInstance::Get->m_GameMode->m_LevelChanged.AddUObject(this, &UWidgetStagePanel::OnMapChanged);
+	UMyGameInstance::Get->GetGameMode()->m_LevelChanged.AddUObject(this, &UWidgetStagePanel::OnMapChanged);
 
 	OnMapChanged();
 	

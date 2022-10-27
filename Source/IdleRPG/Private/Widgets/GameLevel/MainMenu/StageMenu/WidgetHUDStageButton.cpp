@@ -4,7 +4,7 @@ void UWidgetHUDStageButton::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	UMyGameInstance::Get->m_GameMode->m_LevelChanged.AddUObject(this, &UWidgetHUDStageButton::UpdateText);
+	UMyGameInstance::Get->GetGameMode()->m_LevelChanged.AddUObject(this, &UWidgetHUDStageButton::UpdateText);
 
 	UpdateText();
 }

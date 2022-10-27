@@ -33,7 +33,7 @@ public:
 	//스테이지 추가 드랍
 };
 
-USTRUCT(BlueprintType)//���̵�,Ƽ��
+USTRUCT(BlueprintType)//일반 스테이지
 struct FStageRow : public FTableRowBase
 {
 	GENERATED_USTRUCT_BODY()

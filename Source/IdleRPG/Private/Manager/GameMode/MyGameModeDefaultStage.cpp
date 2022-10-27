@@ -3,26 +3,19 @@
 #include "Manager/MyGameInstance.h"
 #include "Monsters/StageTable.h"
 
-MyGameModeDefaultStage::MyGameModeDefaultStage()
+void MyGameModeDefaultStage::StartPlay()
 {
-	
+	AIdleRPGGameModeBase::StartPlay();
+
+	int Lv = UMyGameInstance::Get->GetStageLevel();
+
+	SetLevel(Lv);
 }
-
-MyGameModeDefaultStage::~MyGameModeDefaultStage()
-{
-	
-}
-
-
 
 void MyGameModeDefaultStage::SetLevel(int l)
 {
-	MyGameModeBase::SetLevel(l);
+	//Super::SetLevel(l);
 	
-	m_AryStage.Reserve(100);
-
-	UStageTable::GetDefaultStage->GetAllRows<FStageRow>("", m_AryStage);
-
 	const FBigIntCalcTableRow* GoldRow = UBigIntCalcTableBase::GetGoldTable->FindRow<FBigIntCalcTableRow>(TEXT("Default"), "");
 
 	const FBigIntCalcTableRow* DmgRow = UBigIntCalcTableBase::GetMobDmgTable->FindRow<FBigIntCalcTableRow>(TEXT("Default"), "");
@@ -41,7 +34,7 @@ void MyGameModeDefaultStage::SetLevel(int l)
 
 	const FStageRow& StageRow = GetStage(m_nLevel);
 
-	UMyGameInstance::Get->LoadMap(StageRow.m_LevelName, FVoidvoid::CreateRaw(this, &MyGameModeDefaultStage::SpawnMobs));
+	SpawnMobs();
 }
 
 void MyGameModeDefaultStage::SpawnMobs()
@@ -67,7 +60,7 @@ void MyGameModeDefaultStage::OnMonsterAnimEnd(AMonsterPawn* target)
 {
 	FTimerHandle ReviveTimer;
 	
-	UMyGameInstance::Get->GetWorld()->GetTimerManager().SetTimer(ReviveTimer, target, &AMonsterPawn::Revive, FMath::RandRange(4, 7), false);
+	//UMyGameInstance::Get->GetWorld()->GetTimerManager().SetTimer(ReviveTimer, target, &AMonsterPawn::Revive, FMath::RandRange(4, 7), false);
 }
 
 void MyGameModeDefaultStage::OnPlayerDead(AMyPlayerPawn* target)
@@ -77,12 +70,13 @@ void MyGameModeDefaultStage::OnPlayerDead(AMyPlayerPawn* target)
 	SetLevel(PreLevel);
 }
 
-const FStageRow& MyGameModeDefaultStage::GetStage(int stageLevel)
+const FStageRow& MyGameModeDefaultStage::GetStage(int stageLevel) const
 {
 	int Stage = stageLevel % UStageTable::GetDefaultStage->GetRowMap().Num();
 
-	return *m_AryStage[Stage];
+	return *UMyGameInstance::Get->GetDefaultStageRows()[Stage];
 }
+
 const FZone& MyGameModeDefaultStage::GetZone(int stageLevel)//19, 0, 19
 {
 	int Zone = stageLevel % 20;

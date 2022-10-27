@@ -3,5 +3,5 @@
 
 void UMyCheatManager::SpawnDefaultMap(int level)
 {
-	UMyGameInstance::Get->StartGameMode(EGameMode::Default, level);	
+	//UMyGameInstance::Get->StartGameMode(EGameMode::Default, level);	
 }
