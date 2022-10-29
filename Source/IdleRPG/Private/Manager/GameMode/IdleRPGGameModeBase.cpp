@@ -46,10 +46,25 @@ void AIdleRPGGameModeBase::Tick(float DeltaSeconds)
 
 void AIdleRPGGameModeBase::SetLevel(int l)
 {
-	
+	m_nLevel = l;
 }
 
 FText AIdleRPGGameModeBase::GetStageName()
 {
+	return GetStageName(m_nLevel);
+}
+
+FText AIdleRPGGameModeBase::GetStageName(int level)
+{
 	return FText::FromString(TEXT("DefaultStageName"));
+}
+
+void AIdleRPGGameModeBase::SetFade(FVoidvoid onEnd)
+{
+	m_Canvas->GetScreenEffect()->ShowFadeOut(1.0f, onEnd);
+}
+
+void AIdleRPGGameModeBase::SetHideFade()
+{
+	m_Canvas->GetScreenEffect()->HideFadeOut();
 }

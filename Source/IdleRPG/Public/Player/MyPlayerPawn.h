@@ -87,6 +87,8 @@ protected:
 	virtual void OnDeathAnimEnd() override;
 
 public:
+	virtual void Revive() override;
+	
 	virtual void SetGas(TSharedPtr<GAS> newGas) override;
 	
 	virtual void SetEntity(const UUnitAsset* asset) override;

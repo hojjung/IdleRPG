@@ -15,7 +15,7 @@ void UWidgetStagePanel::NativeOnInitialized()
 	
 	m_BtnRight->OnClicked.AddDynamic(this, &UWidgetStagePanel::OnClickRight);
 
-	UMyGameInstance::Get->GetGameMode()->m_LevelChanged.AddUObject(this, &UWidgetStagePanel::OnMapChanged);
+	UMyGameInstance::Get->m_MapChanged.AddUObject(this, &UWidgetStagePanel::OnMapChanged);
 
 	OnMapChanged();
 	
@@ -37,13 +37,13 @@ void UWidgetStagePanel::UpdateStage()
 
 	m_TextName->SetText(StageRowFound->m_StageName);
 
-	int Level = 0;
+	int Level = m_nStageLevel * 20;
 
 	for(const FZone& Z : StageRowFound->m_AryUnits)
 	{
 		UWidgetStageEle* Ele = CreateWidget<UWidgetStageEle>(this, m_ClassEle);
 
-		Ele->SetZone(StageRowFound->m_StageName, Level++);
+		Ele->SetZone(this, Level++);
 
 		m_AryEles.Add(Ele);
 

@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "HUD/WidgetDeadAlert.h"
+#include "HUD/WidgetScreenEffect.h"
 #include "MainMenu/WidgetMenuBtn.h"
 #include "MainMenu/Acce/WidgetAcceMenu.h"
 #include "MainMenu/Avatar/WidgetAvatarPanel.h"
@@ -28,6 +30,8 @@ class IDLERPG_API UWidgetMainCanvas : public UUserWidget
 
 protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetDeadAlert* m_DeadAlert;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetUpgradeMenu* m_UpgradePanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetSkillPanel* m_SkillPanel;
@@ -49,6 +53,8 @@ protected:
 	UWidgetStagePanel* m_StagePanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetHUDStageButton* m_StageBtn;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetScreenEffect* m_ScreenEffect;
 	//
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetMenuBtn* m_BtnUpgrade;
@@ -95,4 +101,11 @@ public:
 	void OnClickMapPanel();
 	UFUNCTION()
 	void OnOpenStage();
+
+	void OpenDeadAlert();
+
+	FORCEINLINE UWidgetScreenEffect* GetScreenEffect()
+	{
+		return  m_ScreenEffect;
+	}
 };

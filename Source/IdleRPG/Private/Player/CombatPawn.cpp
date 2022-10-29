@@ -173,7 +173,7 @@ float ACombatPawn::TryAttack(float playRate)
 	{
 		float AnimMongLen = PlayBaseAttackAnim(playRate);
 
-		m_fAttackCD = FMath::Max(AnimMongLen - 0.1f,  0.15f);
+		m_fAttackCD = FMath::Max(AnimMongLen ,  0.15f);
 
 		return m_fAttackCD;
 	}

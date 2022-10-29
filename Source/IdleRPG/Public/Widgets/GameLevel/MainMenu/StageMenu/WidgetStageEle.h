@@ -9,6 +9,7 @@
 #include "Monsters/StageTable.h"
 #include "WidgetStageEle.generated.h"
 
+class UWidgetStagePanel;
 /**
  * 
  */
@@ -26,9 +27,11 @@ protected:
 	UTextBlock* m_TextName;
 
 	int m_nLevel;
+
+	TWeakObjectPtr<UWidgetStagePanel> m_Parent;
 	
 public:
-	void SetZone(const FText& z, int level);
+	void SetZone(UWidgetStagePanel* parent,int level);
 
 	UFUNCTION()
 	void OnEnter();

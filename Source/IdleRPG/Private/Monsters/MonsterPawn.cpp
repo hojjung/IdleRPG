@@ -92,6 +92,8 @@ TEXT("ParticleSystem'/Game/03_VisualEffect/PS_CoinDrop.PS_CoinDrop'"));
 	m_fDeathAnimDurationTimer = 0;
 
 	m_fHitAnimCD = 0;
+
+	SetAtkRange(150);
 }
 void AMonsterPawn::SetEntity(const UUnitAsset* asset)
 {

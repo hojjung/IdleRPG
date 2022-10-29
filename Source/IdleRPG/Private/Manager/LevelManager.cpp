@@ -3,7 +3,8 @@
 
 LevelManager::LevelManager(UObject* outer)
 {
-	m_Outer = outer;
+	m_Outer = outer;//
+	m_CurrentLevel = TEXT("Map01");
 }
 
 LevelManager::~LevelManager()

@@ -22,7 +22,6 @@ class IDLERPG_API AIdleRPGGameModeBase : public AGameModeBase
 public:
 	AIdleRPGGameModeBase();
 
-	FVoidvoidMulti m_LevelChanged;
 protected:
 	TSubclassOf<UWidgetMainCanvas> m_ClassCanvas;
 	UPROPERTY()
@@ -48,6 +47,8 @@ public:
 	virtual void SetLevel(int l);
 	
 	virtual FText GetStageName();
+
+	virtual FText GetStageName(int level);
 	
 	FORCEINLINE BigInt GetHp() { return m_MobHp;}
 
@@ -59,6 +60,9 @@ public:
 
 	virtual void OnPlayerDead(AMyPlayerPawn* target) {}
 
+	virtual void OnPlayerAnimEnd(AMyPlayerPawn* target) {}
+	
+
 	FORCEINLINE int GetLevel() {return m_nLevel;}
 
 	template <class T>
@@ -66,4 +70,8 @@ public:
 	{
 		m_SpawnManager->GetNearNpcs<T>(caller, outAry, range);
 	}
+
+	void SetFade(FVoidvoid onEnd = FVoidvoid());
+
+	void SetHideFade();
 };

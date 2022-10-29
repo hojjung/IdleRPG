@@ -2,7 +2,6 @@
 #include "BUITween.h"
 #include "Entity.h"
 #include "Kismet/KismetSystemLibrary.h"
-#include "Manager/GameMode/MyGameModeDefaultStage.h"
 #include "Widgets/GameLevel/WidgetMainCanvas.h"
 
 UMyGameInstance* UMyGameInstance::Get = nullptr;
@@ -12,7 +11,7 @@ void UMyGameInstance::BeginDestroy()
 	Super::BeginDestroy();
 
 	UBUITween::Shutdown();
-	
+
 	Get = nullptr;
 
 	m_PetManager.Reset();
@@ -35,9 +34,9 @@ void UMyGameInstance::Init()
 	m_AryStage.Reserve(100);
 
 	UStageTable::GetDefaultStage->GetAllRows<FStageRow>("", m_AryStage);
-	
+
 	UKismetSystemLibrary::ControlScreensaver(false);
-	
+
 	Get = this;
 
 	m_PetManager = MakeShareable(new PetManager());
@@ -61,24 +60,29 @@ void UMyGameInstance::OnPlayerDead(AMyPlayerPawn* target)
 	GetGameMode()->OnPlayerDead(target);
 }
 
+void UMyGameInstance::OnPlayerAnimEnd(AMyPlayerPawn* target)
+{
+	GetGameMode()->OnPlayerAnimEnd(target);
+}
+
 void UMyGameInstance::OnMonsterAnimEnd(AMonsterPawn* target)
 {
 	GetGameMode()->OnMonsterAnimEnd(target);
 }
 
-void UMyGameInstance::StartGameMode(EGameMode m, int level)
+void UMyGameInstance::StartGameMode(EGameMode m, int level, FVoidvoid onLevelChanged)
 {
 	m_nStageLevel = level;
-	
+
 	FName LevelName;
-	
+
 	switch (m)
 	{
 	case EGameMode::Default:
 		{
 			int Stage = level % m_AryStage.Num();
 
-			LevelName = m_AryStage[Stage]->m_LevelName;		
+			LevelName = m_AryStage[Stage]->m_LevelName;
 		}
 		break;
 	case EGameMode::PVP:
@@ -92,22 +96,33 @@ void UMyGameInstance::StartGameMode(EGameMode m, int level)
 	case EGameMode::Story:
 		break;
 	}
-	LoadMap(LevelName);
+	LoadMap(LevelName, onLevelChanged);
 }
 
 void UMyGameInstance::LoadMap(const FName& levelName, FVoidvoid onLevelChanged)
 {
 	m_LevelManager->m_OnLevelLoadComplete = onLevelChanged;
-	
+
 	bool MapDiffrent = m_LevelManager->OpenLevel(levelName);
 
-	if(MapDiffrent)
+	if (MapDiffrent)
 	{
+		m_MapChanged.Broadcast();
+		GetGameMode()->SetFade();
 		return;
-	}
-	onLevelChanged.ExecuteIfBound();
-	
-	m_Player->Revive();
+	} //GetGameMode(),&AIdleRPGGameModeBase::SetHideFade
+	GetGameMode()->SetFade(FVoidvoid::CreateLambda([=]()
+	{
+		GetGameMode()->SetLevel(m_nStageLevel);
+
+		GetGameMode()->SetHideFade();
+
+		m_LevelManager->m_OnLevelLoadComplete.ExecuteIfBound();
+
+		m_Player->Revive();
+
+		m_MapChanged.Broadcast();
+	}));
 }
 
 FText UMyGameInstance::GetStageName()
@@ -123,7 +138,7 @@ int UMyGameInstance::GetStageLevel()
 void UMyGameInstance::SetPlayerPawn(AMyPlayerPawn* p)
 {
 	m_PlayerGas->Restart();
-	
+
 	m_Player = p;
 
 	m_Player->SetGas(m_PlayerGas);

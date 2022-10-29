@@ -122,6 +122,11 @@ void UWidgetMainCanvas::OnOpenStage()
 	m_StagePanel->OnOpen();
 }
 
+void UWidgetMainCanvas::OpenDeadAlert()
+{
+	m_DeadAlert->Init(this);
+}
+
 void UWidgetMainCanvas::OnClickAccePanel()
 {
 	m_UpgradePanel->OnClose();

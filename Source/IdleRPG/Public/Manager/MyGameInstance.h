@@ -35,7 +35,8 @@ class IDLERPG_API UMyGameInstance : public UGameInstance
 
 public:
 	static UMyGameInstance* Get;
-	
+
+	FVoidvoidMulti m_MapChanged;
 private:
 	TWeakObjectPtr<AMyPlayerPawn> m_Player;
 	
@@ -59,7 +60,8 @@ public:
 	
 protected:
 	virtual void BeginDestroy() override;
-
+	
+	void LoadMap(const FName& levelName, FVoidvoid onLevelChanged);
 public:
 	virtual void Init() override;
 
@@ -91,14 +93,14 @@ public:
 	
 	void OnMonsterDead(AMonsterPawn* target);
 
+	void OnMonsterAnimEnd(AMonsterPawn* target);
+	
 	void OnPlayerDead(AMyPlayerPawn* target);
 
-	void OnMonsterAnimEnd(AMonsterPawn* target);
-
-public:
-	void LoadMap(const FName& levelName, FVoidvoid onLevelChanged = FVoidvoid());
+	void OnPlayerAnimEnd(AMyPlayerPawn* target);
 	
-	void StartGameMode(EGameMode m, int level);
+public:
+	void StartGameMode(EGameMode m, int level, FVoidvoid onLevelChanged);
 };
 
 

@@ -161,7 +161,16 @@ void AMyPlayerPawn::OnDead()
 void AMyPlayerPawn::OnDeathAnimEnd()
 {
 	Super::OnDeathAnimEnd();
-	
+
+	UMyGameInstance::Get->OnPlayerAnimEnd(this);
+}
+
+void AMyPlayerPawn::Revive()
+{
+	Super::Revive();
+	StopAnimMontage();
+	m_PawnInfo->SetVisibility(true);
+	m_PawnInfo->SetPawnInfo(this);
 }
 
 bool AMyPlayerPawn::IsInputMoving()
