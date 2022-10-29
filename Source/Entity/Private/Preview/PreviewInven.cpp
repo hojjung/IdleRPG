@@ -31,6 +31,10 @@ void PreviewInven::DeselectAvatar(FStreamableDelegate deSelect)
 
 void PreviewInven::SelectAvatar(FPrimaryAssetId id, FStreamableDelegate dele)
 {
+	if(m_CurrentPreviewID == id)
+	{
+		return;
+	}
 	m_CurrentPreviewID = id;
 	
 	TArray<FPrimaryAssetId> AryIds;
