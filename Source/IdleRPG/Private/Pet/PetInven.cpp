@@ -31,8 +31,11 @@ void PetInven::UpdatePet()
 		{
 			continue;
 		}
-		Asset = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(m_AryEquipRows[Iter]->m_EntityAsset));
-		break;;
+		FPrimaryAssetId Id (TEXT("Unit"), m_AryEquipkeys[Iter]);
+		
+		Asset = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(Id));
+		
+		break;
 	}
 
 	if(Asset != nullptr)

@@ -1,11 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "WidgetClassPanel.h"
 #include "WidgetEmblemPanel.h"
-#include "WidgetLevelStatPanel.h"
 #include "WidgetUpgradePanel.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
@@ -24,7 +21,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetUpgradePanel* m_UpgradePanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UWidgetLevelStatPanel* m_LevelStatPanel;
+	UWidgetUpgradePanel* m_LevelStatPanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetClassPanel* m_ClassPanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
@@ -37,6 +34,8 @@ protected:
 	UButton* m_BtnClass;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UButton* m_BtnEmblem;
+
+	TWeakObjectPtr<UButton> m_CurrentBtn;
 	
 protected:
 	virtual void NativeOnInitialized() override;

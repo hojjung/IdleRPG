@@ -1,6 +1,7 @@
 #include "Widgets/GameLevel/MainMenu/UpgradeMenu/WidgetUpgradeMenu.h"
 
 #include "Manager/MyGameInstance.h"
+#include "Widgets/Lib/WidgetLib.h"
 
 void UWidgetUpgradeMenu::NativeOnInitialized()
 {
@@ -18,6 +19,8 @@ void UWidgetUpgradeMenu::NativeOnInitialized()
 	m_LevelStatPanel->SetVisibility(ESlateVisibility::Collapsed);
 	m_ClassPanel->SetVisibility(ESlateVisibility::Collapsed);
 	m_EmblemPanel->SetVisibility(ESlateVisibility::Collapsed);
+
+	UWidgetLib::SetCurrentButton(m_CurrentBtn, m_BtnUpgrade);
 }
 
 void UWidgetUpgradeMenu::OnOpen()
@@ -47,6 +50,8 @@ void UWidgetUpgradeMenu::OpenUpgrade()
 	m_EmblemPanel->SetVisibility(ESlateVisibility::Collapsed);
 	
 	m_UpgradePanel->Open();
+
+	UWidgetLib::SetCurrentButton(m_CurrentBtn, m_BtnUpgrade);
 }
 
 void UWidgetUpgradeMenu::OpenLevelStat()
@@ -56,6 +61,8 @@ void UWidgetUpgradeMenu::OpenLevelStat()
 	m_EmblemPanel->SetVisibility(ESlateVisibility::Collapsed);
 	
 	m_LevelStatPanel->Open();
+
+	UWidgetLib::SetCurrentButton(m_CurrentBtn, m_BtnLevelStat);
 }
 
 void UWidgetUpgradeMenu::OpenClass()
@@ -65,6 +72,8 @@ void UWidgetUpgradeMenu::OpenClass()
 	m_EmblemPanel->SetVisibility(ESlateVisibility::Collapsed);
 	
 	m_ClassPanel->Open();
+
+	UWidgetLib::SetCurrentButton(m_CurrentBtn, m_BtnClass);
 }
 
 void UWidgetUpgradeMenu::OpenEmblem()
@@ -74,5 +83,7 @@ void UWidgetUpgradeMenu::OpenEmblem()
 	m_ClassPanel->SetVisibility(ESlateVisibility::Collapsed);
 	
 	m_EmblemPanel->Open();
+
+	UWidgetLib::SetCurrentButton(m_CurrentBtn, m_BtnEmblem);
 }
 

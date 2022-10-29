@@ -16,6 +16,8 @@ class IDLERPG_API UWidgetUpgradePanel : public UUserWidget
 {
 	GENERATED_BODY()
 protected:
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly)
+	TArray<FName> m_AryUpgradeKeys;
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UWidgetUpgradeEle> m_ClassEle;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))

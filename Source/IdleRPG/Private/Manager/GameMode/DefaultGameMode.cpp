@@ -1,5 +1,4 @@
 #include "Manager/GameMode/DefaultGameMode.h"
-
 #include "Monsters/MonsterPawn.h"
 #include "Player/MyPlayerController.h"
 #include "Widgets/GameLevel/WidgetMainCanvas.h"
@@ -17,11 +16,11 @@ void ADefaultGameMode::SetLevel(int l)
 {
 	Super::SetLevel(l);
 	
-	const FBigIntCalcTableRow* GoldRow = UBigIntCalcTableBase::GetGoldTable->FindRow<FBigIntCalcTableRow>(TEXT("Default"), "");
+	const FBigIntCalcTableRow* GoldRow = UBigIntCalcTableBase::GetBigIntTable->FindRow<FBigIntCalcTableRow>(TEXT("MobStatDefaultGold"), "");
 
-	const FBigIntCalcTableRow* DmgRow = UBigIntCalcTableBase::GetMobDmgTable->FindRow<FBigIntCalcTableRow>(TEXT("Default"), "");
+	const FBigIntCalcTableRow* DmgRow = UBigIntCalcTableBase::GetBigIntTable->FindRow<FBigIntCalcTableRow>(TEXT("MobStatDefaultDmg"), "");
 
-	const FBigIntCalcTableRow* HpRow = UBigIntCalcTableBase::GetMobHpTable->FindRow<FBigIntCalcTableRow>(TEXT("Default"), "");
+	const FBigIntCalcTableRow* HpRow = UBigIntCalcTableBase::GetBigIntTable->FindRow<FBigIntCalcTableRow>(TEXT("MobStatDefaultHp"), "");
 
 	m_Gold = GoldRow->GetValue(m_nLevel);
 

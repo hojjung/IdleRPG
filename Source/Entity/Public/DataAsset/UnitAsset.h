@@ -14,6 +14,8 @@ class ENTITY_API UUnitAsset : public UPrimaryDataAsset
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle ,meta = (AssetBundles = "Preview"))
 	TSoftObjectPtr< USkeletalMesh> m_BodyMesh;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Preview"))
+	TSoftObjectPtr<UAnimSequence> m_IdleAnim;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
 	TSoftObjectPtr<UAnimMontage> m_SpawnAnim;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
@@ -28,8 +30,6 @@ public:
 	TSoftObjectPtr<USoundBase> m_TakeHitSound;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle,meta = (AssetBundles = "Preview"))
 	TSubclassOf<UAnimInstance> m_ClassAnim;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Preview"))
-	TSoftObjectPtr<UAnimSequence> m_IdleAnim;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	bool m_bAttackFirst = false;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)

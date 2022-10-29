@@ -72,7 +72,9 @@ void UWidgetPetPanel::OnOpen()
 
 void UWidgetPetPanel::OnSelectLoaded(FName key, const FPetDataRow* row)
 {
-	UUnitAsset* Asset = Cast<UUnitAsset>(UMyAssetManager::Get()->GetPrimaryAssetObject(row->m_EntityAsset));
+	FPrimaryAssetId Id (TEXT("Unit"), key);
+	
+	UUnitAsset* Asset = Cast<UUnitAsset>(UMyAssetManager::Get()->GetPrimaryAssetObject(Id));
 
 	SetColor(row->GetColor());
 
@@ -299,6 +301,8 @@ void UWidgetPetPanel::OnClickTier5()
 void UWidgetPetPanel::OnSelect(const FName& key, const FEntityDataRow& row)
 {
 	const FPetDataRow& AvRow = *(const FPetDataRow*)&row;
+	
+	FPrimaryAssetId Id (TEXT("Unit"), key);
 	//
-	m_PetManager.Pin()->m_PetInven->ChangeAvatar(AvRow.m_EntityAsset,FStreamableDelegate::CreateUObject(this, &UWidgetPetPanel::OnSelectLoaded, key, &AvRow));
+	m_PetManager.Pin()->m_PetInven->ChangeAvatar(Id,FStreamableDelegate::CreateUObject(this, &UWidgetPetPanel::OnSelectLoaded, key, &AvRow));
 }

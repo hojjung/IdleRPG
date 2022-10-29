@@ -18,17 +18,7 @@ class IDLERPG_API UBigIntCalcTableBase : public UObject
 public:
 	UBigIntCalcTableBase();
 
-	static UDataTable* GetGoldTable;
-
-	static UDataTable* GetPlayerUpgradeTable;
-
-	static UDataTable* GetLevelUpTable;
-
-	static UDataTable* GetExpTable;
-
-	static UDataTable* GetMobHpTable;
-
-	static UDataTable* GetMobDmgTable;
+	static UDataTable* GetBigIntTable;
 };
 USTRUCT(BlueprintType)//���̵�,Ƽ��
 struct FBigIntCalcTableRow : public FEntityDataRow

@@ -133,7 +133,7 @@ void UAnimNotifySt_AOECircle::NotifyEnd(USkeletalMeshComponent* MeshComp, UAnimS
 	
 	FAnimMontageInstance* CurrentMont = MeshComp->GetAnimInstance()->GetActiveMontageInstance();
 	
-	if(CPawn && CurrentMont->Montage == Animation)
+	if(CPawn &&  CurrentMont && CurrentMont->Montage == Animation)
 	{
 		CPawn->SetRotateAble(true);
 		
