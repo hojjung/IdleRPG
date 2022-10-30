@@ -51,11 +51,11 @@ void SpawnManager::Update(float delta)
 	m_QuadTree->UpdateState(UMyGameInstance::Get);
 }
 
-const FPrimaryAssetId& SpawnManager::GetRandomMonsterID(const FZone& z)
+const FPrimaryAssetId& SpawnManager::GetRandomMonsterID(const TArray<FPrimaryAssetId>& z)
 {
-	int RandIndex = FMath::RandRange(0, z.m_AryUnits.Num() - 1);
+	int RandIndex = FMath::RandRange(0, z.Num() - 1);
 
-	return z.m_AryUnits[RandIndex];
+	return z[RandIndex];
 }
 
 void SpawnManager::SpawnUnits(const FPrimaryAssetId& id)

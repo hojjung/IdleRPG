@@ -16,6 +16,10 @@ public:
 	
 	virtual  ~AvatarInven() override;
 
+	DECLARE_MULTICAST_DELEGATE_TwoParams(FOnSkinChanged, const FName&, const FAvatarRow&)
+
+	FOnSkinChanged m_OnSkinChanged;
+
 protected:
 	FName m_EquippedAvatar;
 

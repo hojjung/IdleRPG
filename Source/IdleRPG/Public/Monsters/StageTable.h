@@ -45,6 +45,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	UTexture2D* m_IconStage;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TArray<FZone> m_AryUnits;
-	//클리어보상
+	TArray<FPrimaryAssetId> m_AryUnits;//10개
+
+public:
+	TArray<FPrimaryAssetId> GetStageUnits(int lv) const;
 };

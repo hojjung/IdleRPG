@@ -75,6 +75,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetMenuBtn* m_BtnShop;
 	
+	
 protected:
 	virtual void NativeOnInitialized() override;
 

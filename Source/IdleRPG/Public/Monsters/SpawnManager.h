@@ -37,7 +37,7 @@ private:
 	void OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot);
 
 public:
-	const FPrimaryAssetId& GetRandomMonsterID(const FZone& z);
+	const FPrimaryAssetId& GetRandomMonsterID(const TArray<FPrimaryAssetId>& z);
 	
 	void Update(float delta);
 

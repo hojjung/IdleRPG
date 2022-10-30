@@ -22,7 +22,7 @@ private:
 	
 	const FStageRow& GetStage(int stageLevel) const;
 
-	const FZone& GetZone(int stageLevel);
+	TArray<FPrimaryAssetId> GetZone(int stageLevel);
 
 	const FPrimaryAssetId& GetBossMonster(int stageLevel);
 

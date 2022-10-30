@@ -60,8 +60,12 @@ void Monster::SetIdle()
 bool Monster::CheckTargetRange(float rangeSqr)
 {
 	FVector Loc = m_Pawn->GetFocusedTarget()->GetActorLocation();
+	Loc.Z = 0;
+
+	FVector Loc2 = m_Pawn->GetActorLocation();
+	Loc2.Z = 0;
 	
-	float DistSqr = FVector::DistSquared(m_Pawn->GetActorLocation(), Loc);
+	float DistSqr = FVector::DistSquared(Loc, Loc2);
 
 	return DistSqr <= rangeSqr;
 }

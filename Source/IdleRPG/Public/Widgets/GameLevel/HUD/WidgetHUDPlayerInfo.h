@@ -9,6 +9,7 @@
 #include "Components/Slider.h"
 #include "Components/TextBlock.h"
 #include "Components/WrapBox.h"
+#include "Widgets/GameLevel/MainMenu/WidgetCurrency.h"
 #include "Widgets/GameLevel/MainMenu/Avatar/WidgetAvatarEle.h"
 #include "WidgetHUDPlayerInfo.generated.h"
 
@@ -30,10 +31,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (BindWidget))
 	UTextBlock* m_TextDesc;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (BindWidget))
-	UTextBlock* m_TextDia;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (BindWidget))
-	UTextBlock* m_TextGold;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (BindWidget))
 	UWrapBox* m_WrapboxMenu;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (BindWidget))
 	UButton* m_BtnMenu;
@@ -49,9 +46,16 @@ protected:
 	UProgressBar* m_ExpBar;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (BindWidget))
 	UTextBlock* m_TextExp;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetCurrency* m_Gold;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetCurrency* m_Dia;
+	
 	
 	
 protected:
+	void BindGold();
+	void BindAvatar();
 	virtual void NativeOnInitialized() override;
 
 	

@@ -53,7 +53,8 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_PawnInfo->SetWidgetSpace(EWidgetSpace::Screen);
 	m_PawnInfo->SetRelativeLocation(FVector(0, 0, 130));
 	m_PawnInfo->SetCanEverAffectNavigation(false);
-	
+
+	m_fAtkRate = 2;
 }
 
 void AMyPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -263,7 +264,7 @@ void AMyPlayerPawn::StopAnimMontage()
 
 void AMyPlayerPawn::TryAttack_External()
 {
-	float t = TryAttack(2.f);
+	float t = TryAttack();
 
 	if(t > 0)
 	{

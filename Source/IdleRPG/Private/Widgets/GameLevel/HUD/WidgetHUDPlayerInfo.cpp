@@ -4,12 +4,46 @@
 #include "Widgets/GameLevel/HUD/WidgetHUDPlayerInfo.h"
 
 #include "BUITween.h"
+#include "Manager/MyGameInstance.h"
 
 void UWidgetHUDPlayerInfo::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
 	m_BtnMenu->OnClicked.AddDynamic(this, &UWidgetHUDPlayerInfo::ToggleMenu);
+
+	BindGold();
+
+	BindAvatar();
+}
+
+
+void UWidgetHUDPlayerInfo::BindGold()
+{
+	UMyGameInstance::Get->m_GoldManager->m_OnCurrencyChanged.AddLambda([&]()
+	{
+		BigInt Gold = UMyGameInstance::Get->m_GoldManager->GetCurrentGold();
+
+		FText GoldText = FText::FromString(UBigIntLib::GetAlphabetTextBigInt(Gold));
+
+		m_Gold->SetText(GoldText);	
+	});
+
+	UMyGameInstance::Get->m_GoldManager->m_OnCurrencyChanged.Broadcast();
+}
+
+void UWidgetHUDPlayerInfo::BindAvatar()
+{
+	UMyGameInstance::Get->m_AvatarManager->m_AvatarInven->m_OnSkinChanged.AddLambda([&](const FName id,const FAvatarRow& row)
+	{
+		m_Avatar->SetData(id, row);
+	});
+
+	FName KeyEquip = UMyGameInstance::Get->m_AvatarManager->m_AvatarInven->GetKeySkin();
+
+	const FAvatarRow& RowEquip = UMyGameInstance::Get->m_AvatarManager->m_AvatarInven->GetRowSkin();
+
+	m_Avatar->SetData(KeyEquip, RowEquip);
 }
 
 void UWidgetHUDPlayerInfo::ToggleMenu()

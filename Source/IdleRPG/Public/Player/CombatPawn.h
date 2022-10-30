@@ -50,6 +50,8 @@ protected:
 
 	float m_fAtkRangeSqr;
 
+	float m_fAtkRate;
+
 	TMap<TStrongObjectPtr<UObject>, TStrongObjectPtr<UActorComponent>> m_MapComp;
 	
 	FVector m_SpawnPos;
@@ -86,7 +88,7 @@ public:
 	
 	ACombatPawn* GetFocusedTarget();
 	
-	float TryAttack(float playRate = 1.f);
+	float TryAttack();
 
 	
 	virtual bool IsRangeMode() {return true;}

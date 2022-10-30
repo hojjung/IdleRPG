@@ -42,6 +42,8 @@ void AvatarInven::SetSkin(const FName& key)
 	m_RowSkinAvatar = AvatarEquip;
 
 	m_EquipSkinAvatar = key;
+
+	m_OnSkinChanged.Broadcast(m_EquipSkinAvatar, *m_RowSkinAvatar);
 }
 
 void AvatarInven::EquipAvatar()

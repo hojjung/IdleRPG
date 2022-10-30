@@ -39,7 +39,8 @@ void UWidgetStagePanel::UpdateStage()
 
 	int Level = m_nStageLevel * 20;
 
-	for(const FZone& Z : StageRowFound->m_AryUnits)
+	int Iter = -1;
+	while (++Iter < 20)
 	{
 		UWidgetStageEle* Ele = CreateWidget<UWidgetStageEle>(this, m_ClassEle);
 

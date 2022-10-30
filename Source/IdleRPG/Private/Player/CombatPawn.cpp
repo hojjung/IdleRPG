@@ -16,6 +16,8 @@ ACombatPawn::ACombatPawn(const FObjectInitializer& objInit) :Super(objInit)
 	m_ShadowMeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	m_ShadowMeshComp->SetCanEverAffectNavigation(false);
 	m_ShadowMeshComp->bReceivesDecals = false;
+
+	m_fAtkRate = 1;
 }
 
 void ACombatPawn::SetFocusedTarget(ACombatPawn* pawn)
@@ -167,11 +169,11 @@ void ACombatPawn::SetEntity(const UUnitAsset* asset)
 	m_ShadowMeshComp->SetRelativeScale3D(FVector(asset->m_fShadowScale));
 }
 
-float ACombatPawn::TryAttack(float playRate)
+float ACombatPawn::TryAttack()
 {
 	if (IsAlive() && m_EntityAsset->m_BaseAttackAnim && m_fAttackCD < 0.f)
 	{
-		float AnimMongLen = PlayBaseAttackAnim(playRate);
+		float AnimMongLen = PlayBaseAttackAnim(m_fAtkRate);
 
 		m_fAttackCD = FMath::Max(AnimMongLen ,  0.15f);
 

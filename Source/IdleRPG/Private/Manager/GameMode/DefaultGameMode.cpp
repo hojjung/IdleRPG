@@ -32,8 +32,6 @@ void ADefaultGameMode::SetLevel(int l)
 	
 	m_SpawnManager = MakeShareable(new SpawnManager(m_MobHp, m_MobDmg));
 
-	const FStageRow& StageRow = GetStage(m_nLevel);
-
 	SpawnMobs();
 }
 
@@ -41,7 +39,7 @@ void ADefaultGameMode::SpawnMobs()
 {
 	int Iter = -1;
 
-	const FZone& Z = GetZone(m_nLevel);
+	TArray<FPrimaryAssetId> Z = GetZone(m_nLevel);
 	
 	while (++Iter < 20)
 	{
@@ -86,18 +84,16 @@ const FStageRow& ADefaultGameMode::GetStage(int stageLevel) const
 	return *UMyGameInstance::Get->GetDefaultStageRows()[Stage];
 }
 
-const FZone& ADefaultGameMode::GetZone(int stageLevel)//19, 0, 19
+TArray<FPrimaryAssetId> ADefaultGameMode::GetZone(int stageLevel)//19, 0, 19
 {
-	int Zone = stageLevel % 20;
-
-	const FZone& SelectZone = GetStage(stageLevel).m_AryUnits[Zone];
+	TArray<FPrimaryAssetId> SelectZone = GetStage(stageLevel).GetStageUnits(stageLevel);
 
 	return SelectZone;
 }
 
 const FPrimaryAssetId& ADefaultGameMode::GetBossMonster(int stageLevel)
 {
-	return GetZone(stageLevel).m_AryUnits[0];
+	return GetZone(stageLevel)[0];
 }
 
 FText ADefaultGameMode::GetStageName(int lv)
