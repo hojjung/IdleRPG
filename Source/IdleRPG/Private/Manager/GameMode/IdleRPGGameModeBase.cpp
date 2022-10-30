@@ -27,6 +27,10 @@ void AIdleRPGGameModeBase::StartPlay()
 	{
 		m_Canvas->AddToViewport();
 	}
+
+	m_SpawnManager.Reset();
+	
+	m_SpawnManager = MakeShareable(new SpawnManager());
 }
 
 void AIdleRPGGameModeBase::EndPlay(const EEndPlayReason::Type EndPlayReason)

@@ -16,7 +16,7 @@ class UNavigationSystemV1;
 class IDLERPG_API SpawnManager
 {
 public:
-	SpawnManager(BigInt hp, BigInt dmg);
+	SpawnManager();
 	
 	~SpawnManager();
 	
@@ -37,6 +37,8 @@ private:
 	void OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot);
 
 public:
+	void SetBigIntStagMob(BigInt hp, BigInt dmg);
+	
 	const FPrimaryAssetId& GetRandomMonsterID(const TArray<FPrimaryAssetId>& z);
 	
 	void Update(float delta);

@@ -20,16 +20,18 @@ void UWidgetHUDPlayerInfo::NativeOnInitialized()
 
 void UWidgetHUDPlayerInfo::BindGold()
 {
-	UMyGameInstance::Get->m_GoldManager->m_OnCurrencyChanged.AddLambda([&]()
-	{
-		BigInt Gold = UMyGameInstance::Get->m_GoldManager->GetCurrentGold();
+	UMyGameInstance::Get->m_GoldManager->m_OnCurrencyChanged.AddUObject(this, &UWidgetHUDPlayerInfo::UpdateGold);
 
-		FText GoldText = FText::FromString(UBigIntLib::GetAlphabetTextBigInt(Gold));
+	UpdateGold();
+}
 
-		m_Gold->SetText(GoldText);	
-	});
+void UWidgetHUDPlayerInfo::UpdateGold()
+{
+	BigInt Gold = UMyGameInstance::Get->m_GoldManager->GetCurrentGold();
 
-	UMyGameInstance::Get->m_GoldManager->m_OnCurrencyChanged.Broadcast();
+	FText GoldText = FText::FromString(UBigIntLib::GetAlphabetTextBigInt(Gold));
+
+	m_Gold->SetText(GoldText);
 }
 
 void UWidgetHUDPlayerInfo::BindAvatar()

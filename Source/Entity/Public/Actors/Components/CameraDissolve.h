@@ -50,4 +50,6 @@ protected:
 	virtual void UpdateDesiredArmLocation(float DeltaTime);
 
 	FVector BlendLocations(const FVector& DesiredArmLocation, const FVector& TraceHitLocation, bool bHitSomething, float DeltaTime);
+
+	virtual void OnRegister() override;
 };

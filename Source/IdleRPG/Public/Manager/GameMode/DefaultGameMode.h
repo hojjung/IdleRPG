@@ -16,12 +16,8 @@ protected:
 	BigInt m_Gold;
 
 private:
-	virtual void StartPlay() override;
-	
 	virtual void SetLevel(int l) override;
 	
-	const FStageRow& GetStage(int stageLevel) const;
-
 	TArray<FPrimaryAssetId> GetZone(int stageLevel);
 
 	const FPrimaryAssetId& GetBossMonster(int stageLevel);
@@ -29,6 +25,14 @@ private:
 	void OnPlayerDead();
 
 public:
+	static const FStageRow& GetDefaultStage(int stageLevel);
+
+	static int GetDefaultStageMapIndex(int stageLevel);
+
+	static const FStageRow& GetDefaultStage();
+
+	static int GetDefaultStageMapIndex();
+	
 	virtual FText GetStageName(int lv) override;
 	
 	void SpawnMobs();

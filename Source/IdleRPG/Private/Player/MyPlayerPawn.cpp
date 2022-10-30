@@ -21,8 +21,9 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_DissolveCam->TargetArmLength = 3700; //1375
 	m_DissolveCam->SetRelativeRotation(FRotator(-45, -45.f, 0.f)); //-45.f
 	
+	
 	m_TopCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("m_TopCamera"));
-	m_TopCamera->SetupAttachment(m_DissolveCam);
+	m_TopCamera->SetupAttachment(m_DissolveCam, USpringArmComponent::SocketName);
 	m_TopCamera->FieldOfView = 15.f;
 
 	m_Movement->MaxSpeed = FGlobalVariable::HERO_DEFAULT_SPEED;

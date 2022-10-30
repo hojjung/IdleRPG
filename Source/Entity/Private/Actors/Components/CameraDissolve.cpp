@@ -81,7 +81,7 @@ void UCameraDissolve::UpdateDesiredArmLocation(float DeltaTime)
 			m_PreviousDesiredLoc = DesiredLoc;
 		}
 	}
-
+///////////////////////////////
 	m_PreviousArmOrigin = ArmOrigin;
 
 	m_PreviousDesiredLoc = DesiredLoc;
@@ -107,4 +107,16 @@ FVector UCameraDissolve::BlendLocations(const FVector& DesiredArmLocation, const
                                         bool bHitSomething, float DeltaTime)
 {
 	return bHitSomething ? TraceHitLocation : DesiredArmLocation;
+}
+
+void UCameraDissolve::OnRegister()
+{
+	Super::OnRegister();
+
+	// enforce reasonable limits to avoid potential div-by-zero
+	CameraLagMaxTimeStep = FMath::Max(CameraLagMaxTimeStep, 1.f / 200.f);
+	CameraLagSpeed = FMath::Max(CameraLagSpeed, 0.f);
+
+	// Set initial location (without lag).
+	UpdateDesiredArmLocation(0.f);
 }

@@ -60,8 +60,13 @@ public:
 	
 protected:
 	virtual void BeginDestroy() override;
+
+	virtual void LoadComplete(const float LoadTime, const FString& MapName) override;
 	
-	void LoadMap(const FName& levelName, FVoidvoid onLevelChanged);
+	void LoadMap(const FName& levelName, FVoidvoid onDead);
+
+	void OnLevelMoveFadeEnd();
+	
 public:
 	virtual void Init() override;
 

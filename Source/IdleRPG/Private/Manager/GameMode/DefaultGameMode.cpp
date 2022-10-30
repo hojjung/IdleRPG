@@ -3,15 +3,6 @@
 #include "Player/MyPlayerController.h"
 #include "Widgets/GameLevel/WidgetMainCanvas.h"
 
-void ADefaultGameMode::StartPlay()
-{
-	AIdleRPGGameModeBase::StartPlay();
-
-	int Lv = UMyGameInstance::Get->GetStageLevel();
-
-	SetLevel(Lv);
-}
-
 void ADefaultGameMode::SetLevel(int l)
 {
 	Super::SetLevel(l);
@@ -28,9 +19,7 @@ void ADefaultGameMode::SetLevel(int l)
 
 	m_MobHp = HpRow->GetValue(m_nLevel);
 	
-	m_SpawnManager.Reset();
-	
-	m_SpawnManager = MakeShareable(new SpawnManager(m_MobHp, m_MobDmg));
+	m_SpawnManager->SetBigIntStagMob(m_MobHp, m_MobDmg);
 
 	SpawnMobs();
 }
@@ -75,18 +64,25 @@ void ADefaultGameMode::OnPlayerAnimEnd(AMyPlayerPawn* target)
 	UMyGameInstance::Get->StartGameMode(EGameMode::Default, PreLevel, OnDead);
 }
 
-const FStageRow& ADefaultGameMode::GetStage(int stageLevel) const
+const FStageRow& ADefaultGameMode::GetDefaultStage(int stageLevel)
+{
+	int MapIndex = GetDefaultStageMapIndex(stageLevel); 
+
+	return *UMyGameInstance::Get->GetDefaultStageRows()[MapIndex];
+}
+
+int ADefaultGameMode::GetDefaultStageMapIndex(int stageLevel)
 {
 	int Stage = stageLevel / 20; 
 
 	Stage = Stage % UStageTable::GetDefaultStage->GetRowMap().Num();
 
-	return *UMyGameInstance::Get->GetDefaultStageRows()[Stage];
+	return Stage;
 }
 
 TArray<FPrimaryAssetId> ADefaultGameMode::GetZone(int stageLevel)//19, 0, 19
 {
-	TArray<FPrimaryAssetId> SelectZone = GetStage(stageLevel).GetStageUnits(stageLevel);
+	TArray<FPrimaryAssetId> SelectZone = GetDefaultStage(stageLevel).GetStageUnits(stageLevel);
 
 	return SelectZone;
 }
@@ -98,7 +94,7 @@ const FPrimaryAssetId& ADefaultGameMode::GetBossMonster(int stageLevel)
 
 FText ADefaultGameMode::GetStageName(int lv)
 {
-	const FStageRow& StageWant = GetStage(lv);
+	const FStageRow& StageWant = GetDefaultStage(lv);
 
 	int Remain = lv % 20;
 

@@ -38,9 +38,9 @@ protected:
 	
 	TArray<TWeakObjectPtr<UWidgetStageEle>> m_AryEles;
 	
-	int m_nMaxStage;
+	int m_nMaxMap;
 
-	int m_nStageLevel;
+	int m_nMapIndex;
 
 protected:
 	virtual void NativeOnInitialized() override;

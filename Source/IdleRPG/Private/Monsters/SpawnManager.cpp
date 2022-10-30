@@ -7,12 +7,8 @@
 #include "Player/MyPlayerPawn.h"
 #include "Manager/MyGameInstance.h"
 
-SpawnManager::SpawnManager(BigInt hp, BigInt dmg)
+SpawnManager::SpawnManager()
 {
-	m_Hp = hp;
-
-	m_Dmg = dmg;
-
 	m_Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(UMyGameInstance::Get->GetWorld());
 
 	m_NavBox = m_Nav->GetNavigationBounds().Array()[0].AreaBox;
@@ -97,4 +93,11 @@ void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* worl
 	Pawn->GetGas()->SetDefaultStat(m_Hp, m_Dmg);
 
 	m_AryMonsters.Add(Mob);
+}
+
+void SpawnManager::SetBigIntStagMob(BigInt hp, BigInt dmg)
+{
+	m_Hp = hp;
+	
+	m_Dmg = dmg;
 }

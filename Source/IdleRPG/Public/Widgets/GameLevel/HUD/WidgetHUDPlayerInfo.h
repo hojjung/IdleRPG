@@ -55,6 +55,9 @@ protected:
 	
 protected:
 	void BindGold();
+
+	void UpdateGold();
+	
 	void BindAvatar();
 	virtual void NativeOnInitialized() override;
 
