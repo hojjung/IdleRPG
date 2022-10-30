@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Monster.h"
 #include "QuadTree.h"
-#include "StageTable.h"
 #include "Player/CombatPawn.h"
 
 class MyGameModeBase;

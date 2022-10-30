@@ -11,7 +11,7 @@ void UWidgetHUDStageButton::NativeOnInitialized()
 
 void UWidgetHUDStageButton::UpdateText()
 {
-	const FText& n = UMyGameInstance::Get->GetStageName();
+	const FText& n = UMyGameInstance::Get->GetStageMode()->GetStageName();
 
 	m_TextStageName->SetText(n);
 }

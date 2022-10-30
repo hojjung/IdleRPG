@@ -21,7 +21,7 @@ AMonsterPawn* PlayerSensor::GetNearTarget(float SearchRange)
 	
 	m_AryMobs.Reset(10);
 
-	UMyGameInstance::Get->GetNearNpcs<AMonsterPawn>(m_Pl.Get(), m_AryMobs, SearchRange);
+	UMyGameInstance::Get->GetStageMode()->GetNearNpcs<AMonsterPawn>(m_Pl.Get(), m_AryMobs, SearchRange);
 
 	AMonsterPawn* Target = nullptr;
 	

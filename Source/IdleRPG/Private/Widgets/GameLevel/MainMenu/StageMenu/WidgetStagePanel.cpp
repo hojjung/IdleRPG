@@ -1,7 +1,6 @@
 #include "Widgets/GameLevel/MainMenu/StageMenu/WidgetStagePanel.h"
 
-#include "Manager/GameMode/DefaultGameMode.h"
-#include "Monsters/StageTable.h"
+#include "Manager/StageMode/DefaultStageMode.h"
 
 void UWidgetStagePanel::NativeOnInitialized()
 {
@@ -9,9 +8,7 @@ void UWidgetStagePanel::NativeOnInitialized()
 
 	m_AryEles.Reserve(20);
 	
-	UStageTable::GetDefaultStage->GetAllRows("", m_AryRows);
-
-	m_nMaxMap = m_AryRows.Num() - 1;
+	m_nMaxMap = UDefaultStageMode::AryStageRows.Num();
 	
 	m_BtnLeft->OnClicked.AddDynamic(this, &UWidgetStagePanel::OnClickLeft);
 	
@@ -26,16 +23,16 @@ void UWidgetStagePanel::NativeOnInitialized()
 
 void UWidgetStagePanel::OnMapChanged()
 {
-	int StageLevel = UMyGameInstance::Get->GetStageLevel();
+	int StageLevel = UMyGameInstance::Get->GetStageMode()->GetLevel();
 	
-	m_nMapIndex = ADefaultGameMode::GetDefaultStageMapIndex(StageLevel);
+	m_nMapIndex = UDefaultStageMode::GetDefaultStageMapIndex(StageLevel);
 }
 
 void UWidgetStagePanel::UpdateStage()
 {
 	Clear();
-	
-	const FStageRow& StageRowFound = *UMyGameInstance::Get->GetDefaultStageRows()[m_nMapIndex];
+
+	const FStageRow& StageRowFound = *UDefaultStageMode::AryStageRows[m_nMapIndex];
 
 	m_ImgIcon->SetBrushFromTexture(StageRowFound.m_IconStage);
 

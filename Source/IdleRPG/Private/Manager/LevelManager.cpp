@@ -12,8 +12,10 @@ LevelManager::~LevelManager()
 	m_Outer.Reset();
 }
 
-bool LevelManager::OpenLevel(const FName& levelName)
+bool LevelManager::OpenLevel(const FName& levelName, FVoidvoidMulti onComp)
 {
+	m_OnLevelLoadComplete = onComp;
+	
 	if(m_CurrentLevel == levelName)
 	{
 		return false;
@@ -26,8 +28,8 @@ bool LevelManager::OpenLevel(const FName& levelName)
 	return true;
 }
 
-void LevelManager::OnLoadComplete(const FString& mapName)
+void LevelManager::OnLoadComplete()
 {
-	m_OnLevelLoadComplete.ExecuteIfBound();
-	m_OnLevelLoadComplete.Unbind();
+	m_OnLevelLoadComplete.Broadcast();
+	m_OnLevelLoadComplete.Clear();
 }

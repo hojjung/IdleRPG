@@ -73,7 +73,7 @@ FVector UMyFlockSteering::GetBoidDelta(FVector inputDelta)
 {
 	m_NearMobs.Reset();
 	
-	UMyGameInstance::Get->GetNearNpcs<AMonsterPawn>(m_Owner.Get(),m_NearMobs,m_fRadius);
+	UMyGameInstance::Get->GetStageMode()->GetNearNpcs<AMonsterPawn>(m_Owner.Get(),m_NearMobs,m_fRadius);
 	
 	FVector DestDelta = inputDelta;
 	

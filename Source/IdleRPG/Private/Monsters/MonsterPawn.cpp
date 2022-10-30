@@ -279,7 +279,7 @@ void AMonsterPawn::OnDead()
 	PlayCoinEffect();
 	PlayDeathSound();
 
-	UMyGameInstance::Get->OnMonsterDead(this);
+	UMyGameInstance::Get->GetStageMode()->OnMonsterDead(this);
 }
 
 void AMonsterPawn::PlayDeathSound()
@@ -309,5 +309,5 @@ void AMonsterPawn::OnDeathAnimEnd()
 {
 	Super::OnDeathAnimEnd();
 	//Respawn?
-	UMyGameInstance::Get->OnMonsterAnimEnd(this);
+	UMyGameInstance::Get->GetStageMode()->OnMonsterAnimEnd(this);
 }

@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Manager/GameMode/IdleRPGGameModeBase.h"
-#include "PvpGameMode.generated.h"
+#include "GameFramework/GameModeBase.h"
+#include "TitleGameMode.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API APvpGameMode : public AIdleRPGGameModeBase
+class IDLERPG_API ATitleGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 	

@@ -157,14 +157,14 @@ void AMyPlayerPawn::OnDead()
 	Super::OnDead();
 	m_PawnInfo->SetVisibility(false);
 
-	UMyGameInstance::Get->OnPlayerDead(this);
+	UMyGameInstance::Get->GetStageMode()->OnPlayerDead(this);
 }
 
 void AMyPlayerPawn::OnDeathAnimEnd()
 {
 	Super::OnDeathAnimEnd();
 
-	UMyGameInstance::Get->OnPlayerAnimEnd(this);
+	UMyGameInstance::Get->GetStageMode()->OnPlayerAnimEnd(this);
 }
 
 void AMyPlayerPawn::Revive()

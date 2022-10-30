@@ -6,7 +6,6 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
-#include "Monsters/StageTable.h"
 #include "WidgetStageEle.generated.h"
 
 class UWidgetStagePanel;
