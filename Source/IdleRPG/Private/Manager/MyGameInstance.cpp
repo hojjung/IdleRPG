@@ -28,6 +28,13 @@ void UMyGameInstance::BeginDestroy()
 	m_PlayerCon = nullptr;
 }
 
+void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)
+{
+	Super::LoadComplete(LoadTime, MapName);
+
+	UBUITween::Shutdown();
+}
+
 void UMyGameInstance::Init()
 {
 	Super::Init();
@@ -45,15 +52,23 @@ void UMyGameInstance::Init()
 	m_LevelManager = MakeShareable(new LevelManager(this));
 
 	m_PlayerGas = MakeShareable(new GAS(GetUniqueID()));
+
+	
+}
+
+void UMyGameInstance::OnGameModeStart()
+{
+	StartGameMode(EGameMode::Default, 0);
 }
 
 void UMyGameInstance::Tick(float d)
 {
-	m_StageMode->Tick(d);
+	//m_StageMode->Tick(d);
 }
 
-void UMyGameInstance::StartGameMode(EGameMode m, int level, FVoidvoidMulti onLevelChanged)
+void UMyGameInstance::StartGameMode(EGameMode m, int level, FVoidvoidMulti onDead)
 {
+	PRINTF("StargetGameMode:%d",level);
 	m_nStageLevel = level;
 	
 	FName LevelName;
@@ -78,7 +93,7 @@ void UMyGameInstance::StartGameMode(EGameMode m, int level, FVoidvoidMulti onLev
 	case EGameMode::Story:
 		break;
 	}
-	LoadMap(LevelName, onLevelChanged);
+	LoadMap(LevelName, onDead);
 }
 
 void UMyGameInstance::LoadMap(const FName& levelName, FVoidvoidMulti onDead)
@@ -87,18 +102,17 @@ void UMyGameInstance::LoadMap(const FName& levelName, FVoidvoidMulti onDead)
 
 	if (ChangeWorldLevel)
 	{
-		GetGameMode()->SetFade();
+		// if(GetGameMode())
+		// {
+		// 	GetGameMode()->SetFade();
+		// }
+		// else
+		// {
+		// 	OnLevelMoveFadeEnd();
+		// }
 		return;
 	}
-	
-	GetGameMode()->SetFade(FVoidvoid::CreateUObject(this, &UMyGameInstance::OnLevelMoveFadeEnd));
-}
-
-void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)
-{
-	Super::LoadComplete(LoadTime, MapName);
-	
-	//OnLevelMoveFadeEnd();
+	OnLevelMoveFadeEnd();
 }
 
 void UMyGameInstance::OnLevelMoveFadeEnd()

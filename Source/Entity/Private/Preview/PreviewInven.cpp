@@ -1,6 +1,7 @@
 
 #include "Preview/PreviewInven.h"
 
+#include "MyAssetManager.h"
 #include "Engine/AssetManager.h"
 #include "Kismet/KismetSystemLibrary.h"
 
@@ -26,7 +27,10 @@ void PreviewInven::DeselectAvatar(FStreamableDelegate deSelect)
 	TArray<FName> AryBundlesRemove;
 	AryBundlesRemove.Add(TEXT("Preview"));
 
-	UAssetManager::Get().ChangeBundleStateForPrimaryAssets(AryIds, AryBundlesAdd, AryBundlesRemove, false,deSelect);
+	TSharedPtr<FStreamableHandle> Handle =  UAssetManager::Get().ChangeBundleStateForPrimaryAssets(AryIds, AryBundlesAdd, AryBundlesRemove, false,deSelect);
+
+	FStreamableDelegate dele;
+	UMyAssetManager::SyncLoad(dele, Handle);
 }
 
 void PreviewInven::SelectAvatar(FPrimaryAssetId id, FStreamableDelegate dele)
@@ -46,7 +50,9 @@ void PreviewInven::SelectAvatar(FPrimaryAssetId id, FStreamableDelegate dele)
 	
 	TArray<FName> AryBundlesRemove;
 	
-	UAssetManager::Get().ChangeBundleStateForPrimaryAssets(AryIds, AryBundlesAdd, AryBundlesRemove,false,dele);
+	TSharedPtr<FStreamableHandle> Handle = UAssetManager::Get().ChangeBundleStateForPrimaryAssets(AryIds, AryBundlesAdd, AryBundlesRemove,false);
+
+	UMyAssetManager::SyncLoad(dele, Handle);
 }
 
 void PreviewInven::LoadAvatar(FPrimaryAssetId id, FStreamableDelegate dele)
@@ -60,8 +66,11 @@ void PreviewInven::LoadAvatar(FPrimaryAssetId id, FStreamableDelegate dele)
 	AryBundlesAdd.Add(TEXT("Default"));
 	
 	TArray<FName> AryBundlesRemove;
-	
-	UAssetManager::Get().ChangeBundleStateForPrimaryAssets(AryIds, AryBundlesAdd, AryBundlesRemove,false,dele);
+
+	TSharedPtr<FStreamableHandle> Handle = UAssetManager::Get().ChangeBundleStateForPrimaryAssets(
+		AryIds, AryBundlesAdd, AryBundlesRemove, false);
+
+	UMyAssetManager::SyncLoad(dele, Handle);
 }
 
 void PreviewInven::ChangeAvatar(FPrimaryAssetId selectId, FStreamableDelegate onSelect)
@@ -105,6 +114,7 @@ void PreviewInven::ShowPreview()
 
 void PreviewInven::HidePreview()
 {
+	m_CurrentPreviewID = FPrimaryAssetId();
 	m_PreviewActor->HideMeshWithTick();
 }
 

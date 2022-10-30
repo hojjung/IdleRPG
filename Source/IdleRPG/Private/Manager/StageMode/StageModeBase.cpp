@@ -14,6 +14,9 @@ void UStageModeBase::SetLevel(int l)
 {
 	m_nStageLevel = l;
 
+	m_SpawnManager.Reset();
+	m_SpawnManager = MakeShareable(new SpawnManager());
+
 	OnPreSpawnMobs();
 
 	SpawnMobs();

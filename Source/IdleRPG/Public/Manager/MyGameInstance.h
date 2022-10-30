@@ -65,15 +65,16 @@ protected:
 	virtual void BeginDestroy() override;
 
 	virtual void LoadComplete(const float LoadTime, const FString& MapName) override;
-	
+
 	void LoadMap(const FName& levelName, FVoidvoidMulti onDead);
 
-public:
 	void OnLevelMoveFadeEnd();
-	
+public:
 	virtual void Init() override;
 
-	void StartGameMode(EGameMode m, int level, FVoidvoidMulti onLevelChanged);
+	void OnGameModeStart();
+	
+	void StartGameMode(EGameMode m, int level, FVoidvoidMulti onDead = FVoidvoidMulti());
 	
 	void Tick(float d);
 	
@@ -88,6 +89,7 @@ public:
 	AIdleRPGGameModeBase* GetGameMode();
 
 	UStageModeBase * GetStageMode();
+	
 };
 
 

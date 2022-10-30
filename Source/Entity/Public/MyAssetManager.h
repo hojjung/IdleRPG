@@ -31,6 +31,8 @@ public:
 	UUnitAsset* LoadUnitAssetIconPreviewOnly(FPrimaryAssetId id, FStreamableDelegate dele);
 	
 	void ClearUnits();
+
+	static void SyncLoad(FStreamableDelegate dele, TSharedPtr<FStreamableHandle> Handle);
 };
 
 

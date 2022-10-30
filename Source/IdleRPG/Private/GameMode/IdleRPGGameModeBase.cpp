@@ -18,9 +18,9 @@ void AIdleRPGGameModeBase::StartPlay()
 {
 	Super::StartPlay();
 
-	//UMyGameInstance::Get->OnLevelMoveFadeEnd();
+	UMyGameInstance::Get->OnGameModeStart();
 	
-	//m_Canvas = CreateWidget<UWidgetMainCanvas>(GetWorld(), m_ClassCanvas);
+	m_Canvas = CreateWidget<UWidgetMainCanvas>(GetWorld(), m_ClassCanvas);
 
 	if(m_Canvas)
 	{

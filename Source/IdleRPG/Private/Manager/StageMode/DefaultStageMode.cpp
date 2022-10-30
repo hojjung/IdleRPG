@@ -14,6 +14,9 @@ UDefaultStageMode::UDefaultStageMode()
 	static ConstructorHelpers::FObjectFinder<UDataTable> FoundTable01(TEXT("DataTable'/Game/02_DataTables/StageTable.StageTable'"));
 
 	GetStageData = FoundTable01.Object;
+
+	AryStageRows.Reset(200);
+	GetStageData->GetAllRows("", AryStageRows);
 }
 
 void UDefaultStageMode::OnPreSpawnMobs()

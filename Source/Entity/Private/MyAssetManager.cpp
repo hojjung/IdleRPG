@@ -29,19 +29,7 @@ UUnitAsset* UMyAssetManager::LoadUnitAsset(FPrimaryAssetId id, FStreamableDelega
 
 	if (Handle != nullptr)
 	{
-		EAsyncPackageState::Type LoadState = EAsyncPackageState::TimeOut;
-		// Get waiting for timeout if is 
-		while (LoadState != EAsyncPackageState::Complete && Handle->IsActive())
-		{
-			// Get Asset Object ready for async loading.
-			LoadState = Handle->WaitUntilComplete(0.f /*Forever*/, true/*Force load*/);
-
-			if (LoadState == EAsyncPackageState::PendingImports)
-			{
-				LoadState = EAsyncPackageState::Complete;
-			}
-		}
-		
+		UMyAssetManager::SyncLoad(dele,Handle);
 
 		Unit = Cast<UUnitAsset>(Handle->GetLoadedAsset());
 	}
@@ -85,4 +73,26 @@ UUnitAsset* UMyAssetManager::LoadUnitAssetIconPreviewOnly(FPrimaryAssetId id, FS
 void UMyAssetManager::ClearUnits()
 {
 	UKismetSystemLibrary::CollectGarbage();
+}
+
+void UMyAssetManager::SyncLoad(FStreamableDelegate dele, TSharedPtr<FStreamableHandle> Handle)
+{
+	if(!Handle.Get())
+	{
+		dele.ExecuteIfBound();
+		return;
+	}
+	EAsyncPackageState::Type LoadState = EAsyncPackageState::TimeOut;
+	// Get waiting for timeout if is 
+	while (LoadState != EAsyncPackageState::Complete && Handle->IsActive())
+	{
+		// Get Asset Object ready for async loading.
+		LoadState = Handle->WaitUntilComplete(0.f /*Forever*/, true/*Force load*/);
+
+		if (LoadState == EAsyncPackageState::PendingImports)
+		{
+			LoadState = EAsyncPackageState::Complete;
+		}
+	}
+	dele.ExecuteIfBound();
 }
