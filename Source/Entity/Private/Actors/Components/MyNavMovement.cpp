@@ -13,6 +13,7 @@ UMyNavMovement::UMyNavMovement(const FObjectInitializer& obj): Super(obj)
 	NavAgentProps.AgentHeight = 88;
 	NavAgentProps.AgentRadius = 34;
 	m_fMultiple = 1.0f;
+	m_fRotateLerp = 8;
 }
 
 void UMyNavMovement::BeginPlay()
@@ -136,7 +137,7 @@ void UMyNavMovement::TickRotate(float deltaTime)
 
 	if (!FMath::IsNearlyEqual(CurrentRotation.Yaw, DesiredRotation.Yaw, 1e-3f))
 	{
-		DesiredRotation.Yaw = UKismetMathLibrary::RInterpTo(CurrentRotation, DesiredRotation, deltaTime, 8).Yaw;
+		DesiredRotation.Yaw = UKismetMathLibrary::RInterpTo(CurrentRotation, DesiredRotation, deltaTime, m_fRotateLerp).Yaw;
 
 		MoveUpdatedComponent(FVector::ZeroVector, DesiredRotation, false);
 	}

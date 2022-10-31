@@ -26,9 +26,7 @@ protected:
 	BigInt m_MaxExp;
 
 public:
-	BigInt AddExp(const BigInt& v,bool useBonus=true);
-
-	bool SubtractExp(const BigInt& v);
+	void AddExp(const BigInt& v, bool useBonus=true);
 	
 	FORCEINLINE const BigInt& GetCurrentExp() const
 	{

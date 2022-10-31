@@ -6,6 +6,7 @@
 UMyFlockSteering::UMyFlockSteering(const FObjectInitializer& obj): Super(obj)
 {
 	m_fRadius = 400;
+	m_fRotateLerp = 4;
 }
 
 void UMyFlockSteering::BeginPlay()
@@ -27,7 +28,9 @@ FVector UMyFlockSteering::GetDelta(float delta, const FVector& inputDelta)
 		NewDelta = inputDelta;	
 	}
 
-	return m_Delta = (delta * m_fMultiple * NewDelta * GetMaxSpeed()) + m_ImpactVector;	
+	FVector Lerp = UKismetMathLibrary::VLerp(inputDelta, NewDelta, 0.5f);
+	
+	return Super::GetDelta(delta, Lerp);	
 }
 
 FVector UMyFlockSteering::GetBoidDelta(FVector inputDelta)
@@ -36,10 +39,8 @@ FVector UMyFlockSteering::GetBoidDelta(FVector inputDelta)
 	
 	UMyGameInstance::Get->GetStageMode()->GetNearNpcs<AMonsterPawn>(m_Owner.Get(),m_NearMobs,m_fRadius);
 	
-	FVector DestDelta = inputDelta;
-	
 	FVector SepSum = FVector::ZeroVector;
-
+	
 	FVector OwnerLoc = m_Owner->GetActorLocation();
 	
 	OwnerLoc.Z = 0.f;
@@ -60,12 +61,12 @@ FVector UMyFlockSteering::GetBoidDelta(FVector inputDelta)
 			
 			SepSum += (OwnerLoc - OtherLoc);
 		}
-		SepSum /= Count; 
+		SepSum /= Count;
 	}
+
+	FVector Result = (SepSum.GetSafeNormal(0.01f)) + (inputDelta);
 	
-	FVector FinalDelta = (DestDelta * 1.35f) + (SepSum.GetSafeNormal(0.01f)); 
-	
-	return FinalDelta.GetSafeNormal();
+	return Result.GetSafeNormal(0.01f);
 }
 
 void UMyFlockSteering::SetComponentTickEnabled(bool bEnabled)

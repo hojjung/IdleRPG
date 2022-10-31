@@ -30,6 +30,8 @@ protected:
 	float m_fSpeed;
 
 	float m_fMultiple;
+
+	float m_fRotateLerp;
 	
 protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

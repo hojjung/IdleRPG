@@ -11,6 +11,11 @@ ExpManager::~ExpManager()
 {
 }
 
+void ExpManager::AddExp(const BigInt& v, bool useBonus)
+{
+	m_CurrentExp += v;
+}
+
 float ExpManager::GetPercent()
 {
 	float PerOne = UBigIntLib::GetOnePercent(m_CurrentExp, m_MaxExp);

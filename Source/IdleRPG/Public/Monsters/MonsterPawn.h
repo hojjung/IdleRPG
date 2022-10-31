@@ -53,11 +53,9 @@ public:
 
 	virtual void Revive() override;
 
-protected:
+private:
 	virtual void OnReviveAnimEnd() override;
 
-private:
-	
 	virtual void Tick(float DeltaSeconds) override;
 	
 	void OnHpChanged();

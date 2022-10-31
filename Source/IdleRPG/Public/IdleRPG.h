@@ -16,9 +16,9 @@ namespace FGlobalVariable
 	
 	static const int LEVEL_MAX = 100;
 
-	static const float HERO_DEFAULT_SPEED = 400.f;
+	static const float HERO_DEFAULT_SPEED = 600;
 
-	static const float MONSTER_DEFAULT = 200.f;
+	static const float MONSTER_DEFAULT = 400;
 }
 
 class DeleterNot

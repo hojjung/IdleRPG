@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 // FStreamableDelegate Delegate = FStreamableDelegate::CreateUObject(this, &ASGameModeBase::OnMonsterLoaded, MonsterId, SpawnLocation);
-    
+
 
 #include "MyAssetManager.h"
 
@@ -23,21 +23,21 @@ UMyAssetManager* UMyAssetManager::Get()
 
 UUnitAsset* UMyAssetManager::LoadUnitAsset(FPrimaryAssetId id, FStreamableDelegate dele, TArray<FName> ary)
 {
-	TSharedPtr<FStreamableHandle> Handle = LoadPrimaryAsset(id, ary, FStreamableDelegate(),FStreamableManager::AsyncLoadHighPriority);
+	TSharedPtr<FStreamableHandle> Handle = LoadPrimaryAsset(id, ary, FStreamableDelegate(),
+	                                                        FStreamableManager::AsyncLoadHighPriority);
 
 	UUnitAsset* Unit = nullptr;
 
+	UMyAssetManager::SyncLoad(dele, Handle);
+
 	if (Handle != nullptr)
 	{
-		UMyAssetManager::SyncLoad(dele,Handle);
-
 		Unit = Cast<UUnitAsset>(Handle->GetLoadedAsset());
 	}
 	else
 	{
 		Unit = Cast<UUnitAsset>(GetPrimaryAssetObject(id));
 	}
-
 	return Unit;
 }
 
@@ -75,9 +75,9 @@ void UMyAssetManager::ClearUnits()
 
 void UMyAssetManager::SyncLoad(FStreamableDelegate dele, TSharedPtr<FStreamableHandle> Handle)
 {
-	if(!Handle.Get())
+	if (!Handle.Get())
 	{
-		dele.ExecuteIfBound();
+		FStreamableHandle::ExecuteDelegate(dele);
 		return;
 	}
 	EAsyncPackageState::Type LoadState = EAsyncPackageState::TimeOut;
@@ -92,5 +92,5 @@ void UMyAssetManager::SyncLoad(FStreamableDelegate dele, TSharedPtr<FStreamableH
 			LoadState = EAsyncPackageState::Complete;
 		}
 	}
-	dele.ExecuteIfBound();
+	FStreamableHandle::ExecuteDelegate(dele);
 }
