@@ -36,7 +36,7 @@ float ACombatPawn::PlayBaseAttackAnim(float rate)
 	
 	int RandIndex = FMath::RandRange(0, AnimAry.Num()-1);
 	
-	return PlayAnimMontage(m_EntityAsset->m_BaseAttackAnim.Get(), rate, AnimAry[RandIndex].SectionName);
+	return PlayAnimMontageSetDuration(m_EntityAsset->m_BaseAttackAnim.Get(), 1.0f /rate, AnimAry[RandIndex].SectionName);
 }
 
 void ACombatPawn::SetAtkRange(float v)
@@ -97,9 +97,7 @@ void ACombatPawn::PlayDeathAnim()
 {
 	if(m_EntityAsset->m_DeathMontage)
 	{
-		PlayAnimMontage(m_EntityAsset->m_DeathMontage.Get());
-
-		float AnimLength = m_EntityAsset->m_DeathMontage->GetPlayLength() - 0.4f;
+		float AnimLength = PlayAnimMontageSetDuration(m_EntityAsset->m_DeathMontage.Get()) - 0.4f;
 
 		GetWorldTimerManager().SetTimer(m_DeathAnimTimer, this, &ACombatPawn::OnDeathAnimEnd, AnimLength, false);
 	}
@@ -121,7 +119,7 @@ void ACombatPawn::OnDeathAnimEnd()
 
 void ACombatPawn::Revive()
 {
-	SetActorFeetLocation(m_SpawnPos);
+	SetActorLocation(m_SpawnPos);
 	
 	SetActorRotation(FRotator(0,FMath::RandRange(0,360),0));
 	

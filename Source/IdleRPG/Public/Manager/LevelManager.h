@@ -15,15 +15,13 @@ public:
 	
 	~LevelManager();
 
-	FVoidvoidMulti m_OnLevelLoadComplete;
-
 protected:
 	TWeakObjectPtr<UObject> m_Outer;
 
 	FName m_CurrentLevel;
 
 public:
-	bool OpenLevel(const FName& levelName, FVoidvoidMulti onComp = FVoidvoidMulti());
+	bool IsNeedChangeMap(const FName& levelName);
 	
-	void OnLoadComplete();
+	void OpenLevel(const FName& levelName);
 };

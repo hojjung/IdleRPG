@@ -36,10 +36,6 @@ SpawnManager::~SpawnManager()
 
 void SpawnManager::Update(float delta)
 {
-	if (m_AryMonsters.Num() <= 0)
-	{
-		return;
-	}
 	for (auto Mob : m_AryMonsters)
 	{
 		Mob.Get()->Update(delta);
@@ -58,7 +54,7 @@ void SpawnManager::SpawnUnits(const FPrimaryAssetId& id)
 {
 	FNavLocation ResultPos;
 
-	m_Nav->GetRandomPointInNavigableRadius(m_NavBox.GetCenter(), m_NavBox.GetExtent().X, ResultPos);
+	m_Nav->GetRandomReachablePointInRadius(m_NavBox.GetCenter(), m_NavBox.GetExtent().X, ResultPos);
 
 	FRotator Rot = FRotator(0, FMath::RandRange(0, 360), 0);
 
@@ -66,8 +62,7 @@ void SpawnManager::SpawnUnits(const FPrimaryAssetId& id)
 
 	const UObject* Inst = UMyGameInstance::Get;
 
-	FStreamableDelegate Delegate = FStreamableDelegate::CreateRaw(this, &SpawnManager::OnMonsterLoaded, AssetID, Inst,
-	                                                              ResultPos.Location, Rot);
+	FStreamableDelegate Delegate = FStreamableDelegate::CreateRaw(this, &SpawnManager::OnMonsterLoaded, AssetID, Inst, ResultPos.Location, Rot);
 
 	UMyAssetManager::Get()->LoadUnitAssetMeshOnly(AssetID, Delegate);
 }
@@ -75,12 +70,14 @@ void SpawnManager::SpawnUnits(const FPrimaryAssetId& id)
 void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* world, FVector loc, FRotator rot)
 {
 	FActorSpawnParameters Param;
-	Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+	Param.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	Param.bNoFail = true;
 
 	UAssetManager* Manager = UAssetManager::GetIfValid();
 
 	UUnitAsset* MonsterData = Cast<UUnitAsset>(Manager->GetPrimaryAssetObject(id));
+
+	loc.Z += 88;
 
 	AMonsterPawn* Pawn = world->GetWorld()->SpawnActor<AMonsterPawn>(AMonsterPawn::StaticClass(), loc, rot, Param);
 

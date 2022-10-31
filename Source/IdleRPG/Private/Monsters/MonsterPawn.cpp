@@ -85,7 +85,7 @@ TEXT("ParticleSystem'/Game/03_VisualEffect/PS_CoinDrop.PS_CoinDrop'"));
 
 	m_DeathSoundComp->SetSound(DeathSound.Object);
 	
-	m_Movement->MaxSpeed = 200.f;
+	m_Movement->SetMaxSpeed(FGlobalVariable::MONSTER_DEFAULT);
 
 	m_fDeathAnimDurationMax = 0;
 	
@@ -95,7 +95,7 @@ TEXT("ParticleSystem'/Game/03_VisualEffect/PS_CoinDrop.PS_CoinDrop'"));
 
 	SetAtkRange(150);
 
-	m_fAtkRate = 0.5;
+	m_fAtkRate = 0.3f;
 }
 void AMonsterPawn::SetEntity(const UUnitAsset* asset)
 {

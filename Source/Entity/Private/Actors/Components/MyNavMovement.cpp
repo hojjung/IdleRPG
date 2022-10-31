@@ -6,92 +6,25 @@
 
 UMyNavMovement::UMyNavMovement(const FObjectInitializer& obj): Super(obj)
 {
-	MaxSpeed = 1200.f;
-	Acceleration = 4000.f;
-	Deceleration = 8000.f;
+	m_fSpeed = 1200.f;
 	bUseAccelerationForPaths = true;
 	bUseFixedBrakingDistanceForPaths = true;
-	TurningBoost = 8.0f;
-	bPositionCorrected = false;
-	m_fSpeedMultiple = 1;
 	ResetMoveState();
 	NavAgentProps.AgentHeight = 88;
 	NavAgentProps.AgentRadius = 34;
+	m_fMultiple = 1.0f;
 }
 
 void UMyNavMovement::BeginPlay()
 {
 	Super::BeginPlay();
 	m_Owner = GetOwner<AMyBasePawn>();
-	NavAgentProps = m_Owner->GetNavAgentPropertiesRef(); 
-	MySnapToNav();
+	NavAgentProps = m_Owner->GetNavAgentPropertiesRef();
 }
 
-void UMyNavMovement::MySnapToNav()
+void UMyNavMovement::SetMaxSpeed(float spd)
 {
-	FVector ActorLoc = GetActorLocation();
-	FNavLocation Loc;
-
-	UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
-	
-	if(!Nav->ProjectPointToNavigation(ActorLoc,Loc))
-	{
-		Nav->GetRandomPointInNavigableRadius(ActorLoc,10,Loc);
-	}
-	
-	m_Owner->SetActorFeetLocation(Loc.Location);
-	
-}
-
-void UMyNavMovement::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	if (ShouldSkipUpdate(DeltaTime))
-	{
-		return;
-	}
-
-	UMovementComponent::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	if (!PawnOwner || !UpdatedComponent)
-	{
-		return;
-	}
-
-	ApplyControlInputToVelocity(DeltaTime);
-
-	LimitWorldBounds();
-
-	//bPositionCorrected = false;
-
-	m_Delta = (Velocity * DeltaTime * m_fSpeedMultiple) + m_ImpactVector;
-
-	if (!m_Delta.IsNearlyZero(1e-6f) && IsNavBound(m_Delta))
-	{
-		const FVector OldLocation = UpdatedComponent->GetComponentLocation();
-
-		const FQuat Rotation = UpdatedComponent->GetComponentQuat();
-
-		FHitResult Hit(1.f);
-		
-		SafeMoveUpdatedComponent(m_Delta, Rotation, true, Hit);
-
-		if (Hit.IsValidBlockingHit())
-		{
-			HandleImpact(Hit, DeltaTime, m_Delta);
-			
-			SlideAlongSurface(m_Delta, 1.f - Hit.Time, Hit.Normal, Hit, true);
-		}
-
-		const FVector NewLocation = UpdatedComponent->GetComponentLocation();
-		
-		Velocity = ((NewLocation - OldLocation) / DeltaTime);
-	}
-
-	m_ImpactVector = FVector::ZeroVector;
-	
-	UpdateComponentVelocity();
-
-	TickRotate(DeltaTime);
+	m_fSpeed = spd;
 }
 
 void UMyNavMovement::SetImpact(FVector v)
@@ -99,25 +32,95 @@ void UMyNavMovement::SetImpact(FVector v)
 	m_ImpactVector = v;
 }
 
+void UMyNavMovement::SetSpeedMultiple(float m)
+{
+	m_fMultiple = m;
+}
+
+void UMyNavMovement::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	UMovementComponent::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (!PawnOwner || !UpdatedComponent)
+	{
+		return;
+	}
+
+	Velocity = FVector::ZeroVector;
+	
+	const FVector ControlAcceleration = GetPendingInputVector().GetClampedToMaxSize(1.f);
+
+	ConsumeInputVector();
+
+	m_Delta = GetDelta(DeltaTime, ControlAcceleration);
+
+	FVector ActorLoc = GetActorLocation();
+
+	FNavLocation NewLoc;
+
+	UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
+
+	if(Nav->ProjectPointToNavigation(ActorLoc, NewLoc))
+	{
+		m_Owner->SetActorFeetLocation(NewLoc);
+	}
+
+	if (IsNavBound(m_Delta) && !m_Delta.IsNearlyZero(1e-6f))
+	{
+		const FVector OldLocation = UpdatedComponent->GetComponentLocation();
+
+		const FQuat Rotation = UpdatedComponent->GetComponentQuat();
+
+		FHitResult Hit(1.f);
+
+		SafeMoveUpdatedComponent(m_Delta, Rotation, true, Hit);
+
+		if (Hit.IsValidBlockingHit())
+		{
+			HandleImpact(Hit, DeltaTime, m_Delta);
+
+			SlideAlongSurface(m_Delta, 1.f - Hit.Time, Hit.Normal, Hit, true);
+		}
+		Velocity = m_Delta;
+	}
+
+	m_ImpactVector = FVector::ZeroVector;
+
+	UpdateComponentVelocity();
+
+	TickRotate(DeltaTime);
+}
+
+
 void UMyNavMovement::SetActive(bool new_active, bool reset)
 {
 	Super::SetActive(new_active, reset);
 
-	if(!new_active)
+	if (!new_active)
 	{
 		m_ImpactVector = FVector::ZeroVector;
 	}
 }
 
+float UMyNavMovement::GetMaxSpeed() const
+{
+	return m_fSpeed;
+}
+
 bool UMyNavMovement::IsNavBound(FVector delta)
 {
 	FVector ActorLoc = GetActorLocation();
-	
+
 	FNavLocation Loc;
 
 	UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
 
-	return Nav->ProjectPointToNavigation(delta + ActorLoc,Loc);
+	return  Nav->ProjectPointToNavigation(delta + ActorLoc, Loc);
+}
+
+FVector UMyNavMovement::GetDelta(float delta, const FVector& inputDelta)
+{
+	return m_Delta = (delta * m_fMultiple * inputDelta * GetMaxSpeed()) + m_ImpactVector;
 }
 
 void UMyNavMovement::TickRotate(float deltaTime)
@@ -142,7 +145,7 @@ void UMyNavMovement::TickRotate(float deltaTime)
 FRotator UMyNavMovement::ComputeOrientToMovementRotation(const FRotator& CurrentRotation) const
 {
 	if (m_Delta.IsNearlyZero(0.01f))
-		//회전각이 0이여서 // 몬스터의 경우 추적 대상이 존재한다면 추적대상을 바라봐야함,이함수랑 별개로 만들어야할듯? ㄴㄴ 그냥 움직일때는 고개돌리는게 맞을듯
+	//회전각이 0이여서 // 몬스터의 경우 추적 대상이 존재한다면 추적대상을 바라봐야함,이함수랑 별개로 만들어야할듯? ㄴㄴ 그냥 움직일때는 고개돌리는게 맞을듯
 	{
 		return CurrentRotation;
 	}
@@ -160,7 +163,7 @@ void UMyNavMovement::HandleImpact(const FHitResult& Hit, float TimeSlice, const 
 	}
 
 	APawn* OtherPawn = Cast<APawn>(Hit.GetActor());
-	
+
 	if (OtherPawn)
 	{
 		NotifyBumpedPawn(OtherPawn);
@@ -183,4 +186,3 @@ bool UMyNavMovement::CanStepUp(const FHitResult& Hit) const
 		return false;
 	return true;
 }
-

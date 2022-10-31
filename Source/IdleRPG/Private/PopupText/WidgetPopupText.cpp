@@ -38,11 +38,19 @@ void UWidgetPopupText::SetTextWant(const FText& textWant, int index)
 	.Easing(EBUIEasingType::OutCubic)
 	.OnComplete(FBUITweenSignature::CreateLambda([](UWidget* Owner)
 	{
+		if(!Owner)
+		{
+			return;
+		}
 		UBUITween::Create(Owner, 0.3f)
 			.FromOpacity(1)
 			.ToOpacity(0)
 			.OnComplete(FBUITweenSignature::CreateLambda([](UWidget* Owner)
 			{
+				if(!Owner)
+				{
+					return;
+				}
 				UWidgetPopupText* t = Cast<UWidgetPopupText>(Owner);
 				t->m_ParentComponent->EndAnimation();
 			}))

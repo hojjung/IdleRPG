@@ -11,6 +11,7 @@ void UMyGameInstance::BeginDestroy()
 {
 	Super::BeginDestroy();
 
+	UBUITween::CompleteAll();
 	UBUITween::Shutdown();
 
 	Get = nullptr;
@@ -32,6 +33,7 @@ void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)
 {
 	Super::LoadComplete(LoadTime, MapName);
 
+	UBUITween::CompleteAll();
 	UBUITween::Shutdown();
 }
 
@@ -43,42 +45,89 @@ void UMyGameInstance::Init()
 
 	Get = this;
 
+	m_bIsPlayerDead = false;
+
 	m_PetManager = MakeShareable(new PetManager());
 
 	m_AvatarManager = MakeShareable(new AvatarManager());
 
 	m_GoldManager = MakeShareable(new GoldManager());
 
+	m_ExpManager = MakeShareable(new ExpManager());
+
 	m_LevelManager = MakeShareable(new LevelManager(this));
 
 	m_PlayerGas = MakeShareable(new GAS(GetUniqueID()));
 
-	
+	m_StageMode = NewObject<UDefaultStageMode>(this);
+
+	m_StageMode->SetLevel(m_nStageLevel);
 }
 
 void UMyGameInstance::OnGameModeStart()
 {
-	StartGameMode(EGameMode::Default, 0);
-}
 
-void UMyGameInstance::Tick(float d)
-{
-	//m_StageMode->Tick(d);
-}
-
-void UMyGameInstance::StartGameMode(EGameMode m, int level, FVoidvoidMulti onDead)
-{
-	PRINTF("StargetGameMode:%d",level);
-	m_nStageLevel = level;
-	
-	FName LevelName;
-
-	switch (m)
+	if(m_StageMode)
+	{
+		m_StageMode->Clear();
+	}
+	switch (m_GameMode)
 	{
 	case EGameMode::Default:
 		{
 			m_StageMode = NewObject<UDefaultStageMode>(this);
+		}
+		break;
+	case EGameMode::PVP:
+		{
 			
+		}
+		break;
+	case EGameMode::BoneDragon:
+		{
+			
+		}
+		break;
+	case EGameMode::Reaper:
+		{
+			
+		}
+		break;
+	case EGameMode::ChickenRun:
+		{
+			
+		}
+		break;
+	case EGameMode::Story:
+		{
+			
+		}
+		break;
+	}
+	
+	m_StageMode->SetLevel(m_nStageLevel);
+	m_StageMode->StartGame();
+}
+
+void UMyGameInstance::Tick(float d)
+{
+	m_StageMode->Tick(d);
+}
+
+//레벨로드 따로
+//스포닝 따로
+void UMyGameInstance::StartGameMode(EGameMode m, int level)
+{
+	m_nStageLevel = level;
+
+	m_GameMode = m;
+	
+	FName LevelName;
+
+	switch (m_GameMode)
+	{
+	case EGameMode::Default:
+		{
 			LevelName = UDefaultStageMode::GetDefaultStage(m_nStageLevel).m_LevelName;
 		}
 		break;
@@ -93,39 +142,53 @@ void UMyGameInstance::StartGameMode(EGameMode m, int level, FVoidvoidMulti onDea
 	case EGameMode::Story:
 		break;
 	}
-	LoadMap(LevelName, onDead);
+	LoadMap(LevelName);
 }
 
-void UMyGameInstance::LoadMap(const FName& levelName, FVoidvoidMulti onDead)
+void UMyGameInstance::LoadMap(const FName& levelName)
 {
-	bool ChangeWorldLevel = m_LevelManager->OpenLevel(levelName, onDead);
+	bool IsPlayerDead = m_bIsPlayerDead;
+	
+	bool ChangeWorldLevel = m_LevelManager->IsNeedChangeMap(levelName);
 
-	if (ChangeWorldLevel)
+	if(ChangeWorldLevel)
 	{
-		// if(GetGameMode())
-		// {
-		// 	GetGameMode()->SetFade();
-		// }
-		// else
-		// {
-		// 	OnLevelMoveFadeEnd();
-		// }
-		return;
+		if(IsPlayerDead)
+		{
+			m_LevelManager->OpenLevel(levelName);
+		}
+		else
+		{
+			GetGameMode()->SetFade(FVoidvoid::CreateWeakLambda(this, [=]()
+			{
+				m_LevelManager->OpenLevel(levelName);
+			}));
+		}
 	}
-	OnLevelMoveFadeEnd();
+	else
+	{
+		if(IsPlayerDead)
+		{
+			TryOpenDeadAlert();
+			OnLevelMoveFadeEnd();
+		}
+		else
+		{
+			GetGameMode()->SetFade(FVoidvoid::CreateUObject(this, &UMyGameInstance::OnLevelMoveFadeEnd));
+		}
+	}
 }
 
 void UMyGameInstance::OnLevelMoveFadeEnd()
 {
+	UBUITween::CompleteAll();
 	UBUITween::Shutdown();
 	
 	GetGameMode()->SetHideFade();
 	
 	m_Player->Revive();
 	
-	m_LevelManager->OnLoadComplete();
-	
-	m_StageMode->SetLevel(m_nStageLevel);
+	OnGameModeStart();
 	
 	m_MapChanged.Broadcast();
 }
@@ -162,4 +225,14 @@ AIdleRPGGameModeBase* UMyGameInstance::GetGameMode()
 UStageModeBase* UMyGameInstance::GetStageMode()
 {
 	return m_StageMode;
+}
+
+void UMyGameInstance::TryOpenDeadAlert()
+{
+	if(UMyGameInstance::Get->m_bIsPlayerDead)
+	{
+		GetGameMode()->OpenDeadAlertWidget();
+		
+		UMyGameInstance::Get->m_bIsPlayerDead = false;
+	}
 }

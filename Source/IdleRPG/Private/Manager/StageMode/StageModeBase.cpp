@@ -5,18 +5,23 @@
 
 #include "Manager/MyGameInstance.h"
 
-void UStageModeBase::BeginDestroy()
+UStageModeBase::UStageModeBase()
 {
-	Super::BeginDestroy();
+	m_nMobSpawnCount = 20; 
 }
 
 void UStageModeBase::SetLevel(int l)
 {
 	m_nStageLevel = l;
+}
 
-	m_SpawnManager.Reset();
-	m_SpawnManager = MakeShareable(new SpawnManager());
+void UStageModeBase::SetMobCount(int cnt)
+{
+	m_nMobSpawnCount = cnt;
+}
 
+void UStageModeBase::StartGame()
+{
 	OnPreSpawnMobs();
 
 	SpawnMobs();
@@ -29,17 +34,29 @@ void UStageModeBase::OnPreSpawnMobs()
 
 void UStageModeBase::SpawnMobs()
 {
+	m_SpawnManager.Reset();
+	
+	m_SpawnManager = MakeShareable(new SpawnManager());
+
+	m_SpawnManager->SetBigIntStagMob(m_MobHp, m_MobDmg);
 	int Iter = -1;
 
 	TArray<FPrimaryAssetId> Z = GetStageUnits(m_nStageLevel);
 	
-	while (++Iter < 20)
+	while (++Iter < m_nMobSpawnCount)
 	{
 		const FPrimaryAssetId& SelectedId = m_SpawnManager->GetRandomMonsterID(Z); 
 		
 		m_SpawnManager->SpawnUnits(SelectedId);
 	}
 }
+
+void UStageModeBase::Clear()
+{
+	m_SpawnManager.Reset();	
+}
+
+
 
 TArray<FPrimaryAssetId> UStageModeBase::GetStageUnits(int lv)
 {
@@ -59,7 +76,13 @@ FText UStageModeBase::GetStageName(int level)
 void UStageModeBase::OnMonsterDead(AMonsterPawn* target)
 {
 	UMyGameInstance::Get->m_GoldManager->AddGold(m_Gold);
-	UMyGameInstance::Get->m_GoldManager->AddGold(m_Exp);
+	UMyGameInstance::Get->m_ExpManager->AddExp(m_Exp);
+}
+
+void UStageModeBase::OnPlayerDead(AMyPlayerPawn* target)
+{
+	UMyGameInstance::Get->m_bIsPlayerDead = true;
+	UMyGameInstance::Get->GetGameMode()->SetFade();
 }
 
 void UStageModeBase::Tick(float d)

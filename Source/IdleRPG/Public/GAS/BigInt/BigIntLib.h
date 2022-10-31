@@ -112,4 +112,25 @@ public:
 		
 		return Coeff;
 	}
+
+	static float GetOnePercent(BigInt c, BigInt m)
+	{
+		if(m.IsZero() || c.IsZero())
+		{
+			return  0.0f;
+		}
+		BigInt CopiedCH = c;
+
+		CopiedCH.Multiply(100);
+
+		CopiedCH.Divide(m);
+    
+		float Percent100 = CopiedCH.ToInt();
+
+		float Percent1 =  Percent100 / 100.f;
+
+		Percent1 = FMath::Clamp(Percent1,0.f,1.f);
+    
+		return Percent1;
+	}
 };

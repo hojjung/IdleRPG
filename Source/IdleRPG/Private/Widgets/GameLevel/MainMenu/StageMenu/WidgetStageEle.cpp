@@ -17,9 +17,7 @@ void UWidgetStageEle::SetZone(UWidgetStagePanel* parent, int level)
 
 void UWidgetStageEle::OnEnter()
 {
-	FVoidvoidMulti Empty;
-	
-	UMyGameInstance::Get->StartGameMode(EGameMode::Default, m_nLevel, Empty);
+	UMyGameInstance::Get->StartGameMode(EGameMode::Default, m_nLevel);
 
 	m_Parent->SetVisibility(ESlateVisibility::Collapsed);
 }

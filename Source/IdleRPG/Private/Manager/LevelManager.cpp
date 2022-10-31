@@ -12,24 +12,14 @@ LevelManager::~LevelManager()
 	m_Outer.Reset();
 }
 
-bool LevelManager::OpenLevel(const FName& levelName, FVoidvoidMulti onComp)
+bool LevelManager::IsNeedChangeMap(const FName& levelName)
 {
-	m_OnLevelLoadComplete = onComp;
-	
-	if(m_CurrentLevel == levelName)
-	{
-		return false;
-	}
-	
+	return m_CurrentLevel != levelName;
+}
+
+void LevelManager::OpenLevel(const FName& levelName)
+{
 	m_CurrentLevel = levelName;
 	
 	UGameplayStatics::OpenLevel(m_Outer.Get(), m_CurrentLevel);
-
-	return true;
-}
-
-void LevelManager::OnLoadComplete()
-{
-	m_OnLevelLoadComplete.Broadcast();
-	m_OnLevelLoadComplete.Clear();
 }

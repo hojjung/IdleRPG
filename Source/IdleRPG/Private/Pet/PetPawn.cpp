@@ -21,7 +21,7 @@ void APetPawn::SetPetEntity(const UUnitAsset* pet_row)
 	m_PFComp->SetMovementComponent(m_Movement);	
 	m_PFComp->Initialize();
 	m_Movement->SetPathFollowingAgent(m_PFComp);
-	m_Movement->MaxSpeed = FGlobalVariable::HERO_DEFAULT_SPEED * 0.99f;
+	m_Movement->SetMaxSpeed(FGlobalVariable::HERO_DEFAULT_SPEED * 0.99f);
 
 	LoadSetSkMeshAnim(pet_row);
 

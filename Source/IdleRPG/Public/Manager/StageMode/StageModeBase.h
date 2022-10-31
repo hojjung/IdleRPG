@@ -16,9 +16,14 @@ UCLASS()
 class IDLERPG_API UStageModeBase : public UObject
 {
 	GENERATED_BODY()
+
+public:
+	UStageModeBase();
 	
 protected:
 	int m_nStageLevel;
+
+	int m_nMobSpawnCount;
 
 	BigInt m_MobDmg;
 
@@ -31,8 +36,6 @@ protected:
 	TSharedPtr<SpawnManager> m_SpawnManager;
 
 protected:
-	virtual void BeginDestroy() override;
-
 	virtual TArray<FPrimaryAssetId> GetStageUnits(int lv);
 	
 	virtual void OnPreSpawnMobs();
@@ -40,7 +43,13 @@ protected:
 	void SpawnMobs();
 	
 public:
+	void Clear();
+	
 	void SetLevel(int l);
+
+	void SetMobCount(int cnt);
+
+	virtual void StartGame();
 	
 	FText GetStageName();
 
@@ -71,7 +80,7 @@ public:
 	
 	virtual void OnMonsterAnimEnd(AMonsterPawn* target) {}
 
-	virtual void OnPlayerDead(AMyPlayerPawn* target) {}
+	virtual void OnPlayerDead(AMyPlayerPawn* target);
 
 	virtual void OnPlayerAnimEnd(AMyPlayerPawn* target) {}
 

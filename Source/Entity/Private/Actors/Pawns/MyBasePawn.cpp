@@ -31,7 +31,7 @@ AMyBasePawn::AMyBasePawn(const FObjectInitializer& objInit): Super(objInit)
 	//
 	m_Movement = CreateDefaultSubobject<UMyNavMovement>(TEXT("m_Movement"));
 	m_Movement->UpdatedComponent = RootComponent;
-	m_Movement->MaxSpeed=250.f;
+	m_Movement->SetMaxSpeed(250);
 	
 	AIControllerClass = nullptr;
 	
@@ -422,6 +422,21 @@ float AMyBasePawn::PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate,
 			
 			return Duration;
 		}
+	}
+	return 0.f;
+}
+
+float AMyBasePawn::PlayAnimMontageSetDuration(UAnimMontage* anim_montage, float setDur, FName StartSectionName)
+{
+	UAnimInstance* AnimInstance = m_BodyMesh->GetAnimInstance();
+
+	if (anim_montage && AnimInstance)
+	{
+		float AssetDur = anim_montage->SequenceLength;
+
+		float NewRate = AssetDur / setDur;
+		
+		return PlayAnimMontage(anim_montage, NewRate, StartSectionName);
 	}
 	return 0.f;
 }

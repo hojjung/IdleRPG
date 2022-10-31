@@ -44,23 +44,9 @@ void GAS::Restart()
 
 float GAS::GetHpPercent() const
 {
-	if(m_mHp.IsZero())
-	{
-		return  0.0f;
-	}
-	BigInt CopiedCH = m_cHp;
-
-	CopiedCH.Multiply(100);
-
-	CopiedCH.Divide(m_mHp);
-    
-	float Percent100 = CopiedCH.ToInt();
-
-	float Percent1 =  Percent100 / 100.f;
-
-	Percent1 = FMath::Clamp(Percent1,0.f,1.f);
-    
-	return Percent1;
+	float OnePer = UBigIntLib::GetOnePercent(m_cHp, m_mHp);
+	
+	return OnePer;
 }
 
 bool GAS::IsAlive() const

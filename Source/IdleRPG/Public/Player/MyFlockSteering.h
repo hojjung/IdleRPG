@@ -24,9 +24,9 @@ protected:
 
 protected:
 	virtual void BeginPlay() override;
-	
-	virtual void ApplyControlInputToVelocity(float DeltaTime) override;
 
+	virtual FVector GetDelta(float delta, const FVector& inputDelta) override;
+	
 	FVector GetBoidDelta(FVector inputDelta);
 
 	virtual void SetComponentTickEnabled(bool bEnabled) override;

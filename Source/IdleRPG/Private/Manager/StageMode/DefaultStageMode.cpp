@@ -39,7 +39,7 @@ void UDefaultStageMode::OnPreSpawnMobs()
 
 	m_Exp = ExpRow->GetValue(m_nStageLevel);
 	
-	m_SpawnManager->SetBigIntStagMob(m_MobHp, m_MobDmg);
+	
 }
 
 TArray<FPrimaryAssetId> UDefaultStageMode::GetStageUnits(int lv)
@@ -125,16 +125,12 @@ void UDefaultStageMode::OnMonsterAnimEnd(AMonsterPawn* target)
 
 void UDefaultStageMode::OnPlayerDead(AMyPlayerPawn* target)
 {
-	
+	Super::OnPlayerDead(target);
 }
 
 void UDefaultStageMode::OnPlayerAnimEnd(AMyPlayerPawn* target)
 {
-	FVoidvoidMulti OnDead;
-
-	OnDead.AddUObject(UMyGameInstance::Get->GetGameMode(), &AIdleRPGGameModeBase::OpenDeadAlertWidget);
-	
 	int PreLevel = FMath::Max(0, m_nStageLevel - FGlobalVariable::DEAD_PREV_STAGE);
 
-	UMyGameInstance::Get->StartGameMode(EGameMode::Default, PreLevel, OnDead);
+	UMyGameInstance::Get->StartGameMode(EGameMode::Default, PreLevel);
 }

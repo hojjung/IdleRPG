@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ExpManager.h"
 #include "IdleRPG.h"
 #include "LevelManager.h"
 #include "Engine/GameInstance.h"
@@ -44,13 +45,15 @@ private:
 	TWeakObjectPtr<AMyPlayerController> m_PlayerCon;
 
 	int m_nStageLevel;
+
+	EGameMode m_GameMode;
 	
 public:
 	TSharedPtr<GAS> m_PlayerGas;
 	
 	TSharedPtr<GoldManager> m_GoldManager;
 
-	TSharedPtr<GoldManager> m_ExpManager;
+	TSharedPtr<ExpManager> m_ExpManager;
 	
 	TSharedPtr<PetManager> m_PetManager;
 	
@@ -60,13 +63,15 @@ public:
 
 	UPROPERTY()
 	UStageModeBase* m_StageMode;
+
+	bool m_bIsPlayerDead;
 	
 protected:
 	virtual void BeginDestroy() override;
 
 	virtual void LoadComplete(const float LoadTime, const FString& MapName) override;
 
-	void LoadMap(const FName& levelName, FVoidvoidMulti onDead);
+	void LoadMap(const FName& levelName);
 
 	void OnLevelMoveFadeEnd();
 public:
@@ -74,7 +79,7 @@ public:
 
 	void OnGameModeStart();
 	
-	void StartGameMode(EGameMode m, int level, FVoidvoidMulti onDead = FVoidvoidMulti());
+	void StartGameMode(EGameMode m, int level);
 	
 	void Tick(float d);
 	
@@ -89,7 +94,8 @@ public:
 	AIdleRPGGameModeBase* GetGameMode();
 
 	UStageModeBase * GetStageMode();
-	
+
+	void TryOpenDeadAlert();
 };
 
 

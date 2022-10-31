@@ -24,9 +24,6 @@ class IDLERPG_API AMyPlayerPawn : public ACombatPawn
 	GENERATED_BODY()
 
 public:
-	DECLARE_DELEGATE(FVoidVoid);
-
-public:
 	AMyPlayerPawn(const FObjectInitializer& objInit);
 	
 protected:
@@ -55,8 +52,6 @@ protected:
 	
 	FVector m_DeltaY;
 	
-	FVoidVoid m_OnCancelInteract;
-
 	bool m_bCanMoveInSkill;
 
 	bool m_bIsSkillUsing;

@@ -12,7 +12,7 @@
  * 
  */
 UCLASS()
-class ENTITY_API UMyNavMovement : public UFloatingPawnMovement
+class ENTITY_API UMyNavMovement : public UPawnMovementComponent
 {
 	GENERATED_BODY()
 	
@@ -20,25 +20,30 @@ class ENTITY_API UMyNavMovement : public UFloatingPawnMovement
 public:
 	UMyNavMovement(const FObjectInitializer& obj);
 
-public:
-	float m_fSpeedMultiple;
-	
 protected:
 	TWeakObjectPtr<AMyBasePawn> m_Owner;
 	
 	FVector m_ImpactVector;
 
 	FVector m_Delta;
+
+	float m_fSpeed;
+
+	float m_fMultiple;
 	
 protected:
-	void MySnapToNav();
-
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
+	void SetMaxSpeed(float spd);
+
+	void SetSpeedMultiple(float m);
+	
 	void SetImpact(FVector v);
 
 	virtual void SetActive(bool bNewActive, bool bReset=false) override;
+
+	virtual float GetMaxSpeed() const override;
 
 protected:
 	virtual void BeginPlay() override;
@@ -52,4 +57,7 @@ protected:
 	bool CanStepUp(const FHitResult& Hit) const;
 
 	bool IsNavBound(FVector delta);
+
+	virtual FVector GetDelta(float delta, const FVector& inputDelta);
 };
+

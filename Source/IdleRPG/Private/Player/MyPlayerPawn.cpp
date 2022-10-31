@@ -26,7 +26,7 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_TopCamera->SetupAttachment(m_DissolveCam, USpringArmComponent::SocketName);
 	m_TopCamera->FieldOfView = 15.f;
 
-	m_Movement->MaxSpeed = FGlobalVariable::HERO_DEFAULT_SPEED;
+	m_Movement->SetMaxSpeed(FGlobalVariable::HERO_DEFAULT_SPEED);
 
 	m_bCanMoveInSkill = false;
 	m_bIsSkillUsing = false;
@@ -49,13 +49,14 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_PawnInfo->SetWidgetClass(FoundHpBar.Class);
 	//m_PawnInfo->SetDrawSize(FVector2D(150.f, 22.f));
 	m_PawnInfo->SetDrawAtDesiredSize(true);
+	
 	FVector2D Pivot(0.5f, 0.5f);
 	m_PawnInfo->SetPivot(Pivot);
 	m_PawnInfo->SetWidgetSpace(EWidgetSpace::Screen);
 	m_PawnInfo->SetRelativeLocation(FVector(0, 0, 130));
 	m_PawnInfo->SetCanEverAffectNavigation(false);
 
-	m_fAtkRate = 2;
+	m_fAtkRate = 0.5f;
 }
 
 void AMyPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

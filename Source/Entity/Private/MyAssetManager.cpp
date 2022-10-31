@@ -38,8 +38,6 @@ UUnitAsset* UMyAssetManager::LoadUnitAsset(FPrimaryAssetId id, FStreamableDelega
 		Unit = Cast<UUnitAsset>(GetPrimaryAssetObject(id));
 	}
 
-	dele.ExecuteIfBound();
-
 	return Unit;
 }
 

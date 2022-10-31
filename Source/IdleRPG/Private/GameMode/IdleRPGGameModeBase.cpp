@@ -26,6 +26,8 @@ void AIdleRPGGameModeBase::StartPlay()
 	{
 		m_Canvas->AddToViewport();
 	}
+
+	UMyGameInstance::Get->TryOpenDeadAlert();
 }
 
 void AIdleRPGGameModeBase::Tick(float DeltaSeconds)
@@ -42,10 +44,6 @@ void AIdleRPGGameModeBase::SetFade(FVoidvoid onEnd)
 
 void AIdleRPGGameModeBase::SetHideFade()
 {
-	if(!m_Canvas)
-	{
-		return;
-	}
 	m_Canvas->GetScreenEffect()->HideFadeOut();
 }
 
