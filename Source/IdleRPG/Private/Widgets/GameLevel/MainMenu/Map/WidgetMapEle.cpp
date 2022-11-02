@@ -7,7 +7,12 @@
 #include "Components/CanvasPanelSlot.h"
 #include "ConquerMap/ContentData.h"
 
+void UWidgetMapEle::NativePreConstruct()
+{
+	Super::NativePreConstruct();
 
+	UpdateIcon();
+}
 void UWidgetMapEle::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
@@ -36,6 +41,8 @@ void UWidgetMapEle::UpdateIcon()
 
 	m_TextName->SetText(ZoneData->m_Name);
 }
+
+
 
 void UWidgetMapEle::OnClick()
 {

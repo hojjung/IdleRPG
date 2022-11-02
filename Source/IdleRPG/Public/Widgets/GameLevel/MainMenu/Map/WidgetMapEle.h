@@ -33,6 +33,8 @@ protected:
 	virtual void NativeOnInitialized() override;
 
 	void UpdateIcon();
+
+	virtual void NativePreConstruct() override;
 	
 public:
 	UFUNCTION()

@@ -12,6 +12,38 @@ void UWidgetWorldMap::NativeOnInitialized()
 
 	m_PanelSlot = Cast<UCanvasPanelSlot>(m_CanvasMap->Slot);
 
+	m_StoryElements.Reset(10);
+
+	m_ContentElement.Reserve(10);
+
+	TArray<UWidget*> Childs = m_CanvasMap->GetAllChildren();
+	
+	for(UWidget* ChildEle : Childs)
+	{
+		UWidgetMapEle* Ele = Cast<UWidgetMapEle>(ChildEle);
+
+		if(!Ele)
+		{
+			continue;
+		}
+		const FString& Zone = Ele->GetZoneID().ToString();
+
+		if(Zone.Contains(TEXT("Story")))
+		{
+			m_StoryElements.Add(Ele);
+			continue;
+		}
+		m_ContentElement.Add(Ele->GetZoneID(),Ele);
+	}
+	
+	m_StoryElements.Sort([](const TWeakObjectPtr<UWidgetMapEle>& LHS, const TWeakObjectPtr<UWidgetMapEle>& RHS)
+	{
+		FName LhsLevel = LHS->GetZoneID();
+
+		FName RhsLevel = RHS->GetZoneID();
+
+		return LhsLevel.Compare(RhsLevel) < 0;
+	});
 }
 
 void UWidgetWorldMap::SetMapCanvasPos(FVector2D ResultPos, bool useAnim)
@@ -57,4 +89,31 @@ FReply UWidgetWorldMap::NativeOnTouchMoved(const FGeometry& InGeometry, const FP
 	return FReply::Handled();
 }
 
+void UWidgetWorldMap::OnClickStory()
+{
+	
+}
 
+void UWidgetWorldMap::OnClickJapan()
+{
+	
+}
+
+void UWidgetWorldMap::OnClickColosseum()
+{
+	
+}
+
+void UWidgetWorldMap::MoveToContent(FName id)
+{
+	TWeakObjectPtr<UWidgetMapEle> Ele = m_ContentElement[id];
+
+	SetMapCanvasPos(Ele->GetPos());
+}
+
+void UWidgetWorldMap::MoveToStoryUnlock(int index)
+{
+	TWeakObjectPtr<UWidgetMapEle> Ele = m_StoryElements[index];
+
+	SetMapCanvasPos(Ele->GetPos());
+}
