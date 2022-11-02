@@ -136,6 +136,8 @@ void AMonsterPawn::Revive()
 	float TimeSec = 0;
 
 	m_BodyMesh->SetScalarParameterValueOnMaterials(TimeParamName, TimeSec);
+
+
 }
 
 void AMonsterPawn::OnReviveAnimEnd()

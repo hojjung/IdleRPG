@@ -89,31 +89,23 @@ FReply UWidgetWorldMap::NativeOnTouchMoved(const FGeometry& InGeometry, const FP
 	return FReply::Handled();
 }
 
-void UWidgetWorldMap::OnClickStory()
-{
-	
-}
-
-void UWidgetWorldMap::OnClickJapan()
-{
-	
-}
-
-void UWidgetWorldMap::OnClickColosseum()
-{
-	
-}
-
 void UWidgetWorldMap::MoveToContent(FName id)
 {
-	TWeakObjectPtr<UWidgetMapEle> Ele = m_ContentElement[id];
+	TWeakObjectPtr<UWidgetMapEle>* EleFound = m_ContentElement.Find(id);
+	
+	if(!EleFound)
+	{
+		return;
+	}
+	
+	TWeakObjectPtr<UWidgetMapEle> Ele = *EleFound;
 
-	SetMapCanvasPos(Ele->GetPos());
+	SetMapCanvasPos(Ele->GetPos(), true);
 }
 
 void UWidgetWorldMap::MoveToStoryUnlock(int index)
 {
 	TWeakObjectPtr<UWidgetMapEle> Ele = m_StoryElements[index];
 
-	SetMapCanvasPos(Ele->GetPos());
+	SetMapCanvasPos(Ele->GetPos(), true);
 }

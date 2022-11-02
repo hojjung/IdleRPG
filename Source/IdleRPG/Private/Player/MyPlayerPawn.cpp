@@ -98,7 +98,23 @@ void AMyPlayerPawn::BeginPlay()
 	m_PawnInfo->SetGreen();
 	m_PawnInfo->SetVisibility(true);
 
+	//
+	FNavLocation Loc;
+	UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
+
+	if(Nav->ProjectPointToNavigation(FVector::ZeroVector, Loc))
+	{
+		SetActorFeetLocation(Loc);
+	}
 	m_SpawnPos = GetActorLocation();
+}
+
+void AMyPlayerPawn::Revive()
+{
+	Super::Revive();
+	StopAnimMontage();
+	m_PawnInfo->SetVisibility(true);
+	m_PawnInfo->SetPawnInfo(this);
 }
 
 void AMyPlayerPawn::SetEntity(const UUnitAsset* asset)
@@ -168,13 +184,7 @@ void AMyPlayerPawn::OnDeathAnimEnd()
 	UMyGameInstance::Get->GetStageMode()->OnPlayerAnimEnd(this);
 }
 
-void AMyPlayerPawn::Revive()
-{
-	Super::Revive();
-	StopAnimMontage();
-	m_PawnInfo->SetVisibility(true);
-	m_PawnInfo->SetPawnInfo(this);
-}
+
 
 bool AMyPlayerPawn::IsInputMoving()
 {

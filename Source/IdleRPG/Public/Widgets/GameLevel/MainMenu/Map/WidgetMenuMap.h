@@ -23,6 +23,41 @@ protected:
 	UWidgetWorldMap* m_Map;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetMapSelect* m_Select;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnStory;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnMine;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnVillage;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnPVP;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnElf;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnJapan;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnBoneDragon;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnReaper;
+	
 protected:
 	virtual void NativeOnInitialized() override;
+
+public:
+	UFUNCTION()
+	void OnClickStory();
+	UFUNCTION()
+	void OnClickJapan();
+	UFUNCTION()
+	void OnClickVillage();
+	UFUNCTION()
+	void OnClickColosseum();
+	UFUNCTION()
+	void OnClickMine();
+	UFUNCTION()
+	void OnClickElf();
+	UFUNCTION()
+	void OnClickRaid01();
+	UFUNCTION()
+	void OnClickRaid02();
 };

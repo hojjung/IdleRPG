@@ -28,23 +28,14 @@ protected:
 	TMap<FName, TWeakObjectPtr<UWidgetMapEle>> m_ContentElement;
 
 protected:
-	
-	
-protected:
 	virtual void NativeOnInitialized() override;
 	
 	void SetMapCanvasPos(FVector2D ResultPos, bool useAnim = false);
 
 	virtual FReply NativeOnTouchMoved(const FGeometry& InGeometry, const FPointerEvent& InGestureEvent) override;
 
+public:
 	void MoveToContent(FName id);
 
 	void MoveToStoryUnlock(int index);
-public:
-	UFUNCTION()
-	void OnClickStory();
-	UFUNCTION()
-	void OnClickJapan();
-	UFUNCTION()
-	void OnClickColosseum();
 };
