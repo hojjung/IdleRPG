@@ -39,7 +39,8 @@ protected:
 	UButton* m_BtnBoneDragon;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UButton* m_BtnReaper;
-	
+
+	TWeakObjectPtr<UButton> m_Current;
 protected:
 	virtual void NativeOnInitialized() override;
 

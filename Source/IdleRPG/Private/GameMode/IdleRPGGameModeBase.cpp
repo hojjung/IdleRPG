@@ -28,6 +28,12 @@ void AIdleRPGGameModeBase::StartPlay()
 	}
 
 	UMyGameInstance::Get->TryOpenDeadAlert();
+
+	AMyPlayerPawn* Pl = Cast<AMyPlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	
+	UMyGameInstance::Get->SetPlayerPawn(Pl);
+	
+	UMyGameInstance::Get->m_AvatarManager.Get()->SetEquippedAvatar();
 }
 
 void AIdleRPGGameModeBase::Tick(float DeltaSeconds)

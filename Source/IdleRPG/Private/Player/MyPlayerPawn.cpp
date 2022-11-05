@@ -66,6 +66,7 @@ void AMyPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AMyPlayerPawn::MoveRight);
 	//PlayerInputComponent->BindTouch()
 }
+
 void AMyPlayerPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
@@ -73,40 +74,6 @@ void AMyPlayerPawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	m_Sensor.Reset();
 
 	m_Fsm.Reset();
-}
-
-void AMyPlayerPawn::BeginPlay()
-{
-	Super::BeginPlay();
-
-	UMyGameInstance::Get->SetPlayerPawn(this);
-
-	m_AryIgnores.Reset();
-
-	m_AryIgnores.Add(this);
-
-	m_DissolveCam->SetActive(true);
-
-	m_Sensor = MakeShareable(new PlayerSensor(this));
-
-	m_Fsm = MakeShareable(new PlayerFSM(this));
-
-	SetAtkRange(200);
-	
-	UMyGameInstance::Get->m_AvatarManager.Get()->SetEquippedAvatar();
-	
-	m_PawnInfo->SetGreen();
-	m_PawnInfo->SetVisibility(true);
-
-	//
-	FNavLocation Loc;
-	UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(GetWorld());
-
-	if(Nav->ProjectPointToNavigation(FVector::ZeroVector, Loc))
-	{
-		SetActorFeetLocation(Loc);
-	}
-	m_SpawnPos = GetActorLocation();
 }
 
 void AMyPlayerPawn::Revive()
@@ -140,6 +107,24 @@ void AMyPlayerPawn::SetEntity(const UUnitAsset* asset)
 	m_PawnInfo->SetRelativeLocation(FVector(0,0,Z));
 
 	m_PawnInfo->SetPawnInfo(this);
+	//
+	m_AryIgnores.Reset();
+
+	m_AryIgnores.Add(this);
+
+	m_DissolveCam->SetActive(true);
+
+	m_Sensor = MakeShareable(new PlayerSensor(this));
+
+	m_Fsm = MakeShareable(new PlayerFSM(this));
+
+	SetAtkRange(200);
+	
+	m_PawnInfo->SetGreen();
+	
+	m_PawnInfo->SetVisibility(true);
+
+	m_SpawnPos = GetActorLocation();
 }
 
 void AMyPlayerPawn::SetGas(TSharedPtr<GAS> newGas)
