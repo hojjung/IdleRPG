@@ -187,8 +187,6 @@ public:
 		{
 			m_bIsRange = true;
 
-			for (int32 i = m_AryActors.Num() - 1; i >= 0; i--)
-			{
 				for (AActor* obj : m_AryActors)
 				{
 					if(traceActor == obj)
@@ -209,7 +207,6 @@ public:
 						aryOut.Add(CastedObj);
 					}
 				}
-			}
 			for (auto& child : m_AryChildren)
 			{
 				child->TraceObjectInRange(traceActor, _radian, aryOut);
