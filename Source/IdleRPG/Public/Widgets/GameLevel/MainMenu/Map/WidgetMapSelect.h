@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Components/Button.h"
 #include "WidgetMapSelect.generated.h"
 
 /**
@@ -14,10 +15,16 @@ class IDLERPG_API UWidgetMapSelect : public UUserWidget
 {
 	GENERATED_BODY()
 
+protected:
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UButton* m_BtnClose;
 
 protected:
 	virtual void NativeOnInitialized() override;
 
 public:
+	UFUNCTION()
 	void OnClose();
+	
+	void Open(const FName& id);
 };

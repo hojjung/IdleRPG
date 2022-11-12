@@ -28,8 +28,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UButton* m_BtnMine;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UButton* m_BtnVillage;
-	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UButton* m_BtnPVP;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UButton* m_BtnElf;
@@ -48,17 +46,17 @@ public:
 	UFUNCTION()
 	void OnClickStory();
 	UFUNCTION()
+	void OnClickMine();
+	UFUNCTION()
 	void OnClickJapan();
 	UFUNCTION()
-	void OnClickVillage();
-	UFUNCTION()
 	void OnClickColosseum();
-	UFUNCTION()
-	void OnClickMine();
 	UFUNCTION()
 	void OnClickElf();
 	UFUNCTION()
 	void OnClickRaid01();
 	UFUNCTION()
 	void OnClickRaid02();
+
+	void OnClickBtn(const FName& mapZoneID);
 };

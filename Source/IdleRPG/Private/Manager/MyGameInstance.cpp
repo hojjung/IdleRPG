@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Manager/StageMode/DefaultStageMode.h"
+#include "Manager/StageMode/RaidStageMode.h"
 #include "Widgets/GameLevel/WidgetMainCanvas.h"
 
 UMyGameInstance* UMyGameInstance::Get = nullptr;
@@ -62,11 +63,12 @@ void UMyGameInstance::Init()
 	m_StageMode = NewObject<UDefaultStageMode>(this);
 
 	m_StageMode->SetLevel(m_nStageLevel);
+
+	
 }
 
 void UMyGameInstance::OnGameModeStart()
 {
-
 	if(m_StageMode)
 	{
 		m_StageMode->Clear();
@@ -85,20 +87,25 @@ void UMyGameInstance::OnGameModeStart()
 		break;
 	case EGameMode::BoneDragon:
 		{
-			
+			m_StageMode = NewObject<URaidStageMode>(this);
 		}
 		break;
 	case EGameMode::Reaper:
 		{
-			
+			m_StageMode = NewObject<URaidStageMode>(this);
 		}
 		break;
-	case EGameMode::ChickenRun:
+	case EGameMode::Elf:
 		{
 			
 		}
 		break;
-	case EGameMode::Story:
+	case EGameMode::Japan:
+		{
+			
+		}
+		break;
+	case EGameMode::Castle:
 		{
 			
 		}
@@ -132,14 +139,25 @@ void UMyGameInstance::StartGameMode(EGameMode m, int level)
 		}
 		break;
 	case EGameMode::PVP:
-		LevelName = TEXT("MapPvp");
+		LevelName = TEXT("Colosseum");
+		break;
+	case EGameMode::Mine:
+		LevelName = TEXT("Underground");
+		break;
+	case EGameMode::Elf:
+		LevelName = TEXT("ElfTemple");
+		break;
+	case EGameMode::Japan:
+		LevelName = TEXT("JapanTemple");
+		break;
 	case EGameMode::BoneDragon:
-		LevelName = TEXT("MapBoneLayer");
+		LevelName = TEXT("BoneDragon");
+		break;
 	case EGameMode::Reaper:
-		LevelName = TEXT("MapReaper");
-	case EGameMode::ChickenRun:
-		LevelName = TEXT("MapChicken");
-	case EGameMode::Story:
+		LevelName = TEXT("Graveyard");
+		break;
+	case EGameMode::Castle:
+		LevelName = TEXT("CastleMap");
 		break;
 	}
 	LoadMap(LevelName);

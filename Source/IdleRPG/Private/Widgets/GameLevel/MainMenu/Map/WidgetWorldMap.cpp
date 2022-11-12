@@ -5,6 +5,7 @@
 
 #include "BUITween.h"
 #include "Components/CanvasPanelSlot.h"
+#include "Widgets/GameLevel/MainMenu/Map/WidgetMenuMap.h"
 
 void UWidgetWorldMap::NativeOnInitialized()
 {
@@ -26,6 +27,8 @@ void UWidgetWorldMap::NativeOnInitialized()
 		{
 			continue;
 		}
+		
+		
 		const FString& Zone = Ele->GetZoneID().ToString();
 
 		if(Zone.Contains(TEXT("Story")))
@@ -45,6 +48,7 @@ void UWidgetWorldMap::NativeOnInitialized()
 		return LhsLevel.Compare(RhsLevel) < 0;
 	});
 }
+
 
 void UWidgetWorldMap::SetMapCanvasPos(FVector2D ResultPos, bool useAnim)
 {
@@ -108,4 +112,16 @@ void UWidgetWorldMap::MoveToStoryUnlock(int index)
 	TWeakObjectPtr<UWidgetMapEle> Ele = m_StoryElements[index];
 
 	SetMapCanvasPos(Ele->GetPos(), true);
+}
+
+void UWidgetWorldMap::SetOnClickEvent(UWidgetMapEle::FOnClick onClick)
+{
+	for(auto Ele : m_StoryElements)
+	{
+		Ele->m_OnClick = onClick;
+	}
+	for(auto Ele : m_ContentElement)
+	{
+		Ele.Value->m_OnClick = onClick;
+	}
 }

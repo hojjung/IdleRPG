@@ -8,10 +8,9 @@
 void UWidgetMenuMap::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
-
+	
 	m_BtnStory->OnClicked.AddDynamic(this, &UWidgetMenuMap::OnClickStory);
 	m_BtnMine->OnClicked.AddDynamic(this, &UWidgetMenuMap::OnClickMine);
-	m_BtnVillage->OnClicked.AddDynamic(this, &UWidgetMenuMap::OnClickVillage);
 	m_BtnPVP->OnClicked.AddDynamic(this, &UWidgetMenuMap::OnClickColosseum);
 	m_BtnElf->OnClicked.AddDynamic(this, &UWidgetMenuMap::OnClickElf);
 	m_BtnJapan->OnClicked.AddDynamic(this, &UWidgetMenuMap::OnClickJapan);
@@ -19,6 +18,8 @@ void UWidgetMenuMap::NativeOnInitialized()
 	m_BtnReaper->OnClicked.AddDynamic(this, &UWidgetMenuMap::OnClickRaid02);
 
 	UWidgetLib::SetCurrentButton(m_Current, m_BtnStory);
+
+	m_Map->SetOnClickEvent(UWidgetMapEle::FOnClick::CreateUObject(this, &UWidgetMenuMap::OnClickBtn));
 }
 
 void UWidgetMenuMap::OnClickStory()
@@ -31,12 +32,6 @@ void UWidgetMenuMap::OnClickJapan()
 {
 	m_Map->MoveToContent(TEXT("Japan"));
 	UWidgetLib::SetCurrentButton(m_Current, m_BtnJapan);
-}
-
-void UWidgetMenuMap::OnClickVillage()
-{
-	m_Map->MoveToContent(TEXT("Village"));
-	UWidgetLib::SetCurrentButton(m_Current, m_BtnVillage);
 }
 
 void UWidgetMenuMap::OnClickColosseum()
@@ -67,4 +62,9 @@ void UWidgetMenuMap::OnClickRaid02()
 {
 	m_Map->MoveToContent(TEXT("Raid02"));
 	UWidgetLib::SetCurrentButton(m_Current, m_BtnReaper);
+}
+
+void UWidgetMenuMap::OnClickBtn(const FName& mapZoneID)
+{
+	m_Select->Open(mapZoneID);
 }

@@ -8,6 +8,7 @@
 #include "Components/CanvasPanel.h"
 #include "WidgetWorldMap.generated.h"
 
+class UWidgetMenuMap;
 /**
  * 
  */
@@ -38,4 +39,8 @@ public:
 	void MoveToContent(FName id);
 
 	void MoveToStoryUnlock(int index);
+	
+	void SetOnClickEvent(UWidgetMapEle::FOnClick onClick);
 };
+
+

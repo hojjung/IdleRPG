@@ -24,10 +24,12 @@ enum class EGameMode : uint8
 {
 	Default,
 	PVP,
+	Mine,
+	Elf,
+	Japan,
 	BoneDragon,
 	Reaper,
-	ChickenRun,
-	Story,
+	Castle,
 	Length
 };
 UCLASS()
