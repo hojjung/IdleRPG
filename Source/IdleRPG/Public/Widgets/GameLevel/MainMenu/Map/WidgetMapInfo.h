@@ -30,7 +30,7 @@ protected:
 	UTextBlock* m_TextDesc;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UTextBlock* m_TextKeyCount;
-	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UWidgetItemEle> m_ClassEle;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UScrollBox* m_ScrollPrize;

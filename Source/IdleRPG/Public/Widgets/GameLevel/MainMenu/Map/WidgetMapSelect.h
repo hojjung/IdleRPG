@@ -3,14 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "WidgetMapInfo.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
 #include "Components/ScrollBox.h"
-#include "Widgets/GameLevel/MainMenu/StageMenu/WidgetStageEle.h"
 #include "WidgetMapSelect.generated.h"
 
+class UWidgetMapSelectEle;
+class UWidgetStageEle;
 struct FContentDataRow;
+class UWidgetMapInfo;
 /**
  * 
  */
@@ -27,7 +28,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetMapInfo* m_MapInfo;
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<UWidgetStageEle> m_ClassEle;
+	TSubclassOf<UWidgetMapSelectEle> m_ClassEle;
 
 	const FContentDataRow* m_ContentData;
 protected:

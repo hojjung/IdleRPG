@@ -22,6 +22,17 @@ public:
 	static UDataTable* GetContentData;
 };
 
+USTRUCT(BlueprintType)
+struct FContentMobData
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	int m_nLevel;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TArray<FPrimaryAssetId> m_AryUnits;//10개
+};
 USTRUCT(BlueprintType)//���̵�,Ƽ��
 struct FContentDataRow : public FEntityDataRow
 {
@@ -31,7 +42,7 @@ public:
 	UPROPERTY(EditDefaultsOnly)
 	FText m_Desc;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TArray<int> m_AryLevel;
+	TArray<FContentMobData> m_AryLevel;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	EGameMode m_GameMode;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)

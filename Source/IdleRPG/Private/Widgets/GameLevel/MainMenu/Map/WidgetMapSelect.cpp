@@ -1,10 +1,9 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 
 #include "Widgets/GameLevel/MainMenu/Map/WidgetMapSelect.h"
-
 #include "ConquerMap/ContentData.h"
 #include "Manager/StageMode/RaidStageMode.h"
+#include "Widgets/GameLevel/MainMenu/Map/WidgetMapInfo.h"
+#include "Widgets/GameLevel/MainMenu/Map/WidgetMapSelectEle.h"
 
 void UWidgetMapSelect::NativeOnInitialized()
 {
@@ -30,15 +29,15 @@ void UWidgetMapSelect::Open(const FName& id)
 
 	m_Scroll->ClearChildren();
 
-	for(int Level : m_ContentData->m_AryLevel)
+	for(const FContentMobData& MobData : m_ContentData->m_AryLevel)
 	{
-		UWidgetStageEle* Ele = CreateWidget<UWidgetStageEle>(this, m_ClassEle);
+		UWidgetMapSelectEle* Ele = CreateWidget<UWidgetMapSelectEle>(this, m_ClassEle);
 
 		URaidStageMode* DoStage = URaidStageMode::StaticClass()->GetDefaultObject<URaidStageMode>();
 		
-		FText StageName = DoStage->GetStageName(Level);
-		
-		Ele->SetZone(this, Level, StageName, m_ContentData->m_GameMode);
+		FText StageName = DoStage->GetStageName(MobData.m_nLevel);
+
+		Ele->SetZone(this, MobData.m_nLevel, StageName);
 		//
 		// m_AryEles.Add(Ele);
 
@@ -46,7 +45,7 @@ void UWidgetMapSelect::Open(const FName& id)
 
 		Ele->SetPadding(FMargin(25,10,25,10));
 	}
-	SetInfoPanel(m_ContentData->m_AryLevel[0]);
+	SetInfoPanel(m_ContentData->m_AryLevel[0].m_nLevel);
 }
 
 void UWidgetMapSelect::SetInfoPanel(int lv)
