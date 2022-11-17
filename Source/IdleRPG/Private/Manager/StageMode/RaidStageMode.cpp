@@ -3,3 +3,7 @@
 
 #include "Manager/StageMode/RaidStageMode.h"
 
+FText URaidStageMode::GetStageName(int level)
+{
+	return FText::FromString("ASDASD");
+}

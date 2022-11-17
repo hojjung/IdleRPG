@@ -16,7 +16,6 @@
 #include "Player/MyPlayerPawn.h"
 #include "Player/Avatar/AvatarManager.h"
 #include "StageMode/StageModeBase.h"
-#include "Widgets/GameLevel/MainMenu/StageMenu/WidgetStageEle.h"
 #include "MyGameInstance.generated.h"
 
 UENUM(BlueprintType)

@@ -50,7 +50,7 @@ protected:
 
 	float m_fAtkRangeSqr;
 
-	float m_fAtkRate;
+	float m_fAtkDur;
 
 	TMap<TStrongObjectPtr<UObject>, TStrongObjectPtr<UActorComponent>> m_MapComp;
 	
@@ -59,7 +59,7 @@ protected:
 	ECollisionEnabled::Type m_InitColl;
 	
 protected:
-	virtual float PlayBaseAttackAnim(float rate);
+	virtual float PlayBaseAttackAnim(float dur);
 
 	void SetAtkRange(float v);
 

@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "DataTableRow/EntityData.h"
 #include "Engine/DataTable.h"
+#include "Manager/MyGameInstance.h"
 #include "UObject/NoExportTypes.h"
 #include "ContentData.generated.h"
 
@@ -25,4 +26,10 @@ USTRUCT(BlueprintType)//���̵�,Ƽ��
 struct FContentDataRow : public FEntityDataRow
 {
 	GENERATED_USTRUCT_BODY()
+
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TArray<int> m_AryLevel;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	EGameMode m_GameMode;
 };

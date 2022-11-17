@@ -400,9 +400,9 @@ float AMyBasePawn::PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate,
 			FName SectioNName;
 
 			if (StartSectionName != NAME_None) //섹션지정시
-				{
+			{
 				SectioNName = StartSectionName;
-				}
+			}
 			else
 			{
 				SectioNName = anim_montage->GetSectionName(0);
@@ -410,9 +410,7 @@ float AMyBasePawn::PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate,
 			
 			AnimInstance->Montage_JumpToSection(SectioNName, anim_montage);			
 
-			int Index = anim_montage->GetSectionIndex(SectioNName);
-
-			Duration = anim_montage->GetSectionLength(Index);
+			Duration = GetSectionLength(SectioNName, anim_montage);
 
 			Duration = (Duration / (InPlayRate * anim_montage->RateScale)); //가속된만큼 빠르게
 
@@ -426,13 +424,25 @@ float AMyBasePawn::PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate,
 	return 0.f;
 }
 
+
+float AMyBasePawn::GetSectionLength(FName sectionName, const UAnimMontage* anim_montage)
+{
+	UAnimInstance* AnimInstance = m_BodyMesh->GetAnimInstance();
+	
+	AnimInstance->Montage_JumpToSection(sectionName, anim_montage);			
+
+	int Index = anim_montage->GetSectionIndex(sectionName);
+
+	return anim_montage->GetSectionLength(Index);
+}
+
 float AMyBasePawn::PlayAnimMontageSetDuration(UAnimMontage* anim_montage, float setDur, FName StartSectionName)
 {
 	UAnimInstance* AnimInstance = m_BodyMesh->GetAnimInstance();
 
 	if (anim_montage && AnimInstance)
 	{
-		float AssetDur = anim_montage->SequenceLength;
+		float AssetDur = GetSectionLength(StartSectionName, anim_montage);
 
 		float NewRate = AssetDur / setDur;
 		

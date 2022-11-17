@@ -6,8 +6,6 @@ void UWidgetStagePanel::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	m_AryEles.Reserve(20);
-	
 	m_nMaxMap = UDefaultStageMode::AryStageRows.Num();
 	
 	m_BtnLeft->OnClicked.AddDynamic(this, &UWidgetStagePanel::OnClickLeft);
@@ -45,23 +43,23 @@ void UWidgetStagePanel::UpdateStage()
 	{
 		UWidgetStageEle* Ele = CreateWidget<UWidgetStageEle>(this, m_ClassEle);
 
-		Ele->SetZone(this, Level++);
+		UDefaultStageMode* DoStage = UDefaultStageMode::StaticClass()->GetDefaultObject<UDefaultStageMode>();
 
-		m_AryEles.Add(Ele);
+		FText StageName = DoStage->GetStageName(Level);
+
+		Ele->SetZone(this, Level, StageName, EGameMode::Default);
 
 		m_Scroll->AddChild(Ele);
 
 		Ele->SetPadding(FMargin(25));
-	}
+
+		Level++;
+	}//
 }
 
 void UWidgetStagePanel::Clear()
 {
-	for (TWeakObjectPtr<UWidgetStageEle> Ele : m_AryEles)
-	{
-		Ele->SetVisibility(ESlateVisibility::Collapsed);
-		Ele->RemoveFromParent();
-	}
+	m_Scroll->ClearChildren();
 }
 
 void UWidgetStagePanel::OnClickLeft()

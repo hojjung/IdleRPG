@@ -95,7 +95,7 @@ TEXT("ParticleSystem'/Game/03_VisualEffect/PS_CoinDrop.PS_CoinDrop'"));
 
 	SetAtkRange(150);
 
-	m_fAtkRate = 0.6f;
+	m_fAtkDur = 1.0f;
 }
 void AMonsterPawn::SetEntity(const UUnitAsset* asset)
 {

@@ -58,6 +58,8 @@ protected:
 	void ClearStopMoveDelegate();
 
 	virtual void GetSimpleCollisionCylinder(float& CollisionRadius, float& CollisionHalfHeight) const override;
+
+	float GetSectionLength(FName sectionName, const UAnimMontage* anim_montage);
 	
 public://플레이어는 어떻게? 스테이지가 있고 스테이지는데이터 테이블로 형성,
 	UFUNCTION(BlueprintCallable)

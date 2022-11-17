@@ -28,11 +28,11 @@ public:
 protected:
 	virtual void OnPreSpawnMobs() override;
 
-	virtual FText GetStageName(int level) override;
-	
 	virtual TArray<FPrimaryAssetId> GetStageUnits(int lv) override;
 	
 public:
+	virtual FText GetStageName(int level) override;
+	
 	static const FStageRow& GetDefaultStage(int stageLevel);
 
 	static int GetDefaultStageMapIndex(int stageLevel);

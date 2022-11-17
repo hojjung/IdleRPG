@@ -36,8 +36,6 @@ protected:
 	UScrollBox* m_Scroll;
 	TArray<const FStageRow*> m_AryRows;
 	
-	TArray<TWeakObjectPtr<UWidgetStageEle>> m_AryEles;
-	
 	int m_nMaxMap;
 
 	int m_nMapIndex;

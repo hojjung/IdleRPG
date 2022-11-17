@@ -13,5 +13,8 @@ UCLASS()
 class IDLERPG_API URaidStageMode : public UStageModeBase
 {
 	GENERATED_BODY()
+
+public:
+	virtual FText GetStageName(int level) override;
 	
 };

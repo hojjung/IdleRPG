@@ -2,22 +2,22 @@
 #include "Widgets/GameLevel/MainMenu/StageMenu/WidgetStagePanel.h"
 #include "Manager/MyGameInstance.h"
 
-void UWidgetStageEle::SetZone(UWidgetStagePanel* parent, int level)
+void UWidgetStageEle::SetZone(UUserWidget* parent,int level, FText stageName, EGameMode mode)
 {
 	m_Parent = parent;
 	
 	m_nLevel = level;
 
-	FText StageName = UMyGameInstance::Get->GetStageMode()->GetStageName(m_nLevel);
-
-	m_TextName->SetText(StageName);
+	m_GameMode = mode;
+	
+	m_TextName->SetText(stageName);
 
 	m_BtnEnter->OnClicked.AddDynamic(this, &UWidgetStageEle::OnEnter);
 }
 
 void UWidgetStageEle::OnEnter()
 {
-	UMyGameInstance::Get->StartGameMode(EGameMode::Default, m_nLevel);
+	UMyGameInstance::Get->StartGameMode(m_GameMode, m_nLevel);
 
 	m_Parent->SetVisibility(ESlateVisibility::Collapsed);
 }

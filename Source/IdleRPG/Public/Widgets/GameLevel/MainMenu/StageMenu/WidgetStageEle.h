@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
+#include "Manager/MyGameInstance.h"
 #include "WidgetStageEle.generated.h"
 
 class UWidgetStagePanel;
@@ -25,12 +26,14 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UTextBlock* m_TextName;
 
+	EGameMode m_GameMode;
+	
 	int m_nLevel;
 
-	TWeakObjectPtr<UWidgetStagePanel> m_Parent;
+	TWeakObjectPtr<UUserWidget> m_Parent;
 	
 public:
-	void SetZone(UWidgetStagePanel* parent,int level);
+	void SetZone(UUserWidget* parent,int level, FText stageName, EGameMode mode);
 
 	UFUNCTION()
 	void OnEnter();

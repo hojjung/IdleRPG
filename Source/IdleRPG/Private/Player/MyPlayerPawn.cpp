@@ -56,7 +56,7 @@ AMyPlayerPawn::AMyPlayerPawn(const FObjectInitializer& objInit): Super(objInit)
 	m_PawnInfo->SetRelativeLocation(FVector(0, 0, 130));
 	m_PawnInfo->SetCanEverAffectNavigation(false);
 
-	m_fAtkRate = 0.5f;
+	m_fAtkDur = 1.0f;
 }
 
 void AMyPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

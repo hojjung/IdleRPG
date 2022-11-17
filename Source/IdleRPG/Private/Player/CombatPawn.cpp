@@ -17,7 +17,7 @@ ACombatPawn::ACombatPawn(const FObjectInitializer& objInit) :Super(objInit)
 	m_ShadowMeshComp->SetCanEverAffectNavigation(false);
 	m_ShadowMeshComp->bReceivesDecals = false;
 
-	m_fAtkRate = 1;
+	m_fAtkDur = 1;
 }
 
 void ACombatPawn::SetFocusedTarget(ACombatPawn* pawn)
@@ -30,13 +30,13 @@ ACombatPawn* ACombatPawn::GetFocusedTarget()
 	return m_Target.Get();
 }
 
-float ACombatPawn::PlayBaseAttackAnim(float rate)
+float ACombatPawn::PlayBaseAttackAnim(float dur)
 {
 	const TArray<FCompositeSection>& AnimAry = m_EntityAsset->m_BaseAttackAnim->CompositeSections;
 	
 	int RandIndex = FMath::RandRange(0, AnimAry.Num()-1);
 	
-	return PlayAnimMontageSetDuration(m_EntityAsset->m_BaseAttackAnim.Get(), 1.0f /rate, AnimAry[RandIndex].SectionName);
+	return PlayAnimMontageSetDuration(m_EntityAsset->m_BaseAttackAnim.Get(), dur, AnimAry[RandIndex].SectionName);
 }
 
 void ACombatPawn::SetAtkRange(float v)
@@ -171,7 +171,7 @@ float ACombatPawn::TryAttack()
 {
 	if (IsAlive() && m_EntityAsset->m_BaseAttackAnim && m_fAttackCD < 0.f)
 	{
-		float AnimMongLen = PlayBaseAttackAnim(m_fAtkRate);
+		float AnimMongLen = PlayBaseAttackAnim(m_fAtkDur);
 
 		m_fAttackCD = FMath::Max(AnimMongLen ,  0.15f);
 
