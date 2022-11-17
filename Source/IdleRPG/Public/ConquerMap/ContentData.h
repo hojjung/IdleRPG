@@ -28,8 +28,12 @@ struct FContentDataRow : public FEntityDataRow
 	GENERATED_USTRUCT_BODY()
 
 public:
+	UPROPERTY(EditDefaultsOnly)
+	FText m_Desc;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TArray<int> m_AryLevel;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	EGameMode m_GameMode;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	int m_nDailyMax = -1;
 };

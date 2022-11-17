@@ -3,12 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WidgetMapInfo.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
 #include "Components/ScrollBox.h"
 #include "Widgets/GameLevel/MainMenu/StageMenu/WidgetStageEle.h"
 #include "WidgetMapSelect.generated.h"
 
+struct FContentDataRow;
 /**
  * 
  */
@@ -22,9 +24,12 @@ protected:
 	UButton* m_BtnClose;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UScrollBox* m_Scroll;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetMapInfo* m_MapInfo;
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<UWidgetStageEle> m_ClassEle;
-	
+
+	const FContentDataRow* m_ContentData;
 protected:
 	virtual void NativeOnInitialized() override;
 
@@ -33,4 +38,6 @@ public:
 	void OnClose();
 	
 	void Open(const FName& id);
+
+	void SetInfoPanel(int lv);
 };
