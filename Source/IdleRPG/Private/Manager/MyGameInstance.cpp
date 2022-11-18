@@ -73,46 +73,48 @@ void UMyGameInstance::OnGameModeStart()
 	{
 		m_StageMode->Clear();
 	}
-	switch (m_GameMode)
+	if(m_Content == nullptr)
 	{
-	case EGameMode::Default:
-		{
-			m_StageMode = NewObject<UDefaultStageMode>(this);
-		}
-		break;
-	case EGameMode::PVP:
-		{
-			
-		}
-		break;
-	case EGameMode::BoneDragon:
-		{
-			m_StageMode = NewObject<URaidStageMode>(this);
-		}
-		break;
-	case EGameMode::Reaper:
-		{
-			m_StageMode = NewObject<URaidStageMode>(this);
-		}
-		break;
-	case EGameMode::Elf:
-		{
-			
-		}
-		break;
-	case EGameMode::Japan:
-		{
-			
-		}
-		break;
-	case EGameMode::Castle:
-		{
-			
-		}
-		break;
+		m_StageMode = NewObject<UDefaultStageMode>(this);
 	}
-	
+	else
+	{
+		switch (m_Content->m_GameMode)
+		{
+		case EGameMode::PVP:
+			{
+			
+			}
+			break;
+		case EGameMode::BoneDragon:
+		case EGameMode::Reaper:
+			{
+				URaidStageMode* StageMode = NewObject<URaidStageMode>(this);
+			
+				StageMode->SetContentData(*m_Content);
+			
+				m_StageMode = StageMode;
+			}
+			break;
+		case EGameMode::Elf:
+			{
+			
+			}
+			break;
+		case EGameMode::Japan:
+			{
+			
+			}
+			break;
+		case EGameMode::Castle:
+			{
+			
+			}
+			break;
+		}
+	}
 	m_StageMode->SetLevel(m_nStageLevel);
+	
 	m_StageMode->StartGame();
 }
 
@@ -123,43 +125,25 @@ void UMyGameInstance::Tick(float d)
 
 //레벨로드 따로
 //스포닝 따로
-void UMyGameInstance::StartGameMode(EGameMode m, int level)
+void UMyGameInstance::StartGameMode(int level, const FContentDataRow* contentData)
 {
 	m_nStageLevel = level;
 
-	m_GameMode = m;
+	m_Content = contentData;
 	
 	FName LevelName;
 
-	switch (m_GameMode)
+	if(contentData == nullptr)
 	{
-	case EGameMode::Default:
-		{
-			LevelName = UDefaultStageMode::GetDefaultStage(m_nStageLevel).m_LevelName;
-		}
-		break;
-	case EGameMode::PVP:
-		LevelName = TEXT("Colosseum");
-		break;
-	case EGameMode::Mine:
-		LevelName = TEXT("Underground");
-		break;
-	case EGameMode::Elf:
-		LevelName = TEXT("ElfTemple");
-		break;
-	case EGameMode::Japan:
-		LevelName = TEXT("JapanTemple");
-		break;
-	case EGameMode::BoneDragon:
-		LevelName = TEXT("BoneDragon");
-		break;
-	case EGameMode::Reaper:
-		LevelName = TEXT("Graveyard");
-		break;
-	case EGameMode::Castle:
-		LevelName = TEXT("CastleMap");
-		break;
+		LevelName = UDefaultStageMode::GetDefaultStage(m_nStageLevel).m_LevelName;
+
+		m_nDefaultStageLevel = m_nStageLevel;
 	}
+	else
+	{
+		LevelName = contentData->m_MapName;
+	}
+	
 	LoadMap(LevelName);
 }
 
@@ -253,4 +237,9 @@ void UMyGameInstance::TryOpenDeadAlert()
 		
 		UMyGameInstance::Get->m_bIsPlayerDead = false;
 	}
+}
+
+int UMyGameInstance::GetDefaultStageLevel()
+{
+	return m_nDefaultStageLevel;
 }

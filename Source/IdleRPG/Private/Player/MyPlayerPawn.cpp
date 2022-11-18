@@ -166,7 +166,7 @@ void AMyPlayerPawn::OnDeathAnimEnd()
 {
 	Super::OnDeathAnimEnd();
 
-	UMyGameInstance::Get->GetStageMode()->OnPlayerAnimEnd(this);
+	UMyGameInstance::Get->GetStageMode()->OnPlayerDeadAnimEnd(this);
 }
 
 

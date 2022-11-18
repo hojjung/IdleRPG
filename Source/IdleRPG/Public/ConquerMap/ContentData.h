@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "DataTableRow/EntityData.h"
 #include "Engine/DataTable.h"
-#include "Manager/MyGameInstance.h"
 #include "UObject/NoExportTypes.h"
 #include "ContentData.generated.h"
 
@@ -33,6 +32,18 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TArray<FPrimaryAssetId> m_AryUnits;//10개
 };
+UENUM(BlueprintType)
+enum class EGameMode : uint8
+{
+	PVP,
+	Mine,
+	Elf,
+	Japan,
+	BoneDragon,
+	Reaper,
+	Castle,
+	Length
+};
 USTRUCT(BlueprintType)//���̵�,Ƽ��
 struct FContentDataRow : public FEntityDataRow
 {
@@ -41,10 +52,20 @@ struct FContentDataRow : public FEntityDataRow
 public:
 	UPROPERTY(EditDefaultsOnly)
 	FText m_Desc;
+	UPROPERTY(EditDefaultsOnly)
+	FName m_MapName;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TArray<FContentMobData> m_AryLevel;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	EGameMode m_GameMode;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	int m_nDailyMax = -1;
+
+public:
+	FORCEINLINE FText GetStageName(int lv) const
+	{
+		FString NameStr = m_Name.ToString();
+	
+		return FText::FromString(FString::Printf(TEXT("%s - %d"), *NameStr, lv));
+	}
 };

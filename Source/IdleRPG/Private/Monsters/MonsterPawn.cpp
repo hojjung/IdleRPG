@@ -311,5 +311,5 @@ void AMonsterPawn::OnDeathAnimEnd()
 {
 	Super::OnDeathAnimEnd();
 	//Respawn?
-	UMyGameInstance::Get->GetStageMode()->OnMonsterAnimEnd(this);
+	UMyGameInstance::Get->GetStageMode()->OnMonsterDeadAnimEnd(this);
 }

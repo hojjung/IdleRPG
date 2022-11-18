@@ -1,6 +1,8 @@
 
 #include "Widgets/GameLevel/MainMenu/Map/WidgetMapInfo.h"
 
+#include "Manager/MyGameInstance.h"
+
 void UWidgetMapInfo::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
@@ -10,11 +12,13 @@ void UWidgetMapInfo::NativeOnInitialized()
 
 void UWidgetMapInfo::SetInfo(const FContentDataRow* content_data_row, int lv)
 {
+	m_ContentData = content_data_row;
+	
 	m_ScrollPrize->ClearChildren();
 	
-	m_TextName->SetText(content_data_row->m_Name);
+	m_TextName->SetText(m_ContentData->m_Name);
 
-	m_TextDesc->SetText(content_data_row->m_Desc);
+	m_TextDesc->SetText(m_ContentData->m_Desc);
 
 	m_nLv = lv;
 	
@@ -22,19 +26,15 @@ void UWidgetMapInfo::SetInfo(const FContentDataRow* content_data_row, int lv)
 	
 	m_TextLevel->SetText(Str);
 	
-	m_ImgIcon->SetBrushFromTexture(content_data_row->m_Icon);
+	m_ImgIcon->SetBrushFromTexture(m_ContentData->m_Icon);
 
 	//열쇠 개수 업데이트
 	//소탕권
 	//dailymax
 	//
-	m_Mode = content_data_row->m_GameMode;
-
 }
 
 void UWidgetMapInfo::OnClick()
 {
-	UMyGameInstance::Get->StartGameMode(m_Mode, m_nLv);
-	
-	//m_Parent->SetVisibility(ESlateVisibility::Collapsed);
+	UMyGameInstance::Get->StartGameMode(m_nLv, m_ContentData);
 }

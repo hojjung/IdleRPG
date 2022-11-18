@@ -47,7 +47,7 @@ void UWidgetStagePanel::UpdateStage()
 
 		FText StageName = DoStage->GetStageName(Level);
 
-		Ele->SetZone(this, Level, StageName, EGameMode::Default);
+		Ele->SetZone(this, Level, StageName);
 
 		m_Scroll->AddChild(Ele);
 

@@ -33,13 +33,10 @@ void UWidgetMapSelect::Open(const FName& id)
 	{
 		UWidgetMapSelectEle* Ele = CreateWidget<UWidgetMapSelectEle>(this, m_ClassEle);
 
-		URaidStageMode* DoStage = URaidStageMode::StaticClass()->GetDefaultObject<URaidStageMode>();
-		
-		FText StageName = DoStage->GetStageName(MobData.m_nLevel);
+		FText StageName = m_ContentData->GetStageName(MobData.m_nLevel);
 
 		Ele->SetZone(this, MobData.m_nLevel, StageName);
 		//
-		// m_AryEles.Add(Ele);
 
 		m_Scroll->AddChild(Ele);
 

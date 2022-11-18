@@ -33,7 +33,7 @@ protected:
 	TWeakObjectPtr<UUserWidget> m_Parent;
 	
 public:
-	void SetZone(UUserWidget* parent,int level, FText stageName, EGameMode mode);
+	void SetZone(UUserWidget* parent,int level, FText stageName);
 
 	UFUNCTION()
 	void OnEnter();

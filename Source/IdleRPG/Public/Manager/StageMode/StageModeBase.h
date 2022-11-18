@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "ConquerMap/ContentData.h"
 #include "GAS/BigInt/BigIntLib.h"
 #include "Monsters/SpawnManager.h"
 #include "Player/MyPlayerPawn.h"
@@ -78,11 +79,11 @@ public:
 	}
 	virtual void OnMonsterDead(AMonsterPawn* target);
 	
-	virtual void OnMonsterAnimEnd(AMonsterPawn* target) {}
+	virtual void OnMonsterDeadAnimEnd(AMonsterPawn* target) {}
 
 	virtual void OnPlayerDead(AMyPlayerPawn* target);
 
-	virtual void OnPlayerAnimEnd(AMyPlayerPawn* target) {}
+	virtual void OnPlayerDeadAnimEnd(AMyPlayerPawn* target) {}
 
 	template <class T>
 	void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range)
@@ -91,4 +92,6 @@ public:
 	}
 
 	virtual void Tick(float d);
+	
+	
 };

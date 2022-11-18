@@ -46,11 +46,11 @@ public:
 public:
 	virtual void OnMonsterDead(AMonsterPawn* target) override;
 
-	virtual void OnMonsterAnimEnd(AMonsterPawn* target) override;
+	virtual void OnMonsterDeadAnimEnd(AMonsterPawn* target) override;
 
 	virtual void OnPlayerDead(AMyPlayerPawn* target) override;
 
-	virtual void OnPlayerAnimEnd(AMyPlayerPawn* target) override;
+	virtual void OnPlayerDeadAnimEnd(AMyPlayerPawn* target) override;
 };
 
 

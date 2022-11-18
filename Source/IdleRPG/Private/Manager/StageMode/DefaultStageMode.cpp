@@ -116,7 +116,7 @@ void UDefaultStageMode::OnMonsterDead(AMonsterPawn* target)
 	UMyGameInstance::Get->m_GoldManager->AddGold(m_Gold);
 }
 
-void UDefaultStageMode::OnMonsterAnimEnd(AMonsterPawn* target)
+void UDefaultStageMode::OnMonsterDeadAnimEnd(AMonsterPawn* target)
 {
 	FTimerHandle ReviveTimer;
 	
@@ -128,9 +128,9 @@ void UDefaultStageMode::OnPlayerDead(AMyPlayerPawn* target)
 	Super::OnPlayerDead(target);
 }
 
-void UDefaultStageMode::OnPlayerAnimEnd(AMyPlayerPawn* target)
+void UDefaultStageMode::OnPlayerDeadAnimEnd(AMyPlayerPawn* target)
 {
 	int PreLevel = FMath::Max(0, m_nStageLevel - FGlobalVariable::DEAD_PREV_STAGE);
 
-	UMyGameInstance::Get->StartGameMode(EGameMode::Default, PreLevel);
+	UMyGameInstance::Get->StartGameMode(PreLevel, nullptr);
 }

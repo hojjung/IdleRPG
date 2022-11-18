@@ -37,7 +37,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UTextBlock* m_TextDailyMax;
 
-	EGameMode m_Mode;
+	const FContentDataRow* m_ContentData;
 
 	int m_nLv;
 	

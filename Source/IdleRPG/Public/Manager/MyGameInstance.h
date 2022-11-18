@@ -18,19 +18,8 @@
 #include "StageMode/StageModeBase.h"
 #include "MyGameInstance.generated.h"
 
-UENUM(BlueprintType)
-enum class EGameMode : uint8
-{
-	Default,
-	PVP,
-	Mine,
-	Elf,
-	Japan,
-	BoneDragon,
-	Reaper,
-	Castle,
-	Length
-};
+struct FContentDataRow;
+
 UCLASS()
 class IDLERPG_API UMyGameInstance : public UGameInstance
 {
@@ -47,7 +36,9 @@ private:
 
 	int m_nStageLevel;
 
-	EGameMode m_GameMode;
+	int m_nDefaultStageLevel;
+
+	const FContentDataRow* m_Content;
 	
 public:
 	TSharedPtr<GAS> m_PlayerGas;
@@ -80,7 +71,7 @@ public:
 
 	void OnGameModeStart();
 	
-	void StartGameMode(EGameMode m, int level);
+	void StartGameMode(int level, const FContentDataRow* contentData);
 	
 	void Tick(float d);
 	
@@ -97,6 +88,8 @@ public:
 	UStageModeBase * GetStageMode();
 
 	void TryOpenDeadAlert();
+
+	int GetDefaultStageLevel();
 };
 
 
