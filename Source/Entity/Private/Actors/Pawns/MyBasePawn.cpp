@@ -63,8 +63,6 @@ USkeletalMeshComponent* AMyBasePawn::CreateSkMeshComp(FName keyID)
 void AMyBasePawn::BeginPlay()
 {
 	Super::BeginPlay();
-
-	SetActorTickEnabled(false);
 }
 
 void AMyBasePawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -75,7 +73,6 @@ void AMyBasePawn::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AMyBasePawn::SetEntity(const UUnitAsset* asset)
 {
-	SetActorTickEnabled(true);
 	
 	m_PFComp->SetMovementComponent(m_Movement);
 	
@@ -90,6 +87,8 @@ void AMyBasePawn::SetEntity(const UUnitAsset* asset)
 	m_Capsule->SetCapsuleRadius(asset->m_fCapsuleRadius);
 
 	UpdateNavAgent();
+	
+	//SetActorTickEnabled(true);
 }
 
 void AMyBasePawn::LoadSetSkMeshAnim(const UUnitAsset* asset)
@@ -455,13 +454,16 @@ float AMyBasePawn::PlayAnimMontageSetDuration(UAnimMontage* anim_montage, float 
 
 void AMyBasePawn::StopAnimMontage()
 {
-	UMyAnimInstance* AnimInstance = Cast<UMyAnimInstance>(m_BodyMesh->GetAnimInstance());
+	UAnimInstance* AnimInstance = GetSkMesh()->GetAnimInstance();
+	
+	UAnimMontage* MontageToStop = GetCurrentMontage();
+	
+	bool bShouldStopMontage =  AnimInstance && MontageToStop && !AnimInstance->Montage_GetIsStopped(MontageToStop);
 
-	if(!AnimInstance)
+	if ( bShouldStopMontage )
 	{
-		return;
+		AnimInstance->Montage_Stop(MontageToStop->BlendOut.GetBlendTime(), MontageToStop);
 	}
-	AnimInstance->StopAnimMontage();
 }
 
 UAnimMontage* AMyBasePawn::GetCurrentMontage()

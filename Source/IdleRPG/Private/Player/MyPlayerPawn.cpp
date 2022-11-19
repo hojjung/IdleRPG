@@ -180,7 +180,7 @@ void AMyPlayerPawn::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if(!IsAlive())
+	if(!IsAlive() || !m_Sensor)
 	{
 		return;
 	}

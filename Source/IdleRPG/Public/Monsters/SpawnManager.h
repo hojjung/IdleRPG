@@ -42,7 +42,7 @@ public:
 	
 	void Update(float delta);
 
-	void SpawnUnits(const FPrimaryAssetId& id);
+	void SpawnUnits(const FPrimaryAssetId& id, FVector loc, FRotator rot);
 	
 	template <class T>
 	void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range)

@@ -47,7 +47,6 @@ void AIdleRPGGameModeBase::Tick(float DeltaSeconds)
 void AIdleRPGGameModeBase::SetFade(FVoidvoid onEnd)
 {
 	UMyGameInstance::Get->SetFade(onEnd);
-	
 }
 
 void AIdleRPGGameModeBase::SetHideFade()

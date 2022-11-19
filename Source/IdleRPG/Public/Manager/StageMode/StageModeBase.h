@@ -47,6 +47,10 @@ protected:
 	virtual void OnPreSpawnMobs();
 
 	void SpawnMobs();
+
+	virtual FVector GetSpawnLocation();
+
+	virtual FRotator GetSpawnRotation();
 	
 public:
 	void Clear();

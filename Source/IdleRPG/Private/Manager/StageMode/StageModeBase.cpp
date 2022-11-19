@@ -3,6 +3,7 @@
 
 #include "Manager/StageMode/StageModeBase.h"
 
+#include "NavigationSystem.h"
 #include "Manager/MyGameInstance.h"
 
 UStageModeBase::UStageModeBase()
@@ -49,10 +50,34 @@ void UStageModeBase::SpawnMobs()
 	
 	while (++Iter < m_nMobSpawnCount)
 	{
-		const FPrimaryAssetId& SelectedId = m_SpawnManager->GetRandomMonsterID(Z); 
-		
-		m_SpawnManager->SpawnUnits(SelectedId);
+		const FPrimaryAssetId& SelectedId = m_SpawnManager->GetRandomMonsterID(Z);
+
+		FVector Loc = GetSpawnLocation();
+
+		FRotator Rot = GetSpawnRotation();
+
+		m_SpawnManager->SpawnUnits(SelectedId, Loc, Rot);
 	}
+}
+
+FVector UStageModeBase::GetSpawnLocation()
+{
+	FNavLocation ResultPos;
+
+	UNavigationSystemV1* Nav = FNavigationSystem::GetCurrent<UNavigationSystemV1>(UMyGameInstance::Get->GetWorld());
+
+	FBox NavBox = Nav->GetNavigationBounds().Array()[0].AreaBox;
+
+	Nav->GetRandomReachablePointInRadius(NavBox.GetCenter(), NavBox.GetExtent().X, ResultPos);
+
+	return ResultPos.Location;
+}
+
+FRotator UStageModeBase::GetSpawnRotation()
+{
+	FRotator Rot = FRotator(0, FMath::RandRange(0, 360), 0);
+	
+	return Rot; 
 }
 
 void UStageModeBase::Clear()

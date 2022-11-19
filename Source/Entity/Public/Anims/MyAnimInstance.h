@@ -13,13 +13,21 @@ USTRUCT(BlueprintType)
 struct FMyAnimInstanceProxy : public FAnimInstanceProxy
 {
 	GENERATED_BODY()
+
+public:
+	FMyAnimInstanceProxy() : FAnimInstanceProxy()
+	{
+		m_bIsMoving = false;
+	}
+
+	FMyAnimInstanceProxy(UAnimInstance* Instance);
 	
 public:
-	virtual void InitializeObjects(UAnimInstance* InAnimInstance) override;
-
-	virtual void Update(float DeltaSeconds) override ;
+	UPROPERTY(Transient,VisibleAnywhere,BlueprintReadOnly)
+	bool m_bIsMoving;
 	
-	TWeakObjectPtr<UMyAnimInstance> m_MyAnim = nullptr;
+public:
+	virtual void Update(float DeltaSeconds) override ;
 };
 UCLASS()
 class ENTITY_API UMyAnimInstance : public UAnimInstance
@@ -31,11 +39,6 @@ public:
 	UPROPERTY(Transient, BlueprintReadOnly,meta = (AllowPrivateAccess = "true"))
 	FMyAnimInstanceProxy m_Proxy;
 	
-	TWeakObjectPtr<AMyBasePawn> m_Owner;
-	
-protected:
-	UPROPERTY(Transient,VisibleAnywhere,BlueprintReadOnly)
-	bool m_bIsMoving;
 protected:
 	virtual FAnimInstanceProxy* CreateAnimInstanceProxy() override
 	{
@@ -43,15 +46,4 @@ protected:
 	}
 	
 	virtual void DestroyAnimInstanceProxy(FAnimInstanceProxy* InProxy) override {}
-
-	virtual void NativeInitializeAnimation() override;
-
-public:
-	bool IsSlotPlaying();
-	
-	float PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate, FName StartSectionName);
-
-	void StopAnimMontage();
-
-	void UpdateFlag(float deltaTime);
 };

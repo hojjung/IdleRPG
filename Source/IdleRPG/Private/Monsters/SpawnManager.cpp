@@ -50,19 +50,13 @@ const FPrimaryAssetId& SpawnManager::GetRandomMonsterID(const TArray<FPrimaryAss
 	return z[RandIndex];
 }
 
-void SpawnManager::SpawnUnits(const FPrimaryAssetId& id)
+void SpawnManager::SpawnUnits(const FPrimaryAssetId& id, FVector loc, FRotator rot) 
 {
-	FNavLocation ResultPos;
-
-	m_Nav->GetRandomReachablePointInRadius(m_NavBox.GetCenter(), m_NavBox.GetExtent().X, ResultPos);
-
-	FRotator Rot = FRotator(0, FMath::RandRange(0, 360), 0);
-
 	const FPrimaryAssetId& AssetID = id;
 
 	const UObject* Inst = UMyGameInstance::Get;
 
-	FStreamableDelegate Delegate = FStreamableDelegate::CreateRaw(this, &SpawnManager::OnMonsterLoaded, AssetID, Inst, ResultPos.Location, Rot);
+	FStreamableDelegate Delegate = FStreamableDelegate::CreateRaw(this, &SpawnManager::OnMonsterLoaded, AssetID, Inst, loc, rot);
 
 	UMyAssetManager::Get()->LoadUnitAssetMeshOnly(AssetID, Delegate);
 }

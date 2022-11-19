@@ -47,6 +47,8 @@ void URaidStageMode::OnPreSpawnMobs()
 	m_MobHp = HpRow->GetValue(m_nStageLevel);
 
 	m_Exp = ExpRow->GetValue(m_nStageLevel);
+
+	SetMobCount(1);
 }
 
 TArray<FPrimaryAssetId> URaidStageMode::GetStageUnits(int lv)
