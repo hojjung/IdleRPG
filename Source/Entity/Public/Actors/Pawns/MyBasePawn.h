@@ -74,7 +74,7 @@ public://플레이어는 어떻게? 스테이지가 있고 스테이지는데이
 	bool LineOfSightTo(const AActor* Other) const;
 
 public://Anim
-	float PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate = 1.f, FName StartSectionName = NAME_None);
+	float PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate = 1.f, FName StartSectionName = NAME_None, float sectionDur = -1);
 
 	float PlayAnimMontageSetDuration(UAnimMontage* anim_montage, float setDur = 1.f, FName StartSectionName = NAME_None);
 

@@ -14,8 +14,8 @@ void UWidgetMenuMap::NativeOnInitialized()
 	m_BtnPVP->OnClicked.AddDynamic(this, &UWidgetMenuMap::OnClickColosseum);
 	m_BtnElf->OnClicked.AddDynamic(this, &UWidgetMenuMap::OnClickElf);
 	m_BtnJapan->OnClicked.AddDynamic(this, &UWidgetMenuMap::OnClickJapan);
-	m_BtnBoneDragon->OnClicked.AddDynamic(this, &UWidgetMenuMap::OnClickRaid01);
-	m_BtnReaper->OnClicked.AddDynamic(this, &UWidgetMenuMap::OnClickRaid02);
+	m_BtnReaper->OnClicked.AddDynamic(this, &UWidgetMenuMap::OnClickRaid01);
+	m_BtnBoneDragon->OnClicked.AddDynamic(this, &UWidgetMenuMap::OnClickRaid02);
 
 	UWidgetLib::SetCurrentButton(m_Current, m_BtnStory);
 
@@ -55,13 +55,14 @@ void UWidgetMenuMap::OnClickElf()
 void UWidgetMenuMap::OnClickRaid01()
 {
 	m_Map->MoveToContent(TEXT("Raid01"));
-	UWidgetLib::SetCurrentButton(m_Current, m_BtnBoneDragon);
+	UWidgetLib::SetCurrentButton(m_Current, m_BtnReaper);
 }
 
 void UWidgetMenuMap::OnClickRaid02()
 {
 	m_Map->MoveToContent(TEXT("Raid02"));
-	UWidgetLib::SetCurrentButton(m_Current, m_BtnReaper);
+	
+	UWidgetLib::SetCurrentButton(m_Current, m_BtnBoneDragon);
 }
 
 void UWidgetMenuMap::OnClickBtn(const FName& mapZoneID)

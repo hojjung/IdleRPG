@@ -21,8 +21,6 @@ void UWidgetMainCanvas::NativeOnInitialized()
 	m_BtnRelic->m_OnClick.BindUObject(this, &UWidgetMainCanvas::OnClickRelicPanel);
 
 	m_BtnShop->m_OnClick.BindUObject(this, &UWidgetMainCanvas::OnClickShopPanel);
-
-	m_StageBtn->GetBtn()->OnClicked.AddDynamic(this, &UWidgetMainCanvas::OnOpenStage);
 }
 
 void UWidgetMainCanvas::TryOpen(UWidgetMenuBase* menu)
@@ -115,11 +113,6 @@ void UWidgetMainCanvas::OnClickMapPanel()
 	m_ShopPanel->OnClose();
 
 	TryOpen(m_MapPanel);
-}
-
-void UWidgetMainCanvas::OnOpenStage()
-{
-	m_StagePanel->OnOpen();
 }
 
 void UWidgetMainCanvas::OpenDeadAlert()

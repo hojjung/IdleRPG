@@ -8,6 +8,7 @@
 #include "Monsters/SpawnManager.h"
 #include "Player/MyPlayerPawn.h"
 #include "UObject/NoExportTypes.h"
+#include "Widgets/GameLevel/WidgetScreenFadeCanvas.h"
 #include "StageModeBase.generated.h"
 
 /**
@@ -22,6 +23,10 @@ public:
 	UStageModeBase();
 	
 protected:
+	TSubclassOf<UWidgetScreenFadeCanvas> m_ClassCanvasFade;
+	UPROPERTY()
+	UWidgetScreenFadeCanvas* m_CanvasFade;
+	
 	int m_nStageLevel;
 
 	int m_nMobSpawnCount;
@@ -93,5 +98,9 @@ public:
 
 	virtual void Tick(float d);
 	
+	virtual void TryAddModeWidget();
 	
+	void SetFade(const FVoidvoid& voidvoid);
+	
+	void HideFadeOut();
 };

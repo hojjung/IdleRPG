@@ -89,7 +89,13 @@ public:
 
 	void TryOpenDeadAlert();
 
+	void TryAddModeWidget();
+	
 	int GetDefaultStageLevel();
+	
+	void SetFade(const FVoidvoid& voidvoid);
+	
+	void HideFadeOut();
 };
 
 

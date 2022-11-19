@@ -4,6 +4,7 @@
 #include "GAS/BigInt/BigIntCalcTableBase.h"
 #include "Manager/MyGameInstance.h"
 #include "Monsters/MonsterPawn.h"
+#include "Widgets/GameLevel/WidgetDefaultCanvas.h"
 
 UDataTable* UDefaultStageMode::GetStageData = nullptr;
 
@@ -17,6 +18,22 @@ UDefaultStageMode::UDefaultStageMode()
 
 	AryStageRows.Reset(200);
 	GetStageData->GetAllRows("", AryStageRows);
+
+	static ConstructorHelpers::FClassFinder<UWidgetDefaultCanvas> FoundWW(TEXT("WidgetBlueprint'/Game/Blueprints/Widgets/MainGame/MainMenu/WB_DefaultCanvas.WB_DefaultCanvas_C'"));
+	
+	m_ClassCanvas = FoundWW.Class;	
+}
+
+void UDefaultStageMode::TryAddModeWidget()
+{
+	Super::TryAddModeWidget();
+	
+	m_Canvas = CreateWidget<UWidgetDefaultCanvas>(GetWorld(), m_ClassCanvas);
+
+	if(m_Canvas)
+	{
+		m_Canvas->AddToViewport(1);
+	}
 }
 
 void UDefaultStageMode::OnPreSpawnMobs()

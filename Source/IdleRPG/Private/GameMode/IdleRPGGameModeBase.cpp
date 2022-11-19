@@ -26,7 +26,8 @@ void AIdleRPGGameModeBase::StartPlay()
 	{
 		m_Canvas->AddToViewport();
 	}
-
+	UMyGameInstance::Get->TryAddModeWidget();
+	
 	UMyGameInstance::Get->TryOpenDeadAlert();
 
 	AMyPlayerPawn* Pl = Cast<AMyPlayerPawn>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
@@ -45,12 +46,13 @@ void AIdleRPGGameModeBase::Tick(float DeltaSeconds)
 
 void AIdleRPGGameModeBase::SetFade(FVoidvoid onEnd)
 {
-	m_Canvas->GetScreenEffect()->ShowFadeOut(1.0f, onEnd);
+	UMyGameInstance::Get->SetFade(onEnd);
+	
 }
 
 void AIdleRPGGameModeBase::SetHideFade()
 {
-	m_Canvas->GetScreenEffect()->HideFadeOut();
+	UMyGameInstance::Get->HideFadeOut();
 }
 
 void AIdleRPGGameModeBase::OpenDeadAlertWidget()

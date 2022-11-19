@@ -49,13 +49,8 @@ protected:
 	UWidgetRelicPanel* m_RelicPanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetShopPanel* m_ShopPanel;
-	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UWidgetStagePanel* m_StagePanel;
-	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UWidgetHUDStageButton* m_StageBtn;
-	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UWidgetScreenEffect* m_ScreenEffect;
-	//
+	
+	
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetMenuBtn* m_BtnUpgrade;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
@@ -100,13 +95,8 @@ public:
 	void OnClickRelicPanel();
 	UFUNCTION()
 	void OnClickMapPanel();
-	UFUNCTION()
-	void OnOpenStage();
 
 	void OpenDeadAlert();
 
-	FORCEINLINE UWidgetScreenEffect* GetScreenEffect()
-	{
-		return  m_ScreenEffect;
-	}
+	
 };

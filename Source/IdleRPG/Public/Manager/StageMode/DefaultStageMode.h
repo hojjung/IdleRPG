@@ -7,6 +7,7 @@
 #include "Manager/StageMode/StageModeBase.h"
 #include "DefaultStageMode.generated.h"
 
+class UWidgetDefaultCanvas;
 struct FStageRow;
 /**
  * 
@@ -21,7 +22,10 @@ public:
 	
 protected:
 	static UDataTable* GetStageData;
-	
+
+	TSubclassOf<UWidgetDefaultCanvas> m_ClassCanvas;
+	UPROPERTY()
+	UWidgetDefaultCanvas* m_Canvas;
 public:
 	static TArray<const FStageRow*> AryStageRows;
 
@@ -29,6 +33,8 @@ protected:
 	virtual void OnPreSpawnMobs() override;
 
 	virtual TArray<FPrimaryAssetId> GetStageUnits(int lv) override;
+
+	virtual void TryAddModeWidget() override;
 	
 public:
 	virtual FText GetStageName(int level) override;
@@ -52,6 +58,8 @@ public:
 
 	virtual void OnPlayerDeadAnimEnd(AMyPlayerPawn* target) override;
 };
+
+
 
 
 USTRUCT(BlueprintType)//일반 스테이지

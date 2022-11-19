@@ -387,15 +387,15 @@ bool AMyBasePawn::LineOfSightTo(const AActor* Other) const
 	return !bHit;
 }
 //////
-float AMyBasePawn::PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate, FName StartSectionName)
+float AMyBasePawn::PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate, FName StartSectionName, float sectionDur)
 {
 	UAnimInstance* AnimInstance = m_BodyMesh->GetAnimInstance();
 
 	if (anim_montage && AnimInstance)
 	{
-		float Duration = AnimInstance->Montage_Play(anim_montage, InPlayRate);
+		float AssetDur = AnimInstance->Montage_Play(anim_montage, InPlayRate);
 
-		if (Duration > 0.f)
+		if (AssetDur > 0.f)
 		{
 			FName SectioNName;
 
@@ -408,17 +408,19 @@ float AMyBasePawn::PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate,
 				SectioNName = anim_montage->GetSectionName(0);
 			}
 			
+			if(sectionDur < 0)
+			{
+				sectionDur = GetSectionLength(SectioNName, anim_montage); 
+			}
 			AnimInstance->Montage_JumpToSection(SectioNName, anim_montage);			
 
-			Duration = GetSectionLength(SectioNName, anim_montage);
-
-			Duration = (Duration / (InPlayRate * anim_montage->RateScale)); //가속된만큼 빠르게
+			sectionDur = (sectionDur / (InPlayRate * anim_montage->RateScale)); //가속된만큼 빠르게
 
 			ClearStopMoveDelegate();
 			m_Movement->SetActive(false);
-			GetWorldTimerManager().SetTimer(m_MoveStopTimer, this, &AMyBasePawn::ActiveMovement, Duration, false);
+			GetWorldTimerManager().SetTimer(m_MoveStopTimer, this, &AMyBasePawn::ActiveMovement, sectionDur, false);
 			
-			return Duration;
+			return sectionDur;
 		}
 	}
 	return 0.f;
@@ -446,14 +448,14 @@ float AMyBasePawn::PlayAnimMontageSetDuration(UAnimMontage* anim_montage, float 
 
 		float NewRate = AssetDur / setDur;
 		
-		return PlayAnimMontage(anim_montage, NewRate, StartSectionName);
+		return PlayAnimMontage(anim_montage, NewRate, StartSectionName, AssetDur);
 	}
 	return 0.f;
 }
 
 void AMyBasePawn::StopAnimMontage()
 {
-	UMyAnimInstance* AnimInstance =Cast<UMyAnimInstance>(m_BodyMesh->GetAnimInstance());
+	UMyAnimInstance* AnimInstance = Cast<UMyAnimInstance>(m_BodyMesh->GetAnimInstance());
 
 	if(!AnimInstance)
 	{

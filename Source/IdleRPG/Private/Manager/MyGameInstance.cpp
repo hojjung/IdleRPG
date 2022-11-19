@@ -239,7 +239,22 @@ void UMyGameInstance::TryOpenDeadAlert()
 	}
 }
 
+void UMyGameInstance::TryAddModeWidget()
+{
+	GetStageMode()->TryAddModeWidget();
+}
+
 int UMyGameInstance::GetDefaultStageLevel()
 {
 	return m_nDefaultStageLevel;
+}
+
+void UMyGameInstance::SetFade(const FVoidvoid& voidvoid)
+{
+	GetStageMode()->SetFade(voidvoid);
+}
+
+void UMyGameInstance::HideFadeOut()
+{
+	GetStageMode()->HideFadeOut();
 }

@@ -29,20 +29,23 @@ void UWidgetMapSelect::Open(const FName& id)
 
 	m_Scroll->ClearChildren();
 
+	int Index = 0;
 	for(const FContentMobData& MobData : m_ContentData->m_AryLevel)
 	{
 		UWidgetMapSelectEle* Ele = CreateWidget<UWidgetMapSelectEle>(this, m_ClassEle);
 
-		FText StageName = m_ContentData->GetStageName(MobData.m_nLevel);
+		FText StageName = m_ContentData->GetStageName(Index);
 
-		Ele->SetZone(this, MobData.m_nLevel, StageName);
+		Ele->SetZone(this, Index, StageName);
 		//
 
 		m_Scroll->AddChild(Ele);
 
 		Ele->SetPadding(FMargin(25,10,25,10));
+
+		Index++;
 	}
-	SetInfoPanel(m_ContentData->m_AryLevel[0].m_nLevel);
+	SetInfoPanel(0);
 }
 
 void UWidgetMapSelect::SetInfoPanel(int lv)

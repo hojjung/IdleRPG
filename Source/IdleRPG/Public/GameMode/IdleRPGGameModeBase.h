@@ -37,5 +37,5 @@ public:
 
 	void SetHideFade();
 
-	void OpenDeadAlertWidget();	
+	void OpenDeadAlertWidget();
 };
