@@ -5,10 +5,27 @@
 #include "GAS/BigInt/BigIntCalcTableBase.h"
 #include "Manager/MyGameInstance.h"
 #include "Monsters/MonsterPawn.h"
+#include "Widgets/GameLevel/WidgetRaidCanvas.h"
 
 URaidStageMode::URaidStageMode()
 {
+	SetMobCount(1);
+
+	static ConstructorHelpers::FClassFinder<UWidgetRaidCanvas> FoundWW(TEXT("WidgetBlueprint'/Game/Blueprints/Widgets/MainGame/MainMenu/WB_RaidCanvas.WB_RaidCanvas_C'"));
 	
+	m_ClassCanvas = FoundWW.Class;	
+}
+
+void URaidStageMode::TryAddModeWidget()
+{
+	Super::TryAddModeWidget();
+
+	m_Canvas = CreateWidget<UWidgetRaidCanvas>(GetWorld(), m_ClassCanvas);
+
+	if(m_Canvas)
+	{
+		m_Canvas->AddToViewport(1);
+	}
 }
 
 void URaidStageMode::OnPreSpawnMobs()

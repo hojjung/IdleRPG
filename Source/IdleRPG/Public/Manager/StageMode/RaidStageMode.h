@@ -6,6 +6,7 @@
 #include "Manager/StageMode/StageModeBase.h"
 #include "RaidStageMode.generated.h"
 
+class UWidgetRaidCanvas;
 /**
  * 
  */
@@ -19,8 +20,14 @@ public:
 
 protected:
 	const FContentDataRow* m_Content;
+
+	TSubclassOf<UWidgetRaidCanvas> m_ClassCanvas;
+	UPROPERTY()
+	UWidgetRaidCanvas* m_Canvas;
 	
 protected:
+	virtual void TryAddModeWidget() override;
+	
 	virtual void OnPreSpawnMobs() override;
 
 	virtual TArray<FPrimaryAssetId> GetStageUnits(int lv) override;
