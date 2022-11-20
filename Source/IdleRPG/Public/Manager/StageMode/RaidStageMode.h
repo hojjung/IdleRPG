@@ -31,7 +31,11 @@ protected:
 	virtual void OnPreSpawnMobs() override;
 
 	virtual TArray<FPrimaryAssetId> GetStageUnits(int lv) override;
-	
+
+		
+	virtual FVector GetSpawnLocation() override;
+
+	virtual FRotator GetSpawnRotation() override;
 public:
 	virtual FText GetStageName(int level) override;
 

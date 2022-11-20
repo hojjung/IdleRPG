@@ -25,15 +25,7 @@ void UDefaultStageMode::TryAddModeWidget()
 	Super::TryAddModeWidget();
 }
 
-FVector UDefaultStageMode::GetSpawnLocation()
-{
-	return FVector(886, -824, 92);
-}
 
-FRotator UDefaultStageMode::GetSpawnRotation()
-{
-	return FRotator(0,90,0);
-}
 
 void UDefaultStageMode::OnPreSpawnMobs()
 {

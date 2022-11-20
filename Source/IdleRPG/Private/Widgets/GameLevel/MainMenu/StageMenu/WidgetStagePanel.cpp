@@ -6,7 +6,7 @@ void UWidgetStagePanel::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	m_nMaxMap = UDefaultStageMode::AryStageRows.Num();
+	m_nMaxMap = UDefaultStageMode::AryStageRows.Num() - 1;
 	
 	m_BtnLeft->OnClicked.AddDynamic(this, &UWidgetStagePanel::OnClickLeft);
 	

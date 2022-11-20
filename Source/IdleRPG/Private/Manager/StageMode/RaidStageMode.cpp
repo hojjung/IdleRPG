@@ -89,3 +89,13 @@ void URaidStageMode::OnPlayerDeadAnimEnd(AMyPlayerPawn* target)
 
 	UMyGameInstance::Get->StartGameMode(DefaultLv, nullptr);
 }
+
+FVector URaidStageMode::GetSpawnLocation()
+{
+	return FVector(886, -824, 92);
+}
+
+FRotator URaidStageMode::GetSpawnRotation()
+{
+	return FRotator(0,90,0);
+}

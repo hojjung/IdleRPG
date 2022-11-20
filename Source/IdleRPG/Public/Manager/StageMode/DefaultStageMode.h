@@ -32,10 +32,7 @@ protected:
 	virtual TArray<FPrimaryAssetId> GetStageUnits(int lv) override;
 
 	virtual void TryAddModeWidget() override;
-	
-	virtual FVector GetSpawnLocation() override;
 
-	virtual FRotator GetSpawnRotation() override;
 	
 public:
 	virtual FText GetStageName(int level) override;

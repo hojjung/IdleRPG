@@ -40,6 +40,8 @@ void UWidgetMapEle::UpdateIcon()
 	m_BtnIcon->SetStyle(Style);
 
 	m_TextName->SetText(ZoneData->m_Name);
+	
+	m_ImgBlur->SetColorAndOpacity(ZoneData->m_Color.GetRow<FColorDataRow>("")->m_Color.GetSpecifiedColor());
 }
 
 
