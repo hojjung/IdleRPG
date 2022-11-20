@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WidgetDefaultCanvas.h"
 #include "Blueprint/UserWidget.h"
 #include "HUD/WidgetDeadAlert.h"
 #include "HUD/WidgetScreenEffect.h"
@@ -49,6 +50,10 @@ protected:
 	UWidgetRelicPanel* m_RelicPanel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UWidgetShopPanel* m_ShopPanel;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetStagePanel* m_StagePanel;
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetHUDStageButton* m_StageBtn;
 	
 	
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
@@ -75,6 +80,8 @@ protected:
 	virtual void NativeOnInitialized() override;
 
 	void TryOpen(UWidgetMenuBase* menu);
+	
+	void HideDefaultStage();
 
 public:
 	UFUNCTION()
@@ -95,8 +102,9 @@ public:
 	void OnClickRelicPanel();
 	UFUNCTION()
 	void OnClickMapPanel();
+	UFUNCTION()
+	void OnOpenStage();
 
 	void OpenDeadAlert();
 
-	
 };

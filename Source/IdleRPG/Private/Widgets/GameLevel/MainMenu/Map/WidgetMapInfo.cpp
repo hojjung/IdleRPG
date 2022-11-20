@@ -26,7 +26,7 @@ void UWidgetMapInfo::SetInfo(const FContentDataRow* content_data_row, int lv)
 	
 	m_TextLevel->SetText(Str);
 	
-	m_ImgIcon->SetBrushFromTexture(m_ContentData->m_Icon);
+	m_ImgIcon->SetBrushFromTexture(m_ContentData->m_ConentIcon);
 
 	//열쇠 개수 업데이트
 	//소탕권

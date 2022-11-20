@@ -35,6 +35,7 @@ public:
 UENUM(BlueprintType)
 enum class EGameMode : uint8
 {
+	Default,
 	PVP,
 	Mine,
 	Elf,

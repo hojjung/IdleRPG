@@ -83,7 +83,7 @@ public:
 
 	AMyPlayerController* GetPlayerCon();
 
-	AIdleRPGGameModeBase* GetGameMode();
+	AIdleRPGGameModeBase* GetGameModeActor();
 
 	UStageModeBase * GetStageMode();
 
@@ -96,6 +96,8 @@ public:
 	void SetFade(const FVoidvoid& voidvoid);
 	
 	void HideFadeOut();
+
+	EGameMode GetGameMode();
 };
 
 

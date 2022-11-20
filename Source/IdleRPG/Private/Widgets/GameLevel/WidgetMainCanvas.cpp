@@ -21,16 +21,45 @@ void UWidgetMainCanvas::NativeOnInitialized()
 	m_BtnRelic->m_OnClick.BindUObject(this, &UWidgetMainCanvas::OnClickRelicPanel);
 
 	m_BtnShop->m_OnClick.BindUObject(this, &UWidgetMainCanvas::OnClickShopPanel);
+
+	m_StageBtn->GetBtn()->OnClicked.AddDynamic(this, &UWidgetMainCanvas::OnOpenStage);
+
+
+	EGameMode Mode = UMyGameInstance::Get->GetGameMode();
+
+	if(Mode != EGameMode::Default)
+	{
+		HideDefaultStage();
+	}
+}
+
+
+void UWidgetMainCanvas::OnOpenStage()
+{
+	m_StagePanel->OnOpen();
 }
 
 void UWidgetMainCanvas::TryOpen(UWidgetMenuBase* menu)
 {
+	EGameMode Mode = UMyGameInstance::Get->GetGameMode();
+
+	if(Mode != EGameMode::Default)
+	{
+		UMyGameInstance::Get->GetGameModeActor()->ShowText(NSLOCTEXT("UWidgetMainCanvas", "TryOpenMenu", "콘텐츠 중엔 열 수 없습니다."), FLinearColor::Red);
+		return;
+	}
 	if(menu->IsOpened())
 	{
 		menu->OnClose();
 		return;
 	}
 	menu->OnOpen();
+}
+
+void UWidgetMainCanvas::HideDefaultStage()
+{
+	 m_StagePanel->SetVisibility(ESlateVisibility::Collapsed);
+	 m_StageBtn->SetVisibility(ESlateVisibility::Collapsed);
 }
 
 void UWidgetMainCanvas::OnOpenUpgradePanel()

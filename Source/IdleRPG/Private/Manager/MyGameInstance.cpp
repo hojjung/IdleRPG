@@ -12,7 +12,6 @@ void UMyGameInstance::BeginDestroy()
 {
 	Super::BeginDestroy();
 
-	UBUITween::CompleteAll();
 	UBUITween::Shutdown();
 
 	Get = nullptr;
@@ -161,7 +160,7 @@ void UMyGameInstance::LoadMap(const FName& levelName)
 		}
 		else
 		{
-			GetGameMode()->SetFade(FVoidvoid::CreateWeakLambda(this, [=]()
+			GetGameModeActor()->SetFade(FVoidvoid::CreateWeakLambda(this, [=]()
 			{
 				m_LevelManager->OpenLevel(levelName);
 			}));
@@ -176,7 +175,7 @@ void UMyGameInstance::LoadMap(const FName& levelName)
 		}
 		else
 		{
-			GetGameMode()->SetFade(FVoidvoid::CreateUObject(this, &UMyGameInstance::OnLevelMoveFadeEnd));
+			GetGameModeActor()->SetFade(FVoidvoid::CreateUObject(this, &UMyGameInstance::OnLevelMoveFadeEnd));
 		}
 	}
 }
@@ -186,7 +185,7 @@ void UMyGameInstance::OnLevelMoveFadeEnd()
 	UBUITween::CompleteAll();
 	UBUITween::Shutdown();
 	
-	GetGameMode()->SetHideFade();
+	GetGameModeActor()->SetHideFade();
 	
 	m_Player->Revive();
 	
@@ -219,7 +218,7 @@ AMyPlayerController* UMyGameInstance::GetPlayerCon()
 	return m_PlayerCon.Get();
 }
 
-AIdleRPGGameModeBase* UMyGameInstance::GetGameMode()
+AIdleRPGGameModeBase* UMyGameInstance::GetGameModeActor()
 {
 	return Cast<AIdleRPGGameModeBase>(UGameplayStatics::GetGameMode(this));
 }
@@ -233,7 +232,7 @@ void UMyGameInstance::TryOpenDeadAlert()
 {
 	if(UMyGameInstance::Get->m_bIsPlayerDead)
 	{
-		GetGameMode()->OpenDeadAlertWidget();
+		GetGameModeActor()->OpenDeadAlertWidget();
 		
 		UMyGameInstance::Get->m_bIsPlayerDead = false;
 	}
@@ -257,4 +256,13 @@ void UMyGameInstance::SetFade(const FVoidvoid& voidvoid)
 void UMyGameInstance::HideFadeOut()
 {
 	GetStageMode()->HideFadeOut();
+}
+
+EGameMode UMyGameInstance::GetGameMode()
+{
+	if(!m_Content)
+	{
+		return  EGameMode::Default;
+	}
+	return m_Content->m_GameMode;
 }

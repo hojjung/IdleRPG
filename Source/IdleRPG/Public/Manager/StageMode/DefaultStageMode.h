@@ -23,9 +23,6 @@ public:
 protected:
 	static UDataTable* GetStageData;
 
-	TSubclassOf<UWidgetDefaultCanvas> m_ClassCanvas;
-	UPROPERTY()
-	UWidgetDefaultCanvas* m_Canvas;
 public:
 	static TArray<const FStageRow*> AryStageRows;
 
@@ -35,6 +32,10 @@ protected:
 	virtual TArray<FPrimaryAssetId> GetStageUnits(int lv) override;
 
 	virtual void TryAddModeWidget() override;
+	
+	virtual FVector GetSpawnLocation() override;
+
+	virtual FRotator GetSpawnRotation() override;
 	
 public:
 	virtual FText GetStageName(int level) override;
@@ -57,6 +58,7 @@ public:
 	virtual void OnPlayerDead(AMyPlayerPawn* target) override;
 
 	virtual void OnPlayerDeadAnimEnd(AMyPlayerPawn* target) override;
+
 };
 
 

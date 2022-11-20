@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "IdleRPG.h"
+#include "MyGameModeBase.h"
 #include "GameFramework/GameModeBase.h"
 #include "GAS/BigInt/BigIntLib.h"
 #include "Monsters/SpawnManager.h"
@@ -15,7 +16,7 @@ class UWidgetMainCanvas;
  * 
  */
 UCLASS()
-class IDLERPG_API AIdleRPGGameModeBase : public AGameModeBase
+class IDLERPG_API AIdleRPGGameModeBase : public AMyGameModeBase
 {
 	GENERATED_BODY()
 
@@ -38,4 +39,5 @@ public:
 	void SetHideFade();
 
 	void OpenDeadAlertWidget();
+
 };

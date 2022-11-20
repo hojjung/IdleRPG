@@ -18,22 +18,21 @@ UDefaultStageMode::UDefaultStageMode()
 
 	AryStageRows.Reset(200);
 	GetStageData->GetAllRows("", AryStageRows);
-
-	static ConstructorHelpers::FClassFinder<UWidgetDefaultCanvas> FoundWW(TEXT("WidgetBlueprint'/Game/Blueprints/Widgets/MainGame/MainMenu/WB_DefaultCanvas.WB_DefaultCanvas_C'"));
-	
-	m_ClassCanvas = FoundWW.Class;	
 }
 
 void UDefaultStageMode::TryAddModeWidget()
 {
 	Super::TryAddModeWidget();
-	
-	m_Canvas = CreateWidget<UWidgetDefaultCanvas>(GetWorld(), m_ClassCanvas);
+}
 
-	if(m_Canvas)
-	{
-		m_Canvas->AddToViewport(1);
-	}
+FVector UDefaultStageMode::GetSpawnLocation()
+{
+	return FVector(886, -824, 92);
+}
+
+FRotator UDefaultStageMode::GetSpawnRotation()
+{
+	return FRotator(0,90,0);
 }
 
 void UDefaultStageMode::OnPreSpawnMobs()

@@ -109,7 +109,7 @@ void UStageModeBase::OnMonsterDead(AMonsterPawn* target)
 void UStageModeBase::OnPlayerDead(AMyPlayerPawn* target)
 {
 	UMyGameInstance::Get->m_bIsPlayerDead = true;
-	UMyGameInstance::Get->GetGameMode()->SetFade();
+	UMyGameInstance::Get->GetGameModeActor()->SetFade();
 }
 
 void UStageModeBase::Tick(float d)
