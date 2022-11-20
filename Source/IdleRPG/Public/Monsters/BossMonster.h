@@ -3,19 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Actors/Pawns/MyBasePawn.h"
-#include "GAS/GAS.h"
+#include "Monster.h"
 
-class AMonsterPawn;
 /**
- *  쿼드트리?
+ * 
  */
-class IDLERPG_API Monster
+class IDLERPG_API BossMonster : public Monster
 {
 public:
-	Monster(AMonsterPawn* pawn);
+	BossMonster(AMonsterPawn* pawn);
 	
-	virtual  ~Monster();
+	virtual ~BossMonster() override;
 
 protected:
 	TWeakObjectPtr<AMonsterPawn> m_Pawn;
@@ -40,7 +38,7 @@ protected:
 
 	float m_fChaseFindTimer;
 
-	typedef void (Monster::*FPtrState)(void);
+	typedef void (BossMonster::*FPtrState)(void);
 
 	FPtrState m_AryStateFunction[static_cast<int>(EFSM::Length)];
 

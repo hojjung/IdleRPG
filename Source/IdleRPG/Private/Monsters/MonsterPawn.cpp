@@ -219,6 +219,10 @@ void AMonsterPawn::PlayHittenSound(EDamagePopup pop)
 
 void AMonsterPawn::OnHpChanged()
 {
+	if(!m_EntityAsset->m_bIsBoss)
+	{
+		return;
+	}
 	if(!m_PawnInfo->IsVisible())
 	{
 		m_PawnInfo->SetVisibility(true);

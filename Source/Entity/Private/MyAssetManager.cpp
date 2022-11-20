@@ -78,7 +78,6 @@ void UMyAssetManager::SyncLoad(FStreamableDelegate dele, TSharedPtr<FStreamableH
 	if (!Handle.Get())
 	{
 		dele.Execute();
-		FStreamableHandle::ExecuteDelegate(dele);
 		return;
 	}
 	EAsyncPackageState::Type LoadState = EAsyncPackageState::TimeOut;
@@ -94,5 +93,4 @@ void UMyAssetManager::SyncLoad(FStreamableDelegate dele, TSharedPtr<FStreamableH
 		}
 	}
 	dele.Execute();
-	//FStreamableHandle::ExecuteDelegate(dele);
 }

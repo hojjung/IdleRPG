@@ -50,6 +50,8 @@ struct FContentDataRow : public FEntityDataRow
 	GENERATED_USTRUCT_BODY()
 
 public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	UTexture2D* m_ConentIcon;
 	UPROPERTY(EditDefaultsOnly)
 	FText m_Desc;
 	UPROPERTY(EditDefaultsOnly)

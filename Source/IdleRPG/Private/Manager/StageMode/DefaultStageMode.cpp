@@ -55,8 +55,6 @@ void UDefaultStageMode::OnPreSpawnMobs()
 	m_MobHp = HpRow->GetValue(m_nStageLevel);
 
 	m_Exp = ExpRow->GetValue(m_nStageLevel);
-	
-	
 }
 
 TArray<FPrimaryAssetId> UDefaultStageMode::GetStageUnits(int lv)

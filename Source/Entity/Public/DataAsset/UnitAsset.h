@@ -21,6 +21,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
 	TSoftObjectPtr<UAnimMontage> m_BaseAttackAnim;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
+	TArray<TSoftObjectPtr<UAnimMontage>>  m_SpecialAtkAnims;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
 	TSoftObjectPtr<UAnimMontage> m_DeathMontage;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle, meta = (AssetBundles = "Default"))
 	TSoftObjectPtr<UAnimMontage> m_TookHitMontage;
@@ -33,13 +35,13 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	bool m_bAttackFirst = false;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	bool m_bIsBoss = false;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float m_RotYawOffset;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (UIMin = "34" ,UIMax = "88"))
 	float m_fCapsuleRadius = 60.f;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (UIMin = "0.1"))
 	float m_fScale = 1.f;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (UIMin = "0.1"))
-	float m_fShadowScale = 6.f;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle ,meta = (AssetBundles = "Preview"))
 	TArray<TSoftObjectPtr<UStaticMesh>> m_AryAttachments;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Bundle)

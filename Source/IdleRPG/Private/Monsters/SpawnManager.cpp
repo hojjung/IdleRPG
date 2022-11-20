@@ -6,6 +6,7 @@
 #include "Monsters/MonsterPawn.h"
 #include "Player/MyPlayerPawn.h"
 #include "Manager/MyGameInstance.h"
+#include "Monsters/BossMonster.h"
 
 SpawnManager::SpawnManager()
 {
@@ -56,6 +57,8 @@ void SpawnManager::SpawnUnits(const FPrimaryAssetId& id, FVector loc, FRotator r
 
 	const UObject* Inst = UMyGameInstance::Get;
 
+	PRINTF("Spawn2");
+
 	FStreamableDelegate Delegate = FStreamableDelegate::CreateRaw(this, &SpawnManager::OnMonsterLoaded, AssetID, Inst, loc, rot);
 
 	UMyAssetManager::Get()->LoadUnitAssetMeshOnly(AssetID, Delegate);
@@ -79,11 +82,22 @@ void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* worl
 
 	Pawn->SetEntity(MonsterData);
 
-	TSharedPtr<Monster> Mob = MakeShareable(new Monster(Pawn));
+	TSharedPtr<Monster> Mob;
+	
+	if(MonsterData->m_bIsBoss)
+	{
+		Mob = MakeShareable(new BossMonster(Pawn));
+	}
+	else
+	{
+		Mob = MakeShareable(new Monster(Pawn));
+	}
 
 	Pawn->GetGas()->SetDefaultStat(m_Hp, m_Dmg);
 
 	m_AryMonsters.Add(Mob);
+	
+	PRINTF("Spawn3");
 }
 
 void SpawnManager::SetBigIntStagMob(BigInt hp, BigInt dmg)

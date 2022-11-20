@@ -164,7 +164,7 @@ void ACombatPawn::SetEntity(const UUnitAsset* asset)
 
 	m_InitColl = m_Capsule->GetCollisionEnabled();
 
-	m_ShadowMeshComp->SetRelativeScale3D(FVector(asset->m_fShadowScale));
+	m_ShadowMeshComp->SetRelativeScale3D(FVector(asset->m_fScale * 4.0f));
 }
 
 float ACombatPawn::TryAttack()
