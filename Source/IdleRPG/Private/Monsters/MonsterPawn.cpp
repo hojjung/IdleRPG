@@ -108,6 +108,8 @@ void AMonsterPawn::SetEntity(const UUnitAsset* asset)
 		SetFocusedTarget(Play);
 	}
 
+	float X =  m_BodyMesh->Bounds.BoxExtent.X;
+	
 	float Z =  m_BodyMesh->Bounds.BoxExtent.Z;
 
 	m_PawnInfo->SetRelativeLocation(FVector(0,0,Z));
@@ -117,6 +119,8 @@ void AMonsterPawn::SetEntity(const UUnitAsset* asset)
 	m_CoinParticle->SetRelativeLocation(FVector(0,0,Z * 0.75f));
 
 	m_SpawnPos = GetActorLocation();
+
+	SetAtkRange(X + 10);
 }
 
 void AMonsterPawn::Revive()

@@ -248,16 +248,6 @@ int UMyGameInstance::GetDefaultStageLevel()
 	return m_nDefaultStageLevel;
 }
 
-void UMyGameInstance::SetFade(const FVoidvoid& voidvoid)
-{
-	GetStageMode()->SetFade(voidvoid);
-}
-
-void UMyGameInstance::HideFadeOut()
-{
-	GetStageMode()->HideFadeOut();
-}
-
 EGameMode UMyGameInstance::GetGameMode()
 {
 	if(!m_Content)

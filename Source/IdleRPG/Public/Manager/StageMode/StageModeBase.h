@@ -23,10 +23,6 @@ public:
 	UStageModeBase();
 	
 protected:
-	TSubclassOf<UWidgetScreenFadeCanvas> m_ClassCanvasFade;
-	UPROPERTY()
-	UWidgetScreenFadeCanvas* m_CanvasFade;
-	
 	int m_nStageLevel;
 
 	int m_nMobSpawnCount;
@@ -102,9 +98,5 @@ public:
 
 	virtual void Tick(float d);
 	
-	virtual void TryAddModeWidget();
-	
-	void SetFade(const FVoidvoid& voidvoid);
-	
-	void HideFadeOut();
+	virtual void TryAddModeWidget() {};
 };

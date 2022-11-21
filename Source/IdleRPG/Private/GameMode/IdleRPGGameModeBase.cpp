@@ -11,7 +11,11 @@ AIdleRPGGameModeBase::AIdleRPGGameModeBase()
 
 	static ConstructorHelpers::FClassFinder<UWidgetMainCanvas> FoundWW(TEXT("WidgetBlueprint'/Game/Blueprints/Widgets/MainGame/MainMenu/WB_MainCanvas.WB_MainCanvas_C'"));
 	
-	m_ClassCanvas = FoundWW.Class;	
+	m_ClassCanvas = FoundWW.Class;
+
+	static ConstructorHelpers::FClassFinder<UWidgetScreenFadeCanvas> FoundWW2(TEXT("WidgetBlueprint'/Game/Blueprints/Widgets/MainGame/MainMenu/WB_ScreenFade.WB_ScreenFade_C'"));
+	
+	m_ClassCanvasFade = FoundWW2.Class;
 }
 
 void AIdleRPGGameModeBase::StartPlay()
@@ -22,10 +26,12 @@ void AIdleRPGGameModeBase::StartPlay()
 	
 	m_Canvas = CreateWidget<UWidgetMainCanvas>(GetWorld(), m_ClassCanvas);
 
-	if(m_Canvas)
-	{
-		m_Canvas->AddToViewport();
-	}
+	m_Canvas->AddToViewport();
+	
+	m_CanvasFade = CreateWidget<UWidgetScreenFadeCanvas>(GetWorld(), m_ClassCanvasFade);
+
+	m_CanvasFade->AddToViewport(9999);
+	
 	UMyGameInstance::Get->TryAddModeWidget();
 	
 	UMyGameInstance::Get->TryOpenDeadAlert();
@@ -46,12 +52,12 @@ void AIdleRPGGameModeBase::Tick(float DeltaSeconds)
 
 void AIdleRPGGameModeBase::SetFade(FVoidvoid onEnd)
 {
-	UMyGameInstance::Get->SetFade(onEnd);
+	m_CanvasFade->GetScreenEffect()->ShowFadeOut(0.6f, onEnd);
 }
 
 void AIdleRPGGameModeBase::SetHideFade()
 {
-	UMyGameInstance::Get->HideFadeOut();
+	m_CanvasFade->GetScreenEffect()->HideFadeOut();
 }
 
 void AIdleRPGGameModeBase::OpenDeadAlertWidget()

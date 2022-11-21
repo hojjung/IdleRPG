@@ -93,10 +93,6 @@ public:
 	
 	int GetDefaultStageLevel();
 	
-	void SetFade(const FVoidvoid& voidvoid);
-	
-	void HideFadeOut();
-
 	EGameMode GetGameMode();
 };
 

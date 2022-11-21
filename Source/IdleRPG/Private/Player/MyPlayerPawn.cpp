@@ -118,7 +118,7 @@ void AMyPlayerPawn::SetEntity(const UUnitAsset* asset)
 
 	m_Fsm = MakeShareable(new PlayerFSM(this));
 
-	SetAtkRange(200);
+	SetAtkRange(250);
 	
 	m_PawnInfo->SetGreen();
 	

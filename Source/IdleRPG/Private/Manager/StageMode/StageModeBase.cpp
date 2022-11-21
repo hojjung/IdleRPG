@@ -9,10 +9,6 @@
 UStageModeBase::UStageModeBase()
 {
 	m_nMobSpawnCount = 20;
-
-	static ConstructorHelpers::FClassFinder<UWidgetScreenFadeCanvas> FoundWW(TEXT("WidgetBlueprint'/Game/Blueprints/Widgets/MainGame/MainMenu/WB_ScreenFade.WB_ScreenFade_C'"));
-	
-	m_ClassCanvasFade = FoundWW.Class;	
 }
 
 void UStageModeBase::SetLevel(int l)
@@ -115,24 +111,4 @@ void UStageModeBase::OnPlayerDead(AMyPlayerPawn* target)
 void UStageModeBase::Tick(float d)
 {
 	m_SpawnManager->Update(d);
-}
-
-void UStageModeBase::TryAddModeWidget()
-{
-	m_CanvasFade = CreateWidget<UWidgetScreenFadeCanvas>(GetWorld(), m_ClassCanvasFade);
-
-	if(m_CanvasFade)
-	{
-		m_CanvasFade->AddToViewport(9999);
-	}
-}
-
-void UStageModeBase::SetFade(const FVoidvoid& voidvoid)
-{
-	m_CanvasFade->GetScreenEffect()->ShowFadeOut(1, voidvoid);
-}
-
-void UStageModeBase::HideFadeOut()
-{
-	m_CanvasFade->GetScreenEffect()->HideFadeOut();
 }

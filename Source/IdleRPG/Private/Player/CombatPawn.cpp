@@ -10,8 +10,8 @@ ACombatPawn::ACombatPawn(const FObjectInitializer& objInit) :Super(objInit)
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> FoundSt(
 			TEXT("StaticMesh'/Game/03_VisualEffect/FX/Effects/FX_Meshes/SM_CharM_Shadow.SM_CharM_Shadow'"));
 	m_ShadowMeshComp->SetStaticMesh(FoundSt.Object);
-	m_ShadowMeshComp->SetupAttachment(GetSkMesh());
-	m_ShadowMeshComp->SetRelativeLocation(FVector(0,0,5.f));
+	m_ShadowMeshComp->SetupAttachment(GetRootComponent());
+	m_ShadowMeshComp->SetRelativeLocation(FVector(0, 0, -85));
 	m_ShadowMeshComp->SetRelativeScale3D(FVector(3));
 	m_ShadowMeshComp->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	m_ShadowMeshComp->SetCanEverAffectNavigation(false);
@@ -164,7 +164,7 @@ void ACombatPawn::SetEntity(const UUnitAsset* asset)
 
 	m_InitColl = m_Capsule->GetCollisionEnabled();
 
-	m_ShadowMeshComp->SetRelativeScale3D(FVector(asset->m_fScale * 4.0f));
+	m_ShadowMeshComp->SetRelativeScale3D(FVector(FMath::Max(1.0f, asset->m_fScale)  * 6.0f));
 }
 
 float ACombatPawn::TryAttack()
