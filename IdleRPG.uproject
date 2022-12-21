@@ -30,7 +30,11 @@
 		{
 			"Name": "WebService",
 			"Type": "Runtime",
-			"LoadingPhase": "PreDefault"
+			"LoadingPhase": "PreDefault",
+			"AdditionalDependencies": [
+				"Engine",
+				"UMG"
+			]
 		},
 		{
 			"Name": "IdleRPGEditor",

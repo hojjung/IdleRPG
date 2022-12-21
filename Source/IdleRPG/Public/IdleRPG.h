@@ -21,11 +21,6 @@ namespace FGlobalVariable
 	static const float MONSTER_DEFAULT = 230;
 }
 
-class DeleterNot
-{
-public:
-	void operator()(void*) {}
-};
 
 DECLARE_MULTICAST_DELEGATE(FVoidvoidMulti);
 

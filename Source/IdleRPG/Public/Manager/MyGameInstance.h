@@ -10,6 +10,7 @@
 #include "GameMode/IdleRPGGameModeBase.h"
 #include "GAS/GAS.h"
 #include "Manager/GoldManager.h"
+#include "Manager/PlayfabManager.h"
 #include "Monsters/SpawnManager.h"
 #include "Pet/PetManager.h"
 #include "Player/MyPlayerController.h"
@@ -53,6 +54,7 @@ public:
 	
 	TSharedPtr<LevelManager> m_LevelManager;
 
+
 	UPROPERTY()
 	UStageModeBase* m_StageMode;
 
@@ -67,6 +69,8 @@ protected:
 
 	void OnLevelMoveFadeEnd();
 public:
+	void StartGame();
+	
 	virtual void Init() override;
 
 	void OnGameModeStart();
@@ -94,6 +98,8 @@ public:
 	int GetDefaultStageLevel();
 	
 	EGameMode GetGameMode();
+	
+	
 };
 
 

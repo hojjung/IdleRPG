@@ -62,8 +62,6 @@ void UMyGameInstance::Init()
 	m_StageMode = NewObject<UDefaultStageMode>(this);
 
 	m_StageMode->SetLevel(m_nStageLevel);
-
-	
 }
 
 void UMyGameInstance::OnGameModeStart()
@@ -192,6 +190,14 @@ void UMyGameInstance::OnLevelMoveFadeEnd()
 	OnGameModeStart();
 	
 	m_MapChanged.Broadcast();
+}
+
+void UMyGameInstance::StartGame()
+{
+	UKismetSystemLibrary::ControlScreensaver(false);
+
+	PRINTF("StartGame");
+	//레벨이동
 }
 
 void UMyGameInstance::SetPlayerPawn(AMyPlayerPawn* p)
