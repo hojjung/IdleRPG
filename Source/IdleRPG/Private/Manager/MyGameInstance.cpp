@@ -66,11 +66,11 @@ void UMyGameInstance::Init()
 
 void UMyGameInstance::OnGameModeStart()
 {
-	if(m_StageMode)
+	if (m_StageMode)
 	{
 		m_StageMode->Clear();
 	}
-	if(m_Content == nullptr)
+	if (m_Content == nullptr)
 	{
 		m_StageMode = NewObject<UDefaultStageMode>(this);
 	}
@@ -80,38 +80,34 @@ void UMyGameInstance::OnGameModeStart()
 		{
 		case EGameMode::PVP:
 			{
-			
 			}
 			break;
 		case EGameMode::BoneDragon:
 		case EGameMode::Reaper:
 			{
 				URaidStageMode* StageMode = NewObject<URaidStageMode>(this);
-			
+
 				StageMode->SetContentData(*m_Content);
-			
+
 				m_StageMode = StageMode;
 			}
 			break;
 		case EGameMode::Elf:
 			{
-			
 			}
 			break;
 		case EGameMode::Japan:
 			{
-			
 			}
 			break;
 		case EGameMode::Castle:
 			{
-			
 			}
 			break;
 		}
 	}
 	m_StageMode->SetLevel(m_nStageLevel);
-	
+
 	m_StageMode->StartGame();
 }
 
@@ -127,10 +123,10 @@ void UMyGameInstance::StartGameMode(int level, const FContentDataRow* contentDat
 	m_nStageLevel = level;
 
 	m_Content = contentData;
-	
+
 	FName LevelName;
 
-	if(contentData == nullptr)
+	if (contentData == nullptr)
 	{
 		LevelName = UDefaultStageMode::GetDefaultStage(m_nStageLevel).m_LevelName;
 
@@ -140,19 +136,19 @@ void UMyGameInstance::StartGameMode(int level, const FContentDataRow* contentDat
 	{
 		LevelName = contentData->m_MapName;
 	}
-	
+
 	LoadMap(LevelName);
 }
 
 void UMyGameInstance::LoadMap(const FName& levelName)
 {
 	bool IsPlayerDead = m_bIsPlayerDead;
-	
+
 	bool ChangeWorldLevel = m_LevelManager->IsNeedChangeMap(levelName);
 
-	if(ChangeWorldLevel)
+	if (ChangeWorldLevel)
 	{
-		if(IsPlayerDead)
+		if (IsPlayerDead || !GetGameModeActor())
 		{
 			m_LevelManager->OpenLevel(levelName);
 		}
@@ -166,14 +162,21 @@ void UMyGameInstance::LoadMap(const FName& levelName)
 	}
 	else
 	{
-		if(IsPlayerDead)
+		if (IsPlayerDead)
 		{
 			TryOpenDeadAlert();
 			OnLevelMoveFadeEnd();
 		}
 		else
 		{
-			GetGameModeActor()->SetFade(FVoidvoid::CreateUObject(this, &UMyGameInstance::OnLevelMoveFadeEnd));
+			if(GetGameModeActor())
+			{
+				GetGameModeActor()->SetFade(FVoidvoid::CreateUObject(this, &UMyGameInstance::OnLevelMoveFadeEnd));
+			}
+			else
+			{
+				m_LevelManager->OpenLevel(levelName);
+			}
 		}
 	}
 }
@@ -182,13 +185,13 @@ void UMyGameInstance::OnLevelMoveFadeEnd()
 {
 	UBUITween::CompleteAll();
 	UBUITween::Shutdown();
-	
+
 	GetGameModeActor()->SetHideFade();
-	
+
 	m_Player->Revive();
-	
+
 	OnGameModeStart();
-	
+
 	m_MapChanged.Broadcast();
 }
 
@@ -197,7 +200,8 @@ void UMyGameInstance::StartGame()
 	UKismetSystemLibrary::ControlScreensaver(false);
 
 	PRINTF("StartGame");
-	//레벨이동
+
+	StartGameMode(0, nullptr);
 }
 
 void UMyGameInstance::SetPlayerPawn(AMyPlayerPawn* p)
@@ -236,10 +240,10 @@ UStageModeBase* UMyGameInstance::GetStageMode()
 
 void UMyGameInstance::TryOpenDeadAlert()
 {
-	if(UMyGameInstance::Get->m_bIsPlayerDead)
+	if (UMyGameInstance::Get->m_bIsPlayerDead)
 	{
 		GetGameModeActor()->OpenDeadAlertWidget();
-		
+
 		UMyGameInstance::Get->m_bIsPlayerDead = false;
 	}
 }
@@ -256,9 +260,9 @@ int UMyGameInstance::GetDefaultStageLevel()
 
 EGameMode UMyGameInstance::GetGameMode()
 {
-	if(!m_Content)
+	if (!m_Content)
 	{
-		return  EGameMode::Default;
+		return EGameMode::Default;
 	}
 	return m_Content->m_GameMode;
 }

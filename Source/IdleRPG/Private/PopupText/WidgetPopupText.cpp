@@ -27,7 +27,7 @@ void UWidgetPopupText::SetTextWant(const FText& textWant, int index)
 
 	float RandX = FMath::RandBool() ? FMath::RandRange(100, 200) : FMath::RandRange(-200, -100);
 
-	float RandY = FMath::RandBool() ? FMath::RandRange(-500, -400) : FMath::RandRange(-400, -300);
+	float RandY = FMath::RandRange(-100, -200);
 
 	SetRenderOpacity(1);
 	UBUITween::Create(this,0.7f)

@@ -1,4 +1,6 @@
 #include "Widgets/WidgetLoginCanvas.h"
+
+#include "BUITween.h"
 #include "WidgetContract.h"
 #include "Components/CanvasPanel.h"
 #include "Manager/MyGameInstance.h"
@@ -20,6 +22,8 @@ void UWidgetLoginCanvas::NativeOnInitialized()
 	Super::NativeOnInitialized();
 
 	m_WebService = &FModuleManager::LoadModuleChecked< FWebServiceModule >("WebService");
+
+	OnCloseNews();
 }
 
 void UWidgetLoginCanvas::OnCloseNews()
@@ -37,16 +41,30 @@ void UWidgetLoginCanvas::StartPlayfabLogin()
 
 	m_BtnCloseNews->OnClicked.AddDynamic(this, &UWidgetLoginCanvas::OnCloseNews);
 
+	m_WebService->m_PlayfabManager->RequestTitleNews(FNewsDele::CreateUObject(this, &UWidgetLoginCanvas::OnSuccessGetTitleNews));
+
+	m_WebService->m_PlayfabManager->RequestServerOpenCheck();
+	
 	m_WebService->m_PlayfabManager->m_OnLoginEnd.BindUObject(this, &UWidgetLoginCanvas::OpenConfirmPanel);
 
 	m_WebService->m_PlayfabManager->m_OnTextAlert.BindUObject(this, &UWidgetLoginCanvas::PrintInfoText);
-	
+
 	m_WebService->m_PlayfabManager->StartPlayfabLogin();
+	
+	m_WidgetContract->m_OnTextAlert.BindUObject(this, &UWidgetLoginCanvas::PrintInfoText);
+	
 	
 }
 
 void UWidgetLoginCanvas::OnSuccessGetTitleNews(const PlayFab::ClientModels::FGetTitleNewsResult& rslt)
 {
+	m_NewsCanvas->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+	
+	UBUITween::Create( m_NewsCanvas, 0.25f )
+	.FromScale(FVector2D(0,0))
+	.ToScale(FVector2D(1.0f,1.0f))
+	.Begin();
+	
 	TArray<PlayFab::ClientModels::FTitleNewsItem> NewsArray = rslt.News;
 
 	FTimespan KoreanTime(9,0,0);
