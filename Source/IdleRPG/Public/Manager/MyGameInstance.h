@@ -53,8 +53,7 @@ public:
 	TSharedPtr<AvatarManager> m_AvatarManager;
 	
 	TSharedPtr<LevelManager> m_LevelManager;
-
-
+	
 	UPROPERTY()
 	UStageModeBase* m_StageMode;
 

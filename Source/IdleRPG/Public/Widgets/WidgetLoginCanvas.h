@@ -46,7 +46,7 @@ protected:
 
 	const FWebServiceModule* m_WebService;
 public:
-	void PrintInfoText(const FString& str, FLinearColor color);
+	void PrintInfoText(FText str, FLinearColor color);
 	
 	UWidgetConfirmPanel* GetConfirmPanel();
 

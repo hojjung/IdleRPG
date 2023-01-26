@@ -5,9 +5,9 @@
 #include "Manager/PlayfabManager.h"
 
 
-void UWidgetLoginCanvas::PrintInfoText(const FString& str, FLinearColor color)
+void UWidgetLoginCanvas::PrintInfoText(FText str, FLinearColor color)
 {
-	m_AlertInfoWindow->ShowText(FText::FromString(str), color);
+	m_AlertInfoWindow->ShowText(str, color);
 }
 
 UWidgetConfirmPanel* UWidgetLoginCanvas::GetConfirmPanel()
@@ -37,9 +37,12 @@ void UWidgetLoginCanvas::StartPlayfabLogin()
 
 	m_BtnCloseNews->OnClicked.AddDynamic(this, &UWidgetLoginCanvas::OnCloseNews);
 
+	m_WebService->m_PlayfabManager->m_OnLoginEnd.BindUObject(this, &UWidgetLoginCanvas::OpenConfirmPanel);
+
+	m_WebService->m_PlayfabManager->m_OnTextAlert.BindUObject(this, &UWidgetLoginCanvas::PrintInfoText);
+	
 	m_WebService->m_PlayfabManager->StartPlayfabLogin();
 	
-	m_WebService->m_PlayfabManager->m_OnLoginEnd.BindUObject(this, &UWidgetLoginCanvas::OpenConfirmPanel);
 }
 
 void UWidgetLoginCanvas::OnSuccessGetTitleNews(const PlayFab::ClientModels::FGetTitleNewsResult& rslt)
