@@ -434,6 +434,15 @@
 			"Name": "ThumbnailExporter",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/b48e190a04664422972d37b03899371c"
+		},
+		{
+			"Name": "OnlineSubsystemGoogle",
+			"Enabled": true
+		},
+		{
+			"Name": "AndroidPlayBilling",
+			"Enabled": false,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/ad0040f7dbbc45cebdcbc4b2c5982904"
 		}
 	]
 }

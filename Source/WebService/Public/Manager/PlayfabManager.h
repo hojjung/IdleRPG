@@ -64,6 +64,8 @@ protected:
 	
 	FString m_LoadedNickname;
 
+	bool m_bIsLoginSuccess;
+
 	TSharedPtr<UPlayFabAuthenticationContext> m_Auth;
 	
 	FString m_PlayfabID;
@@ -100,7 +102,7 @@ protected:
 	void HandleExternalUIClose(TSharedPtr<const FUniqueNetId> uniqueId, const int ControllerIndex, const FOnlineError& error);
 
 	void OnSessionLoginErrorPlayfabReq(const FFailRslt& ErrorResult);
-	
+
 	void TryLoginPlayfabGoogle();
 	
 	void OnSuccessPlayfabLogin(const PlayFab::ClientModels::FLoginResult& Result);
@@ -117,4 +119,6 @@ public:
 	const FString& GetNickName();
 
 	void RequestSetNickname(FString str);
+
+	bool IsLoginSuccess() const;
 };

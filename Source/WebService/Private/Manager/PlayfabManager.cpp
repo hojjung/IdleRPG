@@ -29,6 +29,8 @@ PlayfabManager::PlayfabManager()
 	GetClientAPI = IPlayFabModuleInterface::Get().GetClientAPI();
 
 	m_Auth = USessionTicket::CreateAuthCon();
+
+	m_bIsLoginSuccess = false;
 }
 
 void PlayfabManager::StartPlayfabLogin()
@@ -48,7 +50,6 @@ void PlayfabManager::StartPlayfabLogin()
 
 #endif
 
-	
 #if PLATFORM_ANDROID
 	m_OnTextAlert.Execute(LOCTEXT("Try Login With Session TIcket","로그인 시도-Google"),  FLinearColor::White);
 	
@@ -74,6 +75,7 @@ void PlayfabManager::HandleExternalUIClose(TSharedPtr<const FUniqueNetId> unique
 	if (error.bSucceeded)
 	{
 		m_OnTextAlert.Execute(LOCTEXT("SUCCESS-GoogleLogin", "구글 로그인 성공"), FLinearColor::Green);
+		m_OnTextAlert.Execute(error.GetErrorMessage(), FLinearColor::Yellow);
 		
 		TryLoginPlayfabGoogle();
 	}
@@ -125,7 +127,9 @@ void PlayfabManager::OnSessionLoginErrorPlayfabReq(const FFailRslt& ErrorResult)
 	{
 		return;
 	}
-
+	
+	
+	
 	m_OnTextAlert.Execute(LOCTEXT("Try Login With Android","로그인 세션 만료,구글로그인 시도"), FLinearColor::White);
 	
 	IOnlineExternalUIPtr ExternalUi = Subsystem->GetExternalUIInterface();
@@ -138,8 +142,6 @@ void PlayfabManager::OnSessionLoginErrorPlayfabReq(const FFailRslt& ErrorResult)
 
 	ExternalUi->ShowLoginUI(0, false, false, FOnLoginUIClosedDelegate::CreateRaw(this, &PlayfabManager::HandleExternalUIClose));
 }
-//
-
 
 void PlayfabManager::RequestSetNickname(FString str)
 {
@@ -151,9 +153,16 @@ void PlayfabManager::RequestSetNickname(FString str)
 	GetClientAPI->UpdateUserTitleDisplayName(DisplayReq,FNicknameDele::CreateRaw(this, &PlayfabManager::OnNickNameSetSuccess),PlayFab::FPlayFabErrorDelegate::CreateRaw(this, &PlayfabManager::OnErrorPlayfabReq));
 }
 
+bool PlayfabManager::IsLoginSuccess() const
+{
+	return  m_bIsLoginSuccess;
+}
+
 void PlayfabManager::OnNickNameSetSuccess(const PlayFab::ClientModels::FUpdateUserTitleDisplayNameResult& result)
 {
 	m_LoadedNickname = result.DisplayName;
+
+	m_bIsLoginSuccess = true;
 	//int InsertIndex = m_LoadedNickname.Len() - 4; 
 	//m_LoadedNickname.InsertAt(InsertIndex, '#');
 }

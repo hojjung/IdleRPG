@@ -25,7 +25,16 @@
 
 	<!-- optional updates applied to AndroidManifest.xml -->
 	<androidManifestUpdates>
-
+		<!-- update the SplashActivity activity -->
+		<loopElements tag="activity">
+			<setStringFromAttribute result="activityName" tag="$" name="android:name"/>
+			<setBoolIsEqual result="bSplashActivity" arg1="$S(activityName)" arg2="com.epicgames.ue4.SplashActivity"/>
+			<if condition="bSplashActivity">
+				<true>
+					<addAttribute tag="$" name="android:exported" value="true"/>
+				</true>
+			</if>
+		</loopElements>
 	</androidManifestUpdates>
 
 	<!-- optional additions to proguard -->
@@ -74,7 +83,7 @@
     {
     GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
     .requestProfile()
-    .requestServerAuthCode("249313852306-u8n879i3df8kn3e08epi1inl7vaecmkb.apps.googleusercontent.com")
+    .requestServerAuthCode("587431287099-9193vn5ulb6ibqpiugu7kt3q7g1tnj8g.apps.googleusercontent.com")
     .build();
 
     mGoogleSignInClient = GoogleSignIn.getClient(this, gso);

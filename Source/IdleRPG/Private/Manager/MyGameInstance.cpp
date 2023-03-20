@@ -33,7 +33,7 @@ void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)
 {
 	Super::LoadComplete(LoadTime, MapName);
 
-	UBUITween::CompleteAll();
+	//UBUITween::CompleteAll();
 	UBUITween::Shutdown();
 }
 

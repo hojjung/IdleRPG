@@ -87,9 +87,9 @@ void UWidgetLoginCanvas::OpenConfirmPanel()
 
 FReply UWidgetLoginCanvas::TryStart()
 {
-	const FString& Nick = m_WebService->m_PlayfabManager->GetNickName();
+	bool IsLoginSuccess = m_WebService->m_PlayfabManager->IsLoginSuccess();
 	
-	if(Nick.IsEmpty() || m_NewsCanvas->IsVisible())
+	if(!IsLoginSuccess || m_NewsCanvas->IsVisible())
 	{
 		return FReply::Handled(); 
 	}
