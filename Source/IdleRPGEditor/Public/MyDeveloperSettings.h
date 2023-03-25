@@ -16,4 +16,6 @@ class IDLERPGEDITOR_API UMyDeveloperSettings : public UDeveloperSettings
 public:
 	UPROPERTY(EditAnywhere, config, Category = Custom)
 	bool m_bIsTestMode;
+	UPROPERTY(EditAnywhere, config, Category = Custom)
+	bool m_bUnlockAllSkill;
 };

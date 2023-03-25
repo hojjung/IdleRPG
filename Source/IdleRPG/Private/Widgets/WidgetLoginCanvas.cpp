@@ -21,6 +21,8 @@ void UWidgetLoginCanvas::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
+	m_bWaitStart = false;
+	
 	m_WebService = &FModuleManager::LoadModuleChecked< FWebServiceModule >("WebService");
 
 	OnCloseNews();
@@ -89,12 +91,14 @@ FReply UWidgetLoginCanvas::TryStart()
 {
 	bool IsLoginSuccess = m_WebService->m_PlayfabManager->IsLoginSuccess();
 	
-	if(!IsLoginSuccess || m_NewsCanvas->IsVisible())
+	if(!IsLoginSuccess || m_bWaitStart)
 	{
 		return FReply::Handled(); 
 	}
 	
 	UMyGameInstance::Get->StartGame();
+
+	m_bWaitStart = true;
 
 	return FReply::Handled();
 }

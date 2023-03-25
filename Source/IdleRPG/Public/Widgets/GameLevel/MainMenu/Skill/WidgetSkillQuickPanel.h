@@ -32,7 +32,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UImage* m_ImgTrail; 
 	
-	
 protected:
 	virtual void NativeOnInitialized() override;
+
+	void CreateInitSlots();
 };

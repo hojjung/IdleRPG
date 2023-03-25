@@ -45,6 +45,8 @@ protected:
 	float m_fTimer;
 
 	const FWebServiceModule* m_WebService;
+
+	bool m_bWaitStart;
 public:
 	void PrintInfoText(FText str, FLinearColor color);
 	

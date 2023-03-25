@@ -35,6 +35,10 @@ PlayfabManager::PlayfabManager()
 
 void PlayfabManager::StartPlayfabLogin()
 {
+	if(m_bIsLoginSuccess)
+	{
+		return;
+	}
 #if PLATFORM_WINDOWS
 	m_OnTextAlert.Execute(LOCTEXT("Try Login With Desktop", "로그인 시도-PC"), FLinearColor::White);
 
