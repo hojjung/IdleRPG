@@ -3,3 +3,12 @@
 
 #include "Skill/SkillBase.h"
 
+USkillBase::USkillBase()
+{
+	
+}
+
+FText USkillBase::GetDescString()
+{
+	return m_TextDesc;
+}

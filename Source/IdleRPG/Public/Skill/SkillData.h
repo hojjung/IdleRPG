@@ -20,13 +20,28 @@ public:
 
 	static UDataTable* GetSkillData;
 };
-USTRUCT(BlueprintType)//���̵�,Ƽ��
+USTRUCT(BlueprintType)
 struct FSkillDataRow : public FEntityDataRow
 {
 	GENERATED_USTRUCT_BODY()
 	
 public://buff actice passvie//스킬은 클래스에서 다 해주는게 낫지 않을까
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<USkillBase> m_ClassSkillBase;
-	
+	UPROPERTY(EditDefaultsOnly)
+	FText m_Desc;
+};
+
+USTRUCT()
+struct FSkillInven
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere)
+	int m_nCount = 0;
+	UPROPERTY(EditAnywhere)
+	int m_nLevel = 0;
+	UPROPERTY(EditAnywhere)
+	FName m_SkillID;
 };

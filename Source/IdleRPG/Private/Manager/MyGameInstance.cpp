@@ -22,11 +22,18 @@ void UMyGameInstance::BeginDestroy()
 
 	m_LevelManager.Reset();
 
+	m_SkillManager.Reset();
+
 	m_GoldManager.Reset();
+
 
 	m_Player = nullptr;
 
 	m_PlayerCon = nullptr;
+
+	FWebServiceModule& WebModule = FModuleManager::LoadModuleChecked< FWebServiceModule >("WebService");
+
+	WebModule.ShutdownModule();
 }
 
 void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)
@@ -40,6 +47,10 @@ void UMyGameInstance::LoadComplete(const float LoadTime, const FString& MapName)
 void UMyGameInstance::Init()
 {
 	Super::Init();
+
+	FWebServiceModule& WebModule = FModuleManager::LoadModuleChecked< FWebServiceModule >("WebService");
+
+	WebModule.StartupModule();
 
 	UKismetSystemLibrary::ControlScreensaver(false);
 
@@ -56,6 +67,8 @@ void UMyGameInstance::Init()
 	m_ExpManager = MakeShareable(new ExpManager());
 
 	m_LevelManager = MakeShareable(new LevelManager(this));
+
+	m_SkillManager = MakeShareable(new SkillManager());
 
 	m_PlayerGas = MakeShareable(new GAS(GetUniqueID()));
 

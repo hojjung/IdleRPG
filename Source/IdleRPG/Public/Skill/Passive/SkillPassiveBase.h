@@ -13,5 +13,7 @@ UCLASS()
 class IDLERPG_API USkillPassiveBase : public USkillBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	USkillPassiveBase();
 };

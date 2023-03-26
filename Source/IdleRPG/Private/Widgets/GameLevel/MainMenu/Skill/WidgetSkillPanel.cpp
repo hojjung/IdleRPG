@@ -4,13 +4,14 @@
 #include "Widgets/GameLevel/MainMenu/Skill/WidgetSkillPanel.h"
 
 #include "Entity.h"
+#include "Manager/MyGameInstance.h"
 #include "Skill/SkillData.h"
 
 void UWidgetSkillPanel::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	Init(NSLOCTEXT("UWidgetSkillPanel","SkillPanel","스킬"), USkillData::GetSkillData, 2000);
+	Init(NSLOCTEXT("UWidgetSkillPanel","SkillPanel","스킬"), 2000);
 	
 }
 void UWidgetSkillPanel::NativePreConstruct()
@@ -20,20 +21,24 @@ void UWidgetSkillPanel::NativePreConstruct()
 	m_GachaBtn->SetIcon(m_GachaIcon);
 }
 
-void UWidgetSkillPanel::Init(FText panelName, const UDataTable* equipItems, int costPerOne)
+void UWidgetSkillPanel::Init(FText panelName, int costPerOne)
 {
 	m_SkillInfo->Close();
 	
 	m_GachaBtn->Init(panelName, costPerOne);
 
-	equipItems->ForeachRow<FSkillDataRow>("",[&](const FName& key, const FSkillDataRow& row)
+	const TMap<FName, FSkillInven>& Skills = UMyGameInstance::Get->m_SkillManager.Get()->m_SkillInven.Get()->GetMapSkillInven();
+
+	for(auto& Skill : Skills)
 	{
 		UWidgetSkillEle* Ele = CreateWidget<UWidgetSkillEle>(this, m_ClassEle);
+
+		const FSkillDataRow& Row = *USkillData::GetSkillData->FindRow<FSkillDataRow>(Skill.Key,"");
 		
-		Ele->SetDataOnClick(key, row, UWidgetItemEle::FOnClick::CreateUObject(this, &UWidgetSkillPanel::OnSelectSkill));
+		Ele->SetSkillDataOnClick(Skill.Value, Row, UWidgetItemEle::FOnClick::CreateUObject(this, &UWidgetSkillPanel::OnSelectSkill));
 
 		m_AryEles.Add(Ele);
-	});
+	}
 
 	Sort();
 }
@@ -41,7 +46,7 @@ void UWidgetSkillPanel::Init(FText panelName, const UDataTable* equipItems, int 
 void UWidgetSkillPanel::OnSelectSkill(const FName& id , const FEntityDataRow& row)
 {
 	PRINTF("Show Info");
-	m_SkillInfo->ShowInfo((const FSkillDataRow&)row);
+	m_SkillInfo->ShowInfo(id, (const FSkillDataRow&)row);
 }
 
 void UWidgetSkillPanel::Sort()

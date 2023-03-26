@@ -40,7 +40,7 @@ public:
 	virtual void OnClose() override;
 	
 protected:
-	void Init(FText panelName, const UDataTable* equipItems, int costPerOne);
+	void Init(FText panelName, int costPerOne);
 
 	void UpdatePanel();
 

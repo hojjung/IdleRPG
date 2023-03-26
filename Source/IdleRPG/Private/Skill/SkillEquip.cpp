@@ -1,8 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Skill/Active/SkillActiveBase.h"
+#include "Skill/SkillEquip.h"
 
-USkillActiveBase::USkillActiveBase()
+SkillEquip::SkillEquip()
+{
+}
+
+SkillEquip::~SkillEquip()
 {
 }

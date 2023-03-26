@@ -3,3 +3,7 @@
 
 #include "Skill/Buff/SkillBuffBase.h"
 
+USkillBuffBase::USkillBuffBase()
+{
+	
+}

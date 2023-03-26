@@ -132,8 +132,6 @@ void PlayfabManager::OnSessionLoginErrorPlayfabReq(const FFailRslt& ErrorResult)
 		return;
 	}
 	
-	
-	
 	m_OnTextAlert.Execute(LOCTEXT("Try Login With Android","로그인 세션 만료,구글로그인 시도"), FLinearColor::White);
 	
 	IOnlineExternalUIPtr ExternalUi = Subsystem->GetExternalUIInterface();
@@ -169,6 +167,7 @@ void PlayfabManager::OnNickNameSetSuccess(const PlayFab::ClientModels::FUpdateUs
 	m_bIsLoginSuccess = true;
 	//int InsertIndex = m_LoadedNickname.Len() - 4; 
 	//m_LoadedNickname.InsertAt(InsertIndex, '#');
+	m_OnDataSet.ExecuteIfBound();
 }
 
 void PlayfabManager::RequestGetServerTime()

@@ -4,20 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "Skill/Active/SkillActiveBase.h"
-#include "SkillBuffBase.generated.h"
+#include "SkillActiveCircleDmg.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API USkillBuffBase : public USkillActiveBase
+class IDLERPG_API USkillActiveCircleDmg : public USkillActiveBase
 {
 	GENERATED_BODY()
 
 public:
-	USkillBuffBase();
-
+	USkillActiveCircleDmg();
+	
 protected:
 	UPROPERTY(EditDefaultsOnly)
-	float m_fDuration;
+	float m_fRadius;
+	UPROPERTY(EditDefaultsOnly)
+	float m_fDamage;
 };

@@ -26,11 +26,20 @@ protected:
 	UTextBlock* m_TextMergeCount;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	USizeBox* m_SizeEquip;
+	UPROPERTY()
+	int m_nLv;
+	UPROPERTY()
+	int m_nAm;
+	
 protected:
 	void UpdateSpec();
 
 public:
 	virtual void SetData(const FName& id, const FEntityDataRow& dataEquip) override;
+
+	void SetLevel(int lv);
+
+	void SetAmount(int am);
 };
 
 

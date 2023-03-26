@@ -49,13 +49,20 @@ void UWidgetLoginCanvas::StartPlayfabLogin()
 	
 	m_WebService->m_PlayfabManager->m_OnLoginEnd.BindUObject(this, &UWidgetLoginCanvas::OpenConfirmPanel);
 
+	m_WebService->m_PlayfabManager->m_OnDataSet.BindUObject(this, &UWidgetLoginCanvas::OnDataSet);
+
 	m_WebService->m_PlayfabManager->m_OnTextAlert.BindUObject(this, &UWidgetLoginCanvas::PrintInfoText);
 
 	m_WebService->m_PlayfabManager->StartPlayfabLogin();
 	
 	m_WidgetContract->m_OnTextAlert.BindUObject(this, &UWidgetLoginCanvas::PrintInfoText);
+}
+
+void UWidgetLoginCanvas::OnDataSet()
+{
+	TArray<FSkillInven> Array;
 	
-	
+	UMyGameInstance::Get->m_SkillManager->SetSkill(Array);
 }
 
 void UWidgetLoginCanvas::OnSuccessGetTitleNews(const PlayFab::ClientModels::FGetTitleNewsResult& rslt)

@@ -16,6 +16,7 @@
 #include "Player/MyPlayerController.h"
 #include "Player/MyPlayerPawn.h"
 #include "Player/Avatar/AvatarManager.h"
+#include "Skill/SkillManager.h"
 #include "StageMode/StageModeBase.h"
 #include "MyGameInstance.generated.h"
 
@@ -53,7 +54,9 @@ public:
 	TSharedPtr<AvatarManager> m_AvatarManager;
 	
 	TSharedPtr<LevelManager> m_LevelManager;
-	
+
+	TSharedPtr<SkillManager> m_SkillManager;
+
 	UPROPERTY()
 	UStageModeBase* m_StageMode;
 

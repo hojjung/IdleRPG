@@ -13,5 +13,11 @@ UCLASS()
 class IDLERPG_API USkillActiveBase : public USkillBase
 {
 	GENERATED_BODY()
-	
+
+public:
+	USkillActiveBase();
+
+protected:
+	UPROPERTY(EditDefaultsOnly)
+	float m_fMaxCooltime;
 };

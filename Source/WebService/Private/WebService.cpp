@@ -12,6 +12,8 @@ void FWebServiceModule::StartupModule()
 void FWebServiceModule::ShutdownModule()
 {
 	IModuleInterface::ShutdownModule();
+
+	m_PlayfabManager.Reset();
 }
 
 IMPLEMENT_GAME_MODULE(FWebServiceModule,WebService);

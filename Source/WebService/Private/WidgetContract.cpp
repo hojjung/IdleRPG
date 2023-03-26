@@ -15,11 +15,11 @@ void UWidgetContract::NativeOnInitialized()
 
 	m_BtnConfirm->OnClicked.AddDynamic(this, &UWidgetContract::OnConfirm);
 
-	m_URL_Usage = TEXT("https://sites.google.com/d/1HlA8Ld1kt9gpu2iDYwFzINQLOfAuleM7/p/1THdXylNcaX2yBQFXU8PdHxzcTIrW8lOn/edit");
+	m_URL_Usage = TEXT("https://sites.google.com/view/hereticbytegameplaypolicy/%ED%99%88");
 
-	m_URL_Private = TEXT("https://sites.google.com/d/1eNgJYa-FX0S-TKT_1oi3EwmuFPsj_Taf/p/1BQMc0eId0ROySCOxCIdI18dfaCqWvnh_/edit");
+	m_URL_Private = TEXT("https://sites.google.com/view/hereticbyteprivacypolicy/%ED%99%88");
 
-	m_URL_Refund = TEXT("https://sites.google.com/d/1v7y1DvwBQM8vmNTKL2WO-Z4-NfBZJ1hK/p/1gcJeDXzLEGjHh2KXwu7hpnNISTkGvR6o/edit");
+	m_URL_Refund = TEXT("https://sites.google.com/view/hereticbyterefundpolicy/%ED%99%88");
 	//Test
 
 	//UMyGameInstance::Get->StartGame();
@@ -65,6 +65,7 @@ void UWidgetContract::OnConfirm()
 	//동의 다되었는지 체크
 	//나쁜 닉네임인지 체크
 	//닉네임 중복되는지 체크
+	
 	const FWebServiceModule& WebModule = FModuleManager::LoadModuleChecked< FWebServiceModule >("WebService");
 	
 	WebModule.m_PlayfabManager->RequestSetNickname(CrntStr);

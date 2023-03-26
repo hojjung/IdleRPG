@@ -65,6 +65,8 @@ protected:
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+
+	void OnDataSet();
 	
 public:
 	UFUNCTION()
@@ -72,3 +74,5 @@ public:
 
 	void StartPlayfabLogin();
 };
+
+

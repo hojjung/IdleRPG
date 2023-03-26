@@ -52,6 +52,8 @@ public:
 
 
 	FOnLoginEnd m_OnLoginEnd;
+
+	FOnLoginEnd m_OnDataSet;
 	
 	FOnTextAlert m_OnTextAlert;
 

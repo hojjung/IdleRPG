@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Widgets/GameLevel/MainMenu/WidgetItemEle.h"
+#include "Skill/SkillData.h"
 #include "WidgetSkillEle.generated.h"
 
 /**
@@ -14,5 +15,7 @@ UCLASS()
 class IDLERPG_API UWidgetSkillEle : public UWidgetItemEle
 {
 	GENERATED_BODY()
-	
+
+public:
+	void SetSkillDataOnClick(const FSkillInven& id, const FSkillDataRow& dataEquip, FOnClick onClick);
 };

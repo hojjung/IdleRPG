@@ -3,3 +3,6 @@
 
 #include "Skill/Passive/SkillPassiveBase.h"
 
+USkillPassiveBase::USkillPassiveBase()
+{
+}
