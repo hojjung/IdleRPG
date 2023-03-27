@@ -20,4 +20,10 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	float m_fMaxCooltime;
+
+public:
+	FORCEINLINE float GetCooltime() const
+	{
+		return m_fMaxCooltime;
+	}
 };

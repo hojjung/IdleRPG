@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
+#include "Components/RichTextBlock.h"
 #include "Components/ScrollBox.h"
 #include "Components/TextBlock.h"
 #include "Skill/SkillData.h"
@@ -37,7 +38,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UTextBlock* m_TextLevel;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UScrollBox* m_ScrollOptions; 
+	UTextBlock* m_TextCooltime;
+
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	URichTextBlock* m_TextDesc;
 	
 protected:
 	virtual void NativeOnInitialized() override;

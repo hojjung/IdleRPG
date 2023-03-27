@@ -10,5 +10,5 @@ USkillBase::USkillBase()
 
 FText USkillBase::GetDescString()
 {
-	return m_TextDesc;
+	return m_TextDesc;//FText::Format(row.m_Desc, Cd)
 }

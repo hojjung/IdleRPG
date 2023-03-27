@@ -22,13 +22,11 @@ class IDLERPG_API USkillBase : public UObject
 
 public:
 	USkillBase();
-	
-protected:
-	UPROPERTY(EditDefaultsOnly)
-	FText m_TextName;
-	UPROPERTY(EditDefaultsOnly)
-	FText m_TextDesc;
 
+protected:
+	UPROPERTY()
+	FText m_TextDesc;
+	
 public:
-	FText GetDescString();
+	virtual FText GetDescString();
 };

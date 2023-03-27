@@ -28,8 +28,6 @@ struct FSkillDataRow : public FEntityDataRow
 public://buff actice passvie//스킬은 클래스에서 다 해주는게 낫지 않을까
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<USkillBase> m_ClassSkillBase;
-	UPROPERTY(EditDefaultsOnly)
-	FText m_Desc;
 };
 
 USTRUCT()

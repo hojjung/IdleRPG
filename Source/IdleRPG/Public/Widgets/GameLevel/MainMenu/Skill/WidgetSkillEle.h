@@ -3,18 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
 #include "Widgets/GameLevel/MainMenu/WidgetItemEle.h"
 #include "Skill/SkillData.h"
+#include "Widgets/GameLevel/MainMenu/InventoryMenu/WidgetEquipMenuEle.h"
 #include "WidgetSkillEle.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API UWidgetSkillEle : public UWidgetItemEle
+class IDLERPG_API UWidgetSkillEle : public UWidgetEquipMenuEle
 {
 	GENERATED_BODY()
+
 
 public:
 	void SetSkillDataOnClick(const FSkillInven& id, const FSkillDataRow& dataEquip, FOnClick onClick);

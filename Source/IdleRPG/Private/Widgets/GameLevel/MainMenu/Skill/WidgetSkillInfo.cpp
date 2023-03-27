@@ -1,6 +1,8 @@
 #include "Widgets/GameLevel/MainMenu/Skill/WidgetSkillInfo.h"
 
 #include "Manager/MyGameInstance.h"
+#include "Skill/Active/SkillActiveBase.h"
+#include "Skill/Passive/SkillPassiveBase.h"
 #include "Widgets/GameLevel/MainMenu/InventoryMenu/WidgetEquipMenuEle.h"
 
 void UWidgetSkillInfo::NativeOnInitialized()
@@ -21,12 +23,15 @@ void UWidgetSkillInfo::ShowInfo(const FName& id , const FSkillDataRow& row)
 	
 	m_TextName->SetText(row.m_Name);
 
-	m_TextTier->SetText(row.m_Color.GetRow<FColorDataRow>("")->m_Name);
+	const FColorDataRow& Color = *row.m_Color.GetRow<FColorDataRow>("");
+	
+	m_TextTier->SetText(Color.m_Name);
 
+	m_TextTier->SetColorAndOpacity(Color.m_Color);
 
 	const FSkillInven& SkillInvenData = UMyGameInstance::Get->m_SkillManager->m_SkillInven->GetMapSkillInven()[id];
 
-	FString Str = FString::Printf(TEXT("+%d"),SkillInvenData.m_nLevel);
+	FString Str = FString::Printf(TEXT("Lv.%d"),SkillInvenData.m_nLevel);
 	
 	m_TextLevel->SetText(FText::FromString(Str));
 
@@ -35,4 +40,25 @@ void UWidgetSkillInfo::ShowInfo(const FName& id , const FSkillDataRow& row)
 	m_ItemEle->SetLevel(SkillInvenData.m_nLevel);
 
 	m_ItemEle->SetAmount(0);
+
+	USkillBase* SkillBase = row.m_ClassSkillBase->GetDefaultObject<USkillBase>();
+
+	USkillActiveBase* ActiveSkill = Cast<USkillActiveBase>(SkillBase);
+	
+	if(!ActiveSkill)
+	{
+		m_TextCooltime->SetText(NSLOCTEXT("UWidgetSkillInfo","NoCooltimeFormat","대기시간 -"));
+	}
+	else
+	{
+		float Cd = ActiveSkill->GetCooltime();
+
+		FText CooltimeFormatText = FText::Format(NSLOCTEXT("UWidgetSkillInfo","CooltimeFormat","대기시간 {0}초"), Cd);
+
+		m_TextCooltime->SetText(CooltimeFormatText);	
+	}
+	
+	FText DescFormatText = SkillBase->GetDescString();
+	
+	m_TextDesc->SetText(DescFormatText);
 }
