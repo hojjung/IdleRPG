@@ -42,4 +42,10 @@ public:
 	int m_nLevel = 0;
 	UPROPERTY(EditAnywhere)
 	FName m_SkillID;
+	UPROPERTY(EditAnywhere)
+	float m_fCooldown;
+	UPROPERTY(EditAnywhere)
+	bool m_bUnlocked;
+	UPROPERTY(EditAnywhere)
+	bool m_bEquipped;
 };

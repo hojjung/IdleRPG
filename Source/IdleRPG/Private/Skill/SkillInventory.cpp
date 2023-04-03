@@ -33,3 +33,34 @@ SkillInventory::~SkillInventory()
 {
 	m_MapSkillInven.Reset();
 }
+
+float SkillInventory::GetSkillCd(const FName& id)
+{
+	return m_MapSkillInven[id].m_fCooldown;
+}
+
+void SkillInventory::LevelUpSkill(const FName& id)
+{
+	
+}
+
+void SkillInventory::EquipSkill(const FName& id, int index)
+{
+	FSkillInven* SkilInst = &m_MapSkillInven[id];
+	
+	m_ArySkillInst[index] = SkilInst;
+
+	m_OnSkillEquipChanged.Broadcast(m_ArySkillInst);
+}
+
+void SkillInventory::UpdateCd(float deltaTime)
+{
+	for(FSkillInven* SkillInst : m_ArySkillInst)
+	{
+		if(SkillInst->m_SkillID == NAME_None)
+		{
+			continue;
+		}
+		
+	}
+}

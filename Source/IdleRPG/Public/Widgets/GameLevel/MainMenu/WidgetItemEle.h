@@ -89,4 +89,10 @@ protected:
 	virtual void NativeDestruct() override;
 
 	virtual void NativePreConstruct() override;
+
+public:
+	FORCEINLINE const FName& GetSelectedID() const 
+	{
+		return m_ID;
+	}
 };

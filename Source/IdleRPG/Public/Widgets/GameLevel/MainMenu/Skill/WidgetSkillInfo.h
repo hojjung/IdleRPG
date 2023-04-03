@@ -24,7 +24,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UButton* m_BtnClose;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
-	UButton* m_BtnReinforce;
+	UButton* m_BtnLevelUp;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UButton* m_BtnEquip;
 	
@@ -49,6 +49,10 @@ protected:
 public:
 	UFUNCTION()
 	void Close();
+	UFUNCTION()
+	void LevelUp();
+	UFUNCTION()
+	void Equip();
 	
 	void ShowInfo(const FName& id , const FSkillDataRow& row);
 };

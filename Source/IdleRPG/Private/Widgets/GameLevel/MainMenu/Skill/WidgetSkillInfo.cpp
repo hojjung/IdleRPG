@@ -10,11 +10,27 @@ void UWidgetSkillInfo::NativeOnInitialized()
 	Super::NativeOnInitialized();
 	
 	m_BtnClose->OnClicked.AddDynamic(this, &UWidgetSkillInfo::Close);
+	m_BtnLevelUp->OnClicked.AddDynamic(this, &UWidgetSkillInfo::LevelUp);
+	m_BtnEquip->OnClicked.AddDynamic(this, &UWidgetSkillInfo::Equip);
 }
 
 void UWidgetSkillInfo::Close()
 {
 	SetVisibility(ESlateVisibility::Collapsed);
+}
+
+void UWidgetSkillInfo::LevelUp()
+{
+	const FName& ID = m_ItemEle->GetSelectedID();
+	
+	UMyGameInstance::Get->m_SkillManager->m_SkillInven->LevelUpSkill(ID);
+}
+
+void UWidgetSkillInfo::Equip()
+{
+	const FName& ID = m_ItemEle->GetSelectedID();
+	
+	UMyGameInstance::Get->m_SkillManager->m_SkillEquip->EquipSkill(ID);
 }
 
 void UWidgetSkillInfo::ShowInfo(const FName& id , const FSkillDataRow& row)
