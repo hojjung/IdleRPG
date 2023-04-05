@@ -22,7 +22,7 @@ void UMyGameInstance::BeginDestroy()
 
 	m_LevelManager.Reset();
 
-	m_SkillManager.Reset();
+	m_SkillInven.Reset();
 
 	m_GoldManager.Reset();
 
@@ -68,7 +68,7 @@ void UMyGameInstance::Init()
 
 	m_LevelManager = MakeShareable(new LevelManager(this));
 
-	m_SkillManager = MakeShareable(new SkillManager());
+	//m_SkillInven = MakeShareable(new SkillInventory());
 
 	m_PlayerGas = MakeShareable(new GAS(GetUniqueID()));
 
@@ -151,6 +151,13 @@ void UMyGameInstance::StartGameMode(int level, const FContentDataRow* contentDat
 	}
 
 	LoadMap(LevelName);
+}
+
+void UMyGameInstance::OnDataSet()
+{
+	TArray<FSkillInven> Array;
+
+	m_SkillInven = MakeShareable(new SkillInventory(Array));
 }
 
 void UMyGameInstance::LoadMap(const FName& levelName)

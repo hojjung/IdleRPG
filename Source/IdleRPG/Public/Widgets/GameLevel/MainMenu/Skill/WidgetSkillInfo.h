@@ -3,12 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "WidgetSkillQuickPanel.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/Button.h"
 #include "Components/RichTextBlock.h"
 #include "Components/ScrollBox.h"
 #include "Components/TextBlock.h"
 #include "Skill/SkillData.h"
+#include "Widgets/GameLevel/MainMenu/InventoryMenu/WidgetEquipMenuEle.h"
 
 #include "WidgetSkillInfo.generated.h"
 
@@ -43,6 +45,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	URichTextBlock* m_TextDesc;
 	
+	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
+	UWidgetSkillQuickPanel* m_SkillQuick;
+	
 protected:
 	virtual void NativeOnInitialized() override;
 	
@@ -55,4 +60,6 @@ public:
 	void Equip();
 	
 	void ShowInfo(const FName& id , const FSkillDataRow& row);
+
+	void EquipSelected(int ndx);
 };

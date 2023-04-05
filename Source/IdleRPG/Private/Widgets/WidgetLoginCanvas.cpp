@@ -60,9 +60,7 @@ void UWidgetLoginCanvas::StartPlayfabLogin()
 
 void UWidgetLoginCanvas::OnDataSet()
 {
-	TArray<FSkillInven> Array;
-	
-	UMyGameInstance::Get->m_SkillManager->SetSkill(Array);
+	UMyGameInstance::Get->OnDataSet();
 }
 
 void UWidgetLoginCanvas::OnSuccessGetTitleNews(const PlayFab::ClientModels::FGetTitleNewsResult& rslt)

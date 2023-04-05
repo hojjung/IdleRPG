@@ -16,7 +16,7 @@
 #include "Player/MyPlayerController.h"
 #include "Player/MyPlayerPawn.h"
 #include "Player/Avatar/AvatarManager.h"
-#include "Skill/SkillManager.h"
+#include "Skill/SkillInventory.h"
 #include "StageMode/StageModeBase.h"
 #include "MyGameInstance.generated.h"
 
@@ -55,7 +55,7 @@ public:
 	
 	TSharedPtr<LevelManager> m_LevelManager;
 
-	TSharedPtr<SkillManager> m_SkillManager;
+	TSharedPtr<SkillInventory> m_SkillInven;
 
 	UPROPERTY()
 	UStageModeBase* m_StageMode;
@@ -79,6 +79,8 @@ public:
 	
 	void StartGameMode(int level, const FContentDataRow* contentData);
 	
+	void OnDataSet();
+	
 	void Tick(float d);
 	
 	void SetPlayerPawn(AMyPlayerPawn* p);
@@ -100,7 +102,6 @@ public:
 	int GetDefaultStageLevel();
 	
 	EGameMode GetGameMode();
-	
 	
 };
 

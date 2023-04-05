@@ -11,12 +11,12 @@
 class IDLERPG_API SkillInventory
 {
 public:
-	SkillInventory();
+	SkillInventory() {};
 	
-	SkillInventory(const TArray<FSkillInven>& ary);
+	SkillInventory(const TArray<FSkillInven>& array);
 	
 	~SkillInventory();
-
+	
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnSkillEquipChanged, const TArray<FSkillInven*>&);
 
 	FOnSkillEquipChanged m_OnSkillEquipChanged;
@@ -35,7 +35,12 @@ public:
 	{
 		return m_MapSkillInven;
 	}
-	
+
+	FORCEINLINE const TArray<FSkillInven*>& GetSkillInstInven() const
+	{
+		return m_ArySkillInst;
+	}
+
 	void LevelUpSkill(const FName& id);
 	
 	void EquipSkill(const FName& id, int index);

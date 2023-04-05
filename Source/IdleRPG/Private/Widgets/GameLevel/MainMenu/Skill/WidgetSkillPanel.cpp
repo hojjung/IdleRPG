@@ -27,7 +27,7 @@ void UWidgetSkillPanel::Init(FText panelName, int costPerOne)
 	
 	m_GachaBtn->Init(panelName, costPerOne);
 
-	const TMap<FName, FSkillInven>& Skills = UMyGameInstance::Get->m_SkillManager.Get()->m_SkillInven.Get()->GetMapSkillInven();
+	const TMap<FName, FSkillInven>& Skills = UMyGameInstance::Get->m_SkillInven.Get()->GetMapSkillInven();
 
 	for(auto& Skill : Skills)
 	{
@@ -82,8 +82,6 @@ void UWidgetSkillPanel::UpdatePanel()
 {
 	//매니저가 가진 실제 데이터와 배열 포문 돌려서 장착 및 머지 가능 여부 필요
 }
-
-
 
 void UWidgetSkillPanel::OnShow()
 {

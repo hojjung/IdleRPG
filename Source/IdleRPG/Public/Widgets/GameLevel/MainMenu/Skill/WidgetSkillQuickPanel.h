@@ -10,19 +10,14 @@
 #include "Components/ScrollBox.h"
 #include "WidgetSkillQuickPanel.generated.h"
 
-/**
- * 
- */
+class UWidgetSkillInfo;
+
 UCLASS()
 class IDLERPG_API UWidgetSkillQuickPanel : public UUserWidget
 {
 	GENERATED_BODY()
 
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int m_nMaxSkillCount = 10;
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	int m_nInitSkillCount = 2;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<UWidgetSkillQuickEle> m_ClassSkillQuick;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
@@ -31,9 +26,14 @@ protected:
 	UButton* m_BtnAuto;
 	UPROPERTY(EditDefaultsOnly, meta = (BindWidget))
 	UImage* m_ImgTrail; 
-	
+
 protected:
 	virtual void NativeOnInitialized() override;
 
 	void CreateInitSlots();
+
+public:
+	void HideAutoButton();
+
+	void RegisterMode(UWidgetSkillInfo* info);
 };

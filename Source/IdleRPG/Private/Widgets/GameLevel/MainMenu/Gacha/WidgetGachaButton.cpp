@@ -11,9 +11,9 @@ void UWidgetGachaButton::Init(const FText& text, int cost, FOnButtonClickedEvent
 
 void UWidgetGachaButtonPanel::Init(const FText& text, int costPerOne)
 {
-	FString SummonStr = NSLOCTEXT("UWidgetGachaButtonPanel", "Summon", " 회 소환").ToString();
+	FString SummonStr = NSLOCTEXT("UWidgetGachaButtonPanel", "Summon", "회 소환").ToString();
 		
-	FString Str = FString::Printf(TEXT("%s1%s"), *text.ToString(), *SummonStr);
+	FString Str = FString::Printf(TEXT("%s 1%s"), *text.ToString(), *SummonStr);
 
 	FOnButtonClickedEvent Summon1;
 
@@ -21,7 +21,7 @@ void UWidgetGachaButtonPanel::Init(const FText& text, int costPerOne)
 	
 	m_Summon1->Init(FText::FromString(Str), costPerOne, Summon1);
 
-	Str = FString::Printf(TEXT("%s11%s"), *text.ToString(), *SummonStr);
+	Str = FString::Printf(TEXT("%s 11%s"), *text.ToString(), *SummonStr);
 
 	FOnButtonClickedEvent Summon11;
 
@@ -29,7 +29,7 @@ void UWidgetGachaButtonPanel::Init(const FText& text, int costPerOne)
 	
 	m_Summon2->Init(FText::FromString(Str), costPerOne * 10, Summon11);
 
-	Str = FString::Printf(TEXT("%s34%s"), *text.ToString(), *SummonStr);
+	Str = FString::Printf(TEXT("%s 34%s"), *text.ToString(), *SummonStr);
 
 	FOnButtonClickedEvent Summon34;
 

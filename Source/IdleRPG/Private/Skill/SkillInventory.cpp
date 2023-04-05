@@ -1,12 +1,7 @@
 #include "Skill/SkillInventory.h"
 #include "Skill/SkillData.h"
 
-SkillInventory::SkillInventory()
-{
-	
-}
-
-SkillInventory::SkillInventory(const TArray<FSkillInven>& ary)
+SkillInventory::SkillInventory(const TArray<FSkillInven>& array)
 {
 	m_MapSkillInven.Reserve(50);
 
@@ -19,7 +14,7 @@ SkillInventory::SkillInventory(const TArray<FSkillInven>& ary)
 		m_MapSkillInven.Add(key, SkillInvenData);
 	});
 
-	for(const FSkillInven& SkillFromSave : ary)
+	for(const FSkillInven& SkillFromSave : array)
 	{
 		FSkillInven* SkillInven = m_MapSkillInven.Find(SkillFromSave.m_SkillID);
 
@@ -27,6 +22,8 @@ SkillInventory::SkillInventory(const TArray<FSkillInven>& ary)
 
 		SkillInven->m_nLevel = SkillFromSave.m_nLevel;
 	}
+
+	m_ArySkillInst.Init(nullptr, 10);
 }
 
 SkillInventory::~SkillInventory()

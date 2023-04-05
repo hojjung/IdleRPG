@@ -12,25 +12,34 @@ void UWidgetSkillInfo::NativeOnInitialized()
 	m_BtnClose->OnClicked.AddDynamic(this, &UWidgetSkillInfo::Close);
 	m_BtnLevelUp->OnClicked.AddDynamic(this, &UWidgetSkillInfo::LevelUp);
 	m_BtnEquip->OnClicked.AddDynamic(this, &UWidgetSkillInfo::Equip);
+
+	m_SkillQuick->GetParent()->SetVisibility(ESlateVisibility::Collapsed);
+	
+	m_SkillQuick->HideAutoButton();
+	m_SkillQuick->RegisterMode(this);
 }
 
 void UWidgetSkillInfo::Close()
 {
 	SetVisibility(ESlateVisibility::Collapsed);
+
+	m_SkillQuick->GetParent()->SetVisibility(ESlateVisibility::Collapsed);
 }
 
 void UWidgetSkillInfo::LevelUp()
 {
 	const FName& ID = m_ItemEle->GetSelectedID();
 	
-	UMyGameInstance::Get->m_SkillManager->m_SkillInven->LevelUpSkill(ID);
+	UMyGameInstance::Get->m_SkillInven->LevelUpSkill(ID);
 }
 
 void UWidgetSkillInfo::Equip()
 {
-	const FName& ID = m_ItemEle->GetSelectedID();
+	m_SkillQuick->GetParent()->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+
 	
-	UMyGameInstance::Get->m_SkillManager->m_SkillEquip->EquipSkill(ID);
+	//const FName& ID = m_ItemEle->GetSelectedID();
+	//UMyGameInstance::Get->m_SkillInven->EquipSkill(ID);
 }
 
 void UWidgetSkillInfo::ShowInfo(const FName& id , const FSkillDataRow& row)
@@ -45,7 +54,7 @@ void UWidgetSkillInfo::ShowInfo(const FName& id , const FSkillDataRow& row)
 
 	m_TextTier->SetColorAndOpacity(Color.m_Color);
 
-	const FSkillInven& SkillInvenData = UMyGameInstance::Get->m_SkillManager->m_SkillInven->GetMapSkillInven()[id];
+	const FSkillInven& SkillInvenData = UMyGameInstance::Get->m_SkillInven->GetMapSkillInven()[id];
 
 	FString Str = FString::Printf(TEXT("Lv.%d"),SkillInvenData.m_nLevel);
 	
@@ -77,4 +86,11 @@ void UWidgetSkillInfo::ShowInfo(const FName& id , const FSkillDataRow& row)
 	FText DescFormatText = SkillBase->GetDescString();
 	
 	m_TextDesc->SetText(DescFormatText);
+}
+
+void UWidgetSkillInfo::EquipSelected(int ndx)
+{
+	const FName& Id = m_ItemEle->GetSelectedID();
+	
+	UMyGameInstance::Get->m_SkillInven->EquipSkill(Id, ndx);
 }
