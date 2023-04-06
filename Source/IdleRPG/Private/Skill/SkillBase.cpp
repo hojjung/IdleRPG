@@ -12,3 +12,8 @@ FText USkillBase::GetDescString()
 {
 	return m_TextDesc;//FText::Format(row.m_Desc, Cd)
 }
+
+void USkillBase::UseSkill()
+{
+	
+}

@@ -29,4 +29,6 @@ protected:
 	
 public:
 	virtual FText GetDescString();
+
+	virtual void UseSkill();
 };

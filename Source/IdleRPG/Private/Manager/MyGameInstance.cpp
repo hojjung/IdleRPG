@@ -127,6 +127,7 @@ void UMyGameInstance::OnGameModeStart()
 void UMyGameInstance::Tick(float d)
 {
 	m_StageMode->Tick(d);
+	m_SkillInven->UpdateCd(d);
 }
 
 //레벨로드 따로

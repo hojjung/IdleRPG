@@ -9,6 +9,8 @@ void UWidgetSkillQuickPanel::NativeOnInitialized()
 	Super::NativeOnInitialized();
 
 	CreateInitSlots();
+	
+	UMyGameInstance::Get->m_SkillInven->m_OnSkillEquipChanged.AddUObject(this, &UWidgetSkillQuickPanel::UpdateSkill);
 }
 
 void UWidgetSkillQuickPanel::CreateInitSlots()
@@ -34,6 +36,20 @@ void UWidgetSkillQuickPanel::CreateInitSlots()
 		BoxSlotNew->SetHorizontalAlignment(HAlign_Center);
 
 		BoxSlotNew->SetVerticalAlignment(VAlign_Center);
+	}
+}
+
+void UWidgetSkillQuickPanel::UpdateSkill(const TArray<FSkillInven*>& aryInven)
+{
+	const TArray<UWidget*>& Children = m_ScrollSkills->GetAllChildren();
+
+	int Iter = -1;
+
+	while (++Iter < aryInven.Num())
+	{
+		UWidgetSkillQuickEle* MyEle = Cast<UWidgetSkillQuickEle>(Children[Iter]);
+
+		MyEle->Update(aryInven[Iter]);
 	}
 }
 

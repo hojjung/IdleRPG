@@ -1,4 +1,6 @@
 #include "Skill/SkillInventory.h"
+
+#include "Manager/MyGameInstance.h"
 #include "Skill/SkillData.h"
 
 SkillInventory::SkillInventory(const TArray<FSkillInven>& array)
@@ -24,6 +26,8 @@ SkillInventory::SkillInventory(const TArray<FSkillInven>& array)
 	}
 
 	m_ArySkillInst.Init(nullptr, 10);
+	
+	m_MapSkillInstance.Reserve(10);
 }
 
 SkillInventory::~SkillInventory()
@@ -34,6 +38,18 @@ SkillInventory::~SkillInventory()
 float SkillInventory::GetSkillCd(const FName& id)
 {
 	return m_MapSkillInven[id].m_fCooldown;
+}
+
+bool SkillInventory::IsCooldownReady(const FSkillInven* skill)
+{
+	return skill->m_fCooldown <= 0;
+}
+
+void SkillInventory::SetCooldown(FSkillInven* skill)
+{
+	const float Cd = USkillData::GetSkillData->FindRow<FSkillDataRow>(skill->m_SkillID,"")->m_fCooltime;
+
+	skill->m_fCooldown = Cd;
 }
 
 void SkillInventory::LevelUpSkill(const FName& id)
@@ -47,6 +63,12 @@ void SkillInventory::EquipSkill(const FName& id, int index)
 	
 	m_ArySkillInst[index] = SkilInst;
 
+	TSubclassOf<USkillBase> SkillClass = USkillData::GetSkillData->FindRow<FSkillDataRow>(id,"")->m_ClassSkillBase;
+
+	USkillBase* SkillInst = NewObject<USkillBase>(UMyGameInstance::Get, SkillClass);
+
+	m_MapSkillInstance.Add(SkilInst, SkillInst);
+
 	m_OnSkillEquipChanged.Broadcast(m_ArySkillInst);
 }
 
@@ -54,10 +76,25 @@ void SkillInventory::UpdateCd(float deltaTime)
 {
 	for(FSkillInven* SkillInst : m_ArySkillInst)
 	{
-		if(SkillInst->m_SkillID == NAME_None)
+		if(!SkillInst || SkillInst->m_SkillID == NAME_None)
 		{
 			continue;
 		}
-		
+
+		SkillInst->m_fCooldown -= deltaTime;
 	}
+}
+
+void SkillInventory::UseSkill(int ndx)
+{
+	FSkillInven* Skill = m_ArySkillInst[ndx];
+	
+	if(!IsCooldownReady(Skill))
+	{
+		return;
+	}
+	
+	m_MapSkillInstance[Skill]->UseSkill();
+
+	SetCooldown(Skill);
 }

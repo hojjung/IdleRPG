@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "SkillData.h"
+#include "Widgets/GameLevel/MainMenu/Skill/WidgetSkillQuickEle.h"
 
 
 /**
@@ -16,7 +17,8 @@ public:
 	SkillInventory(const TArray<FSkillInven>& array);
 	
 	~SkillInventory();
-	
+
+
 	DECLARE_MULTICAST_DELEGATE_OneParam(FOnSkillEquipChanged, const TArray<FSkillInven*>&);
 
 	FOnSkillEquipChanged m_OnSkillEquipChanged;
@@ -26,9 +28,14 @@ protected:
 
 	TArray<FSkillInven*> m_ArySkillInst;
 
+	TMap<const FSkillInven*, USkillBase*> m_MapSkillInstance;
+
 protected:
 	float GetSkillCd(const FName& id);
-	
+
+	bool IsCooldownReady(const FSkillInven* skill);
+
+	void SetCooldown(FSkillInven* skill);
 
 public:
 	FORCEINLINE const TMap<FName, FSkillInven>& GetMapSkillInven() const
@@ -46,4 +53,6 @@ public:
 	void EquipSkill(const FName& id, int index);
 
 	void UpdateCd(float deltaTime);
+
+	void UseSkill(int ndx);
 };

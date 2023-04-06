@@ -32,6 +32,8 @@ protected:
 
 	void CreateInitSlots();
 
+	void UpdateSkill(const TArray<FSkillInven*>& aryInven);
+
 public:
 	void HideAutoButton();
 
