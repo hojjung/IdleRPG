@@ -5,4 +5,5 @@
 
 USkillActiveBase::USkillActiveBase()
 {
+	
 }

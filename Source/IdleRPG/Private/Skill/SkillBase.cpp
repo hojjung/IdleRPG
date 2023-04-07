@@ -5,10 +5,10 @@
 
 USkillBase::USkillBase()
 {
-	
+	m_SkillInst = nullptr;
 }
 
-FText USkillBase::GetDescString()
+FText USkillBase::GetDescString(int lv)
 {
 	return m_TextDesc;//FText::Format(row.m_Desc, Cd)
 }
@@ -16,4 +16,9 @@ FText USkillBase::GetDescString()
 void USkillBase::UseSkill()
 {
 	
+}
+
+void USkillBase::SetSkillInst(FSkillInven* inst)
+{
+	m_SkillInst = inst;
 }

@@ -23,15 +23,13 @@ void UWidgetInvenPanel::NativeOnInitialized()
 	m_BtnArmor3->OnClicked.AddDynamic(this, &UWidgetInvenPanel::OnClickArmor3);
 	m_BtnArmor4->OnClicked.AddDynamic(this, &UWidgetInvenPanel::OnClickArmor4);
 	m_BtnArmor5->OnClicked.AddDynamic(this, &UWidgetInvenPanel::OnClickArmor5);
-
-	OnClickWeapon();
 }
 
 
 void UWidgetInvenPanel::OnOpen()
 {
 	Super::OnOpen();
-	m_EquipWeapon->OnOpen();
+	OnClickWeapon();
 }
 
 void UWidgetInvenPanel::OnClose()

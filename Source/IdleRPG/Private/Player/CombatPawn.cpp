@@ -197,9 +197,9 @@ EPathFollowingRequestResult::Type ACombatPawn::ChaseTarget()
 	return MoveToActor(GetFocusedTarget(), GetAttackRange() - 12.0f);
 }
 
-void ACombatPawn::MyTakeDamage(ACombatPawn* DamageCauser, EDmgType dmgType)
+void ACombatPawn::MyTakeDamage(ACombatPawn* DamageCauser, EDmgType dmgType, float dmgMultiple)
 {
-	m_Gas.Pin()->TakeDamage(DamageCauser, dmgType);
+	m_Gas.Pin()->TakeDamage(DamageCauser, dmgType, dmgMultiple);
 }
 
 bool ACombatPawn::IsAlive()

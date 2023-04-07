@@ -57,8 +57,6 @@ void SpawnManager::SpawnUnits(const FPrimaryAssetId& id, FVector loc, FRotator r
 
 	const UObject* Inst = UMyGameInstance::Get;
 
-	PRINTF("Spawn2");
-
 	FStreamableDelegate Delegate = FStreamableDelegate::CreateRaw(this, &SpawnManager::OnMonsterLoaded, AssetID, Inst, loc, rot);
 
 	UMyAssetManager::Get()->LoadUnitAssetMeshOnly(AssetID, Delegate);
@@ -96,8 +94,6 @@ void SpawnManager::OnMonsterLoaded(const FPrimaryAssetId id, const UObject* worl
 	Pawn->GetGas()->SetDefaultStat(m_Hp, m_Dmg);
 
 	m_AryMonsters.Add(Mob);
-	
-	PRINTF("Spawn3");
 }
 
 void SpawnManager::SetBigIntStagMob(BigInt hp, BigInt dmg)

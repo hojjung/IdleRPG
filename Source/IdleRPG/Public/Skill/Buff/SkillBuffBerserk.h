@@ -3,17 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Skill/SkillBase.h"
-#include "SkillActiveBase.generated.h"
+#include "Skill/Buff/SkillBuffBase.h"
+#include "SkillBuffBerserk.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API USkillActiveBase : public USkillBase
+class IDLERPG_API USkillBuffBerserk : public USkillBuffBase
 {
 	GENERATED_BODY()
-
-public:
-	USkillActiveBase();
+	
 };

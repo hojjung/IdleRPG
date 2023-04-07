@@ -66,7 +66,7 @@ public:
 	
 	void TryExecuteSkill(const FName& id);
 
-	void TakeDamage(ACombatPawn* combat_pawn, EDmgType dmg);
+	void TakeDamage(ACombatPawn* combat_pawn, EDmgType dmg, float dmgMultiple = 1);
 	
 public:
 	BigInt GetDmg(EDmgType dmg);

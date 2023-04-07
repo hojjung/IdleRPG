@@ -16,6 +16,8 @@ namespace FGlobalVariable
 	
 	static const int LEVEL_MAX = 100;
 
+	static const int SKILL_LEVEL_MAX = 10;
+
 	static const float HERO_DEFAULT_SPEED = 400;
 
 	static const float MONSTER_DEFAULT = 230;

@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "Niagara/Public/NiagaraComponent.h"
+#include "Niagara/Public/NiagaraFunctionLibrary.h"
 #include "SkillBase.generated.h"
 
 
@@ -15,6 +17,7 @@ enum class ESkillType :uint8
 	Passive
 };
 
+struct FSkillInven;
 UCLASS()
 class IDLERPG_API USkillBase : public UObject
 {
@@ -22,13 +25,17 @@ class IDLERPG_API USkillBase : public UObject
 
 public:
 	USkillBase();
-
+	
 protected:
 	UPROPERTY()
 	FText m_TextDesc;
+
+	FSkillInven* m_SkillInst;
 	
 public:
-	virtual FText GetDescString();
+	virtual FText GetDescString(int lv);
 
 	virtual void UseSkill();
+
+	void SetSkillInst(FSkillInven* inst);
 };

@@ -28,11 +28,11 @@ struct FSkillDataRow : public FEntityDataRow
 public://buff actice passvie//스킬은 클래스에서 다 해주는게 낫지 않을까
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<USkillBase> m_ClassSkillBase;
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, meta = (EditCondition = "m_ClassSkillBase->IsChildOf(USkillActiveBase::StaticClass())"))
 	float m_fCooltime = 0;
 };
 
-USTRUCT()
+USTRUCT()//USkillActiveBase
 struct FSkillInven
 {
 	GENERATED_BODY()
@@ -41,11 +41,11 @@ public:
 	UPROPERTY(EditAnywhere)
 	int m_nCount = 0;
 	UPROPERTY(EditAnywhere)
-	int m_nLevel = 0;
+	int m_nLevel = 1;
 	UPROPERTY(EditAnywhere)
 	FName m_SkillID;
 	UPROPERTY(EditAnywhere)
-	float m_fCooldown = 0;
+	float m_fCooldownRemain = 0;
 	UPROPERTY(EditAnywhere)
 	bool m_bUnlocked = false;
 	UPROPERTY(EditAnywhere)

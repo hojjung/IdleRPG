@@ -19,6 +19,11 @@ class IDLERPG_API UMyLib : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 
 public:
+	template <class T>
+	static void GetNearActors(const AActor* caller, TArray<T*>& outAry, float range, bool traceOut = true)
+	{
+		UMyGameInstance::Get->m_StageMode->GetNearNpcs(caller, outAry, range, traceOut);
+	}
 	static bool CheckAngle(const AActor* center, const AActor* target, float angle)
 	{
 		float PeripheralVisionCosine = FMath::Cos(FMath::DegreesToRadians(angle));

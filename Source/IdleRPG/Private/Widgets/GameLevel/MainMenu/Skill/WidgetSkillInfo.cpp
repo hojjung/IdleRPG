@@ -76,14 +76,14 @@ void UWidgetSkillInfo::ShowInfo(const FName& id , const FSkillDataRow& row)
 	}
 	else
 	{
-		float Cd = ActiveSkill->GetCooltime();
+		float Cd = row.m_fCooltime;
 
 		FText CooltimeFormatText = FText::Format(NSLOCTEXT("UWidgetSkillInfo","CooltimeFormat","대기시간 {0}초"), Cd);
 
 		m_TextCooltime->SetText(CooltimeFormatText);	
 	}
 	
-	FText DescFormatText = SkillBase->GetDescString();
+	FText DescFormatText = SkillBase->GetDescString(SkillInvenData.m_nLevel);
 	
 	m_TextDesc->SetText(DescFormatText);
 }

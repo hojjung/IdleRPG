@@ -28,7 +28,7 @@ protected:
 
 	TArray<FSkillInven*> m_ArySkillInst;
 
-	TMap<const FSkillInven*, USkillBase*> m_MapSkillInstance;
+	TMap<const FSkillInven*,TStrongObjectPtr<USkillBase>> m_MapSkillInstance;
 
 protected:
 	float GetSkillCd(const FName& id);
@@ -49,6 +49,8 @@ public:
 	}
 
 	void LevelUpSkill(const FName& id);
+
+	void UnEquipSkill(int index, bool update = false);
 	
 	void EquipSkill(const FName& id, int index);
 

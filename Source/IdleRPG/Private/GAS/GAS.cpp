@@ -65,7 +65,7 @@ void GAS::TryExecuteSkill(const FName& id)
 	//AsD.
 }
 
-void GAS::TakeDamage(ACombatPawn* combat_pawn, EDmgType dmg)
+void GAS::TakeDamage(ACombatPawn* combat_pawn, EDmgType dmg, float dmgMultiple)
 {
 	if(!IsAlive())
 	{
@@ -76,6 +76,8 @@ void GAS::TakeDamage(ACombatPawn* combat_pawn, EDmgType dmg)
 	GAS* Instigator = combat_pawn->GetGas();
 	
 	BigInt Damage = Instigator->GetDmg(dmg);
+
+	Damage = UBigIntLib::MultiplePercent(Damage, dmgMultiple * 100.0f);
 
 	BigInt FinalDmg = Damage;
 

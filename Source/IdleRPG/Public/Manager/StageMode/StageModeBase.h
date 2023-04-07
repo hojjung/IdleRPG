@@ -91,9 +91,9 @@ public:
 	virtual void OnPlayerDeadAnimEnd(AMyPlayerPawn* target) {}
 
 	template <class T>
-	void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range)
+	void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range, bool traceOut = true)
 	{
-		m_SpawnManager->GetNearNpcs<T>(caller, outAry, range);
+		m_SpawnManager->GetNearNpcs<T>(caller, outAry, range, traceOut);
 	}
 
 	virtual void Tick(float d);

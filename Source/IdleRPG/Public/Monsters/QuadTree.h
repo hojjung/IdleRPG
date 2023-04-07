@@ -177,7 +177,7 @@ public:
 	}
 
 	template <class T>
-	void TraceObjectInRange(const AActor* traceActor, float _radian, TArray<T*>& aryOut)
+	void TraceObjectInRange(const AActor* traceActor, float _radian, TArray<T*>& aryOut, bool traceOut)
 	{
 		float RadSqr = _radian * _radian;
 
@@ -200,7 +200,9 @@ public:
 					{
 						continue;
 					}
-					bool bCanActive = FVector::DistSquared2D(_OCenter, obj->GetActorLocation()) <= RadSqr;
+					float Dist = FVector::DistSquared2D(_OCenter, obj->GetActorLocation());
+					
+					bool bCanActive = Dist <= RadSqr;
 
 					if (bCanActive)
 					{
@@ -209,10 +211,10 @@ public:
 				}
 			for (auto& child : m_AryChildren)
 			{
-				child->TraceObjectInRange(traceActor, _radian, aryOut);
+				child->TraceObjectInRange(traceActor, _radian, aryOut, traceOut);
 			}
 		}
-		else
+		else if (traceOut)
 		{
 			TraceObjectOutRange<T>(aryOut);
 		}

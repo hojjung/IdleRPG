@@ -52,9 +52,9 @@ void UWidgetSkillQuickEle::UpdateCoolTime()
 		return;
 	}
 	
-	float CoolPercent = m_SkillInst->m_fCooldown / m_fMaxCooldown;
+	float CoolPercent = m_SkillInst->m_fCooldownRemain / m_fMaxCooldown;
 
-	float CoolDiff = m_SkillInst->m_fCooldown;
+	float CoolDiff = m_SkillInst->m_fCooldownRemain;
 
 	m_ImgCD->GetDynamicMaterial()->SetScalarParameterValue(TEXT("Value"),CoolPercent);
 

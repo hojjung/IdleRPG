@@ -99,7 +99,7 @@ public:
 
 	EPathFollowingRequestResult::Type ChaseTarget();
 
-	virtual void MyTakeDamage(ACombatPawn* DamageCauser, EDmgType dmgType);
+	virtual void MyTakeDamage(ACombatPawn* DamageCauser, EDmgType dmgType, float dmgMultiple = 1);
 
 	virtual bool IsAlive();
 	

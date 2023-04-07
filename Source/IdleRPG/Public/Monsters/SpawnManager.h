@@ -45,12 +45,12 @@ public:
 	void SpawnUnits(const FPrimaryAssetId& id, FVector loc, FRotator rot);
 	
 	template <class T>
-	void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range)
+	void GetNearNpcs(const AActor* caller, TArray<T*>& outAry, float range, bool traceOut)
 	{
 		if(!m_QuadTree)
 		{
 			return;
 		}
-		m_QuadTree->TraceObjectInRange<T>(caller,range, outAry);
+		m_QuadTree->TraceObjectInRange<T>(caller,range, outAry, traceOut);
 	}
 };
