@@ -3,21 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NiagaraDataInterfaceExport.h"
 #include "Skill/Active/SkillActiveBase.h"
-#include "Player/CombatPawn.h"
-#include "Player/MyPlayerPawn.h"
-#include "Monsters/MonsterPawn.h"
+#include "SkillActiveEffectCollison.generated.h"
 
-#include "SkillActiveCircleDmg.generated.h"
-
-
+/**
+ * 
+ */
 UCLASS()
-class IDLERPG_API USkillActiveCircleDmg : public USkillActiveBase
+class IDLERPG_API USkillActiveEffectCollison : public USkillActiveBase, public INiagaraParticleCallbackHandler
 {
 	GENERATED_BODY()
-
+	
 public:
-	USkillActiveCircleDmg();
+	USkillActiveEffectCollison();
 	
 protected:
 	float m_fRadius;
@@ -31,19 +30,22 @@ protected:
 	EDmgType m_DmgType;
 	
 	TArray<AMonsterPawn*> m_AryMonsters;
+
+	UPROPERTY()
+	UNiagaraSystem* m_Effect;
 	
 protected:
+	virtual FText GetDescString(int lv) override;
+	
 	float GetLevelPerDmg();
 
 	float GetLevelPerDmg(int lv);
 	
 	virtual void UseSkill() override;
 
-	void DelaySkill();
-
 	virtual void BeginDestroy() override;
 
-	virtual void OnSkillUse(AMyPlayerPawn* pawn);
+	void OnTrace(FVector pos);
 
-	virtual void OnSkillDmged(AMonsterPawn* pawn);
+	virtual void ReceiveParticleData(const TArray<FBasicParticleData>& Data, UNiagaraSystem* NiagaraSystem) override;
 };

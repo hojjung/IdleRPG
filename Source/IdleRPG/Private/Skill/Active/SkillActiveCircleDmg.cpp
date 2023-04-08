@@ -14,16 +14,22 @@ USkillActiveCircleDmg::USkillActiveCircleDmg()
 	m_AryMonsters.Reserve(50);
 
 	m_DmgType = EDmgType::DmgPhys;
+
+	m_fStartDamage = 1;
+	
+	m_fLevelUpDamage = 0.2f;
 }
 
 float USkillActiveCircleDmg::GetLevelPerDmg()
 {
-	return m_fDamage[m_SkillInst->m_nLevel - 1];
+	return GetLevelPerDmg(m_SkillInst->m_nLevel);
 }
 
 float USkillActiveCircleDmg::GetLevelPerDmg(int lv)
 {
-	return m_fDamage[lv - 1];
+	lv--;
+	
+	return m_fStartDamage + (lv * m_fLevelUpDamage);
 }
 
 void USkillActiveCircleDmg::UseSkill()

@@ -24,6 +24,11 @@ public:
 	{
 		UMyGameInstance::Get->m_StageMode->GetNearNpcs(caller, outAry, range, traceOut);
 	}
+	template <class T>
+	static void GetNearActors(const FVector& center, TArray<T*>& outAry, float range)
+	{
+		UMyGameInstance::Get->m_StageMode->GetNearNpcs(center, outAry, range);
+	}
 	static bool CheckAngle(const AActor* center, const AActor* target, float angle)
 	{
 		float PeripheralVisionCosine = FMath::Cos(FMath::DegreesToRadians(angle));

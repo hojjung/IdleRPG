@@ -6,6 +6,8 @@
 #include "UObject/NoExportTypes.h"
 #include "Niagara/Public/NiagaraComponent.h"
 #include "Niagara/Public/NiagaraFunctionLibrary.h"
+#include "IdleRPG.h"
+#include "MyLib.h"
 #include "SkillBase.generated.h"
 
 

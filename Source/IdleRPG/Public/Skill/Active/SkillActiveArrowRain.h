@@ -3,15 +3,19 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Skill/Active/SkillActiveCircleDmg.h"
+#include "SkillActiveEffectCollison.h"
 #include "SkillActiveArrowRain.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class IDLERPG_API USkillActiveArrowRain : public USkillActiveCircleDmg
+class IDLERPG_API USkillActiveArrowRain : public USkillActiveEffectCollison
 {
 	GENERATED_BODY()
+
+public:
+	USkillActiveArrowRain();
+
 	
 };

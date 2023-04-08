@@ -219,6 +219,40 @@ public:
 			TraceObjectOutRange<T>(aryOut);
 		}
 	}
+	template <class T>
+		void TraceObjectInRange(const FVector& center, float _radian, TArray<T*>& aryOut)
+	{
+		float RadSqr = _radian * _radian;
+
+		FVector _OCenter = center;
+		m_bIsRange = false;
+		if (InterSection(_OCenter, _radian))
+		{
+			m_bIsRange = true;
+
+			for (AActor* obj : m_AryActors)
+			{
+				T* CastedObj = Cast<T>(obj);
+
+				if (!CastedObj)
+				{
+					continue;
+				}
+				float Dist = FVector::DistSquared2D(_OCenter, obj->GetActorLocation());
+					
+				bool bCanActive = Dist <= RadSqr;
+
+				if (bCanActive)
+				{
+					aryOut.Add(CastedObj);
+				}
+			}
+			for (auto& child : m_AryChildren)
+			{
+				child->TraceObjectInRange(center, _radian, aryOut);
+			}
+		}
+	}
 
 	template <class T>
 	void TraceObjectOutRange(TArray<T*>& aryOut)
