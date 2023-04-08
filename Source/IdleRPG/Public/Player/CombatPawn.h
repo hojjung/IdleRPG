@@ -8,23 +8,7 @@
 #include "UObject/StrongObjectPtr.h"
 #include "CombatPawn.generated.h"
 
-UENUM(BlueprintType)
-enum class EDmgType : uint8
-{
-	DmgPhys
-	
-};
 
-UENUM(Blueprintable)
-enum class EDamagePopup: uint8
-{
-	Normal,
-	Critcal,
-	Critcal2,
-	SwordBomb,
-	Miss,
-	Length
-};
 
 UCLASS()
 class IDLERPG_API ACombatPawn : public AMyBasePawn

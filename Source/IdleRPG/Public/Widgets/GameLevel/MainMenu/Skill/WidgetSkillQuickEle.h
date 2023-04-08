@@ -8,13 +8,12 @@
 #include "Components/Overlay.h"
 #include "Components/TextBlock.h"
 #include "Delegates/DelegateCombinations.h"
+#include "Skill/SkillInventory.h"
 #include "WidgetSkillQuickEle.generated.h"
 
 /**
  * 
  */
-
-struct FSkillInven;
 
 UCLASS()
 class IDLERPG_API UWidgetSkillQuickEle : public UUserWidget

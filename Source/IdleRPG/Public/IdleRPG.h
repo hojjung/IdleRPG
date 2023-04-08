@@ -27,3 +27,21 @@ namespace FGlobalVariable
 DECLARE_MULTICAST_DELEGATE(FVoidvoidMulti);
 
 DECLARE_DELEGATE(FVoidvoid);
+
+UENUM(BlueprintType)
+enum class EDmgType : uint8
+{
+	DmgPhys
+	
+};
+
+UENUM(Blueprintable)
+enum class EDamagePopup: uint8
+{
+	Normal,
+	Critcal,
+	Critcal2,
+	SwordBomb,
+	Miss,
+	Length
+};

@@ -9,12 +9,10 @@ USkillActiveArrowRain::USkillActiveArrowRain()
 	
 	m_Effect = FoundHitEffect.Object;
 
-	m_fDelay = 1;
+	m_fRadius = 200;
 
-	m_fRadius = 1500;
-
-	m_fStartDamage = 4.5f;
+	m_fStartDamage = 0.7f;
 	
-	m_fLevelUpDamage = 1.0f;
+	m_fLevelUpDamage = 0.15f;
 }
 

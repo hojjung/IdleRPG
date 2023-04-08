@@ -25,8 +25,6 @@ protected:
 
 	float m_fLevelUpDamage;
 
-	float m_fDelay;
-
 	EDmgType m_DmgType;
 	
 	TArray<AMonsterPawn*> m_AryMonsters;
@@ -47,5 +45,5 @@ protected:
 
 	void OnTrace(FVector pos);
 
-	virtual void ReceiveParticleData(const TArray<FBasicParticleData>& Data, UNiagaraSystem* NiagaraSystem) override;
+	virtual void ReceiveParticleData_Implementation(const TArray<FBasicParticleData>& Data, UNiagaraSystem* NiagaraSystem);
 };

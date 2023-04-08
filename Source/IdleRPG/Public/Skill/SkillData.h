@@ -3,14 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "SkillBase.h"
 #include "DataTableRow/EntityData.h"
 #include "Engine/DataTable.h"
-#include "UObject/NoExportTypes.h"
+#include "IdleRPG.h"
+#include "NiagaraComponent.h"
+#include "NiagaraFunctionLibrary.h"
 #include "SkillData.generated.h"
 
 
-
+class USkillBase;
 UCLASS()
 class IDLERPG_API USkillData : public UObject
 {
@@ -32,7 +33,7 @@ public://buff actice passvie//스킬은 클래스에서 다 해주는게 낫지 
 	float m_fCooltime = 0;
 };
 
-USTRUCT()//USkillActiveBase
+USTRUCT(BlueprintType)//USkillActiveBase
 struct FSkillInven
 {
 	GENERATED_BODY()
@@ -50,4 +51,35 @@ public:
 	bool m_bUnlocked = false;
 	UPROPERTY(EditAnywhere)
 	bool m_bEquipped = false;
+};
+
+
+UENUM(BlueprintType)
+enum class ESkillType :uint8
+{
+	Active,
+	Buff,
+	Passive
+};
+
+UCLASS()
+class IDLERPG_API USkillBase : public UObject
+{
+	GENERATED_BODY()
+
+public:
+	USkillBase();
+	
+protected:
+	UPROPERTY()
+	FText m_TextDesc;
+
+	FSkillInven* m_SkillInst;
+	
+public:
+	virtual FText GetDescString(int lv);
+
+	virtual void UseSkill();
+
+	void SetSkillInst(FSkillInven* inst);
 };

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Skill/SkillBase.h"
+#include "Skill/SkillData.h"
 #include "SkillPassiveBase.generated.h"
 
 /**

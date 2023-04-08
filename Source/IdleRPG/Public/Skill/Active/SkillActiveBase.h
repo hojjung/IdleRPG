@@ -3,7 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Skill/SkillBase.h"
+#include "Skill/SkillData.h"
+#include "Monsters/MonsterPawn.h"
+#include "Player/MyPlayerPawn.h"
+#include "Manager/MyGameInstance.h"
+#include "MyLib.h"
 #include "SkillActiveBase.generated.h"
 
 /**

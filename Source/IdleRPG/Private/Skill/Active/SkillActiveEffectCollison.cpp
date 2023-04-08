@@ -1,11 +1,10 @@
 #include "Skill/Active/SkillActiveEffectCollison.h"
-#include "Monsters/MonsterPawn.h"
+
+
 
 USkillActiveEffectCollison::USkillActiveEffectCollison()
 {
 	m_fRadius = 100;
-
-	m_fDelay = 0;
 
 	m_AryMonsters.Reserve(50);
 
@@ -53,14 +52,14 @@ void USkillActiveEffectCollison::UseSkill()
 	Super::UseSkill();
 
 	AMyPlayerPawn* PlPawn = UMyGameInstance::Get->GetPlayerPawn();
-	
-	auto* Nia = UNiagaraFunctionLibrary::SpawnSystemAtLocation(PlPawn->GetWorld(), m_Effect, PlPawn->GetActorLocation(), PlPawn->GetActorRotation(),
-		FVector(1),true, true, ENCPoolMethod::None, true);
 
-	Nia->SetNiagaraVariableObject(TEXT("Owner"), PlPawn);
+	UNiagaraComponent* Nia = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+		PlPawn->GetWorld(), m_Effect, PlPawn->GetActorLocation(), FRotator(0));
+
+	Nia->SetNiagaraVariableObject(TEXT("Owner"), this);
 }
 
-void USkillActiveEffectCollison::ReceiveParticleData(const TArray<FBasicParticleData>& Data, UNiagaraSystem* NiagaraSystem)
+void USkillActiveEffectCollison::ReceiveParticleData_Implementation(const TArray<FBasicParticleData>& Data, UNiagaraSystem* NiagaraSystem)
 {
 	for(const FBasicParticleData& D : Data)
 	{

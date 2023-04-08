@@ -54,12 +54,12 @@ public:
 		m_QuadTree->TraceObjectInRange<T>(caller,range, outAry, traceOut);
 	}
 	template <class T>
-	void GetNearNpcs(const FVector& center, TArray<T*>& outAry, float range, bool traceOut)
+	void GetNearNpcs(const FVector& center, TArray<T*>& outAry, float range)
 	{
 		if(!m_QuadTree)
 		{
 			return;
 		}
-		m_QuadTree->TraceObjectInRange<T>(center, range, outAry, traceOut);
+		m_QuadTree->TraceObjectInRange<T>(center, range, outAry);
 	}
 };

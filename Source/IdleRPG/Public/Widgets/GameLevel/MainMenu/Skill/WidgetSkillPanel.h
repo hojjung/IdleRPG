@@ -11,7 +11,6 @@
 #include "Widgets/GameLevel/MainMenu/Gacha/WidgetGachaButton.h"
 #include "WidgetSkillPanel.generated.h"
 
-struct FSkillDataRow;
 /**
  * 
  */

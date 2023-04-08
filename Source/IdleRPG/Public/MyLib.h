@@ -7,7 +7,7 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Kismet/GameplayStatics.h"
 #include "Manager/MyGameInstance.h"
-#include "Player/MyPlayerPawn.h"
+#include "Manager/StageMode/StageModeBase.h"
 #include "MyLib.generated.h"
 
 /**

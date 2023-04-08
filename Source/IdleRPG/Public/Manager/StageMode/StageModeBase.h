@@ -95,7 +95,11 @@ public:
 	{
 		m_SpawnManager->GetNearNpcs<T>(caller, outAry, range, traceOut);
 	}
-
+	template <class T>
+	void GetNearNpcs(const FVector& center, TArray<T*>& outAry, float range)
+	{
+		m_SpawnManager->GetNearNpcs<T>(center, outAry, range);
+	}
 	virtual void Tick(float d);
 	
 	virtual void TryAddModeWidget() {};
