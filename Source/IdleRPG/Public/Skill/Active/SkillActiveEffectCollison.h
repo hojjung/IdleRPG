@@ -25,12 +25,17 @@ protected:
 
 	float m_fLevelUpDamage;
 
+	float m_fDuration;
+
 	EDmgType m_DmgType;
 	
 	TArray<AMonsterPawn*> m_AryMonsters;
-
 	UPROPERTY()
 	UNiagaraSystem* m_Effect;
+	UPROPERTY()
+	UNiagaraComponent* m_Spawned;
+
+	FTimerHandle m_TimerHandle;
 	
 protected:
 	virtual FText GetDescString(int lv) override;
@@ -46,4 +51,8 @@ protected:
 	void OnTrace(FVector pos);
 
 	virtual void ReceiveParticleData_Implementation(const TArray<FBasicParticleData>& Data, UNiagaraSystem* NiagaraSystem);
+
+	void DestoryEffect();
 };
+
+

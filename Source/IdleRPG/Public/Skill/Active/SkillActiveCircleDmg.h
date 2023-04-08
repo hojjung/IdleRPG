@@ -29,6 +29,8 @@ protected:
 	float m_fDelay;
 
 	EDmgType m_DmgType;
+
+	FTimerHandle m_TimerHandle;
 	
 	TArray<AMonsterPawn*> m_AryMonsters;
 	

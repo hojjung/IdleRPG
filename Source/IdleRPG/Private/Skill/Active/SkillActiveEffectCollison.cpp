@@ -13,6 +13,8 @@ USkillActiveEffectCollison::USkillActiveEffectCollison()
 	m_fStartDamage = 1;
 	
 	m_fLevelUpDamage = 0.2f;
+
+	m_fDuration = 10;
 }
 
 void USkillActiveEffectCollison::BeginDestroy()
@@ -20,6 +22,10 @@ void USkillActiveEffectCollison::BeginDestroy()
 	Super::BeginDestroy();
 
 	m_AryMonsters.Reset();
+
+	GetWorld()->GetTimerManager().ClearTimer(m_TimerHandle);
+
+	DestoryEffect();
 }
 
 FText USkillActiveEffectCollison::GetDescString(int lv)
@@ -54,9 +60,13 @@ void USkillActiveEffectCollison::UseSkill()
 	AMyPlayerPawn* PlPawn = UMyGameInstance::Get->GetPlayerPawn();
 
 	UNiagaraComponent* Nia = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
-		PlPawn->GetWorld(), m_Effect, PlPawn->GetActorLocation(), FRotator(0));
+		PlPawn->GetWorld(), m_Effect, PlPawn->GetActorLocation(), FRotator::ZeroRotator, FVector(1), false);
 
 	Nia->SetNiagaraVariableObject(TEXT("Owner"), this);
+	
+	m_Spawned = Nia;
+
+	GetWorld()->GetTimerManager().SetTimer(m_TimerHandle, this, &USkillActiveEffectCollison::DestoryEffect, m_fDuration);
 }
 
 void USkillActiveEffectCollison::ReceiveParticleData_Implementation(const TArray<FBasicParticleData>& Data, UNiagaraSystem* NiagaraSystem)
@@ -78,5 +88,14 @@ void USkillActiveEffectCollison::OnTrace(FVector pos)
 	for(AMonsterPawn* Mob : m_AryMonsters)
 	{
 		Mob->MyTakeDamage(PlPawn, m_DmgType, GetLevelPerDmg());
+	}
+}
+
+void USkillActiveEffectCollison::DestoryEffect()
+{
+	if(m_Spawned)
+	{
+		m_Spawned->DestroyInstance();
+		m_Spawned = nullptr;
 	}
 }

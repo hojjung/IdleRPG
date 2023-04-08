@@ -40,9 +40,7 @@ void USkillActiveCircleDmg::UseSkill()
 
 	OnSkillUse(PlPawn);
 
-	FTimerHandle Handle;
-	
-	GetWorld()->GetTimerManager().SetTimer(Handle, this, &USkillActiveCircleDmg::DelaySkill, m_fDelay);
+	GetWorld()->GetTimerManager().SetTimer(m_TimerHandle, this, &USkillActiveCircleDmg::DelaySkill, m_fDelay);
 }
 
 void USkillActiveCircleDmg::DelaySkill()
@@ -65,6 +63,8 @@ void USkillActiveCircleDmg::BeginDestroy()
 	Super::BeginDestroy();
 
 	m_AryMonsters.Reset();
+
+	GetWorld()->GetTimerManager().ClearTimer(m_TimerHandle);
 }
 
 void USkillActiveCircleDmg::OnSkillUse(AMyPlayerPawn* pawn)
