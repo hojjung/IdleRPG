@@ -61,6 +61,7 @@ protected:
 	void BindAvatar();
 	virtual void NativeOnInitialized() override;
 
+	void SetData(const FName& KeyEquip, const FAvatarRow& row);
 	
 public:
 	UFUNCTION()

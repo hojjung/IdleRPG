@@ -64,7 +64,11 @@ void USkillActiveCircleDmg::BeginDestroy()
 
 	m_AryMonsters.Reset();
 
-	GetWorld()->GetTimerManager().ClearTimer(m_TimerHandle);
+
+	if(GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(m_TimerHandle);
+	}
 }
 
 void USkillActiveCircleDmg::OnSkillUse(AMyPlayerPawn* pawn)

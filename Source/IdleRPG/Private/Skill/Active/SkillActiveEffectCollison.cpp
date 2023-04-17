@@ -23,7 +23,10 @@ void USkillActiveEffectCollison::BeginDestroy()
 
 	m_AryMonsters.Reset();
 
-	GetWorld()->GetTimerManager().ClearTimer(m_TimerHandle);
+	if(GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(m_TimerHandle);
+	}
 
 	DestoryEffect();
 }
@@ -56,6 +59,8 @@ float USkillActiveEffectCollison::GetLevelPerDmg(int lv)
 void USkillActiveEffectCollison::UseSkill()
 {
 	Super::UseSkill();
+
+	DestoryEffect();
 
 	AMyPlayerPawn* PlPawn = UMyGameInstance::Get->GetPlayerPawn();
 

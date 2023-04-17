@@ -18,6 +18,7 @@ void UWidgetHUDPlayerInfo::NativeOnInitialized()
 }
 
 
+
 void UWidgetHUDPlayerInfo::BindGold()
 {
 	UMyGameInstance::Get->m_GoldManager->m_OnCurrencyChanged.AddUObject(this, &UWidgetHUDPlayerInfo::UpdateGold);
@@ -36,17 +37,20 @@ void UWidgetHUDPlayerInfo::UpdateGold()
 
 void UWidgetHUDPlayerInfo::BindAvatar()
 {
-	UMyGameInstance::Get->m_AvatarManager->m_AvatarInven->m_OnSkinChanged.AddLambda([&](const FName id,const FAvatarRow& row)
-	{
-		m_Avatar->SetData(id, row);
-	});
+	UMyGameInstance::Get->m_AvatarManager->m_AvatarInven->m_OnSkinChanged.AddUObject(this, &UWidgetHUDPlayerInfo::SetData);
 
 	FName KeyEquip = UMyGameInstance::Get->m_AvatarManager->m_AvatarInven->GetKeySkin();
 
 	const FAvatarRow& RowEquip = UMyGameInstance::Get->m_AvatarManager->m_AvatarInven->GetRowSkin();
 
-	m_Avatar->SetData(KeyEquip, RowEquip);
+	SetData(KeyEquip, RowEquip);
 }
+
+void UWidgetHUDPlayerInfo::SetData(const FName& KeyEquip, const FAvatarRow& row)
+{
+	m_Avatar->SetData(KeyEquip, row);
+}
+
 
 void UWidgetHUDPlayerInfo::ToggleMenu()
 {

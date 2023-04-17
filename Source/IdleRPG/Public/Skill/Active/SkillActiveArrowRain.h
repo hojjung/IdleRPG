@@ -17,5 +17,5 @@ class IDLERPG_API USkillActiveArrowRain : public USkillActiveEffectCollison
 public:
 	USkillActiveArrowRain();
 
-	
+	virtual FText GetDescString(int lv) override;
 };
