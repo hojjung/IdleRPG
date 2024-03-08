@@ -21,10 +21,6 @@ public:
 protected:
 	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
 	USkeletalMeshComponent* m_MeshBody;
-	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
-	USceneCaptureComponent2D* m_Capture;
-	UPROPERTY(VisibleAnywhere,BlueprintReadWrite)
-	USpringArmComponent* m_Spring;
 	UPROPERTY()
 	UAvatarAddtionalVisuals* m_Visual;
 protected:
@@ -44,19 +40,26 @@ protected:
 	void CalculateVisualActorRot(float delta);
 
 public:
+	UFUNCTION(BlueprintCallable)
 	void SetEntity(const UUnitAsset* asset);
 
 	void SetMeshScale(float s);
 	
-	void ShowMeshWithTick();
-
-	void HideMeshWithTick();
-
 	virtual void SetIsTouched(bool b) override;
 
 	virtual void RotatePawn(float delta_x) override;
-	
-	void SetCamSize(float cam_size);
-	
-	void SetZOffset(float z_offset);
+
+public:
+	UFUNCTION(BlueprintCallable)
+	float PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate, FName StartSectionName, float sectionDur);
+	UFUNCTION(BlueprintCallable)
+	float GetSectionLength(FName sectionName, const UAnimMontage* anim_montage);
+	UFUNCTION(BlueprintCallable)
+	float PlayAnimMontageSetDuration(UAnimMontage* anim_montage, float setDur, FName StartSectionName);
+	UFUNCTION(BlueprintCallable)
+	void StopAnimMontage();
+	UFUNCTION(BlueprintCallable)
+	UAnimMontage* GetCurrentMontage();
+	UFUNCTION(BlueprintCallable)
+		bool PlayMontageIndexDur(UAnimMontage* anim_montage, int index, float dur);
 };

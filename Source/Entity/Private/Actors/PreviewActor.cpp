@@ -29,39 +29,15 @@ APreviewActor::APreviewActor()
 	m_MeshBody->bEnableUpdateRateOptimizations = true;
 	m_MeshBody->bComponentUseFixedSkelBounds = true;
 	//
-	m_Spring = CreateDefaultSubobject<USpringArmComponent>("Spring");
-	m_Spring->SetupAttachment(RootComponent);
-	m_Spring->SetRelativeLocation(FVector(0,0,-55));
-	m_Spring->SetRelativeRotation(FRotator(-5, 200.f, 0));
-	m_Spring->TargetArmLength = 450;
-	m_Spring->bDoCollisionTest = 0;
-
-	m_Capture = CreateDefaultSubobject<USceneCaptureComponent2D>("Capture2D");
-	m_Capture->SetupAttachment(m_Spring);
-	static ConstructorHelpers::FObjectFinder<UTextureRenderTarget2D> FoundTexture(TEXT("TextureRenderTarget2D'/Game/03_VisualEffect/T_PlayerPreviewAlpha.T_PlayerPreviewAlpha'"));
-	m_Capture->TextureTarget = FoundTexture.Object;
-	m_Capture->PrimitiveRenderMode = ESceneCapturePrimitiveRenderMode::PRM_UseShowOnlyList;
-	m_Capture->CaptureSource = ESceneCaptureSource::SCS_SceneColorHDR;
-	m_Capture->SetTickableWhenPaused(true);
-	m_Capture->ProjectionType = ECameraProjectionMode::Perspective;
-	m_Capture->FOVAngle = 45;
-	m_Capture->PostProcessBlendWeight = 0.f;
-	//
 	m_bTouched = false;
 
-	m_MeshBody->LightingChannels.bChannel0 = 0;
-	m_MeshBody->LightingChannels.bChannel1 = 1;
 }
 
 void APreviewActor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	m_Capture->ShowOnlyActors.Add(this);
-
 	m_InitVisualRot = m_MeshBody->GetComponentRotation();
-
-	HideMeshWithTick();
 }
 
 void APreviewActor::SetEntity(const UUnitAsset* asset)
@@ -107,28 +83,6 @@ void APreviewActor::SetMeshScale(float s)
 	m_MeshBody->SetRelativeScale3D(FVector(s));
 }
 
-void APreviewActor::ShowMeshWithTick()
-{
-	m_MeshBody->SetVisibility(true);
-
-	m_MeshBody->SetComponentTickEnabled(true);
-
-	m_Capture->SetComponentTickEnabled(true);
-
-	PRINTF("ShowMeshWithTick");
-}
-
-void APreviewActor::HideMeshWithTick()
-{
-	m_MeshBody->SetVisibility(false);
-
-	m_MeshBody->SetComponentTickEnabled(false);
-
-	m_Capture->SetComponentTickEnabled(false);
-
-	PRINTF("HideMeshWithTick");
-}
-
 void APreviewActor::SetIsTouched(bool b)
 {
 	m_bTouched = b;
@@ -142,21 +96,9 @@ void APreviewActor::RotatePawn(float delta_x)
 	m_MeshBody->AddLocalRotation(Rot);
 }
 
-void APreviewActor::SetCamSize(float cam_size)
-{
-	m_Spring->TargetArmLength = cam_size;
-}
-
-void APreviewActor::SetZOffset(float z_offset)
-{
-	m_Spring->SetRelativeLocation(FVector(0,0,z_offset));
-}
-
 void APreviewActor::Tick(float delta)
 {
 	Super::Tick(delta);
-
-	CalculateVisualActorRot(delta);
 }
 
 void APreviewActor::CalculateVisualActorRot(float delta)
@@ -173,3 +115,108 @@ void APreviewActor::CalculateVisualActorRot(float delta)
 	m_MeshBody->SetWorldRotation(NewRot);
 }
 
+float APreviewActor::PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate, FName StartSectionName, float sectionDur)
+{
+	UAnimInstance* AnimInstance = m_MeshBody->GetAnimInstance();
+
+	if (anim_montage && AnimInstance)
+	{
+		float AssetDur = AnimInstance->Montage_Play(anim_montage, InPlayRate);
+
+		if (AssetDur > 0.f)
+		{
+			FName SectioNName;
+
+			if (StartSectionName != NAME_None) //섹션지정시
+			{
+				SectioNName = StartSectionName;
+			}
+			else
+			{
+				SectioNName = anim_montage->GetSectionName(0);
+			}
+
+			if (sectionDur < 0)
+			{
+				sectionDur = GetSectionLength(SectioNName, anim_montage);
+			}
+			AnimInstance->Montage_JumpToSection(SectioNName, anim_montage);
+
+			sectionDur = (sectionDur / (InPlayRate * anim_montage->RateScale)); //가속된만큼 빠르게
+
+			//ClearStopMoveDelegate();
+			//m_Movement->SetActive(false);
+			//GetWorldTimerManager().SetTimer(m_MoveStopTimer, this, &APreviewActor::ActiveMovement, sectionDur, false);
+
+			return sectionDur;
+		}
+	}
+	return 0.f;
+}
+
+
+float APreviewActor::GetSectionLength(FName sectionName, const UAnimMontage* anim_montage)
+{
+	UAnimInstance* AnimInstance = m_MeshBody->GetAnimInstance();
+
+	AnimInstance->Montage_JumpToSection(sectionName, anim_montage);
+
+	int Index = anim_montage->GetSectionIndex(sectionName);
+
+	return anim_montage->GetSectionLength(Index);
+}
+
+float APreviewActor::PlayAnimMontageSetDuration(UAnimMontage* anim_montage, float setDur, FName StartSectionName)
+{
+	UAnimInstance* AnimInstance = m_MeshBody->GetAnimInstance();
+
+	if (anim_montage && AnimInstance)
+	{
+		float AssetDur = GetSectionLength(StartSectionName, anim_montage);
+
+		float NewRate = AssetDur / setDur;
+
+		return PlayAnimMontage(anim_montage, NewRate, StartSectionName, AssetDur);
+	}
+	return 0.f;
+}
+
+void APreviewActor::StopAnimMontage()
+{
+	UAnimInstance* AnimInstance = m_MeshBody->GetAnimInstance();
+
+	UAnimMontage* MontageToStop = GetCurrentMontage();
+
+	bool bShouldStopMontage = AnimInstance && MontageToStop && !AnimInstance->Montage_GetIsStopped(MontageToStop);
+
+	if (bShouldStopMontage)
+	{
+		AnimInstance->Montage_Stop(MontageToStop->BlendOut.GetBlendTime(), MontageToStop);
+	}
+}
+
+UAnimMontage* APreviewActor::GetCurrentMontage()
+{
+	UAnimInstance* AnimInstance = m_MeshBody->GetAnimInstance();
+
+	if (AnimInstance)
+	{
+		return AnimInstance->GetCurrentActiveMontage();
+	}
+
+	return nullptr;
+}
+
+bool APreviewActor::PlayMontageIndexDur(UAnimMontage* anim_montage,int index, float dur)
+{
+	const TArray<FCompositeSection>& AnimAry = anim_montage->CompositeSections;
+
+	if (index < 0 || index >= AnimAry.Num())
+	{
+		return false;
+	}
+
+	float Length = PlayAnimMontageSetDuration(anim_montage, dur, AnimAry[index].SectionName);
+
+	return Length != 0.0f;
+}

@@ -314,10 +314,6 @@
 			"Enabled": true
 		},
 		{
-			"Name": "Paper2D",
-			"Enabled": false
-		},
-		{
 			"Name": "PerforceSourceControl",
 			"Enabled": false
 		},
@@ -443,6 +439,10 @@
 			"Name": "AndroidPlayBilling",
 			"Enabled": false,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/ad0040f7dbbc45cebdcbc4b2c5982904"
+		},
+		{
+			"Name": "SpriteGenerator",
+			"Enabled": true
 		}
 	]
 }

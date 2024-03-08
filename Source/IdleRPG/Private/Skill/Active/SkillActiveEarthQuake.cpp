@@ -3,3 +3,8 @@
 
 #include "Skill/Active/SkillActiveEarthQuake.h"
 
+void USkillActiveEarthQuake::OnSkillUse(AMyPlayerPawn* pawn)
+{
+	Super::OnSkillUse(pawn);
+	
+}

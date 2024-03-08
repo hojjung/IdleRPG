@@ -13,5 +13,8 @@ UCLASS()
 class IDLERPG_API USkillActiveEarthQuake : public USkillActiveCircleDmg
 {
 	GENERATED_BODY()
-	
+
+
+protected:
+	virtual void OnSkillUse(AMyPlayerPawn* pawn) override;
 };

@@ -216,7 +216,7 @@ void AMonsterPawn::PlayCoinEffect()
 	m_CoinSoundComp->Play();
 }
 
-void AMonsterPawn::PlayHittenSound(EDamagePopup pop)
+void AMonsterPawn::PlayHittenSound()
 {
 	m_HitSoundComp->Play();
 }
@@ -274,7 +274,7 @@ void AMonsterPawn::StartDeathEffectMaterial(float duration)
 void AMonsterPawn::OnTookDamage(ACombatPawn* other, BigInt dmg, EDamagePopup pop)
 {
 	SetFocusedTarget(other);
-	PlayHittenSound(pop);
+	PlayHittenSound();
 	PlayHitFlash();
 	PlayTookHitMontage();
 	PlayHitEffect();

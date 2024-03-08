@@ -68,7 +68,7 @@ private:
 
 	void PlayCoinEffect();
 
-	void PlayHittenSound(EDamagePopup pop);
+	void PlayHittenSound();
 
 	void PlayDeathSound();
 	

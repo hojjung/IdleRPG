@@ -91,11 +91,11 @@ void PreviewInven::SpawnPreviewActor(UWorld* w, float camSize, float zOffset)
 	
 	m_PreviewActor = w->SpawnActor<APreviewActor>(APreviewActor::StaticClass(),FVector(9999,9999,9999),FRotator(0),Param);
 
-	m_PreviewActor->HideMeshWithTick();
+	//m_PreviewActor->HideMeshWithTick();
 
-	m_PreviewActor->SetCamSize(camSize);
+	//m_PreviewActor->SetCamSize(camSize);
 
-	m_PreviewActor->SetZOffset(zOffset);
+	//m_PreviewActor->SetZOffset(zOffset);
 }
 
 void PreviewInven::SetPreview(FName key, const UUnitAsset* asset)
@@ -109,13 +109,13 @@ void PreviewInven::SetPreview(FName key, const UUnitAsset* asset)
 
 void PreviewInven::ShowPreview()
 {
-	m_PreviewActor->ShowMeshWithTick();
+	//m_PreviewActor->ShowMeshWithTick();
 }
 
 void PreviewInven::HidePreview()
 {
 	m_CurrentPreviewID = FPrimaryAssetId();
-	m_PreviewActor->HideMeshWithTick();
+	//m_PreviewActor->HideMeshWithTick();
 }
 
 APreviewActor* PreviewInven::GetPreviewActor()

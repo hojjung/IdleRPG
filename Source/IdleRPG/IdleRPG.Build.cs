@@ -10,7 +10,7 @@ public class IdleRPG : ModuleRules
 	{
 		PublicDependencyModuleNames.AddRange(new string[] { "Engine", "Entity", "NavigationSystem","AIModule","BUITween","GameplayCameras",
 			"PlayFabCommon", "PlayFabCpp" , "PlayFab",
-			"Niagara","NiagaraCore"
+			"Niagara","NiagaraCore","SpriteGenerator"
 		});
 		
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
