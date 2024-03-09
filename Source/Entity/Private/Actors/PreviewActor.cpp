@@ -45,33 +45,31 @@ void APreviewActor::SetEntity(const UUnitAsset* asset)
 	m_MeshBody->SetAnimClass(nullptr);
 	m_MeshBody->SetSkeletalMesh(asset->m_BodyMesh.Get());
 
-	if(asset->m_IdleAnim.Get())
+	if (asset->m_IdleAnim.Get())
 	{
 		m_MeshBody->SetAnimationMode(EAnimationMode::AnimationSingleNode);
-		m_MeshBody->PlayAnimation(asset->m_IdleAnim.Get(),true);
+		m_MeshBody->PlayAnimation(asset->m_IdleAnim.Get(), true);
 	}
 	else
 	{
 		m_MeshBody->SetAnimClass(asset->m_ClassAnim);
-		m_MeshBody->SetAnimationMode(EAnimationMode::AnimationBlueprint);	
+		m_MeshBody->SetAnimationMode(EAnimationMode::AnimationBlueprint);
 	}
-	
-	m_MeshBody->AddRelativeRotation(FRotator(0,asset->m_RotYawOffset,0));
+
+	m_MeshBody->AddRelativeRotation(FRotator(0, asset->m_RotYawOffset, 0));
 
 	m_MeshBody->SetRelativeScale3D(FVector(asset->m_fScale));
 
-	if(m_Visual != nullptr)
+	if (m_Visual != nullptr)
 	{
 		m_Visual->Hide();
 	}
-	
+
 	m_Visual = NewObject<UAvatarAddtionalVisuals>(this);
 	m_Visual->Init(m_MeshBody);
 
-	
-
 	int Index = 0;
-	for(const auto& Attach :  asset->m_AryAttachments)
+	for (const auto& Attach : asset->m_AryAttachments)
 	{
 		m_Visual->SpawnAttachment(asset->m_ArySocketAttachments[Index++], Attach.Get());
 	}
@@ -172,7 +170,12 @@ float APreviewActor::PlayAnimMontageSetDuration(UAnimMontage* anim_montage, floa
 
 	if (anim_montage && AnimInstance)
 	{
-		float AssetDur = GetSectionLength(StartSectionName, anim_montage);
+		float AssetDur = setDur;
+
+		if (!StartSectionName.IsNone())
+		{
+			AssetDur = GetSectionLength(StartSectionName, anim_montage);
+					}
 
 		float NewRate = AssetDur / setDur;
 
@@ -207,7 +210,7 @@ UAnimMontage* APreviewActor::GetCurrentMontage()
 	return nullptr;
 }
 
-bool APreviewActor::PlayMontageIndexDur(UAnimMontage* anim_montage,int index, float dur)
+bool APreviewActor::PlayMontageIndexDur(UAnimMontage* anim_montage, int index, float dur)
 {
 	const TArray<FCompositeSection>& AnimAry = anim_montage->CompositeSections;
 

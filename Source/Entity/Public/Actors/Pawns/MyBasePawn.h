@@ -74,17 +74,19 @@ public://플레이어는 어떻게? 스테이지가 있고 스테이지는데이
 	bool LineOfSightTo(const AActor* Other) const;
 
 public://Anim
+	UFUNCTION(BlueprintCallable)
 	float PlayAnimMontage(UAnimMontage* anim_montage, float InPlayRate = 1.f, FName StartSectionName = NAME_None, float sectionDur = -1);
-
+	UFUNCTION(BlueprintCallable)
 	float PlayAnimMontageSetDuration(UAnimMontage* anim_montage, float setDur = 1.f, FName StartSectionName = NAME_None);
-
+	UFUNCTION(BlueprintCallable)
 	virtual void StopAnimMontage();
 
 	UAnimMontage* GetCurrentMontage();
 
 public:
+	UFUNCTION(BlueprintCallable)
 	USkeletalMeshComponent* GetSkMesh() const;
-
+	UFUNCTION(BlueprintCallable)
 	UPathFollowingComponent* GetPfComp() const;
 
 	UMyNavMovement* GetMove() const;
